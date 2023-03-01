@@ -1,0 +1,33 @@
+﻿<Window x:Class="Pinny_Notes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pinny_Notes"
+        mc:Ignorable="d"
+        Height="300" Width="300"
+        MinHeight="150" MinWidth="150"
+        WindowStyle="None"
+        Background="#ffb"
+        MouseDown="MainWindow_MouseDown"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0" Background="#ff8">
+            <Button Name="NewButton" Content="+" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note"/>
+            <Button Name="TopButton" Content="^" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Center" Click="TopButton_Click" ToolTip="Toggle On Top"/>
+            <Button Name="SaveButton" Content="[ ]" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,45,0" Click="SaveButton_Click" ToolTip="Save"/>
+            <Button Name="CloseButton" Content="x" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+        </Grid>
+    </Grid>
+</Window>
