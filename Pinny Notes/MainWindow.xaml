@@ -27,7 +27,7 @@
             <Button Name="CloseButton" Content="x" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close"/>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+            <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" SelectionChanged="NoteTextBox_SelectionChanged"/>
         </Grid>
     </Grid>
 </Window>

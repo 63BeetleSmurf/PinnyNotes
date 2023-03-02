@@ -55,6 +55,14 @@ namespace Pinny_Notes
             Close();
         }
 
+        private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (NoteTextBox.SelectionLength > 0)
+            {
+                Clipboard.SetText(NoteTextBox.SelectedText.Trim());
+            }
+        }
+
         private MessageBoxResult SaveNote()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
