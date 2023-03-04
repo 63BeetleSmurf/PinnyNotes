@@ -6,7 +6,13 @@
     <RootNamespace>Pinny_Notes</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <PackageIcon>icon.png</PackageIcon>
+    <ApplicationIcon>Images\icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Images\icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\floppy-disk-solid.png" />
@@ -14,6 +20,13 @@
     <Resource Include="Images\thumbtack-solid-45.png" />
     <Resource Include="Images\thumbtack-solid.png" />
     <Resource Include="Images\xmark-solid.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
