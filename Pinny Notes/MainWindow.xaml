@@ -12,19 +12,40 @@
         MouseDown="MainWindow_MouseDown"
         ResizeMode="CanResizeWithGrip"
         AllowsTransparency="True">
+    <Window.Resources>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="Opacity" Value="0.2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.Row="0" Background="#ff8">
-            <Button Name="NewButton" Content="+" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note"/>
-            <Button Name="TopButton" Content="^" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Center" Click="TopButton_Click" ToolTip="Toggle On Top"/>
-            <Button Name="SaveButton" Content="[ ]" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,45,0" Click="SaveButton_Click" ToolTip="Save"/>
-            <Button Name="CloseButton" Content="x" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close"/>
+            <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+                <Image Source="/Images/plus-solid.png"/>
+            </Button>
+            <Button Name="TopButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Center" Click="TopButton_Click" ToolTip="Toggle On Top" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+                <Grid>
+                    <Image Name="PinImage" Source="/Images/thumbtack-solid.png"/>
+                    <Image Name="Pin45Image" Source="/Images/thumbtack-solid-45.png" Visibility="Hidden"/>
+                </Grid>
+            </Button>
+            <Button Name="SaveButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,45,0" Click="SaveButton_Click" ToolTip="Save" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+                <Image Source="/Images/floppy-disk-solid.png"/>
+            </Button>
+            <Button Name="CloseButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+                <Image Source="/Images/xmark-solid.png"/>
+            </Button>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
             <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" SelectionChanged="NoteTextBox_SelectionChanged"/>
