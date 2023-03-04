@@ -14,6 +14,14 @@ namespace Pinny_Notes
             InitializeComponent();
         }
 
+        public MainWindow(double left, double top)
+        {
+            InitializeComponent();
+
+            this.Left = left;
+            this.Top = top;
+        }
+
         private void MainWindow_MouseDown(object sender, RoutedEventArgs e)
         {
             DragMove();
@@ -21,7 +29,25 @@ namespace Pinny_Notes
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
+            int gravityLeft;
+            int gravityTop;
+            if (this.Left > SystemParameters.PrimaryScreenWidth / 2)
+            {
+                gravityLeft = -1;
+            }
+            else
+            {
+                gravityLeft = 1;
+            }
+            if (this.Top > SystemParameters.PrimaryScreenHeight / 2)
+            {
+                gravityTop = -1;
+            }
+            else
+            {
+                gravityTop = 5; // Leave extra room to keep title bar visible
+            }
+            new MainWindow(this.Left + (10 * gravityLeft), this.Top + (10 * gravityTop)).Show();
         }
 
         private void TopButton_Click(object sender, RoutedEventArgs e)
