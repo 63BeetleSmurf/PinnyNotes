@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Resource Include="Images\floppy-disk-solid.png" />
+    <Resource Include="Images\plus-solid.png" />
+    <Resource Include="Images\thumbtack-solid-45.png" />
+    <Resource Include="Images\thumbtack-solid.png" />
+    <Resource Include="Images\xmark-solid.png" />
+  </ItemGroup>
+
 </Project>

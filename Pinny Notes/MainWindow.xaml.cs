@@ -29,11 +29,13 @@ namespace Pinny_Notes
             Topmost = !Topmost;
             if (Topmost)
             {
-                TopButton.Content = "-";
+                PinImage.Visibility = Visibility.Hidden;
+                Pin45Image.Visibility = Visibility.Visible;
             }
             else
             {
-                TopButton.Content = "^";
+                PinImage.Visibility = Visibility.Visible;
+                Pin45Image.Visibility = Visibility.Hidden;
             }
         }
 
