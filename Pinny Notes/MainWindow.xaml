@@ -53,6 +53,10 @@
                         <MenuItem Name="TrimEndMenuItem" Header="End" Click="TrimEndMenuItem_Click"/>
                         <MenuItem Name="TrimBothMenuItem" Header="Both" Click="TrimBothMenuItem_Click"/>
                     </MenuItem>
+                    <MenuItem Header="Base64">
+                        <MenuItem Name="Base64EncodeMenuItem" Header="Start" Click="Base64EncodeMenuItem_Click"/>
+                        <MenuItem Name="Base64DecodeMenuItem" Header="End" Click="Base64DecodeMenuItem_Click"/>
+                    </MenuItem>
                     <Separator />
                     <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
                 </ContextMenu>
