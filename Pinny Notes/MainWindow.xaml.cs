@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Pinny_Notes
 {
@@ -12,6 +13,8 @@ namespace Pinny_Notes
         public MainWindow()
         {
             InitializeComponent();
+
+            AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
         }
 
         public MainWindow(double left, double top)
@@ -22,9 +25,12 @@ namespace Pinny_Notes
             this.Top = top;
         }
 
-        private void MainWindow_MouseDown(object sender, RoutedEventArgs e)
+        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
@@ -85,10 +91,16 @@ namespace Pinny_Notes
 
         private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (NoteTextBox.SelectionLength > 0)
+            if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
             {
                 Clipboard.SetText(NoteTextBox.SelectedText.Trim());
             }
+        }
+
+        private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
         }
 
         private MessageBoxResult SaveNote()
