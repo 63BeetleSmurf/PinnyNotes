@@ -48,6 +48,12 @@
             </Button>
             <Grid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Trim">
+                        <MenuItem Name="TrimStartMenuItem" Header="Start" Click="TrimStartMenuItem_Click"/>
+                        <MenuItem Name="TrimEndMenuItem" Header="End" Click="TrimEndMenuItem_Click"/>
+                        <MenuItem Name="TrimBothMenuItem" Header="Both" Click="TrimBothMenuItem_Click"/>
+                    </MenuItem>
+                    <Separator />
                     <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
                 </ContextMenu>
             </Grid.ContextMenu>
