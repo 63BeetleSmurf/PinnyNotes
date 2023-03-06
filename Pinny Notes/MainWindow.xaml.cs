@@ -101,6 +101,18 @@ namespace Pinny_Notes
             }
         }
 
+        #region Sort
+        private void SortAscMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SortNoteText();
+        }
+
+        private void SortDecMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SortNoteText(true);
+        }
+        #endregion
+
         #region Trim
         private void TrimStartMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -161,6 +173,17 @@ namespace Pinny_Notes
                 return MessageBoxResult.OK;
             }
             return MessageBoxResult.Cancel;
+        }
+
+        private void SortNoteText(bool reverse = false)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            Array.Sort(lines);
+            if (reverse)
+            {
+                Array.Reverse(lines);
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
     }
 }
