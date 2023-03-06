@@ -55,13 +55,13 @@ namespace Pinny_Notes
             Topmost = !Topmost;
             if (Topmost)
             {
-                PinImage.Visibility = Visibility.Hidden;
-                Pin45Image.Visibility = Visibility.Visible;
+                PinImage.Visibility = Visibility.Visible;
+                Pin45Image.Visibility = Visibility.Hidden;
             }
             else
             {
-                PinImage.Visibility = Visibility.Visible;
-                Pin45Image.Visibility = Visibility.Hidden;
+                PinImage.Visibility = Visibility.Hidden;
+                Pin45Image.Visibility = Visibility.Visible;
             }
         }
 
