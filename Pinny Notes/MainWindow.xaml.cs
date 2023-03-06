@@ -1,7 +1,11 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Pinny_Notes
 {
@@ -97,6 +101,34 @@ namespace Pinny_Notes
             }
         }
 
+        private void TrimStartMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = lines[i].TrimStart(); 
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+        private void TrimEndMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = lines[i].TrimEnd();
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+        private void TrimBothMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = lines[i].Trim();
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+        
         private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
