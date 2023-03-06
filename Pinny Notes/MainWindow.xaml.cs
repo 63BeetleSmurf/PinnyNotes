@@ -101,6 +101,7 @@ namespace Pinny_Notes
             }
         }
 
+        #region Trim
         private void TrimStartMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
@@ -128,7 +129,22 @@ namespace Pinny_Notes
             }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
-        
+        #endregion
+
+        #region Base64
+        private void Base64EncodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(NoteTextBox.Text);
+            NoteTextBox.Text = System.Convert.ToBase64String(textBytes);
+        }
+
+        private void Base64DecodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] base64Bytes = System.Convert.FromBase64String(NoteTextBox.Text);
+            NoteTextBox.Text = System.Text.Encoding.UTF8.GetString(base64Bytes);
+        }
+        #endregion
+
         private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
