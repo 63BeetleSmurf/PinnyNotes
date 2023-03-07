@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Pinny_Notes
@@ -13,6 +14,8 @@ namespace Pinny_Notes
             InitializeComponent();
 
             AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
+            SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
+            NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
         }
 
         public MainWindow(double left, double top)
@@ -203,6 +206,13 @@ namespace Pinny_Notes
         private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void SpellCheckMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
+            Properties.Settings.Default.SpellCheck = SpellCheckMenuItem.IsChecked;
             Properties.Settings.Default.Save();
         }
         #endregion

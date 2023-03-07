@@ -71,6 +71,7 @@
                     </MenuItem>
                     <Separator />
                     <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
+                    <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
