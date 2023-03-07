@@ -65,6 +65,9 @@
                         <MenuItem Name="ListSortAscMenuItem" Header="Sort Asc." Click="ListSortAscMenuItem_Click"/>
                         <MenuItem Name="ListSortDecMenuItem" Header="Sort Des." Click="ListSortDecMenuItem_Click"/>
                     </MenuItem>
+                    <MenuItem Header="JSON">
+                        <MenuItem Name="JSONPrettifyMenuItem" Header="Prettify" Click="JSONPrettifyMenuItem_Click"/>
+                    </MenuItem>
                     <MenuItem Header="Base64">
                         <MenuItem Name="Base64EncodeMenuItem" Header="Encode" Click="Base64EncodeMenuItem_Click"/>
                         <MenuItem Name="Base64DecodeMenuItem" Header="Decode" Click="Base64DecodeMenuItem_Click"/>
