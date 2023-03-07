@@ -2,17 +2,10 @@
 using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Collections.Generic;
-using System.Linq;
-using System.CodeDom.Compiler;
 
 namespace Pinny_Notes
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -26,39 +19,36 @@ namespace Pinny_Notes
         {
             InitializeComponent();
 
-            this.Left = left;
-            this.Top = top;
+            Left = left;
+            Top = top;
         }
 
+        #region TitleBar
         private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-            {
                 DragMove();
-            }
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             int gravityLeft;
             int gravityTop;
+
             if (this.Left > SystemParameters.PrimaryScreenWidth / 2)
-            {
                 gravityLeft = -1;
-            }
             else
-            {
                 gravityLeft = 1;
-            }
+
             if (this.Top > SystemParameters.PrimaryScreenHeight / 2)
-            {
                 gravityTop = -1;
-            }
             else
-            {
                 gravityTop = 5; // Leave extra room to keep title bar visible
-            }
-            new MainWindow(this.Left + (10 * gravityLeft), this.Top + (10 * gravityTop)).Show();
+
+            new MainWindow(
+                this.Left + (10 * gravityLeft),
+                this.Top + (10 * gravityTop)
+            ).Show();
         }
 
         private void TopButton_Click(object sender, RoutedEventArgs e)
@@ -85,23 +75,35 @@ namespace Pinny_Notes
         {
             if (NoteTextBox.Text != "")
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Do you want to save this note?", "Pinny Notes", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                if ((messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel) || messageBoxResult == MessageBoxResult.Cancel)
-                {
+                MessageBoxResult messageBoxResult = MessageBox.Show(
+                    "Do you want to save this note?",
+                    "Pinny Notes",
+                    MessageBoxButton.YesNoCancel,
+                    MessageBoxImage.Question
+                );
+                if (
+                    (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
+                    || messageBoxResult == MessageBoxResult.Cancel
+                )
                     return;
-                }
             }
             Close();
         }
 
-        private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        private MessageBoxResult SaveNote()
         {
-            if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
+            if (saveFileDialog.ShowDialog() == true)
             {
-                Clipboard.SetText(NoteTextBox.SelectedText.Trim());
+                File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
+                return MessageBoxResult.OK;
             }
+            return MessageBoxResult.Cancel;
         }
+        #endregion
 
+        #region ContectMenu
         private void ClearMenuItem_Click(object sender, RoutedEventArgs e)
         {
             NoteTextBox.Clear();
@@ -126,9 +128,7 @@ namespace Pinny_Notes
         {
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
-            {
                 lines[i] = indentString + lines[i];
-            }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
         #endregion
@@ -138,27 +138,21 @@ namespace Pinny_Notes
         {
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
-            {
                 lines[i] = lines[i].TrimStart(); 
-            }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
         private void TrimEndMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
-            {
                 lines[i] = lines[i].TrimEnd();
-            }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
         private void TrimBothMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
-            {
                 lines[i] = lines[i].Trim();
-            }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
         #endregion
@@ -168,9 +162,7 @@ namespace Pinny_Notes
         {
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
-            {
                 lines[i] = (i + 1).ToString() + ". " + lines[i];
-            }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
 
@@ -189,9 +181,7 @@ namespace Pinny_Notes
             string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
             Array.Sort(lines);
             if (reverse)
-            {
                 Array.Reverse(lines);
-            }
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
         #endregion
@@ -215,17 +205,12 @@ namespace Pinny_Notes
             Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
             Properties.Settings.Default.Save();
         }
+        #endregion
 
-        private MessageBoxResult SaveNote()
+        private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-                return MessageBoxResult.OK;
-            }
-            return MessageBoxResult.Cancel;
+            if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
+                Clipboard.SetText(NoteTextBox.SelectedText.Trim());
         }
     }
 }
