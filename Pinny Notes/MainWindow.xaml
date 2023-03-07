@@ -62,8 +62,8 @@
                     </MenuItem>
                     <MenuItem Header="List">
                         <MenuItem Name="ListEnumerateMenuItem" Header="Enumerate" Click="ListEnumerateMenuItem_Click"/>
-                        <MenuItem Name="ListSortAscMenuItem" Header="Ascending" Click="ListSortAscMenuItem_Click"/>
-                        <MenuItem Name="ListSortDecMenuItem" Header="Descending" Click="ListSortDecMenuItem_Click"/>
+                        <MenuItem Name="ListSortAscMenuItem" Header="Sort Asc." Click="ListSortAscMenuItem_Click"/>
+                        <MenuItem Name="ListSortDecMenuItem" Header="Sort Des." Click="ListSortDecMenuItem_Click"/>
                     </MenuItem>
                     <MenuItem Header="Base64">
                         <MenuItem Name="Base64EncodeMenuItem" Header="Encode" Click="Base64EncodeMenuItem_Click"/>
