@@ -48,6 +48,8 @@
             </Button>
             <Grid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Name="ClearMenuItem" Header="Clear" Click="ClearMenuItem_Click"/>
+                    <Separator />
                     <MenuItem Header="Indent">
                         <MenuItem Name="Indent2SpacesMenuItem" Header="2 Spaces" Click="Indent2SpacesMenuItem_Click"/>
                         <MenuItem Name="Indent4SpacesMenuItem" Header="4 Spaces" Click="Indent4SpacesMenuItem_Click"/>

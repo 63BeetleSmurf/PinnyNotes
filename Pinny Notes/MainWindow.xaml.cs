@@ -102,6 +102,11 @@ namespace Pinny_Notes
             }
         }
 
+        private void ClearMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.Clear();
+        }
+
         #region Indent
         private void Indent2SpacesMenuItem_Click(object sender, RoutedEventArgs e)
         {
