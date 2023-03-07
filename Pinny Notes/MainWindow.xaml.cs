@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System.CodeDom.Compiler;
 
 namespace Pinny_Notes
 {
@@ -110,6 +111,32 @@ namespace Pinny_Notes
         private void SortDecMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SortNoteText(true);
+        }
+        #endregion
+
+        #region Indent
+        private void Indent2SpacesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IndentNoteText("  ");
+        }
+        private void Indent4SpacesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IndentNoteText("    ");
+        }
+
+        private void IndentTabMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IndentNoteText("\t");
+        }
+
+        private void IndentNoteText(string indentString)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = indentString + lines[i];
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
         #endregion
 

@@ -52,6 +52,11 @@
                         <MenuItem Name="SortAscMenuItem" Header="Ascending" Click="SortAscMenuItem_Click"/>
                         <MenuItem Name="SortDecMenuItem" Header="Descending" Click="SortDecMenuItem_Click"/>
                     </MenuItem>
+                    <MenuItem Header="Indent">
+                        <MenuItem Name="Indent2SpacesMenuItem" Header="2 Spaces" Click="Indent2SpacesMenuItem_Click"/>
+                        <MenuItem Name="Indent4SpacesMenuItem" Header="4 Spaces" Click="Indent4SpacesMenuItem_Click"/>
+                        <MenuItem Name="IndentTabMenuItem" Header="Tab" Click="IndentTabMenuItem_Click"/>
+                    </MenuItem>
                     <MenuItem Header="Trim">
                         <MenuItem Name="TrimStartMenuItem" Header="Start" Click="TrimStartMenuItem_Click"/>
                         <MenuItem Name="TrimEndMenuItem" Header="End" Click="TrimEndMenuItem_Click"/>
