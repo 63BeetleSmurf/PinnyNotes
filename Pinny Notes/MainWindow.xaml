@@ -48,10 +48,6 @@
             </Button>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Sort">
-                        <MenuItem Name="SortAscMenuItem" Header="Ascending" Click="SortAscMenuItem_Click"/>
-                        <MenuItem Name="SortDecMenuItem" Header="Descending" Click="SortDecMenuItem_Click"/>
-                    </MenuItem>
                     <MenuItem Header="Indent">
                         <MenuItem Name="Indent2SpacesMenuItem" Header="2 Spaces" Click="Indent2SpacesMenuItem_Click"/>
                         <MenuItem Name="Indent4SpacesMenuItem" Header="4 Spaces" Click="Indent4SpacesMenuItem_Click"/>
@@ -61,6 +57,11 @@
                         <MenuItem Name="TrimStartMenuItem" Header="Start" Click="TrimStartMenuItem_Click"/>
                         <MenuItem Name="TrimEndMenuItem" Header="End" Click="TrimEndMenuItem_Click"/>
                         <MenuItem Name="TrimBothMenuItem" Header="Both" Click="TrimBothMenuItem_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="List">
+                        <MenuItem Name="ListEnumerateMenuItem" Header="Enumerate" Click="ListEnumerateMenuItem_Click"/>
+                        <MenuItem Name="ListSortAscMenuItem" Header="Ascending" Click="ListSortAscMenuItem_Click"/>
+                        <MenuItem Name="ListSortDecMenuItem" Header="Descending" Click="ListSortDecMenuItem_Click"/>
                     </MenuItem>
                     <MenuItem Header="Base64">
                         <MenuItem Name="Base64EncodeMenuItem" Header="Encode" Click="Base64EncodeMenuItem_Click"/>

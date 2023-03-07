@@ -102,18 +102,6 @@ namespace Pinny_Notes
             }
         }
 
-        #region Sort
-        private void SortAscMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SortNoteText();
-        }
-
-        private void SortDecMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            SortNoteText(true);
-        }
-        #endregion
-
         #region Indent
         private void Indent2SpacesMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -170,6 +158,39 @@ namespace Pinny_Notes
         }
         #endregion
 
+        #region List
+        private void ListEnumerateMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = (i + 1).ToString() + ". " + lines[i];
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+
+        private void ListSortAscMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SortNoteText();
+        }
+
+        private void ListSortDecMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SortNoteText(true);
+        }
+
+        private void SortNoteText(bool reverse = false)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            Array.Sort(lines);
+            if (reverse)
+            {
+                Array.Reverse(lines);
+            }
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+        #endregion
+
         #region Base64
         private void Base64EncodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -200,17 +221,6 @@ namespace Pinny_Notes
                 return MessageBoxResult.OK;
             }
             return MessageBoxResult.Cancel;
-        }
-
-        private void SortNoteText(bool reverse = false)
-        {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
-            Array.Sort(lines);
-            if (reverse)
-            {
-                Array.Reverse(lines);
-            }
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
     }
 }
