@@ -2,8 +2,8 @@
 using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using Newtonsoft.Json;
 
 namespace Pinny_Notes
 {
@@ -21,7 +21,7 @@ namespace Pinny_Notes
         public MainWindow(double left, double top)
         {
             InitializeComponent();
-
+            
             Left = left;
             Top = top;
         }
@@ -186,6 +186,16 @@ namespace Pinny_Notes
             if (reverse)
                 Array.Reverse(lines);
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+        #endregion
+
+        #region JSON
+        private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.Text = JsonConvert.SerializeObject(
+                JsonConvert.DeserializeObject(NoteTextBox.Text),
+                Formatting.Indented
+            );
         }
         #endregion
 
