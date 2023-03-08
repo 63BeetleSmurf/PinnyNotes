@@ -6,6 +6,10 @@ using System.Windows.Input;
 using Newtonsoft.Json;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Octokit;
+using System.Reflection;
 
 namespace Pinny_Notes
 {
@@ -18,6 +22,9 @@ namespace Pinny_Notes
             AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
             SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
             NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
+            DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
+
+            CheckForNewVersion();
         }
 
         public MainWindow(double left, double top)
@@ -26,6 +33,35 @@ namespace Pinny_Notes
             
             Left = left;
             Top = top;
+        }
+
+        private async Task CheckForNewVersion()
+        {
+            DateTime lastUpdateCheck = Properties.Settings.Default.LastUpdateCheck;
+            if (
+                Properties.Settings.Default.DisableUpdateCheck 
+                || DateTime.Now.Subtract(lastUpdateCheck).Days < 7
+            )
+                return;
+
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("pinny_notes"));
+            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll("63BeetleSmurf", "pinny_notes");
+
+            Version latestVersion = new Version(releases[0].TagName.Replace("v", "") + ".0");
+            Version? localVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            if (localVersion is null)
+                return;
+
+            if (localVersion.CompareTo(latestVersion) < 0)
+                MessageBox.Show(
+                    "A new version of Pinny Notes is available.\n\nGet the latest release from;\nhttps://github.com/63BeetleSmurf/pinny_notes/releases",
+                    "Update Available",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+
+            Properties.Settings.Default.LastUpdateCheck = DateTime.Now;
+            Properties.Settings.Default.Save();
         }
 
         private MessageBoxResult SaveNote()
@@ -103,7 +139,7 @@ namespace Pinny_Notes
         }
         #endregion
 
-        #region ContectMenu
+        #region ContextMenu
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SaveNote();
@@ -275,6 +311,7 @@ namespace Pinny_Notes
         }
         #endregion
 
+        #region Settings
         private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
@@ -287,6 +324,14 @@ namespace Pinny_Notes
             Properties.Settings.Default.SpellCheck = SpellCheckMenuItem.IsChecked;
             Properties.Settings.Default.Save();
         }
+
+        private void DisableUpdateCheckMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.DisableUpdateCheck = DisableUpdateCheckMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+        #endregion
+
         #endregion
 
         #region TextBox
