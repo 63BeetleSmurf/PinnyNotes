@@ -82,8 +82,11 @@
                         <MenuItem Name="Base64DecodeMenuItem" Header="Decode" Click="Base64DecodeMenuItem_Click"/>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
-                    <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>
+                    <MenuItem Header="Settings">
+                        <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
+                        <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>
+                        <MenuItem Name="DisableUpdateCheckMenuItem" Header="Disable Update Check" IsCheckable="True" Click="DisableUpdateCheckMenuItem_Click"/>
+                    </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

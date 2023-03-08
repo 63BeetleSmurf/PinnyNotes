@@ -46,5 +46,28 @@ namespace Pinny_Notes.Properties {
                 this["SpellCheck"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime LastUpdateCheck {
+            get {
+                return ((global::System.DateTime)(this["LastUpdateCheck"]));
+            }
+            set {
+                this["LastUpdateCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableUpdateCheck {
+            get {
+                return ((bool)(this["DisableUpdateCheck"]));
+            }
+            set {
+                this["DisableUpdateCheck"] = value;
+            }
+        }
     }
 }
