@@ -28,6 +28,18 @@ namespace Pinny_Notes
             Top = top;
         }
 
+        private MessageBoxResult SaveNote()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
+                return MessageBoxResult.OK;
+            }
+            return MessageBoxResult.Cancel;
+        }
+
         #region TitleBar
         private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -277,22 +289,32 @@ namespace Pinny_Notes
         }
         #endregion
 
-        private MessageBoxResult SaveNote()
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-                return MessageBoxResult.OK;
-            }
-            return MessageBoxResult.Cancel;
-        }
-
+        #region TextBox
         private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
                 Clipboard.SetText(NoteTextBox.SelectedText.Trim());
         }
+
+        private void NoteTextBox_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.Copy;
+            e.Handled = true;
+        }
+
+        private void NoteTextBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                NoteTextBox.Text = File.ReadAllText(
+                    ((string[])e.Data.GetData(DataFormats.FileDrop))[0]
+                );
+            }
+            else if (e.Data.GetDataPresent(DataFormats.StringFormat))
+            {
+                NoteTextBox.Text = (string)e.Data.GetData(DataFormats.StringFormat);
+            }
+        }
+        #endregion
     }
 }
