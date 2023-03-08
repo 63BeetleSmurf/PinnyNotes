@@ -41,14 +41,13 @@
                     <Image Name="Pin45Image" Source="/Images/thumbtack-solid-45.png"/>
                 </Grid>
             </Button>
-            <Button Name="SaveButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,45,0" Click="SaveButton_Click" ToolTip="Save" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
-                <Image Source="/Images/floppy-disk-solid.png"/>
-            </Button>
             <Button Name="CloseButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
                 <Image Source="/Images/xmark-solid.png"/>
             </Button>
             <Grid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Name="SaveMenuItem" Header="Save" Click="SaveMenuItem_Click"/>
+                    <Separator />
                     <MenuItem Name="ClearMenuItem" Header="Clear" Click="ClearMenuItem_Click"/>
                     <Separator />
                     <MenuItem Header="Indent">

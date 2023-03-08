@@ -71,11 +71,6 @@ namespace Pinny_Notes
             }
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            SaveNote();
-        }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             if (NoteTextBox.Text != "")
@@ -94,21 +89,14 @@ namespace Pinny_Notes
             }
             Close();
         }
-
-        private MessageBoxResult SaveNote()
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-                return MessageBoxResult.OK;
-            }
-            return MessageBoxResult.Cancel;
-        }
         #endregion
 
         #region ContectMenu
+        private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SaveNote();
+        }
+
         private void ClearMenuItem_Click(object sender, RoutedEventArgs e)
         {
             NoteTextBox.Clear();
@@ -288,6 +276,18 @@ namespace Pinny_Notes
             Properties.Settings.Default.Save();
         }
         #endregion
+
+        private MessageBoxResult SaveNote()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
+                return MessageBoxResult.OK;
+            }
+            return MessageBoxResult.Cancel;
+        }
 
         private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
