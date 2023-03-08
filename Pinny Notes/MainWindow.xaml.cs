@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Newtonsoft.Json;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace Pinny_Notes
 {
@@ -203,6 +205,58 @@ namespace Pinny_Notes
             catch
             {
                 NoteTextBox.Text = noteText;
+            }
+        }
+        #endregion
+
+        #region Hash
+        private void HashSHA512MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (SHA512 sha512 = SHA512.Create())
+            {
+                NoteTextBox.Text = BitConverter.ToString(
+                    sha512.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+                ).Replace("-", "");
+            }
+        }
+
+        private void HashSHA384MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (SHA384 sha384 = SHA384.Create())
+            {
+                NoteTextBox.Text = BitConverter.ToString(
+                    sha384.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+                ).Replace("-", "");
+            }
+        }
+
+        private void HashSHA256MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                NoteTextBox.Text = BitConverter.ToString(
+                    sha256.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+                ).Replace("-", "");
+            }
+        }
+
+        private void HashSHA1MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (SHA1 sha1 = SHA1.Create())
+            {
+                NoteTextBox.Text = BitConverter.ToString(
+                    sha1.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+                ).Replace("-", "");
+            }
+        }
+
+        private void HashMD5MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                NoteTextBox.Text = BitConverter.ToString(
+                    md5.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+                ).Replace("-", "");
             }
         }
         #endregion

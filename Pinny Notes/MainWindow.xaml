@@ -69,6 +69,13 @@
                     <MenuItem Header="JSON">
                         <MenuItem Name="JSONPrettifyMenuItem" Header="Prettify" Click="JSONPrettifyMenuItem_Click"/>
                     </MenuItem>
+                    <MenuItem Header="Hash">
+                        <MenuItem Name="HashSHA512MenuItem" Header="SHA512" Click="HashSHA512MenuItem_Click"/>
+                        <MenuItem Name="HashSHA384MenuItem" Header="SHA384" Click="HashSHA384MenuItem_Click"/>
+                        <MenuItem Name="HashSHA256MenuItem" Header="SHA256" Click="HashSHA256MenuItem_Click"/>
+                        <MenuItem Name="HashSHA1MenuItem" Header="SHA1" Click="HashSHA1MenuItem_Click"/>
+                        <MenuItem Name="HashMD5MenuItem" Header="MD5" Click="HashMD5MenuItem_Click"/>
+                    </MenuItem>
                     <MenuItem Header="Base64">
                         <MenuItem Name="Base64EncodeMenuItem" Header="Encode" Click="Base64EncodeMenuItem_Click"/>
                         <MenuItem Name="Base64DecodeMenuItem" Header="Decode" Click="Base64DecodeMenuItem_Click"/>
