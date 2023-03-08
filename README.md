@@ -10,4 +10,5 @@
   - Trim: Trim whitespace from start or/and end of each line.
   - List: Enumerate and sort ascending or descending.
   - JSON: Prettify JSON.
+  - Hash: Generate SHA512/384/256, SHA1 and MD5 hashes.
   - Base64: Encode and decode to and from Base64.
