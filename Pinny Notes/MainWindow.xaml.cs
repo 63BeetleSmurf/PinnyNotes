@@ -192,10 +192,18 @@ namespace Pinny_Notes
         #region JSON
         private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            NoteTextBox.Text = JsonConvert.SerializeObject(
-                JsonConvert.DeserializeObject(NoteTextBox.Text),
-                Formatting.Indented
-            );
+            string noteText = NoteTextBox.Text;
+            try
+            {
+                NoteTextBox.Text = JsonConvert.SerializeObject(
+                    JsonConvert.DeserializeObject(noteText),
+                    Formatting.Indented
+                );
+            }
+            catch
+            {
+                NoteTextBox.Text = noteText;
+            }
         }
         #endregion
 
