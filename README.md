@@ -4,7 +4,6 @@
 ## Features
 - Pin / Always on Top: Easily accessible pin button allowing you keep a note above all other windows.
 - Auto Copy: Option to automatically copy text when highlighted.
-- Spell Check: Check spelling.
 - Additional tools;
   - Indent: Indent all lines by 2 or 4 spaces, or a tab.
   - Trim: Trim whitespace from start or/and end of each line.
@@ -12,3 +11,6 @@
   - JSON: Prettify JSON.
   - Hash: Generate SHA512/384/256, SHA1 and MD5 hashes.
   - Base64: Encode and decode to and from Base64.
+- Misc;
+  - Spell check.
+  - Weekly check for new releases.
