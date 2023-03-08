@@ -12,7 +12,9 @@
         MouseDown="MainWindow_MouseDown"
         ResizeMode="CanResizeWithGrip"
         AllowsTransparency="True"
-        FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}">
+        FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
+        BorderThickness="1"
+        BorderBrush="LightGray">
     <Window.Resources>
         <Style TargetType="{x:Type Image}">
             <Setter Property="Opacity" Value="0.2"/>
