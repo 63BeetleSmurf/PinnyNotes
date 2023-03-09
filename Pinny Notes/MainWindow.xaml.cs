@@ -18,21 +18,25 @@ namespace Pinny_Notes
         public MainWindow()
         {
             InitializeComponent();
-
-            AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
-            SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
-            NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
-            DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
-
+            LoadSettings();
             CheckForNewVersion();
         }
 
         public MainWindow(double left, double top)
         {
             InitializeComponent();
+            LoadSettings();
             
             Left = left;
             Top = top;
+        }
+
+        private void LoadSettings()
+        {
+            AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
+            SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
+            NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
+            DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
         }
 
         private async Task CheckForNewVersion()
