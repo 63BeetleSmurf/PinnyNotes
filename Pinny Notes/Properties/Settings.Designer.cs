@@ -69,5 +69,29 @@ namespace Pinny_Notes.Properties {
                 this["DisableUpdateCheck"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        public string Colour {
+            get {
+                return ((string)(this["Colour"]));
+            }
+            set {
+                this["Colour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CycleColours {
+            get {
+                return ((bool)(this["CycleColours"]));
+            }
+            set {
+                this["CycleColours"] = value;
+            }
+        }
     }
 }
