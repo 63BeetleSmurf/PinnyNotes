@@ -10,11 +10,27 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Octokit;
 using System.Reflection;
+using System.Windows.Media;
+using System.Linq;
+using System.Windows.Controls;
 
 namespace Pinny_Notes
 {
     public partial class MainWindow : Window
     {
+        Dictionary<string,(string, string)> NOTE_COLOURS = new Dictionary<string, (string, string)>{
+            {"Yellow", ("#fef7b1", "#fffcdd")},
+            {"Orange", ("#ffd179", "#fee8b9")},
+            {"Red",    ("#ff7c81", "#ffc4c6")},
+            {"Pink",   ("#d986cc", "#ebbfe3")},
+            {"Purple", ("#9d9add", "#d0cef3")},
+            {"Blue",   ("#7ac3e6", "#b3d9ec")},
+            {"Aqua",   ("#97cfc6", "#c0e2e1")},
+            {"Green",  ("#c6d67d", "#e3ebc6")}
+        };
+
+        string? NOTE_COLOUR = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -22,21 +38,78 @@ namespace Pinny_Notes
             CheckForNewVersion();
         }
 
-        public MainWindow(double left, double top)
+        public MainWindow(double left, double top, string? parentColour)
         {
             InitializeComponent();
-            LoadSettings();
+            LoadSettings(parentColour);
             
             Left = left;
             Top = top;
         }
 
-        private void LoadSettings()
+        private void LoadSettings(string? parentColour = null)
         {
             AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
             SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
             NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
             DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
+            ColourCycleMenuItem.IsChecked = Properties.Settings.Default.CycleColours;
+            SetColour(parentColour: parentColour);
+        }
+
+        private void SetColour(string? colour = null, string? parentColour = null)
+        {
+            if (colour == null)
+            {
+                if (Properties.Settings.Default.CycleColours)
+                {
+                    string? nextColour = null;
+                    int nextColourIndex = NOTE_COLOURS.Keys.ToList().IndexOf(Properties.Settings.Default.Colour) + 1;
+                    while (nextColour == null)
+                    {
+                        nextColour = NOTE_COLOURS.Keys.ElementAtOrDefault(nextColourIndex);
+                        if (nextColour == null)
+                        {
+                            nextColourIndex = 0;
+                        }
+                        else if (nextColour == parentColour)
+                        {
+                            nextColour = null;
+                            nextColourIndex++;
+                        }
+                    }
+                    colour = nextColour;
+                }
+                else
+                {
+                    colour = Properties.Settings.Default.Colour;
+                }
+            }
+
+            BrushConverter brushConverter = new BrushConverter();
+            object? titleBrush = brushConverter.ConvertFromString(NOTE_COLOURS[colour].Item1);
+            object? bodyBrush = brushConverter.ConvertFromString(NOTE_COLOURS[colour].Item2);
+            if (titleBrush == null || bodyBrush == null)
+                return;
+
+            TitleBarGrid.Background = (Brush)titleBrush;
+            Background = (Brush)bodyBrush;
+
+            NOTE_COLOUR = colour;
+            Properties.Settings.Default.Colour = colour;
+            Properties.Settings.Default.Save();
+
+            foreach (object childObject in ColoursMenuItem.Items)
+            {
+                if (childObject.GetType().Name != "MenuItem")
+                    continue;
+
+                MenuItem childMenuItem = (MenuItem)childObject;
+                if (childMenuItem.Header.ToString() != "Cycle" && childMenuItem.Header.ToString() != colour)
+                    childMenuItem.IsChecked = false;
+                else if (childMenuItem.Header.ToString() == colour)
+                    childMenuItem.IsChecked = true;
+            }
         }
 
         private async Task CheckForNewVersion()
@@ -104,7 +177,8 @@ namespace Pinny_Notes
 
             new MainWindow(
                 this.Left + (10 * gravityLeft),
-                this.Top + (10 * gravityTop)
+                this.Top + (10 * gravityTop),
+                NOTE_COLOUR
             ).Show();
         }
 
@@ -316,6 +390,27 @@ namespace Pinny_Notes
         #endregion
 
         #region Settings
+
+        #region Colours
+        private void ColourCycleMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.CycleColours = ColourCycleMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ColourMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)sender;
+            if (!menuItem.IsChecked)
+            {
+                menuItem.IsChecked = true;
+                return;
+            }
+
+            SetColour(menuItem.Header.ToString());
+        }
+        #endregion
+
         private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
