@@ -96,13 +96,14 @@
                         </MenuItem>
                         <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
                         <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>
+                        <MenuItem Name="NewLineMenuItem" Header="New Line At End" IsCheckable="True" Click="NewLineMenuItem_Click"/>
                         <MenuItem Name="DisableUpdateCheckMenuItem" Header="Disable Update Check" IsCheckable="True" Click="DisableUpdateCheckMenuItem_Click"/>
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" SelectionChanged="NoteTextBox_SelectionChanged" AllowDrop="True" PreviewDragOver="NoteTextBox_DragOver" PreviewDrop="NoteTextBox_Drop" />
+            <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" SelectionChanged="NoteTextBox_SelectionChanged" AllowDrop="True" PreviewDragOver="NoteTextBox_DragOver" PreviewDrop="NoteTextBox_Drop" TextChanged="NoteTextBox_TextChanged" />
         </Grid>
     </Grid>
 </Window>
