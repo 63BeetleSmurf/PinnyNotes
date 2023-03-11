@@ -13,7 +13,8 @@
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
-        BorderBrush="LightGray">
+        BorderBrush="LightGray"
+        LocationChanged="MainWindow_LocationChanged">
     <Window.Resources>
         <Style TargetType="{x:Type Image}">
             <Setter Property="Opacity" Value="0.2"/>
@@ -93,6 +94,12 @@
                             <MenuItem Name="ColourGreenMenuItem" Header="Green" IsCheckable="True" Click="ColourMenuItem_Click"/>
                             <Separator />
                             <MenuItem Name="ColourCycleMenuItem" Header="Cycle" IsCheckable="True" Click="ColourCycleMenuItem_Click"/>
+                        </MenuItem>
+                        <MenuItem Name="StartupPositionMenuItem" Header="Startup Position">
+                            <MenuItem Name="StartupPositionTopLeftMenuItem" Header="Top Left" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
+                            <MenuItem Name="StartupPositionTopRightMenuItem" Header="Top Right" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
+                            <MenuItem Name="StartupPositionBottomRightMenuItem" Header="Bottom Right" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
+                            <MenuItem Name="StartupPositionBottomLeftMenuItem" Header="Bottom Left" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
                         </MenuItem>
                         <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
                         <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>

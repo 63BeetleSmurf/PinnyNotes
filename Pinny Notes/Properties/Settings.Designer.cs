@@ -105,5 +105,29 @@ namespace Pinny_Notes.Properties {
                 this["NewLine"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool StartupPositionTop {
+            get {
+                return ((bool)(this["StartupPositionTop"]));
+            }
+            set {
+                this["StartupPositionTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool StartupPositionLeft {
+            get {
+                return ((bool)(this["StartupPositionLeft"]));
+            }
+            set {
+                this["StartupPositionLeft"] = value;
+            }
+        }
     }
 }
