@@ -171,10 +171,11 @@ namespace Pinny_Notes
             else
                 gravityLeft = 1;
 
+            // Leave extra room to keep title bar visible
             if (this.Top > SystemParameters.PrimaryScreenHeight / 2)
-                gravityTop = -1;
+                gravityTop = -5;
             else
-                gravityTop = 5; // Leave extra room to keep title bar visible
+                gravityTop = 5;
 
             new MainWindow(
                 this.Left + (10 * gravityLeft),
