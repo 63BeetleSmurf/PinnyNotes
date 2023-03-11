@@ -83,16 +83,16 @@ namespace Pinny_Notes
             else
                 NOTE_GRAVITY = parentGravity;
 
-            if (NOTE_GRAVITY.Item1)
+            if (Properties.Settings.Default.StartupPositionLeft)
             {
-                if (NOTE_GRAVITY.Item2)
+                if (Properties.Settings.Default.StartupPositionTop)
                     StartupPositionTopLeftMenuItem.IsChecked = true;
                 else
                     StartupPositionBottomLeftMenuItem.IsChecked = true;
             }
             else
             {
-                if (NOTE_GRAVITY.Item2)
+                if (Properties.Settings.Default.StartupPositionTop)
                     StartupPositionTopRightMenuItem.IsChecked = true;
                 else
                     StartupPositionBottomRightMenuItem.IsChecked = true;
