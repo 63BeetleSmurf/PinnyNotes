@@ -146,7 +146,7 @@ namespace Pinny_Notes
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Text Documents (*.txt)|*.txt|All Files|*";
-            if (saveFileDialog.ShowDialog() == true)
+            if (saveFileDialog.ShowDialog(this) == true)
             {
                 File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
                 return MessageBoxResult.OK;
@@ -204,6 +204,7 @@ namespace Pinny_Notes
             if (NoteTextBox.Text != "")
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show(
+                    this,
                     "Do you want to save this note?",
                     "Pinny Notes",
                     MessageBoxButton.YesNoCancel,
