@@ -18,15 +18,15 @@ namespace Pinny_Notes
 {
     public partial class MainWindow : Window
     {
-        Dictionary<string,(string, string)> NOTE_COLOURS = new Dictionary<string, (string, string)>{
-            {"Yellow", ("#fef7b1", "#fffcdd")},
-            {"Orange", ("#ffd179", "#fee8b9")},
-            {"Red",    ("#ff7c81", "#ffc4c6")},
-            {"Pink",   ("#d986cc", "#ebbfe3")},
-            {"Purple", ("#9d9add", "#d0cef3")},
-            {"Blue",   ("#7ac3e6", "#b3d9ec")},
-            {"Aqua",   ("#97cfc6", "#c0e2e1")},
-            {"Green",  ("#c6d67d", "#e3ebc6")}
+        Dictionary<string,(string, string, string)> NOTE_COLOURS = new Dictionary<string, (string, string, string)>{
+            {"Yellow", ("#fef7b1", "#fffcdd", "#feea00")},
+            {"Orange", ("#ffd179", "#fee8b9", "#ffab00")},
+            {"Red",    ("#ff7c81", "#ffc4c6", "#e33036")},
+            {"Pink",   ("#d986cc", "#ebbfe3", "#a72995")},
+            {"Purple", ("#9d9add", "#d0cef3", "#625bb8")},
+            {"Blue",   ("#7ac3e6", "#b3d9ec", "#1195dd")},
+            {"Aqua",   ("#97cfc6", "#c0e2e1", "#16b098")},
+            {"Green",  ("#c6d67d", "#e3ebc6", "#aacc04")}
         };
 
         string? NOTE_COLOUR = null;
@@ -132,11 +132,13 @@ namespace Pinny_Notes
             BrushConverter brushConverter = new BrushConverter();
             object? titleBrush = brushConverter.ConvertFromString(NOTE_COLOURS[colour].Item1);
             object? bodyBrush = brushConverter.ConvertFromString(NOTE_COLOURS[colour].Item2);
-            if (titleBrush == null || bodyBrush == null)
-                return;
+            object? borderBrush = brushConverter.ConvertFromString(NOTE_COLOURS[colour].Item3);
 
+#pragma warning disable CS8600
             TitleBarGrid.Background = (Brush)titleBrush;
             Background = (Brush)bodyBrush;
+            BorderBrush = (Brush)borderBrush;
+#pragma warning restore CS8600
 
             NOTE_COLOUR = colour;
             Properties.Settings.Default.Colour = colour;
