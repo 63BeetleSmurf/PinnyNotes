@@ -93,5 +93,17 @@ namespace Pinny_Notes.Properties {
                 this["CycleColours"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NewLine {
+            get {
+                return ((bool)(this["NewLine"]));
+            }
+            set {
+                this["NewLine"] = value;
+            }
+        }
     }
 }

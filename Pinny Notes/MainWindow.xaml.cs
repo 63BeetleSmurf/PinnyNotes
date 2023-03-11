@@ -52,6 +52,7 @@ namespace Pinny_Notes
             AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
             SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
             NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
+            NewLineMenuItem.IsChecked = Properties.Settings.Default.NewLine;
             DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
             ColourCycleMenuItem.IsChecked = Properties.Settings.Default.CycleColours;
             SetColour(parentColour: parentColour);
@@ -424,6 +425,15 @@ namespace Pinny_Notes
             Properties.Settings.Default.Save();
         }
 
+        private void NewLineMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.NewLine = NewLineMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+
+            if (Properties.Settings.Default.NewLine)
+                NoteTextBox_TextChanged(sender, e);
+        }
+
         private void DisableUpdateCheckMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.DisableUpdateCheck = DisableUpdateCheckMenuItem.IsChecked;
@@ -434,6 +444,21 @@ namespace Pinny_Notes
         #endregion
 
         #region TextBox
+        private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (Properties.Settings.Default.NewLine && !NoteTextBox.Text.EndsWith(Environment.NewLine))
+            {
+                // Preserving selection when adding new line
+                int selectionStart = NoteTextBox.SelectionStart;
+                int selectionLength = NoteTextBox.SelectionLength;
+
+                NoteTextBox.Text += Environment.NewLine;
+                
+                NoteTextBox.SelectionStart = selectionStart;
+                NoteTextBox.SelectionLength = selectionLength;
+            }
+        }
+
         private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
