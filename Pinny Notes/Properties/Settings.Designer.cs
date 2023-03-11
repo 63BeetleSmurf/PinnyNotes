@@ -72,7 +72,7 @@ namespace Pinny_Notes.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Green")]
         public string Colour {
             get {
                 return ((string)(this["Colour"]));

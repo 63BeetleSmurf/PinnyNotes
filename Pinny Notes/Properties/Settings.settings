@@ -15,7 +15,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Colour" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Yellow</Value>
+      <Value Profile="(Default)">Green</Value>
     </Setting>
     <Setting Name="CycleColours" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
