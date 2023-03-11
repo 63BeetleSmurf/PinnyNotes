@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Linq;
 using System.Windows.Controls;
+using System.Drawing;
 
 namespace Pinny_Notes
 {
@@ -30,24 +31,40 @@ namespace Pinny_Notes
         };
 
         string? NOTE_COLOUR = null;
+        Tuple<bool, bool>? NOTE_GRAVITY = null;
 
         public MainWindow()
         {
             InitializeComponent();
             LoadSettings();
+            PositionNote();
+#pragma warning disable CS4014
             CheckForNewVersion();
+#pragma warning restore CS4014
         }
 
-        public MainWindow(double left, double top, string? parentColour)
+        public MainWindow(double parentLeft, double parentTop, string? parentColour, Tuple<bool, bool>? parentGravity)
         {
             InitializeComponent();
-            LoadSettings(parentColour);
-            
-            Left = left;
-            Top = top;
+            LoadSettings(parentColour, parentGravity);
+            PositionNote(parentLeft, parentTop);
         }
 
-        private void LoadSettings(string? parentColour = null)
+        private void MainWindow_LocationChanged(object sender, EventArgs e)
+        {
+            bool gravityLeft = true;
+            bool gravityTop = true;
+            if (Left > SystemParameters.PrimaryScreenWidth / 2)
+                gravityLeft = false;
+            if (Top > SystemParameters.PrimaryScreenHeight / 2)
+                gravityTop = false;
+            NOTE_GRAVITY = new Tuple<bool, bool>(
+                gravityLeft,
+                gravityTop
+            );
+        }
+
+        private void LoadSettings(string? parentColour = null, Tuple<bool, bool>? parentGravity = null)
         {
             AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
             SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
@@ -56,6 +73,29 @@ namespace Pinny_Notes
             DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
             ColourCycleMenuItem.IsChecked = Properties.Settings.Default.CycleColours;
             SetColour(parentColour: parentColour);
+            if (parentGravity == null)
+                NOTE_GRAVITY = new Tuple<bool, bool>(
+                    Properties.Settings.Default.StartupPositionLeft,
+                    Properties.Settings.Default.StartupPositionTop
+                );
+            else
+                NOTE_GRAVITY = parentGravity;
+
+            if (NOTE_GRAVITY.Item1)
+            {
+                if (NOTE_GRAVITY.Item2)
+                    StartupPositionTopLeftMenuItem.IsChecked = true;
+                else
+                    StartupPositionBottomLeftMenuItem.IsChecked = true;
+            }
+            else
+            {
+                if (NOTE_GRAVITY.Item2)
+                    StartupPositionTopRightMenuItem.IsChecked = true;
+                else
+                    StartupPositionBottomRightMenuItem.IsChecked = true;
+            }
+
         }
 
         private void SetColour(string? colour = null, string? parentColour = null)
@@ -113,6 +153,51 @@ namespace Pinny_Notes
             }
         }
 
+        private void PositionNote(double? parentLeft = null, double? parentTop = null)
+        {
+            double positionTop = 0;
+            double positionLeft = 0;
+            if (parentLeft == null || parentTop == null)
+            {
+                int screenMargin = 78;
+                if (NOTE_GRAVITY.Item1)
+                    positionLeft = screenMargin + 10;
+                else
+                    positionLeft = (SystemParameters.PrimaryScreenWidth - screenMargin) - Width - 10;
+
+                if (NOTE_GRAVITY.Item2)
+                    positionTop = screenMargin + 50;
+                else
+                    positionTop = (SystemParameters.PrimaryScreenHeight - screenMargin) - Height - 50;
+            }
+            else
+            {
+                if (NOTE_GRAVITY.Item1)
+                    positionLeft = (double)parentLeft + 10;
+                else
+                    positionLeft = (double)parentLeft - 10;
+
+                if (NOTE_GRAVITY.Item2)
+                    positionTop = (double)parentTop + 50;
+                else
+                    positionTop = (double)parentTop - 50;
+            }
+
+            if (positionLeft < 0)
+                Left = 0;
+            else if (positionLeft > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - Width;
+            else
+                Left = positionLeft;
+
+            if (positionTop < 0)
+                Top = 0;
+            else if (positionTop > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - Height;
+            else
+                Top = positionTop;
+        }
+
         private async Task CheckForNewVersion()
         {
             DateTime lastUpdateCheck = Properties.Settings.Default.LastUpdateCheck;
@@ -163,24 +248,11 @@ namespace Pinny_Notes
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            int gravityLeft;
-            int gravityTop;
-
-            if (this.Left > SystemParameters.PrimaryScreenWidth / 2)
-                gravityLeft = -1;
-            else
-                gravityLeft = 1;
-
-            // Leave extra room to keep title bar visible
-            if (this.Top > SystemParameters.PrimaryScreenHeight / 2)
-                gravityTop = -5;
-            else
-                gravityTop = 5;
-
             new MainWindow(
-                this.Left + (10 * gravityLeft),
-                this.Top + (10 * gravityTop),
-                NOTE_COLOUR
+                Left,
+                Top,
+                NOTE_COLOUR,
+                NOTE_GRAVITY
             ).Show();
         }
 
@@ -413,6 +485,36 @@ namespace Pinny_Notes
             SetColour(menuItem.Header.ToString());
         }
         #endregion
+
+        private void StartupPositionMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)sender;
+            if (!menuItem.IsChecked)
+            {
+                menuItem.IsChecked = true;
+                return;
+            }
+
+            foreach (object childObject in StartupPositionMenuItem.Items)
+            {
+                MenuItem childMenuItem = (MenuItem)childObject;
+                if (childMenuItem != menuItem)
+                    childMenuItem.IsChecked = false;
+            }
+
+#pragma warning disable CS8602
+            string[] position = menuItem.Header.ToString().Split(" ");
+#pragma warning restore CS8602
+            if (position[0] == "Top")
+                Properties.Settings.Default.StartupPositionTop = true;
+            else
+                Properties.Settings.Default.StartupPositionTop = false;
+            if (position[1] == "Left")
+                Properties.Settings.Default.StartupPositionLeft = true;
+            else
+                Properties.Settings.Default.StartupPositionLeft = false;
+            Properties.Settings.Default.Save();
+        }
 
         private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
         {
