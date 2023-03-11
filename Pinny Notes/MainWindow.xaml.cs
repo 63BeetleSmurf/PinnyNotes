@@ -13,7 +13,6 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Linq;
 using System.Windows.Controls;
-using System.Drawing;
 
 namespace Pinny_Notes
 {
@@ -52,6 +51,9 @@ namespace Pinny_Notes
 
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
+            if (!this.IsLoaded)
+                return;
+
             bool gravityLeft = true;
             bool gravityTop = true;
             if (Left > SystemParameters.PrimaryScreenWidth / 2)
@@ -157,6 +159,7 @@ namespace Pinny_Notes
         {
             double positionTop = 0;
             double positionLeft = 0;
+#pragma warning disable CS8602
             if (parentLeft == null || parentTop == null)
             {
                 int screenMargin = 78;
@@ -182,6 +185,7 @@ namespace Pinny_Notes
                 else
                     positionTop = (double)parentTop - 50;
             }
+#pragma warning restore CS8602
 
             if (positionLeft < 0)
                 Left = 0;
