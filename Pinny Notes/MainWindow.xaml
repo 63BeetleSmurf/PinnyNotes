@@ -23,6 +23,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <BitmapImage x:Key="PinImageSource" UriSource="/Images/thumbtack-solid.png" />
+        <BitmapImage x:Key="Pin45ImageSource" UriSource="/Images/thumbtack-solid-45.png" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,10 +39,7 @@
                 <Image Source="/Images/plus-solid.png"/>
             </Button>
             <Button Name="TopButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Center" Click="TopButton_Click" ToolTip="Toggle On Top" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
-                <Grid>
-                    <Image Name="PinImage" Source="/Images/thumbtack-solid.png" Visibility="Hidden"/>
-                    <Image Name="Pin45Image" Source="/Images/thumbtack-solid-45.png"/>
-                </Grid>
+                <Image Name="TopButtonImage" Source="{StaticResource Pin45ImageSource}" />
             </Button>
             <Button Name="CloseButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
                 <Image Source="/Images/xmark-solid.png"/>
