@@ -180,27 +180,27 @@ namespace Pinny_Notes
             {
                 int screenMargin = 78;
                 if (NOTE_GRAVITY.Item1) // Left
-                    positionLeft = screenMargin + 10;
+                    positionLeft = screenMargin;
                 else // Right
-                    positionLeft = (SystemParameters.PrimaryScreenWidth - screenMargin) - Width - 10;
+                    positionLeft = (SystemParameters.PrimaryScreenWidth - screenMargin) - Width;
 
                 if (NOTE_GRAVITY.Item2) // Top
-                    positionTop = screenMargin + 50;
+                    positionTop = screenMargin;
                 else // Bottom
-                    positionTop = (SystemParameters.PrimaryScreenHeight - screenMargin) - Height - 50;
+                    positionTop = (SystemParameters.PrimaryScreenHeight - screenMargin) - Height;
             }
             // Position relative to parent
             else
             {
                 if (NOTE_GRAVITY.Item1)
-                    positionLeft = (double)parentLeft + 10;
+                    positionLeft = (double)parentLeft + 45;
                 else
-                    positionLeft = (double)parentLeft - 10;
+                    positionLeft = (double)parentLeft - 45;
 
                 if (NOTE_GRAVITY.Item2)
-                    positionTop = (double)parentTop + 50;
+                    positionTop = (double)parentTop + 45;
                 else
-                    positionTop = (double)parentTop - 50;
+                    positionTop = (double)parentTop - 45;
             }
 #pragma warning restore CS8602
 
