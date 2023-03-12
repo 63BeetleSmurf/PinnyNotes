@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace Pinny_Notes
 {
@@ -291,15 +292,9 @@ namespace Pinny_Notes
         {
             Topmost = !Topmost;
             if (Topmost)
-            {
-                PinImage.Visibility = Visibility.Visible;
-                Pin45Image.Visibility = Visibility.Hidden;
-            }
+                TopButtonImage.Source = (ImageSource)Resources[(object)"PinImageSource"];
             else
-            {
-                PinImage.Visibility = Visibility.Hidden;
-                Pin45Image.Visibility = Visibility.Visible;
-            }
+                TopButtonImage.Source = (ImageSource)Resources[(object)"Pin45ImageSource"];
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
