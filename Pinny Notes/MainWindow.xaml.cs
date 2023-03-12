@@ -191,14 +191,14 @@ namespace Pinny_Notes
 
             if (positionLeft < 0)
                 Left = 0;
-            else if (positionLeft > SystemParameters.PrimaryScreenWidth)
+            else if (positionLeft + Width > SystemParameters.PrimaryScreenWidth)
                 Left = SystemParameters.PrimaryScreenWidth - Width;
             else
                 Left = positionLeft;
 
             if (positionTop < 0)
                 Top = 0;
-            else if (positionTop > SystemParameters.PrimaryScreenHeight)
+            else if (positionTop + Height > SystemParameters.PrimaryScreenHeight)
                 Top = SystemParameters.PrimaryScreenHeight - Height;
             else
                 Top = positionTop;
