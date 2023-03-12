@@ -52,25 +52,28 @@ namespace Pinny_Notes
             PositionNote(parentLeft, parentTop);
         }
 
-        private void MainWindow_LocationChanged(object sender, EventArgs e)
+        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Ignore calls before note is fully loaded
-            if (!this.IsLoaded)
-                return;
+            // Check mouse button is pressed as a missed click of a button
+            // can cause issues with DragMove().
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
 
-            // Reset gravity depending what position the note was moved to.
-            // This does not effect the saved start up setting, only what
-            // direction new child notes will go towards.
-            bool gravityLeft = true;
-            bool gravityTop = true;
-            if (Left > SystemParameters.PrimaryScreenWidth / 2)
-                gravityLeft = false;
-            if (Top > SystemParameters.PrimaryScreenHeight / 2)
-                gravityTop = false;
-            NOTE_GRAVITY = new Tuple<bool, bool>(
-                gravityLeft,
-                gravityTop
-            );
+                // Reset gravity depending what position the note was moved to.
+                // This does not effect the saved start up setting, only what
+                // direction new child notes will go towards.
+                bool gravityLeft = true;
+                bool gravityTop = true;
+                if (Left > SystemParameters.PrimaryScreenWidth / 2)
+                    gravityLeft = false;
+                if (Top > SystemParameters.PrimaryScreenHeight / 2)
+                    gravityTop = false;
+                NOTE_GRAVITY = new Tuple<bool, bool>(
+                    gravityLeft,
+                    gravityTop
+                );
+            }
         }
 
         #endregion
@@ -273,14 +276,6 @@ namespace Pinny_Notes
         #endregion
 
         #region TitleBar
-
-        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // Check mouse button is pressed as a missed click of a button
-            // can cause issues with DragMove().
-            if (e.LeftButton == MouseButtonState.Pressed)
-                DragMove();
-        }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
