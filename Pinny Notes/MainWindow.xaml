@@ -13,7 +13,7 @@
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
-        LocationChanged="MainWindow_LocationChanged">
+        >
     <Window.Resources>
         <Style TargetType="{x:Type Image}">
             <Setter Property="Opacity" Value="0.2"/>
