@@ -47,9 +47,21 @@
             </Button>
             <Grid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Name="ClearMenuItem" Header="Clear" Click="ClearMenuItem_Click"/>
                     <MenuItem Name="SaveMenuItem" Header="Save" Click="SaveMenuItem_Click"/>
                     <Separator />
-                    <MenuItem Name="ClearMenuItem" Header="Clear" Click="ClearMenuItem_Click"/>
+                    <MenuItem Name="ColoursMenuItem" Header="Colours">
+                        <MenuItem Name="ColourYellowMenuItem" Header="Yellow" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourOrangeMenuItem" Header="Orange" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourRedMenuItem" Header="Red" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourPinkMenuItem" Header="Pink" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourPurpleMenuItem" Header="Purple" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourBlueMenuItem" Header="Blue" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourAquaMenuItem" Header="Aqua" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <MenuItem Name="ColourGreenMenuItem" Header="Green" IsCheckable="True" Click="ColourMenuItem_Click"/>
+                        <Separator />
+                        <MenuItem Name="ColourCycleMenuItem" Header="Cycle" IsCheckable="True" Click="ColourCycleMenuItem_Click"/>
+                    </MenuItem>
                     <Separator />
                     <MenuItem Header="Indent">
                         <MenuItem Name="Indent2SpacesMenuItem" Header="2 Spaces" Click="Indent2SpacesMenuItem_Click"/>
@@ -82,18 +94,6 @@
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Settings">
-                        <MenuItem Name="ColoursMenuItem" Header="Colours">
-                            <MenuItem Name="ColourYellowMenuItem" Header="Yellow" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourOrangeMenuItem" Header="Orange" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourRedMenuItem" Header="Red" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourPinkMenuItem" Header="Pink" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourPurpleMenuItem" Header="Purple" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourBlueMenuItem" Header="Blue" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourAquaMenuItem" Header="Aqua" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <MenuItem Name="ColourGreenMenuItem" Header="Green" IsCheckable="True" Click="ColourMenuItem_Click"/>
-                            <Separator />
-                            <MenuItem Name="ColourCycleMenuItem" Header="Cycle" IsCheckable="True" Click="ColourCycleMenuItem_Click"/>
-                        </MenuItem>
                         <MenuItem Name="StartupPositionMenuItem" Header="Startup Position">
                             <MenuItem Name="StartupPositionTopLeftMenuItem" Header="Top Left" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
                             <MenuItem Name="StartupPositionTopRightMenuItem" Header="Top Right" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
