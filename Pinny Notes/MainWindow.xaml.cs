@@ -13,14 +13,13 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace Pinny_Notes
 {
     public partial class MainWindow : Window
     {
         // Colour tuple = (Title Bar, Background, Border)
-        Dictionary<string,(string, string, string)> NOTE_COLOURS = new Dictionary<string, (string, string, string)>{
+        Dictionary<string, (string, string, string)> NOTE_COLOURS = new Dictionary<string, (string, string, string)>{
             {"Yellow", ("#fef7b1", "#fffcdd", "#feea00")},
             {"Orange", ("#ffd179", "#fee8b9", "#ffab00")},
             {"Red",    ("#ff7c81", "#ffc4c6", "#e33036")},
@@ -229,7 +228,7 @@ namespace Pinny_Notes
         {
             DateTime lastUpdateCheck = Properties.Settings.Default.LastUpdateCheck;
             if (
-                Properties.Settings.Default.DisableUpdateCheck 
+                Properties.Settings.Default.DisableUpdateCheck
                 || DateTime.Now.Subtract(lastUpdateCheck).Days < 7
             )
                 return;
@@ -323,15 +322,38 @@ namespace Pinny_Notes
 
         #region ContextMenu
 
+        private void ClearMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.Clear();
+        }
+
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SaveNote();
         }
 
-        private void ClearMenuItem_Click(object sender, RoutedEventArgs e)
+        #region Colours
+
+        private void ColourCycleMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            NoteTextBox.Clear();
+            Properties.Settings.Default.CycleColours = ColourCycleMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
         }
+
+        private void ColourMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Don't allow uncheckign active item.
+            MenuItem menuItem = (MenuItem)sender;
+            if (!menuItem.IsChecked)
+            {
+                menuItem.IsChecked = true;
+                return;
+            }
+
+            SetColour(menuItem.Header.ToString());
+        }
+
+        #endregion
 
         #region Indent
 
@@ -340,6 +362,7 @@ namespace Pinny_Notes
         {
             ApplyFunctionToEachLine(IndentText, "  ");
         }
+
         private void Indent4SpacesMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ApplyFunctionToEachLine(IndentText, "    ");
@@ -366,10 +389,12 @@ namespace Pinny_Notes
         {
             ApplyFunctionToEachLine(TrimText, "Start");
         }
+        
         private void TrimEndMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ApplyFunctionToEachLine(TrimText, "End");
         }
+
         private void TrimBothMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ApplyFunctionToEachLine(TrimText, "Both");
@@ -432,17 +457,16 @@ namespace Pinny_Notes
 
         private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string noteText = NoteTextBox.Text;
             try
             {
                 NoteTextBox.Text = JsonConvert.SerializeObject(
-                    JsonConvert.DeserializeObject(noteText),
+                    JsonConvert.DeserializeObject(NoteTextBox.Text),
                     Formatting.Indented
                 );
             }
             catch
             {
-                NoteTextBox.Text = noteText;
+                return;
             }
         }
 
@@ -520,29 +544,6 @@ namespace Pinny_Notes
 
         #region Settings
 
-        #region Colours
-
-        private void ColourCycleMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.CycleColours = ColourCycleMenuItem.IsChecked;
-            Properties.Settings.Default.Save();
-        }
-
-        private void ColourMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            // Don't allow uncheckign active item.
-            MenuItem menuItem = (MenuItem)sender;
-            if (!menuItem.IsChecked)
-            {
-                menuItem.IsChecked = true;
-                return;
-            }
-
-            SetColour(menuItem.Header.ToString());
-        }
-
-        #endregion
-
         private void StartupPositionMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Don't allow uncheckign active item.
@@ -619,7 +620,7 @@ namespace Pinny_Notes
                 int selectionLength = NoteTextBox.SelectionLength;
 
                 NoteTextBox.Text += Environment.NewLine;
-                
+
                 NoteTextBox.SelectionStart = selectionStart;
                 NoteTextBox.SelectionLength = selectionLength;
             }
