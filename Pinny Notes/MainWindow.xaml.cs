@@ -18,6 +18,7 @@ namespace Pinny_Notes
 {
     public partial class MainWindow : Window
     {
+        // Colour tuple = (Title Bar, Background, Border)
         Dictionary<string,(string, string, string)> NOTE_COLOURS = new Dictionary<string, (string, string, string)>{
             {"Yellow", ("#fef7b1", "#fffcdd", "#feea00")},
             {"Orange", ("#ffd179", "#fee8b9", "#ffab00")},
@@ -31,6 +32,8 @@ namespace Pinny_Notes
 
         string? NOTE_COLOUR = null;
         Tuple<bool, bool>? NOTE_GRAVITY = null;
+
+        #region MainWindow
 
         public MainWindow()
         {
@@ -51,9 +54,13 @@ namespace Pinny_Notes
 
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
+            // Ignore calls before note is fully loaded
             if (!this.IsLoaded)
                 return;
 
+            // Reset gravity depending what position the note was moved to.
+            // This does not effect the saved start up setting, only what
+            // direction new child notes will go towards.
             bool gravityLeft = true;
             bool gravityTop = true;
             if (Left > SystemParameters.PrimaryScreenWidth / 2)
@@ -65,6 +72,10 @@ namespace Pinny_Notes
                 gravityTop
             );
         }
+
+        #endregion
+
+        #region MiscFunctions
 
         private void LoadSettings(string? parentColour = null, Tuple<bool, bool>? parentGravity = null)
         {
@@ -106,6 +117,7 @@ namespace Pinny_Notes
             {
                 if (Properties.Settings.Default.CycleColours)
                 {
+                    // Get the next colour ensuring it is not the same as the parent notes colour.
                     string? nextColour = null;
                     int nextColourIndex = NOTE_COLOURS.Keys.ToList().IndexOf(Properties.Settings.Default.Colour) + 1;
                     while (nextColour == null)
@@ -144,6 +156,7 @@ namespace Pinny_Notes
             Properties.Settings.Default.Colour = colour;
             Properties.Settings.Default.Save();
 
+            // Tick correct menu item for colour or note.
             foreach (object childObject in ColoursMenuItem.Items)
             {
                 if (childObject.GetType().Name != "MenuItem")
@@ -162,19 +175,21 @@ namespace Pinny_Notes
             double positionTop = 0;
             double positionLeft = 0;
 #pragma warning disable CS8602
+            // If there is no parent, position relative to screen
             if (parentLeft == null || parentTop == null)
             {
                 int screenMargin = 78;
-                if (NOTE_GRAVITY.Item1)
+                if (NOTE_GRAVITY.Item1) // Left
                     positionLeft = screenMargin + 10;
-                else
+                else // Right
                     positionLeft = (SystemParameters.PrimaryScreenWidth - screenMargin) - Width - 10;
 
-                if (NOTE_GRAVITY.Item2)
+                if (NOTE_GRAVITY.Item2) // Top
                     positionTop = screenMargin + 50;
-                else
+                else // Bottom
                     positionTop = (SystemParameters.PrimaryScreenHeight - screenMargin) - Height - 50;
             }
+            // Position relative to parent
             else
             {
                 if (NOTE_GRAVITY.Item1)
@@ -189,6 +204,8 @@ namespace Pinny_Notes
             }
 #pragma warning restore CS8602
 
+            // Don't allow note to open off screen. Will eventually end up stuck
+            // in a corner, but that's only after opening a silly number of notes.
             if (positionLeft < 0)
                 Left = 0;
             else if (positionLeft + Width > SystemParameters.PrimaryScreenWidth)
@@ -245,9 +262,22 @@ namespace Pinny_Notes
             return MessageBoxResult.Cancel;
         }
 
+        private void ApplyFunctionToEachLine(Func<string, int, string?, string> function, string? additional = null)
+        {
+            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            for (int i = 0; i < lines.Length; i++)
+                lines[i] = function(lines[i], i, additional);
+            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+        }
+
+        #endregion
+
         #region TitleBar
+
         private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            // Check mouse button is pressed as a missed click of a button
+            // can cause issues with DragMove().
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
@@ -288,6 +318,8 @@ namespace Pinny_Notes
                     MessageBoxButton.YesNoCancel,
                     MessageBoxImage.Question
                 );
+                // If the user presses cancel on the message box or 
+                // save dialog, do not close.
                 if (
                     (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
                     || messageBoxResult == MessageBoxResult.Cancel
@@ -296,9 +328,11 @@ namespace Pinny_Notes
             }
             Close();
         }
+
         #endregion
 
         #region ContextMenu
+
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             SaveNote();
@@ -310,60 +344,77 @@ namespace Pinny_Notes
         }
 
         #region Indent
+
+#pragma warning disable CS8622
         private void Indent2SpacesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IndentNoteText("  ");
+            ApplyFunctionToEachLine(IndentText, "  ");
         }
         private void Indent4SpacesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IndentNoteText("    ");
+            ApplyFunctionToEachLine(IndentText, "    ");
         }
 
         private void IndentTabMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IndentNoteText("\t");
+            ApplyFunctionToEachLine(IndentText, "\t");
+        }
+#pragma warning restore CS8622
+
+        private string IndentText(string line, int index, string indentString)
+        {
+            return indentString + line;
         }
 
-        private void IndentNoteText(string indentString)
-        {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
-            for (int i = 0; i < lines.Length; i++)
-                lines[i] = indentString + lines[i];
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
-        }
         #endregion
 
         #region Trim
+
+#pragma warning disable CS8622
+
         private void TrimStartMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
-            for (int i = 0; i < lines.Length; i++)
-                lines[i] = lines[i].TrimStart(); 
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+            ApplyFunctionToEachLine(TrimText, "Start");
         }
         private void TrimEndMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
-            for (int i = 0; i < lines.Length; i++)
-                lines[i] = lines[i].TrimEnd();
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+            ApplyFunctionToEachLine(TrimText, "End");
         }
         private void TrimBothMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
-            for (int i = 0; i < lines.Length; i++)
-                lines[i] = lines[i].Trim();
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+            ApplyFunctionToEachLine(TrimText, "Both");
         }
+
+#pragma warning restore CS8622
+
+        private string TrimText(string line, int index, string trimType)
+        {
+            switch (trimType)
+            {
+                case "Start":
+                    return line.TrimStart();
+                case "End":
+                    return line.TrimEnd();
+                case "Both":
+                    return line.Trim();
+                default:
+                    return line;
+
+            }
+        }
+
         #endregion
 
         #region List
+
         private void ListEnumerateMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
-            for (int i = 0; i < lines.Length; i++)
-                lines[i] = (i + 1).ToString() + ". " + lines[i];
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+            ApplyFunctionToEachLine(EnumerateLine);
+        }
+
+        private string EnumerateLine(string line, int index, string? additional)
+        {
+            return (index + 1).ToString() + ". " + line;
         }
 
         private void ListSortAscMenuItem_Click(object sender, RoutedEventArgs e)
@@ -384,9 +435,11 @@ namespace Pinny_Notes
                 Array.Reverse(lines);
             NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
+
         #endregion
 
         #region JSON
+
         private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string noteText = NoteTextBox.Text;
@@ -402,9 +455,11 @@ namespace Pinny_Notes
                 NoteTextBox.Text = noteText;
             }
         }
+
         #endregion
 
         #region Hash
+
         private void HashSHA512MenuItem_Click(object sender, RoutedEventArgs e)
         {
             using (SHA512 sha512 = SHA512.Create())
@@ -454,9 +509,11 @@ namespace Pinny_Notes
                 ).Replace("-", "");
             }
         }
+
         #endregion
 
         #region Base64
+
         private void Base64EncodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
             byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(NoteTextBox.Text);
@@ -468,11 +525,13 @@ namespace Pinny_Notes
             byte[] base64Bytes = System.Convert.FromBase64String(NoteTextBox.Text);
             NoteTextBox.Text = System.Text.Encoding.UTF8.GetString(base64Bytes);
         }
+
         #endregion
 
         #region Settings
 
         #region Colours
+
         private void ColourCycleMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.CycleColours = ColourCycleMenuItem.IsChecked;
@@ -481,6 +540,7 @@ namespace Pinny_Notes
 
         private void ColourMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            // Don't allow uncheckign active item.
             MenuItem menuItem = (MenuItem)sender;
             if (!menuItem.IsChecked)
             {
@@ -490,10 +550,12 @@ namespace Pinny_Notes
 
             SetColour(menuItem.Header.ToString());
         }
+
         #endregion
 
         private void StartupPositionMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            // Don't allow uncheckign active item.
             MenuItem menuItem = (MenuItem)sender;
             if (!menuItem.IsChecked)
             {
@@ -501,6 +563,7 @@ namespace Pinny_Notes
                 return;
             }
 
+            // Uncheck all other items when this is checked.
             foreach (object childObject in StartupPositionMenuItem.Items)
             {
                 MenuItem childMenuItem = (MenuItem)childObject;
@@ -540,6 +603,7 @@ namespace Pinny_Notes
             Properties.Settings.Default.NewLine = NewLineMenuItem.IsChecked;
             Properties.Settings.Default.Save();
 
+            // Check for new line when this option is activated
             if (Properties.Settings.Default.NewLine)
                 NoteTextBox_TextChanged(sender, e);
         }
@@ -549,11 +613,13 @@ namespace Pinny_Notes
             Properties.Settings.Default.DisableUpdateCheck = DisableUpdateCheckMenuItem.IsChecked;
             Properties.Settings.Default.Save();
         }
+
         #endregion
 
         #endregion
 
         #region TextBox
+
         private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
             if (Properties.Settings.Default.NewLine && !NoteTextBox.Text.EndsWith(Environment.NewLine))
@@ -594,6 +660,8 @@ namespace Pinny_Notes
                 NoteTextBox.Text = (string)e.Data.GetData(DataFormats.StringFormat);
             }
         }
+
         #endregion
+
     }
 }
