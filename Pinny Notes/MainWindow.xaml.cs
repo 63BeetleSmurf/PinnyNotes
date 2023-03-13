@@ -613,7 +613,7 @@ namespace Pinny_Notes
 
         private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            if (Properties.Settings.Default.NewLine && !NoteTextBox.Text.EndsWith(Environment.NewLine))
+            if (Properties.Settings.Default.NewLine && NoteTextBox.Text != "" && !NoteTextBox.Text.EndsWith(Environment.NewLine))
             {
                 // Preserving selection when adding new line
                 int selectionStart = NoteTextBox.SelectionStart;
