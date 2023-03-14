@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Linq;
 using System.Windows.Controls;
+using System.Net;
 
 namespace Pinny_Notes
 {
@@ -468,6 +469,20 @@ namespace Pinny_Notes
             {
                 return;
             }
+        }
+
+        #endregion
+
+        #region HTML Entity
+
+        private void HTMLEntityEncodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.Text = WebUtility.HtmlEncode(NoteTextBox.Text);   
+        }
+
+        private void HTMLEntityDecodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.Text = WebUtility.HtmlDecode(NoteTextBox.Text);
         }
 
         #endregion
