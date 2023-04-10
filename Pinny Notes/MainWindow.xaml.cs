@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Net;
 using System.Windows.Documents;
 using System.Globalization;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Pinny_Notes
 {
@@ -492,18 +493,26 @@ namespace Pinny_Notes
             SpellingError spellingError = NoteTextBox.GetSpellingError(caretIndex);
             if (spellingError != null)
             {
-                foreach (string spellingSuggestion in spellingError.Suggestions)
-                {
+                if (spellingError.Suggestions.Count() == 0)
                     menu.Items.Add(
-                        CreateMenuItem(
-                            header: spellingSuggestion,
-                            headerBold: true,
-                            command: EditingCommands.CorrectSpellingError,
-                            commandParameter: spellingSuggestion,
-                            commandTarget: NoteTextBox
-                        )
-                    );
-                }
+                            CreateMenuItem(
+                                header: "(no spelling suggestions)",
+                                enabled: false
+                            )
+                        );
+                else
+                    foreach (string spellingSuggestion in spellingError.Suggestions)
+                    {
+                        menu.Items.Add(
+                            CreateMenuItem(
+                                header: spellingSuggestion,
+                                headerBold: true,
+                                command: EditingCommands.CorrectSpellingError,
+                                commandParameter: spellingSuggestion,
+                                commandTarget: NoteTextBox
+                            )
+                        );
+                    }
                 menu.Items.Add(new Separator());
             }
 
