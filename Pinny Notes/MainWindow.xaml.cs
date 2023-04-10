@@ -271,10 +271,20 @@ namespace Pinny_Notes
 
         private void ApplyFunctionToEachLine(Func<string, int, string?, string> function, string? additional = null)
         {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            string[] lines;
+
+            if (NoteTextBox.SelectionLength > 0)
+                lines = NoteTextBox.SelectedText.Split(Environment.NewLine);
+            else
+                lines = NoteTextBox.Text.Split(Environment.NewLine);
+
             for (int i = 0; i < lines.Length; i++)
                 lines[i] = function(lines[i], i, additional);
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+
+            if (NoteTextBox.SelectionLength > 0)
+                NoteTextBox.SelectedText = string.Join(Environment.NewLine, lines);
+            else
+                NoteTextBox.Text = string.Join(Environment.NewLine, lines);
         }
 
         #endregion
@@ -615,7 +625,6 @@ namespace Pinny_Notes
 
             return menu;
         }
-
 
         private MenuItem CreateMenuItem(string header, bool headerBold = false, bool enabled = true,
             RoutedEventHandler? clickEventHandler = null, List<MenuItem>? children = null,
