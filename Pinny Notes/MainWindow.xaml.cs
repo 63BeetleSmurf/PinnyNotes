@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Windows.Controls;
 using System.Net;
+using System.Windows.Documents;
 
 namespace Pinny_Notes
 {
@@ -39,6 +40,7 @@ namespace Pinny_Notes
         public MainWindow()
         {
             InitializeComponent();
+            NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
             LoadSettings();
             PositionNote();
 #pragma warning disable CS4014
@@ -49,6 +51,7 @@ namespace Pinny_Notes
         public MainWindow(double parentLeft, double parentTop, string? parentColour, Tuple<bool, bool>? parentGravity)
         {
             InitializeComponent();
+            NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
             LoadSettings(parentColour, parentGravity);
             PositionNote(parentLeft, parentTop);
         }
@@ -319,7 +322,6 @@ namespace Pinny_Notes
             Close();
         }
 
-        #endregion
 
         #region ContextMenu
 
@@ -352,6 +354,349 @@ namespace Pinny_Notes
             }
 
             SetColour(menuItem.Header.ToString());
+        }
+
+        #endregion
+
+        #region Settings
+
+        private void StartupPositionMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Don't allow uncheckign active item.
+            MenuItem menuItem = (MenuItem)sender;
+            if (!menuItem.IsChecked)
+            {
+                menuItem.IsChecked = true;
+                return;
+            }
+
+            // Uncheck all other items when this is checked.
+            foreach (object childObject in StartupPositionMenuItem.Items)
+            {
+                MenuItem childMenuItem = (MenuItem)childObject;
+                if (childMenuItem != menuItem)
+                    childMenuItem.IsChecked = false;
+            }
+
+#pragma warning disable CS8602
+            string[] position = menuItem.Header.ToString().Split(" ");
+#pragma warning restore CS8602
+            if (position[0] == "Top")
+                Properties.Settings.Default.StartupPositionTop = true;
+            else
+                Properties.Settings.Default.StartupPositionTop = false;
+            if (position[1] == "Left")
+                Properties.Settings.Default.StartupPositionLeft = true;
+            else
+                Properties.Settings.Default.StartupPositionLeft = false;
+            Properties.Settings.Default.Save();
+        }
+
+        private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void SpellCheckMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
+            Properties.Settings.Default.SpellCheck = SpellCheckMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void NewLineMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.NewLine = NewLineMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+
+            // Check for new line when this option is activated
+            if (Properties.Settings.Default.NewLine)
+                NoteTextBox_TextChanged(sender, e);
+        }
+
+        private void DisableUpdateCheckMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.DisableUpdateCheck = DisableUpdateCheckMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #endregion
+
+        #region TextBox
+
+        private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (Properties.Settings.Default.NewLine && NoteTextBox.Text != "" && !NoteTextBox.Text.EndsWith(Environment.NewLine))
+            {
+                // Preserving selection when adding new line
+                int selectionStart = NoteTextBox.SelectionStart;
+                int selectionLength = NoteTextBox.SelectionLength;
+
+                NoteTextBox.Text += Environment.NewLine;
+
+                NoteTextBox.SelectionStart = selectionStart;
+                NoteTextBox.SelectionLength = selectionLength;
+            }
+        }
+
+        private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
+                Clipboard.SetText(NoteTextBox.SelectedText.Trim());
+        }
+
+        private void NoteTextBox_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.Copy;
+            e.Handled = true;
+        }
+
+        private void NoteTextBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                NoteTextBox.Text = File.ReadAllText(
+                    ((string[])e.Data.GetData(DataFormats.FileDrop))[0]
+                );
+            }
+            else if (e.Data.GetDataPresent(DataFormats.StringFormat))
+            {
+                NoteTextBox.Text = (string)e.Data.GetData(DataFormats.StringFormat);
+            }
+        }
+
+        #region ContextMenu
+
+        private ContextMenu GetNoteTextBoxContextMenu()
+        {
+            ContextMenu menu = new ContextMenu();
+
+            int caretIndex = NoteTextBox.CaretIndex;
+            SpellingError spellingError = NoteTextBox.GetSpellingError(caretIndex);
+            if (spellingError != null)
+            {
+                foreach (string spellingSuggestion in spellingError.Suggestions)
+                {
+                    menu.Items.Add(
+                        CreateMenuItem(
+                            header: spellingSuggestion,
+                            headerBold: true,
+                            command: EditingCommands.CorrectSpellingError,
+                            commandParameter: spellingSuggestion,
+                            commandTarget: NoteTextBox
+                        )
+                    );
+                }
+                menu.Items.Add(new Separator());
+            }
+
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Copy",
+                    clickEventHandler: new RoutedEventHandler(CopyMenuItem_Click),
+                    enabled: (NoteTextBox.SelectionLength > 0)
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Cut",
+                    clickEventHandler: new RoutedEventHandler(CutMenuItem_Click),
+                    enabled: (NoteTextBox.SelectionLength > 0)
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Paste",
+                    clickEventHandler: new RoutedEventHandler(PasteMenuItem_Click),
+                    enabled: (Clipboard.ContainsText())
+                )
+            );
+            
+            menu.Items.Add(new Separator());
+
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Select All",
+                    clickEventHandler: new RoutedEventHandler(SelectAllMenuItem_Click),
+                    enabled: (NoteTextBox.Text.Length > 0)
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Clear",
+                    clickEventHandler: new RoutedEventHandler(ClearMenuItem_Click),
+                    enabled: (NoteTextBox.Text.Length > 0)
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Save",
+                    clickEventHandler: new RoutedEventHandler(SaveMenuItem_Click),
+                    enabled: (NoteTextBox.Text.Length > 0)
+                )
+            );
+
+            menu.Items.Add(new Separator());
+
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Indent",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "2 Spaces", clickEventHandler: new RoutedEventHandler(Indent2SpacesMenuItem_Click)),
+                        CreateMenuItem(header: "4 Spaces", clickEventHandler: new RoutedEventHandler(Indent4SpacesMenuItem_Click)),
+                        CreateMenuItem(header: "Tab", clickEventHandler: new RoutedEventHandler(IndentTabMenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Trim",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "Start", clickEventHandler: new RoutedEventHandler(TrimStartMenuItem_Click)),
+                        CreateMenuItem(header: "End", clickEventHandler: new RoutedEventHandler(TrimEndMenuItem_Click)),
+                        CreateMenuItem(header: "Both", clickEventHandler: new RoutedEventHandler(TrimBothMenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "List",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "Enumerate", clickEventHandler: new RoutedEventHandler(ListEnumerateMenuItem_Click)),
+                        CreateMenuItem(header: "Sort Asc.", clickEventHandler: new RoutedEventHandler(ListSortAscMenuItem_Click)),
+                        CreateMenuItem(header: "Sort Des.", clickEventHandler: new RoutedEventHandler(ListSortDecMenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "JSON",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "Prettify", clickEventHandler: new RoutedEventHandler(JSONPrettifyMenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "HTML Entity",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "Encode", clickEventHandler: new RoutedEventHandler(HTMLEntityEncodeMenuItem_Click)),
+                        CreateMenuItem(header: "Decode", clickEventHandler: new RoutedEventHandler(HTMLEntityDecodeMenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Hash",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "SHA512", clickEventHandler: new RoutedEventHandler(HashSHA512MenuItem_Click)),
+                        CreateMenuItem(header: "SHA384", clickEventHandler: new RoutedEventHandler(HashSHA384MenuItem_Click)),
+                        CreateMenuItem(header: "SHA256", clickEventHandler: new RoutedEventHandler(HashSHA256MenuItem_Click)),
+                        CreateMenuItem(header: "SHA1", clickEventHandler: new RoutedEventHandler(HashSHA1MenuItem_Click)),
+                        CreateMenuItem(header: "MD5", clickEventHandler: new RoutedEventHandler(HashMD5MenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
+                    header: "Base64",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "Encode", clickEventHandler: new RoutedEventHandler(Base64EncodeMenuItem_Click)),
+                        CreateMenuItem(header: "Decode", clickEventHandler: new RoutedEventHandler(Base64DecodeMenuItem_Click)),
+                    }
+                )
+            );
+
+            return menu;
+        }
+
+
+        private MenuItem CreateMenuItem(string header, bool headerBold = false, bool enabled = true,
+            RoutedEventHandler? clickEventHandler = null, List<MenuItem>? children = null,
+            ICommand? command = null, object? commandParameter = null, IInputElement? commandTarget = null
+            )
+        {
+            MenuItem menuItem = new();
+            
+            menuItem.Header = header;
+            if (headerBold)
+                menuItem.FontWeight = FontWeights.Bold;
+            
+            if (clickEventHandler != null)
+                menuItem.Click += clickEventHandler;
+            
+            if (children != null)
+                foreach (MenuItem child in children)
+                    menuItem.Items.Add(child);
+
+            if (!enabled)
+                menuItem.IsEnabled = false;
+
+            if (command != null)
+                menuItem.Command = command;
+            if (commandParameter!= null)
+                menuItem.CommandParameter = commandParameter;
+            if (commandTarget != null)
+                menuItem.CommandTarget = commandTarget;
+
+            return menuItem;
+        }
+
+        private void NoteTextBox_ContextMenuOpening(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
+        }
+
+        #region Copy Cut Paste
+
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetDataObject(NoteTextBox.SelectedText);
+        }
+
+        private void CutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetDataObject(NoteTextBox.SelectedText);
+            int selectionStart = NoteTextBox.SelectionStart;
+            NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
+            NoteTextBox.CaretIndex = selectionStart;
+        }
+
+        private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            IDataObject clipboardData = Clipboard.GetDataObject();
+            if (clipboardData.GetDataPresent(DataFormats.Text))
+            {
+                string clipboardString = (String)clipboardData.GetData(DataFormats.Text);
+                if (NoteTextBox.SelectionLength == 0)
+                {
+                    int caretIndex = NoteTextBox.CaretIndex;
+                    NoteTextBox.Text = NoteTextBox.Text.Substring(0, caretIndex) + clipboardString + NoteTextBox.Text.Substring(caretIndex);
+                    NoteTextBox.CaretIndex = caretIndex + clipboardString.Length;
+                }
+                else
+                {
+                    int selectionStart = NoteTextBox.SelectionStart;
+                    NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + clipboardString + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
+                    NoteTextBox.CaretIndex = selectionStart + clipboardString.Length;
+                }
+            }
+        }
+
+        #endregion
+
+        #region SelectAll Clear Save
+
+        private void SelectAllMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            NoteTextBox.SelectionStart = 0;
+            NoteTextBox.SelectionLength = NoteTextBox.Text.Length;
         }
 
         #endregion
@@ -390,7 +735,7 @@ namespace Pinny_Notes
         {
             ApplyFunctionToEachLine(TrimText, "Start");
         }
-        
+
         private void TrimEndMenuItem_Click(object sender, RoutedEventArgs e)
         {
             ApplyFunctionToEachLine(TrimText, "End");
@@ -477,7 +822,7 @@ namespace Pinny_Notes
 
         private void HTMLEntityEncodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            NoteTextBox.Text = WebUtility.HtmlEncode(NoteTextBox.Text);   
+            NoteTextBox.Text = WebUtility.HtmlEncode(NoteTextBox.Text);
         }
 
         private void HTMLEntityDecodeMenuItem_Click(object sender, RoutedEventArgs e)
@@ -557,115 +902,7 @@ namespace Pinny_Notes
 
         #endregion
 
-        #region Settings
-
-        private void StartupPositionMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            // Don't allow uncheckign active item.
-            MenuItem menuItem = (MenuItem)sender;
-            if (!menuItem.IsChecked)
-            {
-                menuItem.IsChecked = true;
-                return;
-            }
-
-            // Uncheck all other items when this is checked.
-            foreach (object childObject in StartupPositionMenuItem.Items)
-            {
-                MenuItem childMenuItem = (MenuItem)childObject;
-                if (childMenuItem != menuItem)
-                    childMenuItem.IsChecked = false;
-            }
-
-#pragma warning disable CS8602
-            string[] position = menuItem.Header.ToString().Split(" ");
-#pragma warning restore CS8602
-            if (position[0] == "Top")
-                Properties.Settings.Default.StartupPositionTop = true;
-            else
-                Properties.Settings.Default.StartupPositionTop = false;
-            if (position[1] == "Left")
-                Properties.Settings.Default.StartupPositionLeft = true;
-            else
-                Properties.Settings.Default.StartupPositionLeft = false;
-            Properties.Settings.Default.Save();
-        }
-
-        private void AutoCopyMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.AutoCopy = AutoCopyMenuItem.IsChecked;
-            Properties.Settings.Default.Save();
-        }
-
-        private void SpellCheckMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
-            Properties.Settings.Default.SpellCheck = SpellCheckMenuItem.IsChecked;
-            Properties.Settings.Default.Save();
-        }
-
-        private void NewLineMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.NewLine = NewLineMenuItem.IsChecked;
-            Properties.Settings.Default.Save();
-
-            // Check for new line when this option is activated
-            if (Properties.Settings.Default.NewLine)
-                NoteTextBox_TextChanged(sender, e);
-        }
-
-        private void DisableUpdateCheckMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.DisableUpdateCheck = DisableUpdateCheckMenuItem.IsChecked;
-            Properties.Settings.Default.Save();
-        }
-
         #endregion
-
-        #endregion
-
-        #region TextBox
-
-        private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
-        {
-            if (Properties.Settings.Default.NewLine && NoteTextBox.Text != "" && !NoteTextBox.Text.EndsWith(Environment.NewLine))
-            {
-                // Preserving selection when adding new line
-                int selectionStart = NoteTextBox.SelectionStart;
-                int selectionLength = NoteTextBox.SelectionLength;
-
-                NoteTextBox.Text += Environment.NewLine;
-
-                NoteTextBox.SelectionStart = selectionStart;
-                NoteTextBox.SelectionLength = selectionLength;
-            }
-        }
-
-        private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
-                Clipboard.SetText(NoteTextBox.SelectedText.Trim());
-        }
-
-        private void NoteTextBox_DragOver(object sender, DragEventArgs e)
-        {
-            e.Effects = DragDropEffects.Copy;
-            e.Handled = true;
-        }
-
-        private void NoteTextBox_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                NoteTextBox.Text = File.ReadAllText(
-                    ((string[])e.Data.GetData(DataFormats.FileDrop))[0]
-                );
-            }
-            else if (e.Data.GetDataPresent(DataFormats.StringFormat))
-            {
-                NoteTextBox.Text = (string)e.Data.GetData(DataFormats.StringFormat);
-            }
-        }
 
         #endregion
 

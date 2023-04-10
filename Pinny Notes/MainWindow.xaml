@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Pinny_Notes.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Height="300" Width="300"
@@ -60,41 +60,6 @@
                         <Separator />
                         <MenuItem Name="ColourCycleMenuItem" Header="Cycle" IsCheckable="True" Click="ColourCycleMenuItem_Click"/>
                     </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Indent">
-                        <MenuItem Name="Indent2SpacesMenuItem" Header="2 Spaces" Click="Indent2SpacesMenuItem_Click"/>
-                        <MenuItem Name="Indent4SpacesMenuItem" Header="4 Spaces" Click="Indent4SpacesMenuItem_Click"/>
-                        <MenuItem Name="IndentTabMenuItem" Header="Tab" Click="IndentTabMenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem Header="Trim">
-                        <MenuItem Name="TrimStartMenuItem" Header="Start" Click="TrimStartMenuItem_Click"/>
-                        <MenuItem Name="TrimEndMenuItem" Header="End" Click="TrimEndMenuItem_Click"/>
-                        <MenuItem Name="TrimBothMenuItem" Header="Both" Click="TrimBothMenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem Header="List">
-                        <MenuItem Name="ListEnumerateMenuItem" Header="Enumerate" Click="ListEnumerateMenuItem_Click"/>
-                        <MenuItem Name="ListSortAscMenuItem" Header="Sort Asc." Click="ListSortAscMenuItem_Click"/>
-                        <MenuItem Name="ListSortDecMenuItem" Header="Sort Des." Click="ListSortDecMenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem Header="JSON">
-                        <MenuItem Name="JSONPrettifyMenuItem" Header="Prettify" Click="JSONPrettifyMenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem Header="HTML Entity">
-                        <MenuItem Name="HTMLEntityEncodeMenuItem" Header="Encode" Click="HTMLEntityEncodeMenuItem_Click"/>
-                        <MenuItem Name="HTMLEntityDecodeMenuItem" Header="Decode" Click="HTMLEntityDecodeMenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem Header="Hash">
-                        <MenuItem Name="HashSHA512MenuItem" Header="SHA512" Click="HashSHA512MenuItem_Click"/>
-                        <MenuItem Name="HashSHA384MenuItem" Header="SHA384" Click="HashSHA384MenuItem_Click"/>
-                        <MenuItem Name="HashSHA256MenuItem" Header="SHA256" Click="HashSHA256MenuItem_Click"/>
-                        <MenuItem Name="HashSHA1MenuItem" Header="SHA1" Click="HashSHA1MenuItem_Click"/>
-                        <MenuItem Name="HashMD5MenuItem" Header="MD5" Click="HashMD5MenuItem_Click"/>
-                    </MenuItem>
-                    <MenuItem Header="Base64">
-                        <MenuItem Name="Base64EncodeMenuItem" Header="Encode" Click="Base64EncodeMenuItem_Click"/>
-                        <MenuItem Name="Base64DecodeMenuItem" Header="Decode" Click="Base64DecodeMenuItem_Click"/>
-                    </MenuItem>
-                    <Separator />
                     <MenuItem Header="Settings">
                         <MenuItem Name="StartupPositionMenuItem" Header="Startup Position">
                             <MenuItem Name="StartupPositionTopLeftMenuItem" Header="Top Left" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
@@ -111,7 +76,20 @@
             </Grid.ContextMenu>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <TextBox Name="NoteTextBox" BorderThickness="0" Background="Transparent" FontSize="16" Padding="5,5,5,5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" SelectionChanged="NoteTextBox_SelectionChanged" AllowDrop="True" PreviewDragOver="NoteTextBox_DragOver" PreviewDrop="NoteTextBox_Drop" TextChanged="NoteTextBox_TextChanged" />
+            <TextBox AcceptsReturn="True"
+                AllowDrop="True"
+                BorderThickness="0"
+                Background="Transparent"
+                ContextMenuOpening="NoteTextBox_ContextMenuOpening"
+                FontSize="16"
+                Name="NoteTextBox"
+                Padding="5,5,5,5"
+                PreviewDragOver="NoteTextBox_DragOver"
+                PreviewDrop="NoteTextBox_Drop"
+                SelectionChanged="NoteTextBox_SelectionChanged"
+                TextChanged="NoteTextBox_TextChanged"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
         </Grid>
     </Grid>
 </Window>
