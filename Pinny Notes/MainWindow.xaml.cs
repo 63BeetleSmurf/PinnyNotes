@@ -15,6 +15,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Net;
 using System.Windows.Documents;
+using System.Globalization;
 
 namespace Pinny_Notes
 {
@@ -556,6 +557,16 @@ namespace Pinny_Notes
 
             menu.Items.Add(
                 CreateMenuItem(
+                    header: "Case",
+                    children: new List<MenuItem> {
+                        CreateMenuItem(header: "Lower", clickEventHandler: new RoutedEventHandler(CaseLowerMenuItem_Click)),
+                        CreateMenuItem(header: "Upper", clickEventHandler: new RoutedEventHandler(CaseUpperMenuItem_Click)),
+                        CreateMenuItem(header: "Proper", clickEventHandler: new RoutedEventHandler(CaseProperMenuItem_Click)),
+                    }
+                )
+            );
+            menu.Items.Add(
+                CreateMenuItem(
                     header: "Indent",
                     children: new List<MenuItem> {
                         CreateMenuItem(header: "2 Spaces", clickEventHandler: new RoutedEventHandler(Indent2SpacesMenuItem_Click)),
@@ -706,6 +717,43 @@ namespace Pinny_Notes
         {
             NoteTextBox.SelectionStart = 0;
             NoteTextBox.SelectionLength = NoteTextBox.Text.Length;
+        }
+
+        #endregion
+
+        #region Case
+
+#pragma warning disable CS8622
+        private void CaseLowerMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(SetTextCase, "l");
+        }
+
+        private void CaseUpperMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(SetTextCase, "u");
+        }
+
+        private void CaseProperMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(SetTextCase, "p");
+        }
+#pragma warning restore CS8622
+
+        private string SetTextCase(string line, int index, string textCase)
+        {
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            switch (textCase)
+            {
+                case "u":
+                    return textInfo.ToUpper(line);
+                case "p":
+                    return textInfo.ToTitleCase(
+                        textInfo.ToLower(line)
+                    );
+                default:
+                    return textInfo.ToLower(line);
+            }
         }
 
         #endregion
