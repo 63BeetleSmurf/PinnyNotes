@@ -16,10 +16,27 @@ using System.Windows.Controls;
 using System.Net;
 using System.Windows.Documents;
 using System.Globalization;
-using System.Diagnostics.Eventing.Reader;
 
 namespace Pinny_Notes
 {
+    public class CustomCommand : ICommand
+    {
+        public Func<bool>? executeMethod { get; set; }
+
+        public void Execute(object? parameter)
+        {
+            if (executeMethod != null)
+                executeMethod();
+        }
+
+        public bool CanExecute(object? parameter)
+        {
+            return true;
+        }
+
+        public event EventHandler? CanExecuteChanged;
+    }
+
     public partial class MainWindow : Window
     {
         // Colour tuple = (Title Bar, Background, Border)
@@ -37,12 +54,15 @@ namespace Pinny_Notes
         string? NOTE_COLOUR = null;
         Tuple<bool, bool>? NOTE_GRAVITY = null;
 
+        CustomCommand COPY_COMMAND = new();
+        CustomCommand CUT_COMMAND = new();
+        CustomCommand PASTE_COMMAND = new();
+
         #region MainWindow
 
         public MainWindow()
         {
-            InitializeComponent();
-            NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
+            MainWindowInitialize();
             LoadSettings();
             PositionNote();
 #pragma warning disable CS4014
@@ -52,10 +72,22 @@ namespace Pinny_Notes
 
         public MainWindow(double parentLeft, double parentTop, string? parentColour, Tuple<bool, bool>? parentGravity)
         {
-            InitializeComponent();
-            NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
+            MainWindowInitialize();
             LoadSettings(parentColour, parentGravity);
             PositionNote(parentLeft, parentTop);
+        }
+
+        private void MainWindowInitialize()
+        {
+            InitializeComponent();
+            NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
+
+            COPY_COMMAND.executeMethod = NoteTextBox_Copy;
+            NoteTextBox.InputBindings.Add(new InputBinding(COPY_COMMAND, new KeyGesture(Key.C, ModifierKeys.Control)));
+            CUT_COMMAND.executeMethod = NoteTextBox_Cut;
+            NoteTextBox.InputBindings.Add(new InputBinding(CUT_COMMAND, new KeyGesture(Key.X, ModifierKeys.Control)));
+            PASTE_COMMAND.executeMethod = NoteTextBox_Paste;
+            NoteTextBox.InputBindings.Add(new InputBinding(PASTE_COMMAND, new KeyGesture(Key.V, ModifierKeys.Control)));
         }
 
         private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -483,6 +515,43 @@ namespace Pinny_Notes
             }
         }
 
+        public bool NoteTextBox_Copy()
+        {
+            Clipboard.SetDataObject(NoteTextBox.SelectedText);
+            return true;
+        }
+
+        public bool NoteTextBox_Cut()
+        {
+            Clipboard.SetDataObject(NoteTextBox.SelectedText);
+            int selectionStart = NoteTextBox.SelectionStart;
+            NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
+            NoteTextBox.CaretIndex = selectionStart;
+            return true;
+        }
+
+        public bool NoteTextBox_Paste()
+        {
+            IDataObject clipboardData = Clipboard.GetDataObject();
+            if (clipboardData.GetDataPresent(DataFormats.Text))
+            {
+                string clipboardString = (String)clipboardData.GetData(DataFormats.Text);
+                if (NoteTextBox.SelectionLength == 0)
+                {
+                    int caretIndex = NoteTextBox.CaretIndex;
+                    NoteTextBox.Text = NoteTextBox.Text.Substring(0, caretIndex) + clipboardString + NoteTextBox.Text.Substring(caretIndex);
+                    NoteTextBox.CaretIndex = caretIndex + clipboardString.Length;
+                }
+                else
+                {
+                    int selectionStart = NoteTextBox.SelectionStart;
+                    NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + clipboardString + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
+                    NoteTextBox.CaretIndex = selectionStart + clipboardString.Length;
+                }
+            }
+            return true;
+        }
+
         #region ContextMenu
 
         private ContextMenu GetNoteTextBoxContextMenu()
@@ -519,21 +588,24 @@ namespace Pinny_Notes
             menu.Items.Add(
                 CreateMenuItem(
                     header: "Copy",
-                    clickEventHandler: new RoutedEventHandler(CopyMenuItem_Click),
+                    command: COPY_COMMAND,
+                    inputGestureText: "Ctrl+C",
                     enabled: (NoteTextBox.SelectionLength > 0)
                 )
             );
             menu.Items.Add(
                 CreateMenuItem(
                     header: "Cut",
-                    clickEventHandler: new RoutedEventHandler(CutMenuItem_Click),
+                    command: CUT_COMMAND,
+                    inputGestureText: "Ctrl+X",
                     enabled: (NoteTextBox.SelectionLength > 0)
                 )
             );
             menu.Items.Add(
                 CreateMenuItem(
                     header: "Paste",
-                    clickEventHandler: new RoutedEventHandler(PasteMenuItem_Click),
+                    command: PASTE_COMMAND,
+                    inputGestureText: "Ctrl+V",
                     enabled: (Clipboard.ContainsText())
                 )
             );
@@ -648,7 +720,8 @@ namespace Pinny_Notes
 
         private MenuItem CreateMenuItem(string header, bool headerBold = false, bool enabled = true,
             RoutedEventHandler? clickEventHandler = null, List<MenuItem>? children = null,
-            ICommand? command = null, object? commandParameter = null, IInputElement? commandTarget = null
+            ICommand? command = null, object? commandParameter = null, IInputElement? commandTarget = null,
+            string? inputGestureText = null
             )
         {
             MenuItem menuItem = new();
@@ -674,6 +747,9 @@ namespace Pinny_Notes
             if (commandTarget != null)
                 menuItem.CommandTarget = commandTarget;
 
+            if (inputGestureText != null)
+                menuItem.InputGestureText = inputGestureText;
+
             return menuItem;
         }
 
@@ -681,44 +757,6 @@ namespace Pinny_Notes
         {
             NoteTextBox.ContextMenu = GetNoteTextBoxContextMenu();
         }
-
-        #region Copy Cut Paste
-
-        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetDataObject(NoteTextBox.SelectedText);
-        }
-
-        private void CutMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetDataObject(NoteTextBox.SelectedText);
-            int selectionStart = NoteTextBox.SelectionStart;
-            NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
-            NoteTextBox.CaretIndex = selectionStart;
-        }
-
-        private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            IDataObject clipboardData = Clipboard.GetDataObject();
-            if (clipboardData.GetDataPresent(DataFormats.Text))
-            {
-                string clipboardString = (String)clipboardData.GetData(DataFormats.Text);
-                if (NoteTextBox.SelectionLength == 0)
-                {
-                    int caretIndex = NoteTextBox.CaretIndex;
-                    NoteTextBox.Text = NoteTextBox.Text.Substring(0, caretIndex) + clipboardString + NoteTextBox.Text.Substring(caretIndex);
-                    NoteTextBox.CaretIndex = caretIndex + clipboardString.Length;
-                }
-                else
-                {
-                    int selectionStart = NoteTextBox.SelectionStart;
-                    NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + clipboardString + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
-                    NoteTextBox.CaretIndex = selectionStart + clipboardString.Length;
-                }
-            }
-        }
-
-        #endregion
 
         #region SelectAll Clear Save
 
