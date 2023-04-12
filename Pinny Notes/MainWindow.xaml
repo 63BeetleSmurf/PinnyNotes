@@ -74,7 +74,7 @@
                         </MenuItem>
                         <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>
                         <MenuItem Name="NewLineMenuItem" Header="New Line At End" IsCheckable="True" Click="NewLineMenuItem_Click"/>
-                        <MenuItem Name="DisableUpdateCheckMenuItem" Header="Disable Update Check" IsCheckable="True" Click="DisableUpdateCheckMenuItem_Click"/>
+                        <MenuItem Name="CheckForUpdatesMenuItem" Header="Check For Updates" IsCheckable="True" Click="CheckForUpdatesMenuItem_Click"/>
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
