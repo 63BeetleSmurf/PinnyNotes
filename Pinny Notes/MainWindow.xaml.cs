@@ -506,7 +506,7 @@ namespace Pinny_Notes
         private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (Properties.Settings.Default.AutoCopy && NoteTextBox.SelectionLength > 0)
-                Clipboard.SetText(NoteTextBox.SelectedText.Trim());
+                NoteTextBox_Copy();
         }
 
         private void NoteTextBox_DragOver(object sender, DragEventArgs e)
