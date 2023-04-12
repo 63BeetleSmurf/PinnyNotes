@@ -126,7 +126,7 @@ namespace Pinny_Notes
             SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
             NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
             NewLineMenuItem.IsChecked = Properties.Settings.Default.NewLine;
-            DisableUpdateCheckMenuItem.IsChecked = Properties.Settings.Default.DisableUpdateCheck;
+            CheckForUpdatesMenuItem.IsChecked = Properties.Settings.Default.CheckForUpdates;
             ColourCycleMenuItem.IsChecked = Properties.Settings.Default.CycleColours;
             SetColour(parentColour: parentColour);
             if (parentGravity == null)
@@ -268,7 +268,7 @@ namespace Pinny_Notes
         {
             DateTime lastUpdateCheck = Properties.Settings.Default.LastUpdateCheck;
             if (
-                Properties.Settings.Default.DisableUpdateCheck
+                Properties.Settings.Default.CheckForUpdates
                 || DateTime.Now.Subtract(lastUpdateCheck).Days < 7
             )
                 return;
@@ -473,9 +473,9 @@ namespace Pinny_Notes
                 NoteTextBox_TextChanged(sender, e);
         }
 
-        private void DisableUpdateCheckMenuItem_Click(object sender, RoutedEventArgs e)
+        private void CheckForUpdatesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.DisableUpdateCheck = DisableUpdateCheckMenuItem.IsChecked;
+            Properties.Settings.Default.CheckForUpdates = CheckForUpdatesMenuItem.IsChecked;
             Properties.Settings.Default.Save();
         }
 
