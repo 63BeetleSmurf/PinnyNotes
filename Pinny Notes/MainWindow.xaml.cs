@@ -529,6 +529,38 @@ namespace Pinny_Notes
             }
         }
 
+        private void NoteTextBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Triple click to select line, quadruple click to select entire wrapped line
+            if (e.ClickCount >= 3)
+            {
+                TextBox textBox = (TextBox)sender;
+                int lineIndex = textBox.GetLineIndexFromCharacterIndex(textBox.CaretIndex);
+                int lineLength = textBox.GetLineLength(lineIndex);
+
+                // Don't select new line char(s)
+                if (textBox.GetLineText(lineIndex).EndsWith("\r\n"))
+                    lineLength -= 2;
+                // If no following new line and not the last row, line must be wrapped.
+                else if (e.ClickCount == 4 && lineIndex < textBox.LineCount - 1)
+                {
+                    // Expand length until new line or last line found
+                    int nextLineIndex = lineIndex;
+                    do
+                    {
+                        nextLineIndex++;
+                        lineLength += textBox.GetLineLength(nextLineIndex);
+                    } while (!textBox.GetLineText(nextLineIndex).EndsWith("\r\n") && nextLineIndex < textBox.LineCount - 1);
+                    // Don't select new line char(s)
+                    if (textBox.GetLineText(nextLineIndex).EndsWith("\r\n"))
+                        lineLength -= 2;
+                }
+
+                textBox.SelectionStart = textBox.GetCharacterIndexFromLineIndex(lineIndex);
+                textBox.SelectionLength = lineLength;
+            }
+        }
+
         public bool NoteTextBox_Copy()
         {
             string copiedText = NoteTextBox.SelectedText;
