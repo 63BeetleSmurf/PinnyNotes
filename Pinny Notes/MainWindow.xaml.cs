@@ -121,6 +121,8 @@ namespace Pinny_Notes
         private void LoadSettings(string? parentColour = null, Tuple<bool, bool>? parentGravity = null)
         {
             AutoCopyMenuItem.IsChecked = Properties.Settings.Default.AutoCopy;
+            TrimCopiedTextMenuItem.IsChecked = Properties.Settings.Default.TrimCopiedText;
+            TrimPastedTextMenuItem.IsChecked = Properties.Settings.Default.TrimPastedText;
             SpellCheckMenuItem.IsChecked = Properties.Settings.Default.SpellCheck;
             NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
             NewLineMenuItem.IsChecked = Properties.Settings.Default.NewLine;
@@ -442,6 +444,18 @@ namespace Pinny_Notes
             Properties.Settings.Default.Save();
         }
 
+        private void TrimCopiedTextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.TrimCopiedText = TrimCopiedTextMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void TrimPastedTextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.TrimPastedText = TrimPastedTextMenuItem.IsChecked;
+            Properties.Settings.Default.Save();
+        }
+
         private void SpellCheckMenuItem_Click(object sender, RoutedEventArgs e)
         {
             NoteTextBox.SpellCheck.IsEnabled = SpellCheckMenuItem.IsChecked;
@@ -517,13 +531,19 @@ namespace Pinny_Notes
 
         public bool NoteTextBox_Copy()
         {
-            Clipboard.SetDataObject(NoteTextBox.SelectedText);
+            string copiedText = NoteTextBox.SelectedText;
+            if (Properties.Settings.Default.TrimCopiedText)
+                copiedText = copiedText.Trim();
+            Clipboard.SetDataObject(copiedText);
             return true;
         }
 
         public bool NoteTextBox_Cut()
         {
-            Clipboard.SetDataObject(NoteTextBox.SelectedText);
+            string copiedText = NoteTextBox.SelectedText;
+            if (Properties.Settings.Default.TrimCopiedText)
+                copiedText = copiedText.Trim();
+            Clipboard.SetDataObject(copiedText);
             int selectionStart = NoteTextBox.SelectionStart;
             NoteTextBox.Text = NoteTextBox.Text.Substring(0, selectionStart) + NoteTextBox.Text.Substring(selectionStart + NoteTextBox.SelectionLength);
             NoteTextBox.CaretIndex = selectionStart;
@@ -536,6 +556,9 @@ namespace Pinny_Notes
             if (clipboardData.GetDataPresent(DataFormats.Text))
             {
                 string clipboardString = (String)clipboardData.GetData(DataFormats.Text);
+                if (Properties.Settings.Default.TrimPastedText)
+                    clipboardString = clipboardString.Trim();
+
                 if (NoteTextBox.SelectionLength == 0)
                 {
                     int caretIndex = NoteTextBox.CaretIndex;

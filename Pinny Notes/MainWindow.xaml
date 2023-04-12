@@ -67,7 +67,11 @@
                             <MenuItem Name="StartupPositionBottomRightMenuItem" Header="Bottom Right" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
                             <MenuItem Name="StartupPositionBottomLeftMenuItem" Header="Bottom Left" IsCheckable="True" Click="StartupPositionMenuItem_Click"/>
                         </MenuItem>
-                        <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
+                        <MenuItem Header="Copy &amp; Paste">
+                            <MenuItem Name="TrimCopiedTextMenuItem" Header="Trim Copied Text" IsCheckable="True" Click="TrimCopiedTextMenuItem_Click"/>
+                            <MenuItem Name="TrimPastedTextMenuItem" Header="Trim Pasted Text" IsCheckable="True" Click="TrimPastedTextMenuItem_Click"/>
+                            <MenuItem Name="AutoCopyMenuItem" Header="Auto Copy" IsCheckable="True" Click="AutoCopyMenuItem_Click"/>
+                        </MenuItem>
                         <MenuItem Name="SpellCheckMenuItem" Header="Spell Checker" IsCheckable="True" Click="SpellCheckMenuItem_Click"/>
                         <MenuItem Name="NewLineMenuItem" Header="New Line At End" IsCheckable="True" Click="NewLineMenuItem_Click"/>
                         <MenuItem Name="DisableUpdateCheckMenuItem" Header="Disable Update Check" IsCheckable="True" Click="DisableUpdateCheckMenuItem_Click"/>
