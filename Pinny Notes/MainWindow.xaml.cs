@@ -307,6 +307,19 @@ namespace Pinny_Notes
             return MessageBoxResult.Cancel;
         }
 
+        private void ApplyFunctionToNoteText(Func<string, string?, string> function, string? additional = null)
+        {
+            if (NoteTextBox.SelectionLength > 0)
+                NoteTextBox.SelectedText = function(NoteTextBox.SelectedText, additional);
+            else
+            {
+                string noteText = NoteTextBox.Text;
+                if (Properties.Settings.Default.NewLine && NoteTextBox.Text.EndsWith(Environment.NewLine))
+                    noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
+                NoteTextBox.Text = function(noteText, additional);
+            }
+        }
+
         private void ApplyFunctionToEachLine(Func<string, int, string?, string> function, string? additional = null)
         {
             string[] lines;
@@ -738,6 +751,14 @@ namespace Pinny_Notes
                             }
                         ),
                         CreateMenuItem(
+                            header: "Join",
+                            children: new List<object> {
+                                CreateMenuItem(header: "Comma", clickEventHandler: new RoutedEventHandler(JoinCommaMenuItem_Click)),
+                                CreateMenuItem(header: "Space", clickEventHandler: new RoutedEventHandler(JoinSpaceMenuItem_Click)),
+                                CreateMenuItem(header: "Tab", clickEventHandler: new RoutedEventHandler(JoinTabMenuItem_Click)),
+                            }
+                        ),
+                        CreateMenuItem(
                             header: "JSON",
                             children: new List<object> {
                                 CreateMenuItem(header: "Prettify", clickEventHandler: new RoutedEventHandler(JSONPrettifyMenuItem_Click)),
@@ -885,6 +906,34 @@ namespace Pinny_Notes
         private string IndentText(string line, int index, string indentString)
         {
             return indentString + line;
+        }
+
+        #endregion
+
+        #region Join
+
+#pragma warning disable CS8622
+
+        private void JoinCommaMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(JoinText, ",");
+        }
+
+        private void JoinSpaceMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(JoinText, " ");
+        }
+
+        private void JoinTabMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(JoinText, "\t");
+        }
+
+#pragma warning restore CS8622
+
+        private string JoinText(string text, string joinString)
+        {
+            return text.Replace(Environment.NewLine, joinString);
         }
 
         #endregion
