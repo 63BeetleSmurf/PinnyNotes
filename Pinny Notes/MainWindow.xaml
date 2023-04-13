@@ -81,6 +81,7 @@
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
             <TextBox AcceptsReturn="True"
+                AcceptsTab="True"
                 AllowDrop="True"
                 BorderThickness="0"
                 Background="Transparent"
