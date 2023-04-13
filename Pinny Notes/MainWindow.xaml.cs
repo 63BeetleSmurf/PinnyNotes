@@ -694,17 +694,17 @@ namespace Pinny_Notes
             menu.Items.Add(
                 CreateMenuItem(
                     header: "Tools",
-                    children: new List<MenuItem> {
+                    children: new List<object> {
                         CreateMenuItem(
                             header: "Base64",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "Encode", clickEventHandler: new RoutedEventHandler(Base64EncodeMenuItem_Click)),
                                 CreateMenuItem(header: "Decode", clickEventHandler: new RoutedEventHandler(Base64DecodeMenuItem_Click)),
                             }
                         ),
                         CreateMenuItem(
                             header: "Case",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "Lower", clickEventHandler: new RoutedEventHandler(CaseLowerMenuItem_Click)),
                                 CreateMenuItem(header: "Upper", clickEventHandler: new RoutedEventHandler(CaseUpperMenuItem_Click)),
                                 CreateMenuItem(header: "Proper", clickEventHandler: new RoutedEventHandler(CaseProperMenuItem_Click)),
@@ -712,7 +712,7 @@ namespace Pinny_Notes
                         ),
                         CreateMenuItem(
                             header: "Hash",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "SHA512", clickEventHandler: new RoutedEventHandler(HashSHA512MenuItem_Click)),
                                 CreateMenuItem(header: "SHA384", clickEventHandler: new RoutedEventHandler(HashSHA384MenuItem_Click)),
                                 CreateMenuItem(header: "SHA256", clickEventHandler: new RoutedEventHandler(HashSHA256MenuItem_Click)),
@@ -722,14 +722,14 @@ namespace Pinny_Notes
                         ),
                         CreateMenuItem(
                             header: "HTML Entity",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "Encode", clickEventHandler: new RoutedEventHandler(HTMLEntityEncodeMenuItem_Click)),
                                 CreateMenuItem(header: "Decode", clickEventHandler: new RoutedEventHandler(HTMLEntityDecodeMenuItem_Click)),
                             }
                         ),
                         CreateMenuItem(
                             header: "Indent",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "2 Spaces", clickEventHandler: new RoutedEventHandler(Indent2SpacesMenuItem_Click)),
                                 CreateMenuItem(header: "4 Spaces", clickEventHandler: new RoutedEventHandler(Indent4SpacesMenuItem_Click)),
                                 CreateMenuItem(header: "Tab", clickEventHandler: new RoutedEventHandler(IndentTabMenuItem_Click)),
@@ -737,13 +737,13 @@ namespace Pinny_Notes
                         ),
                         CreateMenuItem(
                             header: "JSON",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "Prettify", clickEventHandler: new RoutedEventHandler(JSONPrettifyMenuItem_Click)),
                             }
                         ),
                         CreateMenuItem(
                             header: "List",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "Enumerate", clickEventHandler: new RoutedEventHandler(ListEnumerateMenuItem_Click)),
                                 CreateMenuItem(header: "Sort Asc.", clickEventHandler: new RoutedEventHandler(ListSortAscMenuItem_Click)),
                                 CreateMenuItem(header: "Sort Des.", clickEventHandler: new RoutedEventHandler(ListSortDecMenuItem_Click)),
@@ -751,7 +751,7 @@ namespace Pinny_Notes
                         ),
                         CreateMenuItem(
                             header: "Trim",
-                            children: new List<MenuItem> {
+                            children: new List<object> {
                                 CreateMenuItem(header: "Start", clickEventHandler: new RoutedEventHandler(TrimStartMenuItem_Click)),
                                 CreateMenuItem(header: "End", clickEventHandler: new RoutedEventHandler(TrimEndMenuItem_Click)),
                                 CreateMenuItem(header: "Both", clickEventHandler: new RoutedEventHandler(TrimBothMenuItem_Click)),
@@ -765,7 +765,7 @@ namespace Pinny_Notes
         }
 
         private MenuItem CreateMenuItem(string header, bool headerBold = false, bool enabled = true,
-            RoutedEventHandler? clickEventHandler = null, List<MenuItem>? children = null,
+            RoutedEventHandler? clickEventHandler = null, List<object>? children = null,
             ICommand? command = null, object? commandParameter = null, IInputElement? commandTarget = null,
             string? inputGestureText = null
             )
@@ -780,7 +780,7 @@ namespace Pinny_Notes
                 menuItem.Click += clickEventHandler;
             
             if (children != null)
-                foreach (MenuItem child in children)
+                foreach (object child in children)
                     menuItem.Items.Add(child);
 
             if (!enabled)
