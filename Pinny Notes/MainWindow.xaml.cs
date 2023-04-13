@@ -16,6 +16,8 @@ using System.Windows.Controls;
 using System.Net;
 using System.Windows.Documents;
 using System.Globalization;
+using System.Diagnostics.Eventing.Reader;
+using System.Runtime.Intrinsics.Arm;
 
 namespace Pinny_Notes
 {
@@ -314,6 +316,7 @@ namespace Pinny_Notes
             else
             {
                 string noteText = NoteTextBox.Text;
+                // Ignore trailing new line if it was automatically added
                 if (Properties.Settings.Default.NewLine && NoteTextBox.Text.EndsWith(Environment.NewLine))
                     noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
                 NoteTextBox.Text = function(noteText, additional);
@@ -329,7 +332,11 @@ namespace Pinny_Notes
             else
                 lines = NoteTextBox.Text.Split(Environment.NewLine);
 
-            for (int i = 0; i < lines.Length; i++)
+            int lineCount = lines.Length;
+            // Ignore trailing new line if it was automatically added
+            if (Properties.Settings.Default.NewLine && lines[lineCount - 1] == "")
+                lineCount--;
+            for (int i = 0; i < lineCount; i++)
                 lines[i] = function(lines[i], i, additional);
 
             if (NoteTextBox.SelectionLength > 0)
@@ -1026,21 +1033,21 @@ namespace Pinny_Notes
 
         private void ListSortAscMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            SortNoteText();
+            ApplyFunctionToNoteText(SortNoteText);
         }
 
         private void ListSortDecMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            SortNoteText(true);
+            ApplyFunctionToNoteText(SortNoteText, "rev");
         }
 
-        private void SortNoteText(bool reverse = false)
+        private string SortNoteText(string text, string? reverse = null)
         {
-            string[] lines = NoteTextBox.Text.Split(Environment.NewLine);
+            string[] lines = text.Split(Environment.NewLine);
             Array.Sort(lines);
-            if (reverse)
+            if (reverse == "rev")
                 Array.Reverse(lines);
-            NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+            return string.Join(Environment.NewLine, lines);
         }
 
         #endregion
@@ -1049,16 +1056,21 @@ namespace Pinny_Notes
 
         private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            ApplyFunctionToNoteText(JSONPrettifyText);
+        }
+
+        private string JSONPrettifyText(string text, string? additional = null)
+        {
             try
             {
-                NoteTextBox.Text = JsonConvert.SerializeObject(
-                    JsonConvert.DeserializeObject(NoteTextBox.Text),
+                return JsonConvert.SerializeObject(
+                    JsonConvert.DeserializeObject(text),
                     Formatting.Indented
                 );
             }
             catch
             {
-                return;
+                return text;
             }
         }
 
@@ -1066,84 +1078,118 @@ namespace Pinny_Notes
 
         #region HTML Entity
 
+#pragma warning disable CS8622
+
         private void HTMLEntityEncodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            NoteTextBox.Text = WebUtility.HtmlEncode(NoteTextBox.Text);
+            ApplyFunctionToNoteText(HTMLEntityEncodeText);
         }
 
         private void HTMLEntityDecodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            NoteTextBox.Text = WebUtility.HtmlDecode(NoteTextBox.Text);
+            ApplyFunctionToNoteText(HTMLEntityDecodeText);
+        }
+
+#pragma warning restore CS8622
+
+        private string HTMLEntityEncodeText(string text, string? additional = null)
+        {
+            return WebUtility.HtmlEncode(text);
+        }
+        private string HTMLEntityDecodeText(string text, string? additional = null)
+        {
+            return WebUtility.HtmlDecode(text);
         }
 
         #endregion
 
         #region Hash
 
+#pragma warning disable CS8622
+
         private void HashSHA512MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            using (SHA512 sha512 = SHA512.Create())
-            {
-                NoteTextBox.Text = BitConverter.ToString(
-                    sha512.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-                ).Replace("-", "");
-            }
+            ApplyFunctionToNoteText(HashText, "sha512");
         }
 
         private void HashSHA384MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            using (SHA384 sha384 = SHA384.Create())
-            {
-                NoteTextBox.Text = BitConverter.ToString(
-                    sha384.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-                ).Replace("-", "");
-            }
+            ApplyFunctionToNoteText(HashText, "sha384");
         }
 
         private void HashSHA256MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                NoteTextBox.Text = BitConverter.ToString(
-                    sha256.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-                ).Replace("-", "");
-            }
+            ApplyFunctionToNoteText(HashText, "sha256");
         }
 
         private void HashSHA1MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            using (SHA1 sha1 = SHA1.Create())
-            {
-                NoteTextBox.Text = BitConverter.ToString(
-                    sha1.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-                ).Replace("-", "");
-            }
+            ApplyFunctionToNoteText(HashText, "sha1");
         }
 
         private void HashMD5MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            using (MD5 md5 = MD5.Create())
+            ApplyFunctionToNoteText(HashText, "md5");
+        }
+
+#pragma warning restore CS8622
+
+        private string HashText(string text, string algorithm)
+        {
+            HashAlgorithm hasher;
+            switch (algorithm)
             {
-                NoteTextBox.Text = BitConverter.ToString(
-                    md5.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-                ).Replace("-", "");
+                case "sha512":
+                    hasher = SHA512.Create();
+                    break;
+                case "sha384":
+                    hasher = SHA384.Create();
+                    break;
+                case "sha256":
+                    hasher = SHA256.Create();
+                    break;
+                case "sha1":
+                    hasher = SHA1.Create();
+                    break;
+                case "md5":
+                    hasher = MD5.Create();
+                    break;
+                default:
+                    return text;
             }
+            return BitConverter.ToString(
+                hasher.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+            ).Replace("-", "");
         }
 
         #endregion
 
         #region Base64
 
+#pragma warning disable CS8622
+
         private void Base64EncodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(NoteTextBox.Text);
-            NoteTextBox.Text = System.Convert.ToBase64String(textBytes);
+            ApplyFunctionToNoteText(Base64EncodeText);
         }
 
         private void Base64DecodeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            byte[] base64Bytes = System.Convert.FromBase64String(NoteTextBox.Text);
-            NoteTextBox.Text = System.Text.Encoding.UTF8.GetString(base64Bytes);
+            ApplyFunctionToNoteText(Base64DecodeText);
+        }
+
+#pragma warning restore CS8622
+
+        private string Base64EncodeText(string text, string? additional = null)
+        {
+            byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes);
+        }
+
+        private string Base64DecodeText(string text, string? additional = null)
+        {
+            byte[] base64Bytes = System.Convert.FromBase64String(text);
+            return System.Text.Encoding.UTF8.GetString(base64Bytes);
         }
 
         #endregion
