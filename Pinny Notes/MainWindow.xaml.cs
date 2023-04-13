@@ -318,7 +318,8 @@ namespace Pinny_Notes
                 if (Properties.Settings.Default.NewLine && NoteTextBox.Text.EndsWith(Environment.NewLine))
                     noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
                 NoteTextBox.Text = function(noteText, additional);
-                NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
+                if (NoteTextBox.Text.Length > 0)
+                    NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
             }
         }
 
@@ -343,7 +344,8 @@ namespace Pinny_Notes
             else
             {
                 NoteTextBox.Text = string.Join(Environment.NewLine, lines);
-                NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
+                if (NoteTextBox.Text.Length > 0)
+                    NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
             }
         }
 
