@@ -750,6 +750,16 @@ namespace Pinny_Notes
                             }
                         ),
                         CreateMenuItem(
+                            header: "Split",
+                            children: new List<object> {
+                                CreateMenuItem(header: "Comma", clickEventHandler: new RoutedEventHandler(SplitCommaMenuItem_Click)),
+                                CreateMenuItem(header: "Space", clickEventHandler: new RoutedEventHandler(SplitSpaceMenuItem_Click)),
+                                CreateMenuItem(header: "Tab", clickEventHandler: new RoutedEventHandler(SplitTabMenuItem_Click)),
+                                new Separator(),
+                                CreateMenuItem(header: "Selected", clickEventHandler: new RoutedEventHandler(SplitSelectedMenuItem_Click), enabled: (NoteTextBox.SelectionLength > 0)),
+                            }
+                        ),
+                        CreateMenuItem(
                             header: "Trim",
                             children: new List<object> {
                                 CreateMenuItem(header: "Start", clickEventHandler: new RoutedEventHandler(TrimStartMenuItem_Click)),
@@ -873,6 +883,41 @@ namespace Pinny_Notes
         private string IndentText(string line, int index, string indentString)
         {
             return indentString + line;
+        }
+
+        #endregion
+
+        #region Split
+
+#pragma warning disable CS8622
+
+        private void SplitCommaMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(SplitText, ",");
+        }
+
+        private void SplitSpaceMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(SplitText, " ");
+        }
+
+        private void SplitTabMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(SplitText, "\t");
+        }
+
+        private void SplitSelectedMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string splitString = NoteTextBox.SelectedText;
+            NoteTextBox.SelectionLength = 0;
+            ApplyFunctionToEachLine(SplitText, splitString);
+        }
+
+#pragma warning restore CS8622
+
+        private string SplitText(string line, int index, string splitString)
+        {
+            return line.Replace(splitString, "\r\n");
         }
 
         #endregion
