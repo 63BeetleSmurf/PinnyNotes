@@ -53,6 +53,7 @@ namespace Pinny_Notes
 
         string? NOTE_COLOUR = null;
         Tuple<bool, bool>? NOTE_GRAVITY = null;
+        bool NOTE_SAVED = false;
 
         CustomCommand COPY_COMMAND = new();
         CustomCommand CUT_COMMAND = new();
@@ -300,6 +301,7 @@ namespace Pinny_Notes
             if (saveFileDialog.ShowDialog(this) == true)
             {
                 File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
+                NOTE_SAVED = true;
                 return MessageBoxResult.OK;
             }
             return MessageBoxResult.Cancel;
@@ -348,7 +350,7 @@ namespace Pinny_Notes
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (NoteTextBox.Text != "")
+            if (!NOTE_SAVED && NoteTextBox.Text != "")
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show(
                     this,
@@ -367,7 +369,6 @@ namespace Pinny_Notes
             }
             Close();
         }
-
 
         #region ContextMenu
 
@@ -490,6 +491,7 @@ namespace Pinny_Notes
 
         private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
+            NOTE_SAVED = false;
             if (Properties.Settings.Default.NewLine && NoteTextBox.Text != "" && !NoteTextBox.Text.EndsWith(Environment.NewLine))
             {
                 // Preserving selection when adding new line
