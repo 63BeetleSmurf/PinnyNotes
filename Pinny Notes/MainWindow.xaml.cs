@@ -16,8 +16,6 @@ using System.Windows.Controls;
 using System.Net;
 using System.Windows.Documents;
 using System.Globalization;
-using System.Diagnostics.Eventing.Reader;
-using System.Runtime.Intrinsics.Arm;
 
 namespace Pinny_Notes
 {
@@ -858,6 +856,36 @@ namespace Pinny_Notes
 
         #endregion
 
+        #region Base64
+
+#pragma warning disable CS8622
+
+        private void Base64EncodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(Base64EncodeText);
+        }
+
+        private void Base64DecodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(Base64DecodeText);
+        }
+
+#pragma warning restore CS8622
+
+        private string Base64EncodeText(string text, string? additional = null)
+        {
+            byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes);
+        }
+
+        private string Base64DecodeText(string text, string? additional = null)
+        {
+            byte[] base64Bytes = System.Convert.FromBase64String(text);
+            return System.Text.Encoding.UTF8.GetString(base64Bytes);
+        }
+
+        #endregion
+
         #region Case
 
 #pragma warning disable CS8622
@@ -891,6 +919,94 @@ namespace Pinny_Notes
                 default:
                     return textInfo.ToLower(line);
             }
+        }
+
+        #endregion
+
+        #region Hash
+
+#pragma warning disable CS8622
+
+        private void HashSHA512MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HashText, "sha512");
+        }
+
+        private void HashSHA384MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HashText, "sha384");
+        }
+
+        private void HashSHA256MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HashText, "sha256");
+        }
+
+        private void HashSHA1MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HashText, "sha1");
+        }
+
+        private void HashMD5MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HashText, "md5");
+        }
+
+#pragma warning restore CS8622
+
+        private string HashText(string text, string algorithm)
+        {
+            HashAlgorithm hasher;
+            switch (algorithm)
+            {
+                case "sha512":
+                    hasher = SHA512.Create();
+                    break;
+                case "sha384":
+                    hasher = SHA384.Create();
+                    break;
+                case "sha256":
+                    hasher = SHA256.Create();
+                    break;
+                case "sha1":
+                    hasher = SHA1.Create();
+                    break;
+                case "md5":
+                    hasher = MD5.Create();
+                    break;
+                default:
+                    return text;
+            }
+            return BitConverter.ToString(
+                hasher.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
+            ).Replace("-", "");
+        }
+
+        #endregion
+
+        #region HTML Entity
+
+#pragma warning disable CS8622
+
+        private void HTMLEntityEncodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HTMLEntityEncodeText);
+        }
+
+        private void HTMLEntityDecodeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(HTMLEntityDecodeText);
+        }
+
+#pragma warning restore CS8622
+
+        private string HTMLEntityEncodeText(string text, string? additional = null)
+        {
+            return WebUtility.HtmlEncode(text);
+        }
+        private string HTMLEntityDecodeText(string text, string? additional = null)
+        {
+            return WebUtility.HtmlDecode(text);
         }
 
         #endregion
@@ -945,6 +1061,63 @@ namespace Pinny_Notes
         private string JoinText(string text, string joinString)
         {
             return text.Replace(Environment.NewLine, joinString);
+        }
+
+        #endregion
+
+        #region JSON
+
+        private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(JSONPrettifyText);
+        }
+
+        private string JSONPrettifyText(string text, string? additional = null)
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(
+                    JsonConvert.DeserializeObject(text),
+                    Formatting.Indented
+                );
+            }
+            catch
+            {
+                return text;
+            }
+        }
+
+        #endregion
+
+        #region List
+
+        private void ListEnumerateMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(EnumerateLine);
+        }
+
+        private string EnumerateLine(string line, int index, string? additional)
+        {
+            return (index + 1).ToString() + ". " + line;
+        }
+
+        private void ListSortAscMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(SortNoteText);
+        }
+
+        private void ListSortDecMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToNoteText(SortNoteText, "rev");
+        }
+
+        private string SortNoteText(string text, string? reverse = null)
+        {
+            string[] lines = text.Split(Environment.NewLine);
+            Array.Sort(lines);
+            if (reverse == "rev")
+                Array.Reverse(lines);
+            return string.Join(Environment.NewLine, lines);
         }
 
         #endregion
@@ -1019,181 +1192,6 @@ namespace Pinny_Notes
                     return line;
 
             }
-        }
-
-        #endregion
-
-        #region List
-
-        private void ListEnumerateMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToEachLine(EnumerateLine);
-        }
-
-        private string EnumerateLine(string line, int index, string? additional)
-        {
-            return (index + 1).ToString() + ". " + line;
-        }
-
-        private void ListSortAscMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(SortNoteText);
-        }
-
-        private void ListSortDecMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(SortNoteText, "rev");
-        }
-
-        private string SortNoteText(string text, string? reverse = null)
-        {
-            string[] lines = text.Split(Environment.NewLine);
-            Array.Sort(lines);
-            if (reverse == "rev")
-                Array.Reverse(lines);
-            return string.Join(Environment.NewLine, lines);
-        }
-
-        #endregion
-
-        #region JSON
-
-        private void JSONPrettifyMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(JSONPrettifyText);
-        }
-
-        private string JSONPrettifyText(string text, string? additional = null)
-        {
-            try
-            {
-                return JsonConvert.SerializeObject(
-                    JsonConvert.DeserializeObject(text),
-                    Formatting.Indented
-                );
-            }
-            catch
-            {
-                return text;
-            }
-        }
-
-        #endregion
-
-        #region HTML Entity
-
-#pragma warning disable CS8622
-
-        private void HTMLEntityEncodeMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HTMLEntityEncodeText);
-        }
-
-        private void HTMLEntityDecodeMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HTMLEntityDecodeText);
-        }
-
-#pragma warning restore CS8622
-
-        private string HTMLEntityEncodeText(string text, string? additional = null)
-        {
-            return WebUtility.HtmlEncode(text);
-        }
-        private string HTMLEntityDecodeText(string text, string? additional = null)
-        {
-            return WebUtility.HtmlDecode(text);
-        }
-
-        #endregion
-
-        #region Hash
-
-#pragma warning disable CS8622
-
-        private void HashSHA512MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HashText, "sha512");
-        }
-
-        private void HashSHA384MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HashText, "sha384");
-        }
-
-        private void HashSHA256MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HashText, "sha256");
-        }
-
-        private void HashSHA1MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HashText, "sha1");
-        }
-
-        private void HashMD5MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(HashText, "md5");
-        }
-
-#pragma warning restore CS8622
-
-        private string HashText(string text, string algorithm)
-        {
-            HashAlgorithm hasher;
-            switch (algorithm)
-            {
-                case "sha512":
-                    hasher = SHA512.Create();
-                    break;
-                case "sha384":
-                    hasher = SHA384.Create();
-                    break;
-                case "sha256":
-                    hasher = SHA256.Create();
-                    break;
-                case "sha1":
-                    hasher = SHA1.Create();
-                    break;
-                case "md5":
-                    hasher = MD5.Create();
-                    break;
-                default:
-                    return text;
-            }
-            return BitConverter.ToString(
-                hasher.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-            ).Replace("-", "");
-        }
-
-        #endregion
-
-        #region Base64
-
-#pragma warning disable CS8622
-
-        private void Base64EncodeMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(Base64EncodeText);
-        }
-
-        private void Base64DecodeMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ApplyFunctionToNoteText(Base64DecodeText);
-        }
-
-#pragma warning restore CS8622
-
-        private string Base64EncodeText(string text, string? additional = null)
-        {
-            byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textBytes);
-        }
-
-        private string Base64DecodeText(string text, string? additional = null)
-        {
-            byte[] base64Bytes = System.Convert.FromBase64String(text);
-            return System.Text.Encoding.UTF8.GetString(base64Bytes);
         }
 
         #endregion
