@@ -541,7 +541,7 @@ namespace Pinny_Notes
                 int lineLength = textBox.GetLineLength(lineIndex);
 
                 // Don't select new line char(s)
-                if (textBox.GetLineText(lineIndex).EndsWith("\r\n"))
+                if (textBox.GetLineText(lineIndex).EndsWith(Environment.NewLine))
                     lineLength -= 2;
                 // If no following new line and not the last row, line must be wrapped.
                 else if (e.ClickCount == 4 && lineIndex < textBox.LineCount - 1)
@@ -552,9 +552,9 @@ namespace Pinny_Notes
                     {
                         nextLineIndex++;
                         lineLength += textBox.GetLineLength(nextLineIndex);
-                    } while (!textBox.GetLineText(nextLineIndex).EndsWith("\r\n") && nextLineIndex < textBox.LineCount - 1);
+                    } while (!textBox.GetLineText(nextLineIndex).EndsWith(Environment.NewLine) && nextLineIndex < textBox.LineCount - 1);
                     // Don't select new line char(s)
-                    if (textBox.GetLineText(nextLineIndex).EndsWith("\r\n"))
+                    if (textBox.GetLineText(nextLineIndex).EndsWith(Environment.NewLine))
                         lineLength -= 2;
                 }
 
@@ -919,7 +919,7 @@ namespace Pinny_Notes
 
         private string SplitText(string line, int index, string splitString)
         {
-            return line.Replace(splitString, "\r\n");
+            return line.Replace(splitString, Environment.NewLine);
         }
 
         #endregion
