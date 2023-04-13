@@ -320,6 +320,7 @@ namespace Pinny_Notes
                 if (Properties.Settings.Default.NewLine && NoteTextBox.Text.EndsWith(Environment.NewLine))
                     noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
                 NoteTextBox.Text = function(noteText, additional);
+                NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
             }
         }
 
@@ -342,7 +343,10 @@ namespace Pinny_Notes
             if (NoteTextBox.SelectionLength > 0)
                 NoteTextBox.SelectedText = string.Join(Environment.NewLine, lines);
             else
+            {
                 NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+                NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
+            }
         }
 
         #endregion
