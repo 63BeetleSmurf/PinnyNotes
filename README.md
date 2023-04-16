@@ -8,6 +8,7 @@
 - Copy/Paste Trim: Option to automatically trim text being coped from or pasted into a note.
 - Auto Copy: Option to automatically copy text when highlighted.
 - Ends with new line: Option to ensure text always ends with a new line.
+- Full line select: Triple click to select a line, quadruple click to select full line ignoring wrapping.
 - Spell checking.
 - Tools;
   - Base64: Encode and decode to and from Base64.
