@@ -11,12 +11,12 @@
 - Spell checking.
 - Tools;
   - Base64: Encode and decode to and from Base64.
-  - Case
+  - Case: Change text case to lower, upper or proper.
   - Hash: Generate SHA512/384/256, SHA1 and MD5 hashes.
   - HTML Entities: Encode and decode.
   - Indent: Indent all lines by 2 or 4 spaces, or a tab.
-  - Join
+  - Join: Join multiple lines into one separated by a comma, space or tab.
   - JSON: Prettify JSON.
   - List: Enumerate and sort ascending or descending.
-  - Split
+  - Split: Split a lines into multiple line by a comma, space, tab or highlighted text.
   - Trim: Trim whitespace from start or/and end of each line.
