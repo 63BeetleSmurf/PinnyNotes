@@ -4,17 +4,19 @@
 ## Features
 - Pin / Always on Top: Easily accessible pin button allowing you keep a note above all other windows.
 - Colours: Select from multiple colours or cycle to have each note be a different colour.
-- Additional tools;
-  - Indent: Indent all lines by 2 or 4 spaces, or a tab.
-  - Trim: Trim whitespace from start or/and end of each line.
-  - List: Enumerate and sort ascending or descending.
-  - JSON: Prettify JSON.
-  - HTML Entities: Encode and decode.
-  - Hash: Generate SHA512/384/256, SHA1 and MD5 hashes.
+- Start Position: Choose which corner of the screen to start your notes in.
+- Copy/Paste Trim: Option to automatically trim text being coped from or pasted into a note.
+- Auto Copy: Option to automatically copy text when highlighted.
+- Ends with new line: Option to ensure text always ends with a new line.
+- Spell checking.
+- Tools;
   - Base64: Encode and decode to and from Base64.
-- Settings;
-  - Start Position: Choose which corner of the screen to start your notes in.
-  - Auto Copy: Option to automatically copy text when highlighted.
-  - Spell check.
-  - Always ensure text ends with new line. Handy when pasting multiple items in to make a list.
-  - Weekly check for new releases.
+  - Case
+  - Hash: Generate SHA512/384/256, SHA1 and MD5 hashes.
+  - HTML Entities: Encode and decode.
+  - Indent: Indent all lines by 2 or 4 spaces, or a tab.
+  - Join
+  - JSON: Prettify JSON.
+  - List: Enumerate and sort ascending or descending.
+  - Split
+  - Trim: Trim whitespace from start or/and end of each line.
