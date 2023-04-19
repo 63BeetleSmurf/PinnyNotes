@@ -21,3 +21,13 @@
   - List: Enumerate and sort ascending or descending.
   - Split: Split a lines into multiple line by a comma, space, tab or highlighted text.
   - Trim: Trim whitespace from start or/and end of each line.
+
+## Installation
+
+### Windows
+
+Simply download the [latest release](https://github.com/63BeetleSmurf/pinny_notes/releases) and run the installer.
+
+### Linux
+
+Installation on Linux may be possible via [WINE](https://www.winehq.org/), but that has not been tested and not yet officially supported.
