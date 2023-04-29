@@ -803,6 +803,9 @@ namespace Pinny_Notes
                             header: "List",
                             children: new List<object> {
                                 CreateMenuItem(header: "Enumerate", clickEventHandler: new RoutedEventHandler(ListEnumerateMenuItem_Click)),
+                                CreateMenuItem(header: "Dash", clickEventHandler: new RoutedEventHandler(ListDashMenuItem_Click)),
+                                CreateMenuItem(header: "Remove", clickEventHandler: new RoutedEventHandler(ListRemoveMenuItem_Click)),
+                                new Separator(),
                                 CreateMenuItem(header: "Sort Asc.", clickEventHandler: new RoutedEventHandler(ListSortAscMenuItem_Click)),
                                 CreateMenuItem(header: "Sort Des.", clickEventHandler: new RoutedEventHandler(ListSortDecMenuItem_Click)),
                             }
@@ -1125,6 +1128,23 @@ namespace Pinny_Notes
         private string EnumerateLine(string line, int index, string? additional)
         {
             return (index + 1).ToString() + ". " + line;
+        }
+
+#pragma warning disable CS8622
+        private void ListDashMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(IndentText, "- ");
+        }
+#pragma warning restore CS8622
+
+        private void ListRemoveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(RemoveFirstWordInLine);
+        }
+
+        private string RemoveFirstWordInLine(string line, int index, string? additional)
+        {
+            return line.Substring(line.IndexOf(" ") + 1);
         }
 
         private void ListSortAscMenuItem_Click(object sender, RoutedEventArgs e)
