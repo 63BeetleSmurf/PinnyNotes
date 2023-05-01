@@ -324,9 +324,10 @@ namespace Pinny_Notes
             }
         }
 
-        private void ApplyFunctionToEachLine(Func<string, int, string?, string> function, string? additional = null)
+        private void ApplyFunctionToEachLine(Func<string, int, string?, string?> function, string? additional = null)
         {
             string[] lines;
+            List<string> newLines = new();
 
             if (NoteTextBox.SelectionLength > 0)
                 lines = NoteTextBox.SelectedText.Split(Environment.NewLine);
@@ -338,13 +339,17 @@ namespace Pinny_Notes
             if (Properties.Settings.Default.NewLine && lines[lineCount - 1] == "")
                 lineCount--;
             for (int i = 0; i < lineCount; i++)
-                lines[i] = function(lines[i], i, additional);
+            {
+                string? line = function(lines[i], i, additional);
+                if (line != null)
+                    newLines.Add(line);
+            }
 
             if (NoteTextBox.SelectionLength > 0)
-                NoteTextBox.SelectedText = string.Join(Environment.NewLine, lines);
+                NoteTextBox.SelectedText = string.Join(Environment.NewLine, newLines);
             else
             {
-                NoteTextBox.Text = string.Join(Environment.NewLine, lines);
+                NoteTextBox.Text = string.Join(Environment.NewLine, newLines);
                 if (NoteTextBox.Text.Length > 0)
                     NoteTextBox.CaretIndex = NoteTextBox.Text.Length - 1;
             }
@@ -826,6 +831,7 @@ namespace Pinny_Notes
                                 CreateMenuItem(header: "Start", clickEventHandler: new RoutedEventHandler(TrimStartMenuItem_Click)),
                                 CreateMenuItem(header: "End", clickEventHandler: new RoutedEventHandler(TrimEndMenuItem_Click)),
                                 CreateMenuItem(header: "Both", clickEventHandler: new RoutedEventHandler(TrimBothMenuItem_Click)),
+                                CreateMenuItem(header: "Empty Lines", clickEventHandler: new RoutedEventHandler(TrimEmptyLinesMenuItem_Click)),
                             }
                         ),
                     }
@@ -1222,9 +1228,14 @@ namespace Pinny_Notes
             ApplyFunctionToEachLine(TrimText, "Both");
         }
 
+        private void TrimEmptyLinesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(TrimText, "Lines");
+        }
+
 #pragma warning restore CS8622
 
-        private string TrimText(string line, int index, string trimType)
+        private string? TrimText(string line, int index, string trimType)
         {
             switch (trimType)
             {
@@ -1234,6 +1245,11 @@ namespace Pinny_Notes
                     return line.TrimEnd();
                 case "Both":
                     return line.Trim();
+                case "Lines":
+                    if (string.IsNullOrEmpty(line))
+                        return null;
+                    else
+                        return line;
                 default:
                     return line;
 
