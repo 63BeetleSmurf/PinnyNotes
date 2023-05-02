@@ -859,6 +859,13 @@ namespace Pinny_Notes
                             }
                         ),
                         CreateMenuItem(
+                            header: "Quote",
+                            children: new List<object> {
+                                CreateMenuItem(header: "Double", clickEventHandler: new RoutedEventHandler(QuoteDoubleMenuItem_Click)),
+                                CreateMenuItem(header: "Single", clickEventHandler: new RoutedEventHandler(QuoteSingleMenuItem_Click)),
+                            }
+                        ),
+                        CreateMenuItem(
                             header: "Split",
                             children: new List<object> {
                                 CreateMenuItem(header: "Comma", clickEventHandler: new RoutedEventHandler(SplitCommaMenuItem_Click)),
@@ -1213,6 +1220,29 @@ namespace Pinny_Notes
             if (reverse == "rev")
                 Array.Reverse(lines);
             return string.Join(Environment.NewLine, lines);
+        }
+
+        #endregion
+
+        #region Split
+
+#pragma warning disable CS8622
+
+        private void QuoteDoubleMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(QuoteText, "\"");
+        }
+
+        private void QuoteSingleMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyFunctionToEachLine(QuoteText, "'");
+        }
+
+#pragma warning restore CS8622
+
+        private string QuoteText(string line, int index, string additional)
+        {
+            return additional + line + additional;
         }
 
         #endregion
