@@ -791,6 +791,28 @@ namespace Pinny_Notes
 
             menu.Items.Add(
                 CreateMenuItem(
+                    header: "Counts",
+                    children: new List<object> {
+                        CreateMenuItem(
+                            header: "Lines: " + GetLineCount().ToString(),
+                            enabled: false
+                        ),
+                        CreateMenuItem(
+                            header: "Words: " + GetWordCount().ToString(),
+                            enabled: false
+                        ),
+                        CreateMenuItem(
+                            header: "Chars: " + GetCharCount().ToString(),
+                            enabled: false
+                        )
+                    }
+                )
+            );
+
+            menu.Items.Add(new Separator());
+
+            menu.Items.Add(
+                CreateMenuItem(
                     header: "Tools",
                     children: new List<object> {
                         CreateMenuItem(
@@ -924,6 +946,50 @@ namespace Pinny_Notes
                 menuItem.InputGestureText = inputGestureText;
 
             return menuItem;
+        }
+
+        private int GetLineCount()
+        {
+            int count = 0;
+            if (NoteTextBox.SelectionLength > 0)
+                count = NoteTextBox.GetLineIndexFromCharacterIndex(NoteTextBox.SelectionStart + NoteTextBox.SelectionLength)
+                    -  NoteTextBox.GetLineIndexFromCharacterIndex(NoteTextBox.SelectionStart)
+                    + 1;
+            else
+                count = NoteTextBox.GetLineIndexFromCharacterIndex(NoteTextBox.Text.Length);
+            return count;
+        }
+
+        private int GetWordCount()
+        {
+            int count = 0;
+            string text = string.Empty;
+            if (NoteTextBox.SelectionLength > 0)
+                text = NoteTextBox.SelectedText;
+            else
+                text = NoteTextBox.Text;
+            if (!string.IsNullOrEmpty(text.Trim()))
+            {
+                string[] words = text.Split(new char[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                count = words.Length;
+            }
+            return count;
+        }
+
+        private int GetCharCount()
+        {
+            int count = 0;
+            string text = string.Empty;
+            if (NoteTextBox.SelectionLength > 0)
+                text = NoteTextBox.SelectedText;
+            else
+                text = NoteTextBox.Text;
+            if (!string.IsNullOrEmpty(text))
+            {
+                text = text.Replace(Environment.NewLine, string.Empty);
+                count = text.Length;
+            }
+            return count;
         }
 
         private void NoteTextBox_ContextMenuOpening(object sender, RoutedEventArgs e)
@@ -1224,7 +1290,7 @@ namespace Pinny_Notes
 
         #endregion
 
-        #region Split
+        #region Quote
 
 #pragma warning disable CS8622
 
