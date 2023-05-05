@@ -33,7 +33,7 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0">
+        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown">
             <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
                 <Image Source="/Images/plus-solid.png"/>
             </Button>
