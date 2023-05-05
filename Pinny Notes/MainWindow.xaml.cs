@@ -361,6 +361,17 @@ namespace Pinny_Notes
 
         #region TitleBar
 
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount >= 2)
+            {
+                if (WindowState == WindowState.Normal)
+                    WindowState = WindowState.Maximized;
+                else
+                    WindowState = WindowState.Normal;
+            }
+        }
+
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             new MainWindow(
