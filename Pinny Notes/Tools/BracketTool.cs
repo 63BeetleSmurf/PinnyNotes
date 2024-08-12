@@ -52,14 +52,14 @@ public partial class BracketTool : BaseTool, ITool
                     return line[1..^1];
                 else
                     return line;
-                }
+            }
             case ToolActions.BracketTrimAll:
-                {
-                    string newLine = line;
-                    while (_openingBrackets.Contains(newLine[0]) && _closingBrackets.Contains(newLine[^1]))
-                        newLine = newLine[1..^1];
-                    return newLine;
-                }
+            {
+                string newLine = line;
+                while (_openingBrackets.Contains(newLine[0]) && _closingBrackets.Contains(newLine[^1]))
+                    newLine = newLine[1..^1];
+                return newLine;
+            }
         }
 
         return line;
