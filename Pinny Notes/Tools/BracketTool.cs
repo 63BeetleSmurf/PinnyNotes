@@ -48,7 +48,7 @@ public partial class BracketTool : BaseTool, ITool
                 return $"[{line}]";
             case ToolActions.BracketTrimOnce:
             {
-                if (_openingBrackets.Contains(line[0]) && _closingBrackets.Contains(line[^1]))
+                if (line.Length > 0 && _openingBrackets.Contains(line[0]) && _closingBrackets.Contains(line[^1]))
                     return line[1..^1];
                 else
                     return line;
@@ -56,7 +56,7 @@ public partial class BracketTool : BaseTool, ITool
             case ToolActions.BracketTrimAll:
             {
                 string newLine = line;
-                while (_openingBrackets.Contains(newLine[0]) && _closingBrackets.Contains(newLine[^1]))
+                while (newLine.Length > 0 && _openingBrackets.Contains(newLine[0]) && _closingBrackets.Contains(newLine[^1]))
                     newLine = newLine[1..^1];
                 return newLine;
             }
