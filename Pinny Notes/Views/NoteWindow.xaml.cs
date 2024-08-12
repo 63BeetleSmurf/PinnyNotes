@@ -41,6 +41,7 @@ public partial class NoteWindow : Window
 
         _tools = [
             new Base64Tool(NoteTextBox),
+            new BracketTool(NoteTextBox),
             new CaseTool(NoteTextBox),
             new DateTimeTool(NoteTextBox),
             new GibberishTool(NoteTextBox),
