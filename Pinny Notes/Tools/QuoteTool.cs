@@ -9,7 +9,8 @@ public partial class QuoteTool : BaseTool, ITool
     public enum ToolActions
     {
         QuoteDouble,
-        QuoteSingle
+        QuoteSingle,
+        Backtick
     }
 
     public QuoteTool(TextBox noteTextBox) : base(noteTextBox)
@@ -17,6 +18,7 @@ public partial class QuoteTool : BaseTool, ITool
         _name = "Quote";
         _menuActions.Add(new("Double", MenuActionCommand, ToolActions.QuoteDouble));
         _menuActions.Add(new("Single", MenuActionCommand, ToolActions.QuoteSingle));
+        _menuActions.Add(new("Single", MenuActionCommand, ToolActions.Backtick));
     }
 
     [RelayCommand]
@@ -33,6 +35,8 @@ public partial class QuoteTool : BaseTool, ITool
                 return $"\"{line}\"";
             case ToolActions.QuoteSingle:
                 return $"'{line}'";
+            case ToolActions.Backtick:
+                return $"`{line}`";
         }
 
         return line;
