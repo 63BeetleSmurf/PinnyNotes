@@ -18,7 +18,7 @@ public partial class QuoteTool : BaseTool, ITool
         _name = "Quote";
         _menuActions.Add(new("Double", MenuActionCommand, ToolActions.QuoteDouble));
         _menuActions.Add(new("Single", MenuActionCommand, ToolActions.QuoteSingle));
-        _menuActions.Add(new("Single", MenuActionCommand, ToolActions.Backtick));
+        _menuActions.Add(new("Backtick", MenuActionCommand, ToolActions.Backtick));
     }
 
     [RelayCommand]
