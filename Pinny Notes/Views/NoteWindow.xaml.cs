@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -122,6 +123,27 @@ public partial class NoteWindow : Window
         _viewModel.UpdateOpacity();
     }
 
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        if (!_viewModel.IsSaved && NoteTextBox.Text != "")
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show(
+                this,
+                "Do you want to save this note?",
+                "Pinny Notes",
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Question
+            );
+            // If the user presses cancel on the message box or 
+            // save dialog, do not close.
+            if (
+                (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
+                || messageBoxResult == MessageBoxResult.Cancel
+            )
+                e.Cancel = true;
+        }
+    }
+
     #endregion
 
     #region Commands
@@ -235,23 +257,6 @@ public partial class NoteWindow : Window
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-        if (!_viewModel.IsSaved && NoteTextBox.Text != "")
-        {
-            MessageBoxResult messageBoxResult = MessageBox.Show(
-                this,
-                "Do you want to save this note?",
-                "Pinny Notes",
-                MessageBoxButton.YesNoCancel,
-                MessageBoxImage.Question
-            );
-            // If the user presses cancel on the message box or 
-            // save dialog, do not close.
-            if (
-                (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
-                || messageBoxResult == MessageBoxResult.Cancel
-            )
-                return;
-        }
         Close();
     }
 

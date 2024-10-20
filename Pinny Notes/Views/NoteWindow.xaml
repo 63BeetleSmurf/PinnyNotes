@@ -23,6 +23,7 @@
         StateChanged="NoteWindow_StateChanged"
         Activated="Window_Activated"
         Deactivated="Window_Deactivated"
+        Closing="Window_Closing"
         Opacity="{Binding Opacity}"
         Icon="/Images/icon.ico"
         >
