@@ -13,7 +13,7 @@
         Top="{Binding Y}"
         Width="{Binding Width}"
         Height="{Binding Height}"
-        MinHeight="150" MinWidth="150"
+        MinHeight="75" MinWidth="150"
         WindowStyle="None"
         MouseDown="NoteWindow_MouseDown"
         ResizeMode="CanResizeWithGrip"
