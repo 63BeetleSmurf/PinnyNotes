@@ -55,6 +55,7 @@ public partial class SettingsViewModel : ObservableRecipient
         _onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
         _colorMode = (ColorModes)Settings.Default.ColorMode;
         _useMonoFont = Settings.Default.UseMonoFont;
+        _hideTitleBar = Settings.Default.HideTitleBar;
     }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
@@ -163,4 +164,9 @@ public partial class SettingsViewModel : ObservableRecipient
     private bool _useMonoFont;
     partial void OnUseMonoFontChanged(bool oldValue, bool newValue) =>
         UpdateSetting(nameof(UseMonoFont), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _hideTitleBar;
+    partial void OnHideTitleBarChanged(bool oldValue, bool newValue) =>
+        UpdateSetting(nameof(HideTitleBar), oldValue, newValue);
 }

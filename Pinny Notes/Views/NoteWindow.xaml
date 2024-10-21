@@ -21,6 +21,8 @@
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
         StateChanged="NoteWindow_StateChanged"
+        MouseEnter="Window_MouseEnter"
+        MouseLeave="Window_MouseLeave"
         Activated="Window_Activated"
         Deactivated="Window_Deactivated"
         Closing="Window_Closing"
@@ -44,16 +46,26 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Storyboard x:Key="HideTitleBarAnimation">
+            <DoubleAnimation Storyboard.TargetName="TitleBarGrid"
+                             Storyboard.TargetProperty="Height" 
+                             To="0" Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Key="ShowTitleBarAnimation">
+            <DoubleAnimation Storyboard.TargetName="TitleBarGrid"
+                             Storyboard.TargetProperty="Height" 
+                             To="40" Duration="0:0:0.2" />
+        </Storyboard>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" MouseDown="TitleBar_MouseDown" Background="{Binding TitleBarColorBrush}">
+        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" Background="{Binding TitleBarColorBrush}">
             <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0"  Style="{StaticResource FadeOutButton}" Focusable="False">
                 <Button.Template>
                     <ControlTemplate>
