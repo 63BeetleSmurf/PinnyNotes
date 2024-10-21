@@ -7,10 +7,9 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
         Title="Pinny Notes Settings"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
-        Activated="Window_Activated"
         >
     <Grid Margin="5,5,5,5">
         <StackPanel>

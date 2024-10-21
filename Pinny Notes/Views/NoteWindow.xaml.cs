@@ -293,13 +293,6 @@ public partial class NoteWindow : Window
         Close();
     }
 
-    // NewLineEnabledMenuItem - Should trigger NoteTextBox_TextChanged when enabled.
-
-    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ((App)Application.Current).ShowSettingsWindow(this);
-    }
-
     #endregion
 
     #region TextBox

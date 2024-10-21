@@ -229,8 +229,6 @@
                             </Style>
                         </MenuItem.Style>
                     </MenuItem>
-                    <Separator />
-                    <MenuItem Name="SettingsMenuItem" Header="Settings" Click="SettingsMenuItem_Click" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

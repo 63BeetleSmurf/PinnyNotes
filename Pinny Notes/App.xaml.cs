@@ -28,6 +28,8 @@ public partial class App : System.Windows.Application
         ContextMenuStrip contextMenu = new();
         contextMenu.Items.Add("New Note", null, NewNote_Click);
         contextMenu.Items.Add("-");
+        contextMenu.Items.Add("Setings", null, Settings_Click);
+        contextMenu.Items.Add("-");
         contextMenu.Items.Add("Exit", null, Exit_Click);
 
         _notifyIcon.ContextMenuStrip = contextMenu;
@@ -40,6 +42,17 @@ public partial class App : System.Windows.Application
         new NoteWindow().Show();
     }
 
+    private void Settings_Click(object? sender, EventArgs e)
+    {
+        if (_settingsWindow == null || !_settingsWindow.IsLoaded)
+            _settingsWindow = new SettingsWindow();
+
+        if (_settingsWindow.IsVisible)
+            _settingsWindow.Activate();
+        else
+            _settingsWindow.Show();
+    }
+
     private void Exit_Click(object? sender, EventArgs e)
     {
         Shutdown();
@@ -49,18 +62,5 @@ public partial class App : System.Windows.Application
     {
         _notifyIcon.Dispose();
         base.OnExit(e);
-    }
-
-    public void ShowSettingsWindow(Window owner)
-    {
-        if (_settingsWindow == null || !_settingsWindow.IsLoaded)
-            _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.Owner = owner;
-
-        if (_settingsWindow.IsVisible)
-            _settingsWindow.Activate();
-        else
-            _settingsWindow.Show();
     }
 }
