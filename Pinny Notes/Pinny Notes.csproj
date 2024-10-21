@@ -9,6 +9,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
     <Version>1.10.0</Version>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
