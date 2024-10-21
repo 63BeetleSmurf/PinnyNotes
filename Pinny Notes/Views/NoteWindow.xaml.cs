@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
+
 using Pinny_Notes.Enums;
 using Pinny_Notes.Tools;
 using Pinny_Notes.ViewModels;
@@ -109,11 +111,24 @@ public partial class NoteWindow : Window
         )
             WindowState = WindowState.Normal;
     }
+
+    private void Window_MouseEnter(object sender, MouseEventArgs e)
+    {
+        ShowTitleBar();
+    }
+
+    private void Window_MouseLeave(object sender, MouseEventArgs e)
+    {
+        if (!IsActive)
+            HideTitleBar();
+    }
+
     private void Window_Activated(object sender, EventArgs e)
     {
         Topmost = true;
         _viewModel.IsFocused = true;
         _viewModel.UpdateOpacity();
+        ShowTitleBar();
     }
 
     private void Window_Deactivated(object sender, EventArgs e)
@@ -121,6 +136,7 @@ public partial class NoteWindow : Window
         Topmost = _viewModel.IsPinned;
         _viewModel.IsFocused = false;
         _viewModel.UpdateOpacity();
+        HideTitleBar();
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)
@@ -233,6 +249,23 @@ public partial class NoteWindow : Window
             return MessageBoxResult.OK;
         }
         return MessageBoxResult.Cancel;
+    }
+
+    private void HideTitleBar()
+    {
+        if (Settings.Default.HideTitleBar)
+            BeginStoryboard("HideTitleBarAnimation");
+    }
+
+    private void ShowTitleBar()
+    {
+        BeginStoryboard("ShowTitleBarAnimation");
+    }
+
+    private void BeginStoryboard(string resourceKey)
+    {
+        Storyboard hideTitleBar = (Storyboard)FindResource(resourceKey);
+        hideTitleBar.Begin();
     }
 
     #endregion
