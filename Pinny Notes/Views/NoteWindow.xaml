@@ -20,6 +20,7 @@
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
+        ShowInTaskbar="{Binding ShowNotesInTaskbar}"
         Loaded="Window_Loaded"
         StateChanged="NoteWindow_StateChanged"
         MouseEnter="Window_MouseEnter"

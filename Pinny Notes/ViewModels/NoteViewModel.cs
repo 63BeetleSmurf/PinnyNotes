@@ -109,6 +109,9 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
             case "UseMonoFont":
                 FontFamily = ((bool)message.NewValue) ? _monoFontFamily : "";
                 break;
+            case "ShowNotesInTaskbar":
+                ShowNotesInTaskbar = (bool)message.NewValue;
+                break;
         }
     }
 
@@ -329,6 +332,9 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
 
     [ObservableProperty]
     private string _fontFamily = (Settings.Default.UseMonoFont) ? _monoFontFamily : "";
+
+    [ObservableProperty]
+    private bool _showNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
 
     [RelayCommand]
     private void ChangeThemeColor(ThemeColors themeColor) => CurrentThemeColor = themeColor;

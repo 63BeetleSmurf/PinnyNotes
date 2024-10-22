@@ -1,5 +1,17 @@
 # Change Log
 
+## Unreleased
+
+### Added
+- Setting to toggle showing notes in Taskbar
+
+### Changed
+
+
+### Fixed
+
+
+
 ## v1.11.0 - 22/10/2024
 
 ### Added

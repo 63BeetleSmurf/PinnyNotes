@@ -57,6 +57,7 @@ public partial class SettingsViewModel : ObservableRecipient
         _useMonoFont = Settings.Default.UseMonoFont;
         _hideTitleBar = Settings.Default.HideTitleBar;
         _showTrayIcon = Settings.Default.ShowTrayIcon;
+        _showNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
     }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
@@ -175,4 +176,9 @@ public partial class SettingsViewModel : ObservableRecipient
     private bool _showTrayIcon;
     partial void OnShowTrayIconChanged(bool oldValue, bool newValue) =>
         UpdateSetting(nameof(ShowTrayIcon), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _showNotesInTaskbar;
+    partial void OnShowNotesInTaskbarChanged(bool oldValue, bool newValue) =>
+        UpdateSetting(nameof(ShowNotesInTaskbar), oldValue, newValue);
 }
