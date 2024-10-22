@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -12,9 +13,10 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 
 using Pinny_Notes.Enums;
+using Pinny_Notes.Helpers;
+using Pinny_Notes.Properties;
 using Pinny_Notes.Tools;
 using Pinny_Notes.ViewModels;
-using Pinny_Notes.Properties;
 
 namespace Pinny_Notes.Views;
 
@@ -78,6 +80,11 @@ public partial class NoteWindow : Window
         ResetSizeMenuItem.Command = _resetSizeCommand;
     }
 
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        _viewModel.WindowHandel = ScreenHelper.GetWindowHandle(this);
+    }
+
     private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
     {
         // Check if the user has switched the mouse buttons
@@ -94,8 +101,10 @@ public partial class NoteWindow : Window
             // direction new child notes will go towards.
             _viewModel.X = Left;
             _viewModel.Y = Top;
-            _viewModel.GravityX = (Left < SystemParameters.PrimaryScreenWidth / 2) ? 1 : -1;
-            _viewModel.GravityY = (Top < SystemParameters.PrimaryScreenHeight / 2) ? 1 : -1;
+
+            Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandel);
+            _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
+            _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
         }
     }
 
@@ -711,5 +720,4 @@ public partial class NoteWindow : Window
     #endregion
 
     #endregion
-
 }

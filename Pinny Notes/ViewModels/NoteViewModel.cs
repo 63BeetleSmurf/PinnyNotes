@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+
 using Pinny_Notes.Enums;
 using Pinny_Notes.Helpers;
 using Pinny_Notes.Properties;
@@ -143,22 +144,24 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
     {
         if (parent != null)
         {
+            System.Drawing.Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandel);
+
             GravityX = parent.GravityX;
             GravityY = parent.GravityY;
 
             double newX = parent.X + (45 * GravityX);
-            if (newX < 0)
-                X = 0;
-            else if (newX + Width > SystemParameters.PrimaryScreenWidth)
-                X = SystemParameters.PrimaryScreenWidth - Width;
+            if (newX < screenBounds.Left)
+                X = screenBounds.Left;
+            else if (newX + Width > screenBounds.Right)
+                X = screenBounds.Right - Width;
             else
                 X = newX;
 
             double newY = parent.Y + (45 * GravityY);
-            if (newY < 0)
-                Y = 0;
-            else if (newY + Height > SystemParameters.PrimaryScreenHeight)
-                Y = SystemParameters.PrimaryScreenHeight - Height;
+            if (newY < screenBounds.Top)
+                Y = screenBounds.Top;
+            else if (newY + Height > screenBounds.Bottom)
+                Y = screenBounds.Bottom - Height;
             else
                 Y = newY;
         }
@@ -247,6 +250,8 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
         else
             Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
     }
+
+    public nint WindowHandel { get; set; }
 
     [ObservableProperty]
     private ThemeColors _currentThemeColor;
