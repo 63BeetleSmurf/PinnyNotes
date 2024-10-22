@@ -35,10 +35,12 @@ public partial class App : Application
         new NoteWindow().Show();
     }
 
-    public void ShowSettingsWindow()
+    public void ShowSettingsWindow(Window? owner = null)
     {
         if (_settingsWindow == null || !_settingsWindow.IsLoaded)
             _settingsWindow = new SettingsWindow();
+
+        _settingsWindow.Owner = owner;
 
         if (_settingsWindow.IsVisible)
             _settingsWindow.Activate();

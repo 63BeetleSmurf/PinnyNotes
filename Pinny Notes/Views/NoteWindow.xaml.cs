@@ -302,6 +302,11 @@ public partial class NoteWindow : Window
         Close();
     }
 
+    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        ((App)Application.Current).ShowSettingsWindow(this);
+    }
+
     #endregion
 
     #region TextBox
