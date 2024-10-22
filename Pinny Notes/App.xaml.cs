@@ -25,6 +25,8 @@ public partial class App : System.Windows.Application
             Visible = true
         };
 
+        _notifyIcon.MouseClick += NotifyIcon_MouseClick;
+
         ContextMenuStrip contextMenu = new();
         contextMenu.Items.Add("New Note", null, NewNote_Click);
         contextMenu.Items.Add("-");
@@ -35,6 +37,18 @@ public partial class App : System.Windows.Application
         _notifyIcon.ContextMenuStrip = contextMenu;
 
         NewNote_Click(null, e);
+    }
+
+    private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left)
+        {
+            foreach (Window window in Current.Windows)
+            {
+                window.WindowState = WindowState.Normal;
+                window.Activate();
+            }
+        }
     }
 
     private void NewNote_Click(object? sender, EventArgs e)
