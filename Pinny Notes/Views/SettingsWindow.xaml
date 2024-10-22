@@ -63,6 +63,7 @@
             </StackPanel>
             <CheckBox Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
             <CheckBox Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
+            <CheckBox Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
             <Button x:Name="CloseButton" Content="Close" Click="CloseButton_Click" />
         </StackPanel>
     </Grid>
