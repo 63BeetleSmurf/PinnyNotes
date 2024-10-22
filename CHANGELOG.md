@@ -1,6 +1,6 @@
 # Change Log
 
-## v1.11.0 - Unreleased
+## v1.11.0 - 22/10/2024
 
 ### Added
 - Tray icon - Click to show open notes, double click to create a new note and right click for menu.
