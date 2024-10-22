@@ -18,4 +18,10 @@ public static class ScreenHelper
         return currentScreen.Bounds;
     }
 
+    public static Rectangle GetPrimaryScreenBounds()
+    {
+        return Screen.PrimaryScreen?.Bounds ??
+            new Rectangle(0, 0, (int)SystemParameters.PrimaryScreenWidth, (int)SystemParameters.PrimaryScreenHeight);
+    }
+
 }
