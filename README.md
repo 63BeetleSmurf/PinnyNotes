@@ -23,10 +23,12 @@ Pinny Notes is a versatile sticky note application that allows you to “pin” note
 - Auto Scroll: Automatically scroll to keep the last line visible, making it easy when pasting text.
 - Spell Checking: Integrated spell checker.
 - Counts Menu: View line, word, and character counts of all or selected text.
+- Tray Icon: Easily bring all notes to the front or launch new notes from the system tray.
 
 ## Tools
 
 - Base64: Encode and decode to and from Base64.
+- Bracket: Wrap text in parentheses, square or curly bracket, or remove brackets from text.
 - Case: Change text case to lower, upper, or proper.
 - DateTime: Get the current date in a sortable format (e.g., 2024-07-11T12:00:00).
 - Gibberish: Generate gibberish words, sentences, paragraphs, articles, and names.
@@ -36,7 +38,7 @@ Pinny Notes is a versatile sticky note application that allows you to “pin” note
 - Join: Join multiple lines into one, separated by a comma, space, or tab.
 - JSON: Prettify JSON.
 - List: Enumerate, dash (markdown), sort ascending or descending, or remove list markers.
-- Quote: Wrap text with double or single quotes.
+- Quote: Wrap text with double, single or backtick quotes, or remove quotes from text.
 - Remove: Remove various whitespace, slashes, or occurrences of selected text.
 - Slash: Toggle or remove forward and back slashes.
 - Split: Split lines into multiple lines by a comma, space, tab, or highlighted text.
