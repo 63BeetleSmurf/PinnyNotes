@@ -286,5 +286,17 @@ namespace Pinny_Notes.Properties {
                 this["ShowTrayIcon"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowNotesInTaskbar {
+            get {
+                return ((bool)(this["ShowNotesInTaskbar"]));
+            }
+            set {
+                this["ShowNotesInTaskbar"] = value;
+            }
+        }
     }
 }
