@@ -56,6 +56,7 @@ public partial class SettingsViewModel : ObservableRecipient
         _colorMode = (ColorModes)Settings.Default.ColorMode;
         _useMonoFont = Settings.Default.UseMonoFont;
         _hideTitleBar = Settings.Default.HideTitleBar;
+        _showTrayIcon = Settings.Default.ShowTrayIcon;
     }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
@@ -169,4 +170,9 @@ public partial class SettingsViewModel : ObservableRecipient
     private bool _hideTitleBar;
     partial void OnHideTitleBarChanged(bool oldValue, bool newValue) =>
         UpdateSetting(nameof(HideTitleBar), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _showTrayIcon;
+    partial void OnShowTrayIconChanged(bool oldValue, bool newValue) =>
+        UpdateSetting(nameof(ShowTrayIcon), oldValue, newValue);
 }
