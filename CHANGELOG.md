@@ -3,13 +3,13 @@
 ## Unreleased
 
 ### Added
-- Setting to toggle showing notes in Taskbar
+- Setting to toggle showing notes in Taskbar.
 
 ### Changed
 
 
 ### Fixed
-
+- Settings window opening off screen when note near or over the edge of the screen.
 
 
 ## v1.11.0 - 22/10/2024
