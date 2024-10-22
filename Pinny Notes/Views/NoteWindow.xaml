@@ -20,6 +20,7 @@
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
+        Loaded="Window_Loaded"
         StateChanged="NoteWindow_StateChanged"
         MouseEnter="Window_MouseEnter"
         MouseLeave="Window_MouseLeave"
