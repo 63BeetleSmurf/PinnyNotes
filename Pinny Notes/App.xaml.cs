@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading;
+using System.Windows;
 
 using Pinny_Notes.Components;
 using Pinny_Notes.Properties;
@@ -8,11 +10,18 @@ namespace Pinny_Notes;
 
 public partial class App : Application
 {
+    private Mutex _mutex = null!;
+
     private SettingsWindow? _settingsWindow;
     private NotifyIconComponent? NotifyIcon;
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        // Ensure only once instance of application is run at a time
+        _mutex = new Mutex(true, "PinnyNotesMutex", out bool createdNew); // createdNew defined here
+        if (!createdNew)
+            Environment.Exit(0);
+
         base.OnStartup(e);
 
         if (Settings.Default.ShowTrayIcon)
