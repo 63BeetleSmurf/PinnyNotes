@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -142,50 +143,44 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
 
     private void InitNotePosition(NoteViewModel? parent = null)
     {
+        int noteMargin = 45;
+
+        Point position = new(0, 0);
+        System.Drawing.Rectangle screenBounds;
+
         if (parent != null)
         {
-            System.Drawing.Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandel);
+            screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandel);
 
             GravityX = parent.GravityX;
             GravityY = parent.GravityY;
 
-            double newX = parent.X + (45 * GravityX);
-            if (newX < screenBounds.Left)
-                X = screenBounds.Left;
-            else if (newX + Width > screenBounds.Right)
-                X = screenBounds.Right - Width;
-            else
-                X = newX;
-
-            double newY = parent.Y + (45 * GravityY);
-            if (newY < screenBounds.Top)
-                Y = screenBounds.Top;
-            else if (newY + Height > screenBounds.Bottom)
-                Y = screenBounds.Bottom - Height;
-            else
-                Y = newY;
+            position.X = parent.X + (noteMargin * GravityX);
+            position.Y = parent.Y + (noteMargin * GravityY);
         }
         else
         {
             int screenMargin = 78;
+            screenBounds = ScreenHelper.GetPrimaryScreenBounds();
+
             switch ((StartupPositions)Settings.Default.StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.MiddleLeft:
                 case StartupPositions.BottomLeft:
-                    X = screenMargin;
+                    position.X = screenMargin;
                     GravityX = 1;
                     break;
                 case StartupPositions.TopCenter:
                 case StartupPositions.MiddleCenter:
                 case StartupPositions.BottomCenter:
-                    X = SystemParameters.PrimaryScreenWidth / 2 - Width / 2;
+                    position.X = screenBounds.Width / 2 - Width / 2;
                     GravityX = 1;
                     break;
                 case StartupPositions.TopRight:
                 case StartupPositions.MiddleRight:
                 case StartupPositions.BottomRight:
-                    X = (SystemParameters.PrimaryScreenWidth - screenMargin) - Width;
+                    position.X = (screenBounds.Width - screenMargin) - Width;
                     GravityX = -1;
                     break;
             }
@@ -195,23 +190,53 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
                 case StartupPositions.TopLeft:
                 case StartupPositions.TopCenter:
                 case StartupPositions.TopRight:
-                    Y = screenMargin;
+                    position.Y = screenMargin;
                     GravityY = 1;
                     break;
                 case StartupPositions.MiddleLeft:
                 case StartupPositions.MiddleCenter:
                 case StartupPositions.MiddleRight:
-                    Y = SystemParameters.PrimaryScreenHeight / 2 - Height / 2;
+                    position.Y = screenBounds.Height / 2 - Height / 2;
                     GravityY = -1;
                     break;
                 case StartupPositions.BottomLeft:
                 case StartupPositions.BottomCenter:
                 case StartupPositions.BottomRight:
-                    Y = (SystemParameters.PrimaryScreenHeight - screenMargin) - Height;
+                    position.Y = (screenBounds.Height - screenMargin) - Height;
                     GravityY = -1;
                     break;
             }
         }
+
+        // Apply noteMargin if another note is already in that position
+        if (Application.Current.Windows.Count > 1)
+        {
+            Window[] otherWindows = new Window[Application.Current.Windows.Count];
+            Application.Current.Windows.CopyTo(otherWindows, 0);
+            while (otherWindows.Any(w => w.Left == position.X && w.Top == position.Y))
+            {
+                double newX = position.X + (noteMargin * GravityX);
+                if (newX < screenBounds.Left)
+                    newX = screenBounds.Left;
+                else if (newX + Width > screenBounds.Right)
+                    newX = screenBounds.Right - Width;
+
+                double newY = position.Y + (noteMargin * GravityY);
+                if (newY < screenBounds.Top)
+                    newY = screenBounds.Top;
+                else if (newY + Height > screenBounds.Bottom)
+                    newY = screenBounds.Bottom - Height;
+
+                if (position.X == newX && position.Y == newY)
+                    break;
+
+                position.X = newX;
+                position.Y = newY;
+            }
+        }
+
+        X = position.X;
+        Y = position.Y;
     }
 
     private void UpdateBrushes(ThemeColors themeColor)
