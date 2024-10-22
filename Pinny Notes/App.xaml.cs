@@ -26,6 +26,7 @@ public partial class App : System.Windows.Application
         };
 
         _notifyIcon.MouseClick += NotifyIcon_MouseClick;
+        _notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
         ContextMenuStrip contextMenu = new();
         contextMenu.Items.Add("New Note", null, NewNote_Click);
@@ -49,6 +50,12 @@ public partial class App : System.Windows.Application
                 window.Activate();
             }
         }
+    }
+
+    private void NotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left)
+            NewNote_Click(null, e);
     }
 
     private void NewNote_Click(object? sender, EventArgs e)
