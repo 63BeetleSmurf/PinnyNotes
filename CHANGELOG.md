@@ -1,15 +1,13 @@
 # Change Log
 
-## Unreleased
+## v1.11.1 - 23/10/2024
 
 ### Added
 - Setting to toggle showing notes in Taskbar.
 
-### Changed
-
-
 ### Fixed
 - Settings window opening off screen when note near or over the edge of the screen.
+- Revert mouse button swapped check. Handled already by windows so reported bug must have been a mistake.
 
 
 ## v1.11.0 - 22/10/2024
