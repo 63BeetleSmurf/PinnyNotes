@@ -10,19 +10,44 @@ namespace Pinny_Notes;
 
 public partial class App : Application
 {
+    private const string UniqueEventName = "b1bc1a95-e142-4031-a239-dd0e14568a3c";
+    private const string UniqueMutexName = "a46c6290-525a-40d8-9880-c95d35a49057";
+
     private Mutex _mutex = null!;
+    private EventWaitHandle _eventWaitHandle = null!;
 
     private SettingsWindow? _settingsWindow;
     private NotifyIconComponent? NotifyIcon;
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        // Ensure only once instance of application is run at a time
-        _mutex = new Mutex(true, "PinnyNotesMutex", out bool createdNew); // createdNew defined here
+        _mutex = new(true, UniqueMutexName, out bool createdNew);
+        _eventWaitHandle = new(false, EventResetMode.AutoReset, UniqueEventName);
+
         if (!createdNew)
-            Environment.Exit(0);
+        {
+            _eventWaitHandle.Set();
+            Shutdown();
+            return;
+        }
 
         base.OnStartup(e);
+
+        // Spawn a thread which will be waiting for our event
+        Thread thread = new(
+            () => {
+                while (_eventWaitHandle.WaitOne())
+                    Current.Dispatcher.BeginInvoke(
+                        () => CreateNewNote()
+                    );
+            }
+        )
+        {
+            // It is important mark it as background otherwise it will prevent app from exiting.
+            IsBackground = true
+        };
+
+        thread.Start();
 
         if (Settings.Default.ShowTrayIcon)
         {
