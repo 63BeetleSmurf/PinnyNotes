@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.11.2 - 03/11/2024
+
+### Changed
+- Trigger current running instance to open a new note when a new instance is opened, rather than no action.
+
+
 ## v1.11.1 - 23/10/2024
 
 ### Added
