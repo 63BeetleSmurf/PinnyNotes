@@ -134,6 +134,13 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
                 themeColorIndex = GetNextThemeColorIndex(themeColorIndex);
             CurrentThemeColor = (ThemeColors)themeColorIndex;
         }
+        else
+        {
+            // Need to update brushes if color isn't changing.
+            // If color is changed/cycled UpdateBrushes is called in OnCurrentThemeColorChanged.
+            // Would probably work fine if enums were started at 1 rather than 0.
+            UpdateBrushes(CurrentThemeColor);
+        }
     }
 
     private int GetNextThemeColorIndex(int currentIndex)
