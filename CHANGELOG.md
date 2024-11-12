@@ -1,5 +1,11 @@
 # Change Log
 
+## v1.11.3 - 12/11/2024
+
+### Fixed
+- Bug where theme was not applied when colour was set to yellow and cycle colours was off.
+
+
 ## v1.11.2 - 03/11/2024
 
 ### Changed
