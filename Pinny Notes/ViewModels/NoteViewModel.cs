@@ -279,7 +279,7 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
         bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
 
         if (IsFocused)
-            Opacity = (transparentNotes && !opaqueWhenFocused) ? _transparentOpacity : _opaqueOpacity;
+            Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
         else if (IsPinned)
             Opacity = transparentNotes ? _transparentOpacity : _opaqueOpacity;
         else
