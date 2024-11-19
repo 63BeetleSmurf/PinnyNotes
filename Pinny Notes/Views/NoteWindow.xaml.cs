@@ -59,6 +59,7 @@ public partial class NoteWindow : Window
             new QuoteTool(NoteTextBox),
             new RemoveTool(NoteTextBox),
             new SlashTool(NoteTextBox),
+            new SortTool(NoteTextBox),
             new SplitTool(NoteTextBox),
             new TrimTool(NoteTextBox)
         ];
