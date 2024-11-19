@@ -4,10 +4,11 @@
 ## Pending Release
 
 ### Added
-- Option to check for new version on start up (disabled by default)
+- Option to check for new version on start up (disabled by default).
 
 ### Changed
 - Moved sorting functions from Lists tool to their own Sort tool.
+- Organised settings window.
 
 ### Fixed
 - Notes always turning transparent when activated if Opaque When Focused was off.
