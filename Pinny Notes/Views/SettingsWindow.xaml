@@ -11,62 +11,98 @@
         SizeToContent="WidthAndHeight"
         Activated="Window_Activated"
         >
-    <Grid Margin="5,5,5,5">
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Startup Position"/>
-                <ComboBox
-                    Width="120"
-                    ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
-                    SelectedValuePath="Key"
-                    DisplayMemberPath="Value"
-                    SelectedValue="{Binding StartupPosition, Mode=TwoWay}"
-                    />
-            </StackPanel>
-            <CheckBox Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
-            <CheckBox Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
-            <CheckBox Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
-            <CheckBox Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
-            <CheckBox Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
-            <CheckBox Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
-            <CheckBox Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
-            <CheckBox Margin="20,0,0,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
-            <CheckBox Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
-            <CheckBox Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
-            <StackPanel Margin="20,0,0,0" Orientation="Horizontal">
-                <Label Content="Tab width"/>
-                <TextBox Width="50" Text="{Binding TabWidth}" />
-            </StackPanel>
-            <CheckBox Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Allow notes to be minimized"/>
-                <ComboBox
-                    Width="120"
-                    ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
-                    SelectedValuePath="Key"
-                    DisplayMemberPath="Value"
-                    SelectedValue="{Binding MinimizeMode, Mode=TwoWay}"
-                    />
-            </StackPanel>
-            <CheckBox Content="Transparent Notes" IsChecked="{Binding TransparentNotes}" />
-            <CheckBox Margin="20,0,0,0" Content="Opaque When Focused" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OpaqueWhenFocused}" />
-            <CheckBox Margin="20,0,0,0" Content="Only Transparent When Pinned" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OnlyTransparentWhenPinned}" />
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Color mode"/>
-                <ComboBox
-                    Width="120"
-                    ItemsSource="{Binding ColorModeList, Mode=OneTime}"
-                    SelectedValuePath="Key"
-                    DisplayMemberPath="Value"
-                    SelectedValue="{Binding ColorMode, Mode=TwoWay}"
-                    />
-            </StackPanel>
-            <CheckBox Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
-            <CheckBox Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
-            <CheckBox Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
-            <CheckBox Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
-            <CheckBox Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
-            <Button x:Name="CloseButton" Content="Close" Click="CloseButton_Click" />
-        </StackPanel>
+    <Grid Margin="5,5,5,5" Width="310" Height="380">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0">
+
+            <TabItem Header="Application">
+                <StackPanel>
+                    <Label Content="General" FontWeight="Bold" />
+                    <CheckBox Margin="10,0,5,0" Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
+                    <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
+                    <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Notes">
+                <StackPanel>
+                    <Label Content="General" FontWeight="Bold" />
+                    <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
+                        <Label Content="Startup Position"/>
+                        <ComboBox
+                            Width="120"
+                            ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding StartupPosition, Mode=TwoWay}"
+                        />
+                    </StackPanel>
+                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                        <Label Content="Allow notes to be minimized"/>
+                        <ComboBox
+                            Width="120"
+                            ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding MinimizeMode, Mode=TwoWay}"
+                        />
+                    </StackPanel>
+                    <CheckBox Margin="10,5,5,0" Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
+
+                    <Label Content="Theme" FontWeight="Bold" />
+                    <CheckBox Margin="10,0,5,0" Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
+                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                        <Label Content="Color mode"/>
+                        <ComboBox
+                            Width="120"
+                            ItemsSource="{Binding ColorModeList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding ColorMode, Mode=TwoWay}"
+                        />
+                    </StackPanel>
+
+                    <Label Content="Transparency" FontWeight="Bold" />
+                    <CheckBox Margin="10,0,5,0" Content="Transparent Notes" IsChecked="{Binding TransparentNotes}" />
+                    <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OpaqueWhenFocused}" />
+                    <CheckBox Margin="30,5,5,5" Content="Only Transparent When Pinned" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OnlyTransparentWhenPinned}" />
+
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Editor">
+                <StackPanel>
+                    <Label Content="General" FontWeight="Bold" />
+                    <CheckBox Margin="10,0,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
+                    <CheckBox Margin="10,5,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
+                    <CheckBox Margin="10,5,5,0" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
+                    <CheckBox Margin="10,5,5,0" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
+                    <CheckBox Margin="30,5,5,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
+
+                    <Label Content="Indentation" FontWeight="Bold" />
+                    <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
+                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                        <Label Content="Tab width"/>
+                        <TextBox Width="50" Text="{Binding TabWidth}" />
+                    </StackPanel>
+                    <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
+
+                    <Label Content="Copy and Paste" FontWeight="Bold" />
+                    <CheckBox Margin="10,5,5,0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
+                    <CheckBox Margin="10,5,5,0" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
+                    <CheckBox Margin="10,5,5,0" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
+                    <CheckBox Margin="10,5,5,5" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
+
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+
+        <Button Grid.Row="1" Margin="0,5,0,0" x:Name="CloseButton" Content="Close" Click="CloseButton_Click" />
+
     </Grid>
 </Window>
