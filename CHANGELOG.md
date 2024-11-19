@@ -1,5 +1,19 @@
 # Change Log
 
+
+## Pending Release
+
+### Added
+- 
+
+### Changed
+- Moved sorting functions from Lists tool to their own Sort tool.
+
+### Fixed
+- Notes always turning transparent when activated if Opaque When Focused was off.
+- Line count no longer counts trailing empty line when NewLineAtEnd is set and no text is selected.
+
+
 ## v1.11.3 - 12/11/2024
 
 ### Fixed
