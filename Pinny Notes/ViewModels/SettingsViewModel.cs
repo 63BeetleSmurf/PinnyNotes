@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using System.Collections.Generic;
 using System.Windows.Controls;
+
 using Pinny_Notes.Enums;
 using Pinny_Notes.Properties;
 
@@ -58,6 +59,7 @@ public partial class SettingsViewModel : ObservableRecipient
         _hideTitleBar = Settings.Default.HideTitleBar;
         _showTrayIcon = Settings.Default.ShowTrayIcon;
         _showNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
+        _checkForUpdates = Settings.Default.CheckForUpdates;
     }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
@@ -181,4 +183,9 @@ public partial class SettingsViewModel : ObservableRecipient
     private bool _showNotesInTaskbar;
     partial void OnShowNotesInTaskbarChanged(bool oldValue, bool newValue) =>
         UpdateSetting(nameof(ShowNotesInTaskbar), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _checkForUpdates;
+    partial void OnCheckForUpdatesChanged(bool oldValue, bool newValue) =>
+        UpdateSetting(nameof(CheckForUpdates), oldValue, newValue);
 }
