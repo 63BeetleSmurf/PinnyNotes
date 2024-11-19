@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 
 using Pinny_Notes.Components;
+using Pinny_Notes.Helpers;
 using Pinny_Notes.Properties;
 using Pinny_Notes.Views;
 
@@ -56,6 +57,8 @@ public partial class App : Application
         }
 
         CreateNewNote();
+
+        CheckForNewRelease();
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -80,5 +83,24 @@ public partial class App : Application
             _settingsWindow.Activate();
         else
             _settingsWindow.Show();
+    }
+
+    private async void CheckForNewRelease()
+    {
+        DateTimeOffset date = DateTimeOffset.UtcNow;
+
+        if (Settings.Default.CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        {
+            Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
+            Settings.Default.Save();
+
+            if (await VersionHelper.IsNewVersionAvailable())
+                MessageBox.Show(
+                    $"A new version of Pinny Notes is available;{Environment.NewLine}https://github.com/63BeetleSmurf/PinnyNotes/releases/latest",
+                    "Update available",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+        }
     }
 }
