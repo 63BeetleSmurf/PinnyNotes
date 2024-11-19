@@ -694,7 +694,7 @@ public partial class NoteWindow : Window
                 -  NoteTextBox.GetLineIndexFromCharacterIndex(NoteTextBox.SelectionStart)
                 + 1;
         else
-            count = NoteTextBox.GetLineIndexFromCharacterIndex(NoteTextBox.Text.Length) + 1;
+            count = NoteTextBox.GetLineIndexFromCharacterIndex(NoteTextBox.Text.Length) + ((Settings.Default.NewLineAtEnd) ? 0 : 1);
         return count;
     }
 
