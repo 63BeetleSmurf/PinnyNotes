@@ -272,20 +272,6 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
         }
     }
 
-    public void UpdateOpacity()
-    {
-        bool transparentNotes = Settings.Default.TransparentNotes;
-        bool opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
-
-        if (IsFocused)
-            Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
-        else if (IsPinned)
-            Opacity = transparentNotes ? _transparentOpacity : _opaqueOpacity;
-        else
-            Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
-    }
-
     public nint WindowHandel { get; set; }
 
     [ObservableProperty]

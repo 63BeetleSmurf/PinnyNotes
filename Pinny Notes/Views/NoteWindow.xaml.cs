@@ -17,10 +17,11 @@ using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Tools;
 using PinnyNotes.WpfUi.ViewModels;
+using System.Resources;
 
 namespace PinnyNotes.WpfUi.Views;
 
-public partial class NoteWindow : Window
+public partial class NoteWindow : Window, INoteView
 {
     private NoteViewModel _viewModel { get; }
 
@@ -81,9 +82,42 @@ public partial class NoteWindow : Window
         ResetSizeMenuItem.Command = _resetSizeCommand;
     }
 
+    public nint Handle { get; set; }
+
+    public string Text
+    {
+        get => NoteTextBox.Text;
+        set => NoteTextBox.Text = value;
+    }
+    public int CaretIndex {
+        get => NoteTextBox.CaretIndex;
+        set => NoteTextBox.CaretIndex = value;
+    }
+    public int SelectionStart
+    {
+        get => NoteTextBox.SelectionStart;
+        set => NoteTextBox.SelectionStart = value;
+    }
+    public int SelectionLength
+    {
+        get => NoteTextBox.SelectionLength;
+        set => NoteTextBox.SelectionLength = value;
+    }
+
+    public void ScrollToEnd() => NoteTextBox.ScrollToEnd();
+
+    public event EventHandler WindowLoaded;
+    public event EventHandler WindowMoved;
+    public event EventHandler WindowActivated;
+    public event EventHandler WindowDeactivated;
+
+    public event EventHandler TextChanged;
+
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        _viewModel.WindowHandel = ScreenHelper.GetWindowHandle(this);
+        // Ensure handle is set before invoking event
+        Handle = ScreenHelper.GetWindowHandle(this);
+        WindowLoaded?.Invoke(sender, e);
     }
 
     private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -93,19 +127,11 @@ public partial class NoteWindow : Window
         if (e.LeftButton == MouseButtonState.Pressed)
         {
             DragMove();
-
-            // Reset gravity depending what position the note was moved to.
-            // This does not effect the saved start up setting, only what
-            // direction new child notes will go towards.
-            _viewModel.X = Left;
-            _viewModel.Y = Top;
-
-            Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandel);
-            _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
-            _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
+            WindowMoved?.Invoke(sender, e);
         }
     }
 
+    // This is temperamental enough, leave in view for now.
     private void NoteWindow_StateChanged(object sender, EventArgs e)
     {
         MinimizeModes minimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
@@ -133,19 +159,20 @@ public partial class NoteWindow : Window
     private void Window_Activated(object sender, EventArgs e)
     {
         Topmost = true;
-        _viewModel.IsFocused = true;
-        _viewModel.UpdateOpacity();
+
+        WindowActivated?.Invoke(sender, e);
+
         ShowTitleBar();
     }
 
     private void Window_Deactivated(object sender, EventArgs e)
     {
-        Topmost = _viewModel.IsPinned;
-        _viewModel.IsFocused = false;
-        _viewModel.UpdateOpacity();
+        WindowDeactivated?.Invoke(sender, e);
+
         HideTitleBar();
     }
 
+    // Will probably make a custom window as dark mode does not work in messagebox.
     private void Window_Closing(object sender, CancelEventArgs e)
     {
         if (!_viewModel.IsSaved && NoteTextBox.Text != "")
@@ -261,18 +288,12 @@ public partial class NoteWindow : Window
     private void HideTitleBar()
     {
         if (Settings.Default.HideTitleBar)
-            BeginStoryboard("HideTitleBarAnimation");
+            ((Storyboard)FindResource("HideTitleBarAnimation")).Begin();
     }
 
     private void ShowTitleBar()
     {
-        BeginStoryboard("ShowTitleBarAnimation");
-    }
-
-    private void BeginStoryboard(string resourceKey)
-    {
-        Storyboard hideTitleBar = (Storyboard)FindResource(resourceKey);
-        hideTitleBar.Begin();
+        ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
     }
 
     #endregion
@@ -311,22 +332,7 @@ public partial class NoteWindow : Window
 
     private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e)
     {
-        _viewModel.IsSaved = false;
-        if (!Settings.Default.NewLineAtEnd || NoteTextBox.Text == "" || NoteTextBox.Text.EndsWith(Environment.NewLine))
-            return;
-
-        bool caretAtEnd = (NoteTextBox.CaretIndex == NoteTextBox.Text.Length);
-        // Preserving selection when adding new line
-        int selectionStart = NoteTextBox.SelectionStart;
-        int selectionLength = NoteTextBox.SelectionLength;
-
-        NoteTextBox.AppendText(Environment.NewLine);
-
-        NoteTextBox.SelectionStart = selectionStart;
-        NoteTextBox.SelectionLength = selectionLength;
-
-        if (Settings.Default.KeepNewLineAtEndVisible && caretAtEnd)
-            NoteTextBox.ScrollToEnd();
+        TextChanged?.Invoke(sender, e);
     }
 
     private void NoteTextBox_SelectionChanged(object sender, RoutedEventArgs e)
