@@ -2,10 +2,15 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class ListTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.ListToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.ListToolFavourite;
+
     public enum ToolActions
     {
         ListEnumerate,

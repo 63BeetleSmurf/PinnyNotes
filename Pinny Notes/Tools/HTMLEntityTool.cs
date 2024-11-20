@@ -3,10 +3,15 @@ using System;
 using System.Net;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class HtmlEntityTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.HtmlEntityToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.HtmlEntityToolFavourite;
+
     public enum ToolActions
     {
         EntityEncode,

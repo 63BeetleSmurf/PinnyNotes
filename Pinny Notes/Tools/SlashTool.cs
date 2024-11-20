@@ -3,10 +3,15 @@ using System;
 using System.Text;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class SlashTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.SlashToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.SlashToolFavourite;
+
     public enum ToolActions
     {
         SlashAllForward,

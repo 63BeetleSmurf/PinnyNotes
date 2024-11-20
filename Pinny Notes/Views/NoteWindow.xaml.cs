@@ -672,19 +672,43 @@ public partial class NoteWindow : Window
         );
         menu.Items.Add(countsMenuItem);
 
-        menu.Items.Add(new Separator());
-
-        MenuItem toolsMenu = new()
-        {
-            Header = "Tools"
-        };
-        foreach (ITool tool in _tools)
-            toolsMenu.Items.Add(
-                tool.GetMenuItem()
-            );
-        menu.Items.Add(toolsMenu);
+        AddToolContextMenus(menu.Items);
 
         return menu;
+    }
+
+    private void AddToolContextMenus(ItemCollection menuItems)
+    {
+        IEnumerable<ITool> favouriteTools = _tools.Where(t => t.IsEnabled && t.IsFavourite);
+        bool hasFavouriteTools = favouriteTools.Any();
+        IEnumerable<ITool> standardTools = _tools.Where(t => t.IsEnabled && !t.IsFavourite);
+        bool hasStandardTools = standardTools.Any();
+
+        if (hasFavouriteTools || hasStandardTools)
+            menuItems.Add(new Separator());
+
+        foreach (ITool tool in favouriteTools)
+        {
+            if (tool.IsEnabled)
+                menuItems.Add(
+                    tool.GetMenuItem()
+                );
+        }
+
+        if (hasStandardTools)
+        {
+            MenuItem toolsMenu = new()
+            {
+                Header = "Tools"
+            };
+            foreach (ITool tool in standardTools)
+            {
+                toolsMenu.Items.Add(
+                    tool.GetMenuItem()
+                );
+            }
+            menuItems.Add(toolsMenu);
+        }
     }
 
     private int GetLineCount()

@@ -60,6 +60,45 @@ public partial class SettingsViewModel : ObservableRecipient
         _showTrayIcon = Settings.Default.ShowTrayIcon;
         _showNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
         _checkForUpdates = Settings.Default.CheckForUpdates;
+
+        #region Tools
+
+        _base64ToolEnabled = ToolSettings.Default.Base64ToolEnabled;
+        _base64ToolFavourite = ToolSettings.Default.Base64ToolFavourite;
+        _bracketToolEnabled = ToolSettings.Default.BracketToolEnabled;
+        _bracketToolFavourite = ToolSettings.Default.BracketToolFavourite;
+        _caseToolEnabled = ToolSettings.Default.CaseToolEnabled;
+        _caseToolFavourite = ToolSettings.Default.CaseToolFavourite;
+        _dateTimeToolEnabled = ToolSettings.Default.DateTimeToolEnabled;
+        _dateTimeToolFavourite = ToolSettings.Default.DateTimeToolFavourite;
+        _gibberishToolEnabled = ToolSettings.Default.GibberishToolEnabled;
+        _gibberishToolFavourite = ToolSettings.Default.GibberishToolFavourite;
+        _hashToolEnabled = ToolSettings.Default.HashToolEnabled;
+        _hashToolFavourite = ToolSettings.Default.HashToolFavourite;
+        _htmlEntityToolEnabled = ToolSettings.Default.HtmlEntityToolEnabled;
+        _htmlEntityToolFavourite = ToolSettings.Default.HtmlEntityToolFavourite;
+        _indentToolEnabled = ToolSettings.Default.IndentToolEnabled;
+        _indentToolFavourite = ToolSettings.Default.IndentToolFavourite;
+        _joinToolEnabled = ToolSettings.Default.JoinToolEnabled;
+        _joinToolFavourite = ToolSettings.Default.JoinToolFavourite;
+        _jsonToolEnabled = ToolSettings.Default.JsonToolEnabled;
+        _jsonToolFavourite = ToolSettings.Default.JsonToolFavourite;
+        _listToolEnabled = ToolSettings.Default.ListToolEnabled;
+        _listToolFavourite = ToolSettings.Default.ListToolFavourite;
+        _quoteToolEnabled = ToolSettings.Default.QuoteToolEnabled;
+        _quoteToolFavourite = ToolSettings.Default.QuoteToolFavourite;
+        _removeToolEnabled = ToolSettings.Default.RemoveToolEnabled;
+        _removeToolFavourite = ToolSettings.Default.RemoveToolFavourite;
+        _slashToolEnabled = ToolSettings.Default.SlashToolEnabled;
+        _slashToolFavourite = ToolSettings.Default.SlashToolFavourite;
+        _sortToolEnabled = ToolSettings.Default.SortToolEnabled;
+        _sortToolFavourite = ToolSettings.Default.SortToolFavourite;
+        _splitToolEnabled = ToolSettings.Default.SplitToolEnabled;
+        _splitToolFavourite = ToolSettings.Default.SplitToolFavourite;
+        _trimToolEnabled = ToolSettings.Default.TrimToolEnabled;
+        _trimToolFavourite = ToolSettings.Default.TrimToolFavourite;
+
+        #endregion
     }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
@@ -72,6 +111,12 @@ public partial class SettingsViewModel : ObservableRecipient
         Settings.Default.Save();
 
         Messenger.Send(new PropertyChangedMessage<object>(this, settingName, oldValue, newValue));
+    }
+
+    private void UpdateToolSetting(string settingName, object oldValue, object newValue)
+    {
+        ToolSettings.Default[settingName] = newValue;
+        ToolSettings.Default.Save();
     }
 
     [ObservableProperty]
@@ -188,4 +233,246 @@ public partial class SettingsViewModel : ObservableRecipient
     private bool _checkForUpdates;
     partial void OnCheckForUpdatesChanged(bool oldValue, bool newValue) =>
         UpdateSetting(nameof(CheckForUpdates), oldValue, newValue);
+
+    #region Tools
+
+    #region Base64
+
+    [ObservableProperty]
+    private bool _base64ToolEnabled;
+    partial void OnBase64ToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(Base64ToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _base64ToolFavourite;
+    partial void OnBase64ToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(Base64ToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Bracket
+
+    [ObservableProperty]
+    private bool _bracketToolEnabled;
+    partial void OnBracketToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(BracketToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _bracketToolFavourite;
+    partial void OnBracketToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(BracketToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Case
+
+    [ObservableProperty]
+    private bool _caseToolEnabled;
+    partial void OnCaseToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(CaseToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _caseToolFavourite;
+    partial void OnCaseToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(CaseToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region DateTime
+
+    [ObservableProperty]
+    private bool _dateTimeToolEnabled;
+    partial void OnDateTimeToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(DateTimeToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _dateTimeToolFavourite;
+    partial void OnDateTimeToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(DateTimeToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Gibberish
+
+    [ObservableProperty]
+    private bool _gibberishToolEnabled;
+    partial void OnGibberishToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(GibberishToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _gibberishToolFavourite;
+    partial void OnGibberishToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(GibberishToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Hash
+
+    [ObservableProperty]
+    private bool _hashToolEnabled;
+    partial void OnHashToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(HashToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _hashToolFavourite;
+    partial void OnHashToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(HashToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region HTMLEntity
+
+    [ObservableProperty]
+    private bool _htmlEntityToolEnabled;
+    partial void OnHtmlEntityToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(HtmlEntityToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _htmlEntityToolFavourite;
+    partial void OnHtmlEntityToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(HtmlEntityToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Indent
+
+    [ObservableProperty]
+    private bool _indentToolEnabled;
+    partial void OnIndentToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(IndentToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _indentToolFavourite;
+    partial void OnIndentToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(IndentToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Join
+
+    [ObservableProperty]
+    private bool _joinToolEnabled;
+    partial void OnJoinToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(JoinToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _joinToolFavourite;
+    partial void OnJoinToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(JoinToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region JSON
+
+    [ObservableProperty]
+    private bool _jsonToolEnabled;
+    partial void OnJsonToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(JsonToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _jsonToolFavourite;
+    partial void OnJsonToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(JsonToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region List
+
+    [ObservableProperty]
+    private bool _listToolEnabled;
+    partial void OnListToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(ListToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _listToolFavourite;
+    partial void OnListToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(ListToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Quote
+
+    [ObservableProperty]
+    private bool _quoteToolEnabled;
+    partial void OnQuoteToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(QuoteToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _quoteToolFavourite;
+    partial void OnQuoteToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(QuoteToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Remove
+
+    [ObservableProperty]
+    private bool _removeToolEnabled;
+    partial void OnRemoveToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(RemoveToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _removeToolFavourite;
+    partial void OnRemoveToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(RemoveToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Slash
+
+    [ObservableProperty]
+    private bool _slashToolEnabled;
+    partial void OnSlashToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(SlashToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _slashToolFavourite;
+    partial void OnSlashToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(SlashToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Sort
+
+    [ObservableProperty]
+    private bool _sortToolEnabled;
+    partial void OnSortToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(SortToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _sortToolFavourite;
+    partial void OnSortToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(SortToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Split
+
+    [ObservableProperty]
+    private bool _splitToolEnabled;
+    partial void OnSplitToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(SplitToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _splitToolFavourite;
+    partial void OnSplitToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(SplitToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #region Trim
+
+    [ObservableProperty]
+    private bool _trimToolEnabled;
+    partial void OnTrimToolEnabledChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(TrimToolEnabled), oldValue, newValue);
+
+    [ObservableProperty]
+    private bool _trimToolFavourite;
+    partial void OnTrimToolFavouriteChanged(bool oldValue, bool newValue) =>
+        UpdateToolSetting(nameof(TrimToolFavourite), oldValue, newValue);
+
+    #endregion
+
+    #endregion
 }

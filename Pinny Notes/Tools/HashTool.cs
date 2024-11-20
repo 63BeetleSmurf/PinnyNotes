@@ -4,10 +4,15 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class HashTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.HashToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.HashToolFavourite;
+
     public enum ToolActions
     {
         HashSHA512,

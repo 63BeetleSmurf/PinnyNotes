@@ -2,10 +2,15 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class DateTimeTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.DateTimeToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.DateTimeToolFavourite;
+
     public enum ToolActions
     {
         DateTimeSortableDateTime

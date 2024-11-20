@@ -2,10 +2,15 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class SortTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.SortToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.SortToolFavourite;
+
     public enum ToolActions
     {
         SortAscending,

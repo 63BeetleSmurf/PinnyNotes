@@ -2,10 +2,15 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class IndentTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.IndentToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.IndentToolFavourite;
+
     public enum ToolActions
     {
         Indent2Spaces,
