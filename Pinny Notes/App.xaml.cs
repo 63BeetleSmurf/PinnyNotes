@@ -14,7 +14,7 @@ public partial class App : Application
 #if DEBUG
     public const bool IsDebugMode = true;
 #else
-    public const bool isDebugMode = false;
+    public const bool IsDebugMode = false;
 #endif
 
     private const string UniqueEventName = (IsDebugMode) ? "176fc692-28c2-4ed0-ba64-60fbd7165018" : "b1bc1a95-e142-4031-a239-dd0e14568a3c";
