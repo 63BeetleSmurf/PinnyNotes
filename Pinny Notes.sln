@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pinny Notes", "Pinny Notes\Pinny Notes.csproj", "{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinnyNotes.WpfUi", "Pinny Notes\PinnyNotes.WpfUi.csproj", "{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Pinny Notes Setup", "Pinny Notes Setup\Pinny Notes Setup.vdproj", "{EB322717-9351-4B06-B1C1-915EE8189ADE}"
 EndProject
