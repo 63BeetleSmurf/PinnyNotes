@@ -5,6 +5,7 @@
 
 ### Added
 - Option to check for new version on start up (disabled by default).
+- Settings to enable and favourite tools.
 
 ### Changed
 - Moved sorting functions from Lists tool to their own Sort tool.

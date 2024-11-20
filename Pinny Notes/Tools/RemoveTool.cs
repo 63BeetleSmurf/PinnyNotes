@@ -4,10 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class RemoveTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.RemoveToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.RemoveToolFavourite;
+
     private string? _selectedText = null;
 
     public enum ToolActions

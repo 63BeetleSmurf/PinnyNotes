@@ -2,10 +2,15 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class TrimTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.TrimToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.TrimToolFavourite;
+
     public enum ToolActions
     {
         TrimStart,

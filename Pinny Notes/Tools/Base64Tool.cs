@@ -2,10 +2,15 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class Base64Tool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.Base64ToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.Base64ToolFavourite;
+
     public enum ToolActions
     {
         Base64Encode,

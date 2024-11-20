@@ -3,10 +3,15 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class QuoteTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.QuoteToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.QuoteToolFavourite;
+
     private static char[] _openingQuotes = { '\'', '"', '`', '‘', '“' };
     private static char[] _closingQuotes = { '\'', '"', '`', '’', '”' };
 

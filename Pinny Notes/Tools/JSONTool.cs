@@ -3,10 +3,15 @@ using System;
 using System.Text.Json;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class JsonTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.JsonToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.JsonToolFavourite;
+
     public enum ToolActions
     {
         JsonPrettify

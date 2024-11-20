@@ -3,10 +3,15 @@ using System;
 using System.Linq;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 public partial class BracketTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.BracketToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.BracketToolFavourite;
+
     private static char[] _openingBrackets = {'(', '{', '['};
     private static char[] _closingBrackets = { ')', '}', ']' };
 

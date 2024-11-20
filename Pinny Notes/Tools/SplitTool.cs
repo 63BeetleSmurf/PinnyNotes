@@ -2,12 +2,17 @@
 using System;
 using System.Windows.Controls;
 
+using Pinny_Notes.Properties;
+
 namespace Pinny_Notes.Tools;
 
 // TO DO: Need to fix split by selected text. Possibly TextAction needs to get both text and selected text.
 
 public partial class SplitTool : BaseTool, ITool
 {
+    public bool IsEnabled => ToolSettings.Default.SplitToolEnabled;
+    public bool IsFavourite => ToolSettings.Default.SplitToolFavourite;
+
     private string? _selectedText = null;
 
     public enum ToolActions
