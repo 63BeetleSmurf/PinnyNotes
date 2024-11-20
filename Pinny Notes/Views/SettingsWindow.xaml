@@ -85,11 +85,11 @@
 
                     <Label Content="Indentation" FontWeight="Bold" />
                     <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
-                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                    <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
+                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
                         <Label Content="Tab width"/>
                         <TextBox Width="50" Text="{Binding TabWidth}" />
                     </StackPanel>
-                    <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
 
                     <Label Content="Copy and Paste" FontWeight="Bold" />
                     <CheckBox Margin="10,5,5,0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
