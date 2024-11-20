@@ -4,9 +4,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
 
-using Pinny_Notes.Properties;
+using PinnyNotes.WpfUi.Properties;
 
-namespace Pinny_Notes.Tools;
+namespace PinnyNotes.WpfUi.Tools;
 
 public partial class HashTool : BaseTool, ITool
 {

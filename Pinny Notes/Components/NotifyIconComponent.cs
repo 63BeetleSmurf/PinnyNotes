@@ -1,10 +1,10 @@
-﻿using Pinny_Notes.Views;
+﻿using PinnyNotes.WpfUi.Views;
 using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace Pinny_Notes.Components;
+namespace PinnyNotes.WpfUi.Components;
 
 public class NotifyIconComponent : IDisposable
 {

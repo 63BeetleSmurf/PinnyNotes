@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 
-using Pinny_Notes.Helpers;
-using Pinny_Notes.ViewModels;
+using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.ViewModels;
 
-namespace Pinny_Notes.Views;
+namespace PinnyNotes.WpfUi.Views;
 
 public partial class SettingsWindow : Window
 {
