@@ -6,14 +6,17 @@
 ### Added
 - Option to check for new version on start up (disabled by default).
 - Settings to enable and favourite tools.
+- Debug flag allowing release and debug instances to run together.
 
 ### Changed
 - Moved sorting functions from Lists tool to their own Sort tool.
 - Organised settings window.
+- Icons updated.
 
 ### Fixed
 - Notes always turning transparent when activated if Opaque When Focused was off.
 - Line count no longer counts trailing empty line when NewLineAtEnd is set and no text is selected.
+- Shortcuts not showing icon after install.
 
 
 ## v1.11.3 - 12/11/2024
