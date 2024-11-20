@@ -1,7 +1,7 @@
 # Change Log
 
 
-## Pending Release
+## v1.12.0 - 20/11/2024
 
 ### Added
 - Option to check for new version on start up (disabled by default).
