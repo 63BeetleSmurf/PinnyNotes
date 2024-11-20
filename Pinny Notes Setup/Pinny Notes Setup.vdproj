@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_2268C8C128714C5698E7EDD5A74AB3F1"
+        "MsmKey" = "8:_1EE56608B0534F68AEAFC5EA4B77F147"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -122,7 +122,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2268C8C128714C5698E7EDD5A74AB3F1"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1EE56608B0534F68AEAFC5EA4B77F147"
             {
             "SourcePath" = "8:..\\Pinny Notes\\Images\\icon.ico"
             "TargetName" = "8:icon.ico"
@@ -210,7 +210,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Pinny Notes"
         "ProductCode" = "8:{5E38BD66-6EE1-4872-80BA-A68B269E63A8}"
-        "PackageCode" = "8:{5C7812D5-F54E-47C7-99F6-179E5F8CF914}"
+        "PackageCode" = "8:{99096CD1-4381-4A13-B333-91F712F74C77}"
         "UpgradeCode" = "8:{00EE94A1-B733-4C39-90EF-4F9348EFD074}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -227,7 +227,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:https://github.com/63BeetleSmurf/pinny_notes"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_1EE56608B0534F68AEAFC5EA4B77F147"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -330,7 +330,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9A334B3A62AC4A7E9B2CD6297421871B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4D202CA023764B7AB0E0AF6FCD8F4F28"
             {
             "Name" = "8:Pinny Notes"
             "Arguments" = "8:"
@@ -341,10 +341,10 @@
             "Target" = "8:_986FCBA950114798AC8BD4B2D210DD8A"
             "Folder" = "8:_E4C71A3E5C3C49CE904CBD7BA9F8AB68"
             "WorkingFolder" = "8:_7785C5DEE194483AA2B024842491A9A3"
-            "Icon" = "8:_2268C8C128714C5698E7EDD5A74AB3F1"
+            "Icon" = "8:_1EE56608B0534F68AEAFC5EA4B77F147"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A8572F4A8D474CB08DCC108D7B233565"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5C99678EA81A40EABF81189DBD7C4DB5"
             {
             "Name" = "8:Pinny Notes"
             "Arguments" = "8:"
@@ -355,7 +355,7 @@
             "Target" = "8:_986FCBA950114798AC8BD4B2D210DD8A"
             "Folder" = "8:_FD4B526DB4F64CE7A73703E6726C96CD"
             "WorkingFolder" = "8:_7785C5DEE194483AA2B024842491A9A3"
-            "Icon" = "8:_2268C8C128714C5698E7EDD5A74AB3F1"
+            "Icon" = "8:_1EE56608B0534F68AEAFC5EA4B77F147"
             "Feature" = "8:"
             }
         }
@@ -759,7 +759,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_986FCBA950114798AC8BD4B2D210DD8A"
             {
-            "SourcePath" = "8:..\\Pinny Notes\\obj\\Debug\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\Pinny Notes\\obj\\Release\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7785C5DEE194483AA2B024842491A9A3"
