@@ -1,6 +1,13 @@
 # Change Log
 
 
+## v1.12.1 - 21/11/2024
+
+### Fixed
+- Crash when pressing Shift + Tab at the start of a note.
+- Shift + Tab not removing the correct number of spaces.
+
+
 ## v1.12.0 - 20/11/2024
 
 ### Added
