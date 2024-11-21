@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         xmlns:enums="clr-namespace:PinnyNotes.WpfUi.Enums"
+        xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Views.Controls"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:NoteViewModel}"
         Background="{Binding BackgroundColorBrush}"
@@ -237,7 +238,7 @@
             </Grid.ContextMenu>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <TextBox AcceptsReturn="True"
+            <controls:NoteTextBox AcceptsReturn="True"
                 AcceptsTab="True"
                 AllowDrop="True"
                 BorderThickness="0"
