@@ -438,24 +438,27 @@ public partial class NoteWindow : Window
             else if (NoteTextBox.SelectionLength == 0 && Keyboard.Modifiers == ModifierKeys.Shift)
             {
                 int caretIndex = NoteTextBox.CaretIndex;
-                if (NoteTextBox.Text[caretIndex - 1] == '\t')
+                if (caretIndex > 0)
                 {
-                    NoteTextBox.Text = NoteTextBox.Text.Remove(caretIndex - 1, 1);
-                    NoteTextBox.CaretIndex = caretIndex - 1;
-                }
-                else if (Settings.Default.TabSpaces && NoteTextBox.Text[caretIndex - 1] == ' ')
-                {
-                    int lineStart = NoteTextBox.GetCharacterIndexFromLineIndex(
-                        NoteTextBox.GetLineIndexFromCharacterIndex(
-                            NoteTextBox.CaretIndex
-                        )
-                    );
+                    if (NoteTextBox.Text[caretIndex - 1] == '\t')
+                    {
+                        NoteTextBox.Text = NoteTextBox.Text.Remove(caretIndex - 1, 1);
+                        NoteTextBox.CaretIndex = caretIndex - 1;
+                    }
+                    else if (Settings.Default.TabSpaces && NoteTextBox.Text[caretIndex - 1] == ' ')
+                    {
+                        int lineStart = NoteTextBox.GetCharacterIndexFromLineIndex(
+                            NoteTextBox.GetLineIndexFromCharacterIndex(
+                                NoteTextBox.CaretIndex
+                            )
+                        );
 
-                    int tabStartIndex = caretIndex - 1;
-                    while (NoteTextBox.Text[tabStartIndex - 1] == ' ' && tabStartIndex % Settings.Default.TabWidth != 0)
-                        tabStartIndex--;
-                    NoteTextBox.Text = NoteTextBox.Text.Remove(tabStartIndex, caretIndex - tabStartIndex);
-                    NoteTextBox.CaretIndex = tabStartIndex;
+                        int tabStartIndex = caretIndex - 1;
+                        while (tabStartIndex > 0 && NoteTextBox.Text[tabStartIndex - 1] == ' ' && tabStartIndex % Settings.Default.TabWidth != 0)
+                            tabStartIndex--;
+                        NoteTextBox.Text = NoteTextBox.Text.Remove(tabStartIndex, caretIndex - tabStartIndex);
+                        NoteTextBox.CaretIndex = tabStartIndex;
+                    }
                 }
                 e.Handled = true;
             }
