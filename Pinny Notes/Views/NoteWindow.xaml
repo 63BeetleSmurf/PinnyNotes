@@ -3,17 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         xmlns:enums="clr-namespace:PinnyNotes.WpfUi.Enums"
         xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Views.Controls"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=vm:NoteViewModel}"
-        Background="{Binding BackgroundColorBrush}"
-        BorderBrush="{Binding BorderColorBrush}"
-        Left="{Binding X}"
-        Top="{Binding Y}"
-        Width="{Binding Width}"
-        Height="{Binding Height}"
         MinHeight="75" MinWidth="150"
         WindowStyle="None"
         MouseDown="NoteWindow_MouseDown"
@@ -21,7 +13,6 @@
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
-        ShowInTaskbar="{Binding ShowNotesInTaskbar}"
         Loaded="Window_Loaded"
         StateChanged="NoteWindow_StateChanged"
         MouseEnter="Window_MouseEnter"
@@ -29,7 +20,6 @@
         Activated="Window_Activated"
         Deactivated="Window_Deactivated"
         Closing="Window_Closing"
-        Opacity="{Binding Opacity}"
         Icon="/Images/icon.ico"
         >
     <Window.Resources>
@@ -59,6 +49,8 @@
                              Storyboard.TargetProperty="Height" 
                              To="40" Duration="0:0:0.2" />
         </Storyboard>
+        <SolidColorBrush x:Key="TitleButtonBrush" />
+        <SolidColorBrush x:Key="NoteFontBrush" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -68,13 +60,13 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" Background="{Binding TitleBarColorBrush}">
+        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown">
             <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0"  Style="{StaticResource FadeOutButton}" Focusable="False">
                 <Button.Template>
                     <ControlTemplate>
                         <Grid>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 10,2 v 16 M 2,10 h 16" Stroke="{Binding TitleButtonColorBrush}" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"></Path>
+                            <Path Data="M 10,2 v 16 M 2,10 h 16" Stroke="{DynamicResource TitleButtonBrush}" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"></Path>
                         </Grid>
                     </ControlTemplate>
                 </Button.Template>
@@ -84,7 +76,7 @@
                     <ControlTemplate TargetType="ToggleButton">
                         <Grid>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z" Fill="{Binding TitleButtonColorBrush}" RenderTransformOrigin="0.5,0.5">
+                            <Path Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z" Fill="{DynamicResource TitleButtonBrush}" RenderTransformOrigin="0.5,0.5">
                                 <Path.Style>
                                     <Style TargetType="Path">
                                         <Style.Triggers>
@@ -108,17 +100,16 @@
                     <ControlTemplate>
                         <Grid>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 3,3 L 17,17 M 3,17 L 17,3" Stroke="{Binding TitleButtonColorBrush}" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"></Path>
+                            <Path Data="M 3,3 L 17,17 M 3,17 L 17,3" Stroke="{DynamicResource TitleButtonBrush}" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"></Path>
                         </Grid>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Name="ClearMenuItem" Header="Clear"/>
                     <MenuItem Name="SaveMenuItem" Header="Save"/>
                     <Separator />
-                    <MenuItem Name="ResetSizeMenuItem" Header="Reset Size" />
+                    <MenuItem Name="ResetSizeMenuItem" Header="Reset Size" Click="ResetSizeMenuItem_Click" />
                     <Separator />
                     <MenuItem Header="Yellow" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Yellow}">
                         <MenuItem.Icon>
@@ -241,14 +232,13 @@
             <controls:NoteTextBox
                 BorderThickness="0"
                 Background="Transparent"
-                Foreground="{Binding TextColorBrush}"
-                CaretBrush="{Binding TextColorBrush}"
+                Foreground="{DynamicResource NoteFontBrush}"
+                CaretBrush="{DynamicResource NoteFontBrush}"
                 FontSize="16"
                 Name="NoteTextBox"
                 Padding="5,5,5,5"
                 TextChanged="NoteTextBox_TextChanged"
                 SpellCheck.IsEnabled="{Binding SpellCheck}"
-                Text="{Binding Content}"
                 FontFamily="{Binding FontFamily}"
                 />
         </Grid>

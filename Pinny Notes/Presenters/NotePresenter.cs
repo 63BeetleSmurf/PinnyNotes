@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Input;
+using System.Windows.Media;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Properties;
@@ -13,6 +11,14 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class NotePresenter
 {
+    public const double DefaultWidth = 300.0;
+    public const double DefaultHeight = 300.0;
+
+    private const double _opaqueOpacity = 1.0;
+    private const double _transparentOpacity = 0.8;
+
+    private const string _monoFontFamily = "Consolas";
+
     private readonly NoteModel _model;
     private readonly INoteView _view;
 
@@ -73,5 +79,26 @@ public class NotePresenter
             _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
     }
 
+    private void UpdateBrushes(ThemeColors themeColor)
+    {
+        ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
+        // 0 = Title, 1 = Background, 2 = Border
+        _view.BorderColorBrush = new(ThemeHelper.Colors[themeColor][2]);
+
+        if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
+        {
+            _view.TitleBarColorBrush = new(Color.FromRgb(70, 70, 70));    // #464646
+            _view.TitleButtonColorBrush = new(ThemeHelper.Colors[themeColor][2]);
+            _view.BackgroundColorBrush = new(Color.FromRgb(50, 50, 50));  // #323232
+            _view.TextColorBrush = new(Colors.White);
+        }
+        else
+        {
+            _view.TitleBarColorBrush = new(ThemeHelper.Colors[themeColor][0]);
+            _view.TitleButtonColorBrush = new(Color.FromRgb(70, 70, 70));    // #464646
+            _view.BackgroundColorBrush = new(ThemeHelper.Colors[themeColor][1]);
+            _view.TextColorBrush = new(Colors.Black);
+        }
+    }
 }

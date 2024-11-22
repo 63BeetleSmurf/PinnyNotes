@@ -1,38 +1,31 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
-using PinnyNotes.WpfUi.Tools;
-using PinnyNotes.WpfUi.ViewModels;
-using System.Resources;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window, INoteView
 {
-    private NoteViewModel _viewModel { get; }
-
-    #region NoteWindow
-
-    public NoteWindow() : this(null) { }
-    public NoteWindow(NoteViewModel? parentViewModel = null)
+    public NoteWindow()
     {
-        DataContext = _viewModel = new NoteViewModel(parentViewModel);
-
         InitializeComponent();
+
+        // x
+        // y
+        // width
+        // height
+        // opacity
+        // showintaskbar
     }
 
     public nint Handle { get; set; }
@@ -56,15 +49,25 @@ public partial class NoteWindow : Window, INoteView
         get => NoteTextBox.SelectionLength;
         set => NoteTextBox.SelectionLength = value;
     }
+    public Brush BorderColorBrush { get => BorderBrush; set => BorderBrush = value; }
+    public Brush TitleBarColorBrush { get => TitleBarGrid.Background; set => TitleBarGrid.Background = value; }
+    public Brush TitleButtonColorBrush { get => (Brush)Resources["TitleButtonBrush"]; set => Resources["TitleButtonBrush"] = value; }
+    public Brush BackgroundColorBrush { get => Background; set => Background = value; }
+    public Brush TextColorBrush { get => (Brush)Resources["NoteFontBrush"]; set => Resources["NoteFontBrush"] = value; }
 
     public void ScrollToEnd() => NoteTextBox.ScrollToEnd();
 
-    public event EventHandler WindowLoaded;
-    public event EventHandler WindowMoved;
-    public event EventHandler WindowActivated;
-    public event EventHandler WindowDeactivated;
+    public event EventHandler? WindowLoaded;
+    public event EventHandler? WindowMoved;
+    public event EventHandler? WindowActivated;
+    public event EventHandler? WindowDeactivated;
 
-    public event EventHandler TextChanged;
+    public event EventHandler? NewNoteClicked;
+    public event EventHandler? CloseNoteClicked;
+    public event EventHandler? ResetSizeClicked;
+    public event EventHandler? SettingsClicked;
+
+    public event EventHandler? TextChanged;
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
@@ -126,46 +129,29 @@ public partial class NoteWindow : Window, INoteView
     }
 
     // Will probably make a custom window as dark mode does not work in messagebox.
+    // Will actully not need this once database is added
     private void Window_Closing(object sender, CancelEventArgs e)
     {
-        if (!_viewModel.IsSaved && NoteTextBox.Text != "")
-        {
-            MessageBoxResult messageBoxResult = MessageBox.Show(
-                this,
-                "Do you want to save this note?",
-                "Pinny Notes",
-                MessageBoxButton.YesNoCancel,
-                MessageBoxImage.Question
-            );
-            // If the user presses cancel on the message box or 
-            // save dialog, do not close.
-            if (
-                (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
-                || messageBoxResult == MessageBoxResult.Cancel
-            )
-                e.Cancel = true;
-        }
+        //if (!_viewModel.IsSaved && NoteTextBox.Text != "")
+        //{
+        //    MessageBoxResult messageBoxResult = MessageBox.Show(
+        //        this,
+        //        "Do you want to save this note?",
+        //        "Pinny Notes",
+        //        MessageBoxButton.YesNoCancel,
+        //        MessageBoxImage.Question
+        //    );
+        //    // If the user presses cancel on the message box or 
+        //    // save dialog, do not close.
+        //    if (
+        //        (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
+        //        || messageBoxResult == MessageBoxResult.Cancel
+        //    )
+        //        e.Cancel = true;
+        //}
     }
 
-    #endregion
-
-    #region Commands
-
-    public void SaveCommandExecute()
-    {
-        SaveNote();
-    }
-
-    public void ResetSizeCommandExecute()
-    {
-        Width = NoteViewModel.DefaultWidth;
-        Height = NoteViewModel.DefaultHeight;
-    }
-
-    #endregion
-
-    #region MiscFunctions
-
+    // This will become Export note once database added
     private MessageBoxResult SaveNote()
     {
         SaveFileDialog saveFileDialog = new()
@@ -175,7 +161,7 @@ public partial class NoteWindow : Window, INoteView
         if (saveFileDialog.ShowDialog(this) == true)
         {
             File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-            _viewModel.IsSaved = true;
+            //_viewModel.IsSaved = true; // IsSaved will move to mean i the database
             return MessageBoxResult.OK;
         }
         return MessageBoxResult.Cancel;
@@ -192,10 +178,6 @@ public partial class NoteWindow : Window, INoteView
         ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
     }
 
-    #endregion
-
-    #region TitleBar
-
     private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.ClickCount >= 2)
@@ -207,26 +189,14 @@ public partial class NoteWindow : Window, INoteView
         }
     }
 
-    private void NewButton_Click(object sender, RoutedEventArgs e)
-    {
-        new NoteWindow(_viewModel).Show();
-    }
+    private void NewButton_Click(object sender, RoutedEventArgs e) => NewNoteClicked?.Invoke(sender, e);
 
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
+    private void CloseButton_Click(object sender, RoutedEventArgs e) => CloseNoteClicked?.Invoke(sender, e);
 
-    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ((App)Application.Current).ShowSettingsWindow(this);
-    }
+    private void ResetSizeMenuItem_Click(object sender, RoutedEventArgs e) => ResetSizeClicked?.Invoke(sender, e);
+    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e) => SettingsClicked?.Invoke(sender, e);
 
-    #endregion
-
-    #region TextBox
 
     private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e) => TextChanged?.Invoke(sender, e);
 
-    #endregion
 }

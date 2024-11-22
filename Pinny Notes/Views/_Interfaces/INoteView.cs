@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -19,6 +20,12 @@ public interface INoteView
     public int CaretIndex { get; set; }
     public int SelectionStart { get; set; }
     public int SelectionLength { get; set; }
+
+    public Brush BorderColorBrush { get; set; }
+    public Brush TitleBarColorBrush { get; set; }
+    public Brush TitleButtonColorBrush { get; set; }
+    public Brush BackgroundColorBrush { get; set; }
+    public Brush TextColorBrush { get; set; }
 
     void ScrollToEnd();
 
