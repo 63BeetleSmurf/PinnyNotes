@@ -238,27 +238,15 @@
             </Grid.ContextMenu>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <controls:NoteTextBox AcceptsReturn="True"
-                AcceptsTab="True"
-                AllowDrop="True"
+            <controls:NoteTextBox
                 BorderThickness="0"
                 Background="Transparent"
                 Foreground="{Binding TextColorBrush}"
                 CaretBrush="{Binding TextColorBrush}"
-                ContextMenuOpening="NoteTextBox_ContextMenuOpening"
                 FontSize="16"
-                MouseDoubleClick="NoteTextBox_MouseDoubleClick"
                 Name="NoteTextBox"
                 Padding="5,5,5,5"
-                PreviewDragOver="NoteTextBox_DragOver"
-                PreviewDrop="NoteTextBox_Drop"
-                PreviewKeyDown="NoteTextBox_PreviewKeyDown"
-                PreviewMouseDown="NoteTextBox_MouseDown"
-                PreviewMouseUp="NoteTextBox_MouseUp"
-                SelectionChanged="NoteTextBox_SelectionChanged"
                 TextChanged="NoteTextBox_TextChanged"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto"
                 SpellCheck.IsEnabled="{Binding SpellCheck}"
                 Text="{Binding Content}"
                 FontFamily="{Binding FontFamily}"

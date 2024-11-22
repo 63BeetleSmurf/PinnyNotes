@@ -57,24 +57,6 @@ public class NotePresenter
     private void OnTextChanged(object? sender, EventArgs e)
     {
         _model.Text = _view.Text;
-
-        if (_model.NewLineAdded)
-        {
-
-            bool caretAtEnd = (_view.CaretIndex == _view.Text.Length);
-            // Preserving selection when adding new line
-            int selectionStart = _view.SelectionStart;
-            int selectionLength = _view.SelectionLength;
-
-            _view.Text = _model.Text;
-
-            _view.SelectionStart = selectionStart;
-            _view.SelectionLength = selectionLength;
-
-            if (Settings.Default.KeepNewLineAtEndVisible && caretAtEnd)
-                _view.ScrollToEnd();
-        }
-
     }
 
     private void UpdateWindowOpacity(bool IsFocused)

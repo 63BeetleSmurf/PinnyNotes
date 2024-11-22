@@ -17,12 +17,8 @@ public class NoteModel
         {
             _text = value;
             IsSaved = false;
-
-            _newLineAdded = CheckNewLineAtEnd();
         }
     }
-    private bool _newLineAdded = false;
-    public bool NewLineAdded { get => _newLineAdded; }
 
     public int Width { get; set; }
     public int Height { get; set; }
