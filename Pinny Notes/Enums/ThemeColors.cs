@@ -2,12 +2,12 @@
 
 public enum ThemeColors
 {
-    Yellow = 0,
-    Orange = 1,
-    Red = 2,
-    Pink = 3,
-    Purple = 4,
-    Blue = 5,
-    Aqua = 6,
-    Green = 7
+    Yellow = 1,
+    Orange = 2,
+    Red = 3,
+    Pink = 4,
+    Purple = 5,
+    Blue = 6,
+    Aqua = 7,
+    Green = 8
 }

@@ -2,7 +2,7 @@
 
 public enum ColorModes
 {
-    Light = 0,
-    Dark = 1,
-    System = 2
+    Light = 1,
+    Dark = 2,
+    System = 3
 }

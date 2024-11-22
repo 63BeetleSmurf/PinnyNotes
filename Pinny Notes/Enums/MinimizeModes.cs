@@ -2,7 +2,7 @@
 
 public enum MinimizeModes
 {
-    Allow = 0,
-    Prevent = 1,
-    PreventIfPinned = 2
+    Allow = 1,
+    Prevent = 2,
+    PreventIfPinned = 3
 }
