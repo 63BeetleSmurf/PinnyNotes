@@ -84,21 +84,21 @@ public class NotePresenter
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
         // 0 = Title, 1 = Background, 2 = Border
-        _view.BorderColorBrush = new(ThemeHelper.Colors[themeColor][2]);
+        _view.BorderColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][2]);
 
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
         {
-            _view.TitleBarColorBrush = new(Color.FromRgb(70, 70, 70));    // #464646
-            _view.TitleButtonColorBrush = new(ThemeHelper.Colors[themeColor][2]);
-            _view.BackgroundColorBrush = new(Color.FromRgb(50, 50, 50));  // #323232
-            _view.TextColorBrush = new(Colors.White);
+            _view.TitleBarColorBrush = new SolidColorBrush(Color.FromRgb(70, 70, 70));    // #464646
+            _view.TitleButtonColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][2]);
+            _view.BackgroundColorBrush = new SolidColorBrush(Color.FromRgb(50, 50, 50));  // #323232
+            _view.TextColorBrush = new SolidColorBrush(Colors.White);
         }
         else
         {
-            _view.TitleBarColorBrush = new(ThemeHelper.Colors[themeColor][0]);
-            _view.TitleButtonColorBrush = new(Color.FromRgb(70, 70, 70));    // #464646
-            _view.BackgroundColorBrush = new(ThemeHelper.Colors[themeColor][1]);
-            _view.TextColorBrush = new(Colors.Black);
+            _view.TitleBarColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][0]);
+            _view.TitleButtonColorBrush = new SolidColorBrush(Color.FromRgb(70, 70, 70));    // #464646
+            _view.BackgroundColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][1]);
+            _view.TextColorBrush = new SolidColorBrush(Colors.Black);
         }
     }
 }
