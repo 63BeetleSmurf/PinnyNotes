@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Text.Json;
 using System.Windows.Controls;
 
@@ -25,14 +24,10 @@ public partial class JsonTool : BaseTool, ITool
     public JsonTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "JSON";
-        _menuActions.Add(new("Prettify", MenuActionCommand, ToolActions.JsonPrettify));
+        _menuActions.Add(new("Prettify", JsonPrettifyMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void JsonPrettifyMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JsonPrettify);
 
     private string ModifyTextCallback(string text, Enum action)
     {

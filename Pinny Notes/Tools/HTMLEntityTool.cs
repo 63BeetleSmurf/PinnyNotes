@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Net;
 using System.Windows.Controls;
 
@@ -21,15 +20,12 @@ public partial class HtmlEntityTool : BaseTool, ITool
     public HtmlEntityTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "HTML Entity";
-        _menuActions.Add(new("Encode", MenuActionCommand, ToolActions.EntityEncode));
-        _menuActions.Add(new("Decode", MenuActionCommand, ToolActions.EntityDecode));
+        _menuActions.Add(new("Encode", EntityEncodeMenuAction));
+        _menuActions.Add(new("Decode", EntityDecodeMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void EntityEncodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.EntityEncode);
+    private void EntityDecodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.EntityDecode);
 
     private string ModifyTextCallback(string text, Enum action)
     {

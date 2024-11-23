@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -21,16 +20,14 @@ public partial class ListTool : BaseTool, ITool
     public ListTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "List";
-        _menuActions.Add(new("Enumerate", MenuActionCommand, ToolActions.ListEnumerate));
-        _menuActions.Add(new("Dash", MenuActionCommand, ToolActions.ListDash));
-        _menuActions.Add(new("Remove", MenuActionCommand, ToolActions.ListRemove));
+        _menuActions.Add(new("Enumerate", ListEnumerateMenuAction));
+        _menuActions.Add(new("Dash", ListDashMenuAction));
+        _menuActions.Add(new("Remove", ListRemoveMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToEachLine(ModifyLineCallback, action);
-    }
+    private void ListEnumerateMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.ListEnumerate);
+    private void ListDashMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.ListDash);
+    private void ListRemoveMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.ListRemove);
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {

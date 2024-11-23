@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
@@ -20,7 +21,7 @@ public abstract class BaseTool(TextBox noteTextBox)
 
         foreach (ToolMenuAction menuAction in _menuActions)
         {
-            if (menuAction.Name == "-" && menuAction.Command == null && menuAction.Action == null)
+            if (menuAction.Name == "-" && menuAction.EventHandler == null)
             {
                 menuItem.Items.Add(new Separator());
                 continue;
@@ -30,10 +31,8 @@ public abstract class BaseTool(TextBox noteTextBox)
             {
                 Header = menuAction.Name
             };
-            if (menuAction.Command != null)
-                actionMenuItem.Command = menuAction.Command;
-            if (menuAction.Action != null)
-                actionMenuItem.CommandParameter = menuAction.Action;
+            if (menuAction.EventHandler != null)
+                actionMenuItem.Click += menuAction.EventHandler;
 
             menuItem.Items.Add(actionMenuItem);
         }

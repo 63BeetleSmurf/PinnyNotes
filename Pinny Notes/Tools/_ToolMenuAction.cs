@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Windows;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public class ToolMenuAction(string name, ICommand? command = null, Enum? action = null)
+public class ToolMenuAction(string name, RoutedEventHandler? eventHandler = null)
 {
     public string Name { get; set; } = name;
-    public ICommand? Command { get; set; } = command;
-    public Enum? Action { get; set; } = action;
+    public RoutedEventHandler? EventHandler { get; set; } = eventHandler;
 }

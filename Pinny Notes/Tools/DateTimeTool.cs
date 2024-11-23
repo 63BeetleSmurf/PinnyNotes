@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -19,19 +18,10 @@ public partial class DateTimeTool : BaseTool, ITool
     public DateTimeTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Date Time";
-        _menuActions.Add(new("Sortable Date Time", MenuActionCommand, ToolActions.DateTimeSortableDateTime));
+        _menuActions.Add(new("Sortable Date Time", DateTimeSortableDateTimeMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        switch (action)
-        {
-            case ToolActions.DateTimeSortableDateTime:
-                InsertIntoNoteText(GetSortableDateTime());
-                break;
-        }
-    }
+    private void DateTimeSortableDateTimeMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GetSortableDateTime());
 
     private string GetSortableDateTime()
     {

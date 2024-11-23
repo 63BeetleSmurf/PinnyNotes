@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
@@ -25,18 +24,18 @@ public partial class HashTool : BaseTool, ITool
     public HashTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Hash";
-        _menuActions.Add(new("SHA512", MenuActionCommand, ToolActions.HashSHA512));
-        _menuActions.Add(new("SHA384", MenuActionCommand, ToolActions.HashSHA384));
-        _menuActions.Add(new("SHA256", MenuActionCommand, ToolActions.HashSHA256));
-        _menuActions.Add(new("SHA1", MenuActionCommand, ToolActions.HashSHA1));
-        _menuActions.Add(new("MD5", MenuActionCommand, ToolActions.HashMD5));
+        _menuActions.Add(new("SHA512", HashSHA512MenuAction));
+        _menuActions.Add(new("SHA384", HashSHA384MenuAction));
+        _menuActions.Add(new("SHA256", HashSHA256MenuAction));
+        _menuActions.Add(new("SHA1", HashSHA1MenuAction));
+        _menuActions.Add(new("MD5", HashMD5MenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void HashSHA512MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA512);
+    private void HashSHA384MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA384);
+    private void HashSHA256MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA256);
+    private void HashSHA1MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA1);
+    private void HashMD5MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashMD5);
 
     private string ModifyTextCallback(string text, Enum action)
     {

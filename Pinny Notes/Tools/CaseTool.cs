@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Controls;
 
@@ -22,16 +21,14 @@ public partial class CaseTool : BaseTool, ITool
     public CaseTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Case";
-        _menuActions.Add(new("Lower", MenuActionCommand, ToolActions.CaseLower));
-        _menuActions.Add(new("Upper", MenuActionCommand, ToolActions.CaseUpper));
-        _menuActions.Add(new("Title", MenuActionCommand, ToolActions.CaseTitle));
+        _menuActions.Add(new("Lower", CaseLowerMenuAction));
+        _menuActions.Add(new("Upper", CaseUpperMenuAction));
+        _menuActions.Add(new("Title", CaseTitleMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void CaseLowerMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.CaseLower);
+    private void CaseUpperMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.CaseUpper);
+    private void CaseTitleMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.CaseTitle);
 
     private string ModifyTextCallback(string text, Enum action)
     {

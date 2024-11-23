@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -29,40 +28,21 @@ public partial class GibberishTool : BaseTool, ITool
     public GibberishTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Gibberish";
-        _menuActions.Add(new("Word", MenuActionCommand, ToolActions.GibberishWord));
-        _menuActions.Add(new("Title", MenuActionCommand, ToolActions.GibberishTitle));
-        _menuActions.Add(new("Sentence", MenuActionCommand, ToolActions.GibberishSentence));
-        _menuActions.Add(new("Paragraph", MenuActionCommand, ToolActions.GibberishParagraph));
-        _menuActions.Add(new("Article", MenuActionCommand, ToolActions.GibberishArticle));
+        _menuActions.Add(new("Word", GibberishWordMenuAction));
+        _menuActions.Add(new("Title", GibberishTitleMenuAction));
+        _menuActions.Add(new("Sentence", GibberishSentenceMenuAction));
+        _menuActions.Add(new("Paragraph", GibberishParagraphMenuAction));
+        _menuActions.Add(new("Article", GibberishArticleMenuAction));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Name", MenuActionCommand, ToolActions.GibberishName));
+        _menuActions.Add(new("Name", GibberishNameMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        switch (action)
-        {
-            case ToolActions.GibberishWord:
-                InsertIntoNoteText(GenerateGibberishWord());
-                break;
-            case ToolActions.GibberishTitle:
-                InsertIntoNoteText(GenerateGibberishTitle());
-                break;
-            case ToolActions.GibberishSentence:
-                InsertIntoNoteText(GenerateGibberishSentence());
-                break;
-            case ToolActions.GibberishParagraph:
-                InsertIntoNoteText(GenerateGibberishParagraph());
-                break;
-            case ToolActions.GibberishArticle:
-                InsertIntoNoteText(GenerateGibberishArticle());
-                break;
-            case ToolActions.GibberishName:
-                InsertIntoNoteText(GenerateGibberishTitle(2));
-                break;
-        }
-    }
+    private void GibberishWordMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishWord());
+    private void GibberishTitleMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishTitle());
+    private void GibberishSentenceMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishSentence());
+    private void GibberishParagraphMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishParagraph());
+    private void GibberishArticleMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishArticle());
+    private void GibberishNameMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishTitle(2));
 
     private string GenerateGibberishWord(bool titleCase = false)
     {

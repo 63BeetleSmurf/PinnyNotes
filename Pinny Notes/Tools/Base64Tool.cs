@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -20,15 +19,12 @@ public partial class Base64Tool : BaseTool, ITool
     public Base64Tool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Base64";
-        _menuActions.Add(new("Encode", MenuActionCommand, ToolActions.Base64Encode));
-        _menuActions.Add(new("Decode", MenuActionCommand, ToolActions.Base64Decode));
+        _menuActions.Add(new("Encode", Base64EncodeMenuAction));
+        _menuActions.Add(new("Decode", Base64DecodeMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(Enum action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void Base64EncodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.Base64Encode);
+    private void Base64DecodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.Base64Decode);
 
     private string ModifyTextCallback(string text, Enum action)
     {

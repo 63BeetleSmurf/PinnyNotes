@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
@@ -29,28 +28,36 @@ public partial class RemoveTool : BaseTool, ITool
     public RemoveTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Remove";
-        _menuActions.Add(new("Spaces", MenuActionCommand, ToolActions.RemoveSpaces));
-        _menuActions.Add(new("Tabs", MenuActionCommand, ToolActions.RemoveTabs));
-        _menuActions.Add(new("New Lines", MenuActionCommand, ToolActions.RemoveNewLines));
+        _menuActions.Add(new("Spaces", RemoveSpacesMenuAction));
+        _menuActions.Add(new("Tabs", RemoveTabsMenuAction));
+        _menuActions.Add(new("New Lines", RemoveNewLinesMenuAction));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Forward Slashes (/)", MenuActionCommand, ToolActions.RemoveForwardSlashes));
-        _menuActions.Add(new("Back Slashes (\\)", MenuActionCommand, ToolActions.RemoveBackSlashes));
-        _menuActions.Add(new("All Slashes", MenuActionCommand, ToolActions.RemoveAllSlashes));
+        _menuActions.Add(new("Forward Slashes (/)", RemoveForwardSlashesMenuAction));
+        _menuActions.Add(new("Back Slashes (\\)", RemoveBackSlashesMenuAction));
+        _menuActions.Add(new("All Slashes", RemoveAllSlashesMenuAction));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Selected", MenuActionCommand, ToolActions.RemoveSelected));
+        _menuActions.Add(new("Selected", RemoveSelectedMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
+    private void RemoveSpacesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveSpaces);
+    private void RemoveTabsMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveTabs);
+    private void RemoveNewLinesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveNewLines);
+    private void RemoveForwardSlashesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveForwardSlashes);
+    private void RemoveBackSlashesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveBackSlashes);
+    private void RemoveAllSlashesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveAllSlashes);
+    private void RemoveSelectedMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveSelected);
+
+    private void MenuAction(Enum action)
     {
-        if (action != ToolActions.RemoveSelected)
+        switch (action)
         {
-            _selectedText = null;
-        }
-        else
-        {
-            _selectedText = _noteTextBox.SelectedText;
-            _noteTextBox.SelectionLength = 0;
+            case ToolActions.RemoveSelected:
+                _selectedText = null;
+                break;
+            default:
+                _selectedText = _noteTextBox.SelectedText;
+                _noteTextBox.SelectionLength = 0;
+                break;
         }
 
         ApplyFunctionToNoteText(ModifyTextCallback, action);

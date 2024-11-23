@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -26,24 +25,29 @@ public partial class SplitTool : BaseTool, ITool
     public SplitTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Split";
-        _menuActions.Add(new("Comma", MenuActionCommand, ToolActions.SplitComma));
-        _menuActions.Add(new("Space", MenuActionCommand, ToolActions.SplitSpace));
-        _menuActions.Add(new("Tab", MenuActionCommand, ToolActions.SplitTab));
+        _menuActions.Add(new("Comma", SplitCommaMenuAction));
+        _menuActions.Add(new("Space", SplitSpaceMenuAction));
+        _menuActions.Add(new("Tab", SplitTabMenuAction));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Selected", MenuActionCommand, ToolActions.SplitSelected));
+        _menuActions.Add(new("Selected", SplitSelectedMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
+    private void SplitCommaMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.SplitComma);
+    private void SplitSpaceMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.SplitSpace);
+    private void SplitTabMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.SplitTab);
+    private void SplitSelectedMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.SplitSelected);
+
+    private void MenuAction(Enum action)
     {
-        if (action != ToolActions.SplitSelected)
+        switch (action)
         {
-            _selectedText = null;
-        }
-        else
-        {
-            _selectedText = _noteTextBox.SelectedText;
-            _noteTextBox.SelectionLength = 0;
+            case (ToolActions.SplitSelected):
+                _selectedText = null;
+                break;
+            default:
+                _selectedText = _noteTextBox.SelectedText;
+                _noteTextBox.SelectionLength = 0;
+                break;
         }
 
         ApplyFunctionToNoteText(ModifyTextCallback, action);

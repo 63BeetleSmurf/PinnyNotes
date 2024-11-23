@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Text;
 using System.Windows.Controls;
 
@@ -22,16 +21,14 @@ public partial class SlashTool : BaseTool, ITool
     public SlashTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Slash";
-        _menuActions.Add(new("All Forward (/)", MenuActionCommand, ToolActions.SlashAllForward));
-        _menuActions.Add(new("All Back (\\)", MenuActionCommand, ToolActions.SlashAllBack));
-        _menuActions.Add(new("Swap", MenuActionCommand, ToolActions.SlashSwap));
+        _menuActions.Add(new("All Forward (/)", SlashAllForwardMenuAction));
+        _menuActions.Add(new("All Back (\\)", SlashAllBackMenuAction));
+        _menuActions.Add(new("Swap", SlashSwapMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void SlashAllForwardMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SlashAllForward);
+    private void SlashAllBackMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SlashAllBack);
+    private void SlashSwapMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SlashSwap);
 
     private string ModifyTextCallback(string text, Enum action)
     {

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -22,17 +21,16 @@ public partial class TrimTool : BaseTool, ITool
     public TrimTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Trim";
-        _menuActions.Add(new("Start", MenuActionCommand, ToolActions.TrimStart));
-        _menuActions.Add(new("End", MenuActionCommand, ToolActions.TrimEnd));
-        _menuActions.Add(new("Both", MenuActionCommand, ToolActions.TrimBoth));
-        _menuActions.Add(new("Empty Lines", MenuActionCommand, ToolActions.TrimLines));
+        _menuActions.Add(new("Start", TrimStartMenuAction));
+        _menuActions.Add(new("End", TrimEndMenuAction));
+        _menuActions.Add(new("Both", TrimBothMenuAction));
+        _menuActions.Add(new("Empty Lines", TrimLinesMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToEachLine(ModifyLineCallback, action);
-    }
+    private void TrimStartMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimStart);
+    private void TrimEndMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimEnd);
+    private void TrimBothMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimBoth);
+    private void TrimLinesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimLines);
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {

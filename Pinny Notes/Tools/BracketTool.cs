@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -27,19 +26,19 @@ public partial class BracketTool : BaseTool, ITool
     public BracketTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Bracket";
-        _menuActions.Add(new("Parentheses", MenuActionCommand, ToolActions.BracketParentheses));
-        _menuActions.Add(new("Curly", MenuActionCommand, ToolActions.BracketCurly));
-        _menuActions.Add(new("Square", MenuActionCommand, ToolActions.BracketSquare));
+        _menuActions.Add(new("Parentheses", BracketParenthesesMenuAction));
+        _menuActions.Add(new("Curly", BracketCurlyMenuAction));
+        _menuActions.Add(new("Square", BracketSquareMenuAction));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim Once", MenuActionCommand, ToolActions.BracketTrimOnce));
-        _menuActions.Add(new("Trim All", MenuActionCommand, ToolActions.BracketTrimAll));
+        _menuActions.Add(new("Trim Once", BracketTrimOnceMenuAction));
+        _menuActions.Add(new("Trim All", BracketTrimAllMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToEachLine(ModifyLineCallback, action);
-    }
+    private void BracketParenthesesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketParentheses);
+    private void BracketCurlyMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketCurly);
+    private void BracketSquareMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketSquare);
+    private void BracketTrimOnceMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketTrimOnce);
+    private void BracketTrimAllMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketTrimAll);
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {

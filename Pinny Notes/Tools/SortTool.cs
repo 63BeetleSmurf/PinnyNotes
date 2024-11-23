@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -20,15 +19,12 @@ public partial class SortTool : BaseTool, ITool
     public SortTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Sort";
-        _menuActions.Add(new("Ascending", MenuActionCommand, ToolActions.SortAscending));
-        _menuActions.Add(new("Descending", MenuActionCommand, ToolActions.SortDescending));
+        _menuActions.Add(new("Ascending", SortAscendingMenuAction));
+        _menuActions.Add(new("Descending", SortDescendingMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void SortAscendingMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SortAscending);
+    private void SortDescendingMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SortDescending);
 
     private string ModifyTextCallback(string text, Enum action)
     {

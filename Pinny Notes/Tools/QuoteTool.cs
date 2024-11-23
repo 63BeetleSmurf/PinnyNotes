@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -26,18 +25,17 @@ public partial class QuoteTool : BaseTool, ITool
     public QuoteTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Quote";
-        _menuActions.Add(new("Double", MenuActionCommand, ToolActions.QuoteDouble));
-        _menuActions.Add(new("Single", MenuActionCommand, ToolActions.QuoteSingle));
-        _menuActions.Add(new("Backtick", MenuActionCommand, ToolActions.Backtick));
+        _menuActions.Add(new("Double", QuoteDoubleMenuAction));
+        _menuActions.Add(new("Single", QuoteSingleMenuAction));
+        _menuActions.Add(new("Backtick", BacktickMenuAction));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim", MenuActionCommand, ToolActions.Trim));
+        _menuActions.Add(new("Trim", TrimMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToEachLine(ModifyLineCallback, action);
-    }
+    private void QuoteDoubleMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.QuoteDouble);
+    private void QuoteSingleMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.QuoteSingle);
+    private void BacktickMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Backtick);
+    private void TrimMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Trim);
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {

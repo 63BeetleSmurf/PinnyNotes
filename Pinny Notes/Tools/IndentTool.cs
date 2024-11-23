@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -21,16 +20,14 @@ public partial class IndentTool : BaseTool, ITool
     public IndentTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Indent";
-        _menuActions.Add(new("2 Spaces", MenuActionCommand, ToolActions.Indent2Spaces));
-        _menuActions.Add(new("4 Spaces", MenuActionCommand, ToolActions.Indent4Spaces));
-        _menuActions.Add(new("Tab", MenuActionCommand, ToolActions.IndentTab));
+        _menuActions.Add(new("2 Spaces", Indent2SpacesMenuAction));
+        _menuActions.Add(new("4 Spaces", Indent4SpacesMenuAction));
+        _menuActions.Add(new("Tab", IndentTabMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToEachLine(ModifyLineCallback, action);
-    }
+    private void Indent2SpacesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Indent2Spaces);
+    private void Indent4SpacesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Indent4Spaces);
+    private void IndentTabMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.IndentTab);
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {

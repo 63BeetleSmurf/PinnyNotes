@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Properties;
@@ -21,16 +20,14 @@ public partial class JoinTool : BaseTool, ITool
     public JoinTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Join";
-        _menuActions.Add(new("Comma", MenuActionCommand, ToolActions.JoinComma));
-        _menuActions.Add(new("Space", MenuActionCommand, ToolActions.JoinSpace));
-        _menuActions.Add(new("Tab", MenuActionCommand, ToolActions.JoinTab));
+        _menuActions.Add(new("Comma", JoinCommaMenuAction));
+        _menuActions.Add(new("Space", JoinSpaceMenuAction));
+        _menuActions.Add(new("Tab", JoinTabMenuAction));
     }
 
-    [RelayCommand]
-    private void MenuAction(ToolActions action)
-    {
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
+    private void JoinCommaMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JoinComma);
+    private void JoinSpaceMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JoinSpace);
+    private void JoinTabMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JoinTab);
 
     private string ModifyTextCallback(string text, Enum action)
     {
