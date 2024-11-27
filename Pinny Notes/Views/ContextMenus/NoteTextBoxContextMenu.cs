@@ -5,8 +5,9 @@ using System.Windows.Documents;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Tools;
+using PinnyNotes.WpfUi.Views.Controls;
 
-namespace PinnyNotes.WpfUi.Views.Controls;
+namespace PinnyNotes.WpfUi.Views.ContextMenus;
 
 public class NoteTextBoxContextMenu : ContextMenu
 {

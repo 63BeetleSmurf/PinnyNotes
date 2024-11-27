@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Tools;
+using PinnyNotes.WpfUi.Views.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views.Controls;
 
