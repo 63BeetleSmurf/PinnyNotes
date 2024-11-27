@@ -27,6 +27,11 @@ public class NotePresenter
         _view = view;
         _model = model;
 
+        _view.Width = _model.Width;
+        _view.Height = _model.Height;
+        _view.Left = _model.X;
+        _view.Top = _model.Y;
+
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
         _view.WindowActivated += OnWindowActivated;
@@ -35,7 +40,8 @@ public class NotePresenter
 
         _view.TextChanged += OnTextChanged;
 
-        ApplyTheme(Settings.Default.Theme);
+        ApplyTheme();
+        UpdateWindowOpacity();
     }
 
     private void OnWindowLoaded(object? sender, EventArgs e)
@@ -57,13 +63,13 @@ public class NotePresenter
 
     private void OnWindowActivated(object? sender, EventArgs e)
     {
-        UpdateWindowOpacity(true);
+        UpdateWindowOpacity();
     }
 
     private void OnWindowDeactivated(object? sender, EventArgs e)
     {
         _view.Topmost = _model.IsPinned;
-        UpdateWindowOpacity(false);
+        UpdateWindowOpacity();
     }
 
     private void OnTitleBarRightClicked(object? sender, EventArgs e)
@@ -94,7 +100,14 @@ public class NotePresenter
     private void OnChangeThemeMenuItemClicked(object? sender, EventArgs e)
     {
         if (sender is MenuItem menuItem)
-            ApplyTheme((string)menuItem.Header);
+        {
+            ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Name == (string)menuItem.Header);
+            if (theme == null)
+                return;
+
+            _model.Theme = theme;
+            ApplyTheme();
+        }
     }
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
@@ -107,13 +120,13 @@ public class NotePresenter
         _model.Text = _view.Text;
     }
 
-    private void UpdateWindowOpacity(bool IsFocused)
+    private void UpdateWindowOpacity()
     {
         bool transparentNotes = Settings.Default.TransparentNotes;
         bool opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
         bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
 
-        if (IsFocused)
+        if (_view.IsFocused)
             _view.Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
         else if (_model.IsPinned)
             _view.Opacity = transparentNotes ? _transparentOpacity : _opaqueOpacity;
@@ -121,19 +134,15 @@ public class NotePresenter
             _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
     }
 
-    private void ApplyTheme(string themeName)
+    private void ApplyTheme()
     {
-        ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Name == themeName);
-        if (theme == null)
-            return;
-
         ThemeColorModel themeColor;
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
-            themeColor = theme.DarkColor;
+            themeColor = _model.Theme.DarkColor;
         else
-            themeColor = theme.LightColor;
+            themeColor = _model.Theme.LightColor;
 
         _view.TitleBarColorBrush = themeColor.TitleBarBrush;
         _view.TitleButtonColorBrush = themeColor.TitleBarButtonsBrush;

@@ -16,6 +16,7 @@ public interface INoteView
     double Opacity { get; set; }
 
     bool Topmost { get; set; }
+    bool IsFocused { get; }
 
     NoteTitleBarContextMenu TitleBarContextMenu { get; set; }
 

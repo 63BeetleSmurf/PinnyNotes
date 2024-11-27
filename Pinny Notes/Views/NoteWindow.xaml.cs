@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -202,6 +203,6 @@ public partial class NoteWindow : Window, INoteView
     private void CloseButton_Click(object sender, RoutedEventArgs e) => CloseNoteClicked?.Invoke(sender, e);
 
 
-    private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e) => TextChanged?.Invoke(sender, e);
+    private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e) => TextChanged?.Invoke(sender, e);
 
 }
