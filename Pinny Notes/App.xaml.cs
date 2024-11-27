@@ -4,6 +4,8 @@ using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Presenters;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Views;
 
@@ -75,7 +77,11 @@ public partial class App : Application
 
     public void CreateNewNote()
     {
-        new NoteWindow().Show();
+        var model = new NoteModel();
+        var view = new NoteWindow();
+        var presenter = new NotePresenter(model, view);
+
+        view.Show();
     }
 
     public void ShowSettingsWindow(Window? owner = null)
