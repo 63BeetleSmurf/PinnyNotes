@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Media;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
@@ -79,26 +78,20 @@ public class NotePresenter
             _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
     }
 
-    private void UpdateBrushes(ThemeColors themeColor)
+    private void ApplyTheme(ThemeModel theme)
     {
+        ThemeColorModel themeColor;
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
-        // 0 = Title, 1 = Background, 2 = Border
-        _view.BorderColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][2]);
-
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
-        {
-            _view.TitleBarColorBrush = new SolidColorBrush(Color.FromRgb(70, 70, 70));    // #464646
-            _view.TitleButtonColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][2]);
-            _view.BackgroundColorBrush = new SolidColorBrush(Color.FromRgb(50, 50, 50));  // #323232
-            _view.TextColorBrush = new SolidColorBrush(Colors.White);
-        }
+            themeColor = theme.DarkColor;
         else
-        {
-            _view.TitleBarColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][0]);
-            _view.TitleButtonColorBrush = new SolidColorBrush(Color.FromRgb(70, 70, 70));    // #464646
-            _view.BackgroundColorBrush = new SolidColorBrush(ThemeHelper.Colors[themeColor][1]);
-            _view.TextColorBrush = new SolidColorBrush(Colors.Black);
-        }
+            themeColor = theme.LightColor;
+
+        _view.TitleBarColorBrush = themeColor.TitleBarBrush;
+        _view.TitleButtonColorBrush = themeColor.TitleBarButtonsBrush;
+        _view.BackgroundColorBrush = themeColor.BackgroundColorBrush;
+        _view.TextColorBrush = themeColor.TextColorBrush;
+        _view.BorderColorBrush = themeColor.BorderColorBrush;
     }
 }

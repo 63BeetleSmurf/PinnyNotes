@@ -16,7 +16,7 @@ public class NoteModel
     public NoteModel(NoteModel? parent = null)
     {
         InitNotePosition(parent);
-        InitNoteColor(parent);
+        InitTheme(parent);
     }
 
     private void InitNotePosition(NoteModel? parent = null)
@@ -117,20 +117,23 @@ public class NoteModel
         Y = position.Y;
     }
 
-    private void InitNoteColor(NoteModel? parent = null)
+    private void InitTheme(NoteModel? parent = null)
     {
-        // Set this first as cycle colors wont trigger a change if the next color is the default for ThemeColors
-        Color = (ThemeColors)Settings.Default.Color;
-        if (Settings.Default.CycleColors)
+        ThemeModel theme = ThemeHelper.Themes.Find(t => t.Name == Settings.Default.Theme)
+            ?? ThemeHelper.Themes[0];
+
+        if (Settings.Default.CycleThemes && ThemeHelper.Themes.Count > 1)
         {
-            int themeColorIndex = GetNextThemeColorIndex((int)Color);
-            if (parent != null && themeColorIndex == (int)parent.Color)
-                themeColorIndex = GetNextThemeColorIndex(themeColorIndex);
-            Color = (ThemeColors)themeColorIndex;
+            theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
+
+            if (parent != null && theme == parent.Theme)
+                theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
         }
+
+        Theme = theme;
     }
 
-    private int GetNextThemeColorIndex(int currentIndex) => !Enum.IsDefined((ThemeColors)(currentIndex + 1)) ? 0 : currentIndex + 1;
+    private ThemeModel GetNextTheme(int currentIndex) => (currentIndex + 1 < ThemeHelper.Themes.Count) ? ThemeHelper.Themes[currentIndex + 1] : ThemeHelper.Themes[0];
 
     private string _text = "";
     public string Text {
@@ -149,7 +152,7 @@ public class NoteModel
     public int GravityX { get; set; }
     public int GravityY { get; set; }
 
-    public ThemeColors Color { get; set; }
+    public ThemeModel Theme { get; set; }
     public bool IsPinned { get; set; }
 
     public bool IsSaved { get; set; }
