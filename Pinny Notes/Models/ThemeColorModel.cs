@@ -4,10 +4,19 @@ using PinnyNotes.WpfUi.Helpers;
 
 namespace PinnyNotes.WpfUi.Models;
 
-public class ThemeColorModel(string titleBarColorHex, string titleBarButtonsColorHex, string backgroundColorHex, string textColorHex, string borderColorHex)
+public class ThemeColorModel
 {
+    public ThemeColorModel(string titleBarColorHex, string titleBarButtonsColorHex, string backgroundColorHex, string textColorHex, string borderColorHex)
+    {
+        TitleBarColorHex = titleBarColorHex;
+        TitleBarButtonsColorHex = titleBarButtonsColorHex;
+        BackgroundColorHex = backgroundColorHex;
+        TextColorHex = textColorHex;
+        BorderColorHex = borderColorHex;
+    }
+
     // Title Bar
-    private string _titleBarColorHex = titleBarColorHex;
+    private string _titleBarColorHex = null!;
     public string TitleBarColorHex {
         get => _titleBarColorHex;
         set
@@ -34,7 +43,7 @@ public class ThemeColorModel(string titleBarColorHex, string titleBarButtonsColo
     }
 
     // Title Bar Buttons
-    private string _titleBarButtonsColorHex = titleBarButtonsColorHex;
+    private string _titleBarButtonsColorHex = null!;
     public string TitleBarButtonsColorHex
     {
         get => _titleBarButtonsColorHex;
@@ -62,7 +71,7 @@ public class ThemeColorModel(string titleBarColorHex, string titleBarButtonsColo
     }
 
     // Background
-    private string _backgroundColorHex = backgroundColorHex;
+    private string _backgroundColorHex = null!;
     public string BackgroundColorHex
     {
         get => _backgroundColorHex;
@@ -90,7 +99,7 @@ public class ThemeColorModel(string titleBarColorHex, string titleBarButtonsColo
     }
 
     // Note Text
-    private string _textColorHex = textColorHex;
+    private string _textColorHex = null!;
     public string TextColorHex
     {
         get => _textColorHex;
@@ -118,7 +127,7 @@ public class ThemeColorModel(string titleBarColorHex, string titleBarButtonsColo
     }
 
     // Border
-    private string _borderColorHex = borderColorHex;
+    private string _borderColorHex = null!;
     public string BorderColorHex
     {
         get => _borderColorHex;

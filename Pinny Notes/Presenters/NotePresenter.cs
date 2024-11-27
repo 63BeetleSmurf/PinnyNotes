@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
@@ -33,6 +34,8 @@ public class NotePresenter
         _view.TitleBarRightClicked += OnTitleBarRightClicked;
 
         _view.TextChanged += OnTextChanged;
+
+        ApplyTheme(Settings.Default.Theme);
     }
 
     private void OnWindowLoaded(object? sender, EventArgs e)
