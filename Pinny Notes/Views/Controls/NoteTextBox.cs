@@ -331,7 +331,7 @@ public class NoteTextBox : TextBox
 
     protected override void OnContextMenuOpening(ContextMenuEventArgs e)
     {
-        ContextMenu = new NoteContextMenu(this);
+        ContextMenu = new NoteTextBoxContextMenu(this);
 
         base.OnContextMenuOpening(e);
     }

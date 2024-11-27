@@ -8,7 +8,7 @@ using PinnyNotes.WpfUi.Tools;
 
 namespace PinnyNotes.WpfUi.Views.Controls;
 
-public class NoteContextMenu : ContextMenu
+public class NoteTextBoxContextMenu : ContextMenu
 {
     private readonly NoteTextBox _noteTextBox;
 
@@ -18,7 +18,7 @@ public class NoteContextMenu : ContextMenu
     private void OnSelectAllClicked(object sender, RoutedEventArgs e) => _noteTextBox.SelectAll();
     private void OnClearClicked(object sender, RoutedEventArgs e) => _noteTextBox.Clear();
 
-    public NoteContextMenu(NoteTextBox noteTextBox)
+    public NoteTextBoxContextMenu(NoteTextBox noteTextBox)
     {
         _noteTextBox = noteTextBox;
 
