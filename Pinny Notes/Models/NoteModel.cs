@@ -28,7 +28,7 @@ public class NoteModel
 
         if (parent != null)
         {
-            screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandel);
+            screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandle);
 
             GravityX = parent.GravityX;
             GravityY = parent.GravityY;
@@ -151,6 +151,7 @@ public class NoteModel
     public int Y { get; set; }
     public int GravityX { get; set; }
     public int GravityY { get; set; }
+    public nint WindowHandle { get; set; }
 
     public ThemeModel Theme { get; set; }
     public bool IsPinned { get; set; }
