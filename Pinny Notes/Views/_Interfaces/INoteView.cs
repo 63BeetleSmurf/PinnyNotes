@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PinnyNotes.WpfUi.Views.ContextMenus;
+using System;
 using System.Windows.Media;
 
 namespace PinnyNotes.WpfUi.Views;
@@ -16,6 +17,8 @@ public interface INoteView
 
     bool Topmost { get; set; }
 
+    NoteTitleBarContextMenu TitleBarContextMenu { get; set; }
+
     public string Text { get; set; }
     public int CaretIndex { get; set; }
     public int SelectionStart { get; set; }
@@ -32,4 +35,11 @@ public interface INoteView
     event EventHandler WindowLoaded;
     event EventHandler WindowMoved;
     event EventHandler WindowActivated;
+    event EventHandler WindowDeactivated;
+
+    event EventHandler NewNoteClicked;
+    event EventHandler CloseNoteClicked;
+    event EventHandler TitleBarRightClicked;
+
+    event EventHandler TextChanged;
 }

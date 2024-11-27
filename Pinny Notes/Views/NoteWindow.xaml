@@ -60,7 +60,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown">
+        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" MouseRightButtonUp="TitleBar_MouseRightButtonUp">
             <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0"  Style="{StaticResource FadeOutButton}" Focusable="False">
                 <Button.Template>
                     <ControlTemplate>
@@ -105,128 +105,6 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Name="SaveMenuItem" Header="Save"/>
-                    <Separator />
-                    <MenuItem Name="ResetSizeMenuItem" Header="Reset Size" Click="ResetSizeMenuItem_Click" />
-                    <Separator />
-                    <MenuItem Header="Yellow" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Yellow}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#fef7b1" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Yellow}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Orange" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Orange}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#ffd179" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Orange}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Red" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Red}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#ff7c81" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Red}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Pink" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Pink}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#d986cc" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Pink}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Purple" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Purple}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#9d9add" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Purple}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Blue" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Blue}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#7ac3e6" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Blue}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Aqua" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Aqua}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#97cfc6" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Aqua}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <MenuItem Header="Green" Command="{Binding ChangeThemeColorCommand}" CommandParameter="{x:Static enums:ThemeColors.Green}">
-                        <MenuItem.Icon>
-                            <Rectangle Width="16" Height="16" Fill="#c6d67d" />
-                        </MenuItem.Icon>
-                        <MenuItem.Style>
-                            <Style TargetType="MenuItem">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentThemeColor}" Value="{x:Static enums:ThemeColors.Green}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </MenuItem.Style>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Name="SettingsMenuItem" Header="Settings" Click="SettingsMenuItem_Click" />
-                </ContextMenu>
-            </Grid.ContextMenu>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
             <controls:NoteTextBoxControl

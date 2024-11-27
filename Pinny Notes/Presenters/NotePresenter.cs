@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Windows.Controls;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
@@ -10,8 +10,8 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class NotePresenter
 {
-    public const double DefaultWidth = 300.0;
-    public const double DefaultHeight = 300.0;
+    public const int DefaultWidth = 300;
+    public const int DefaultHeight = 300;
 
     private const double _opaqueOpacity = 1.0;
     private const double _transparentOpacity = 0.8;
@@ -29,6 +29,10 @@ public class NotePresenter
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
         _view.WindowActivated += OnWindowActivated;
+
+        _view.TitleBarRightClicked += OnTitleBarRightClicked;
+
+        _view.TextChanged += OnTextChanged;
     }
 
     private void OnWindowLoaded(object? sender, EventArgs e)
@@ -59,6 +63,42 @@ public class NotePresenter
         UpdateWindowOpacity(false);
     }
 
+    private void OnTitleBarRightClicked(object? sender, EventArgs e)
+    {
+        _view.TitleBarContextMenu = new(
+            _model.Theme,
+            OnSaveMenuItemClicked,
+            OnResetSizeMenuItemClicked,
+            OnChangeThemeMenuItemClicked,
+            OnSettingsMenuItemClicked
+        );
+    }
+
+    private void OnSaveMenuItemClicked(object? sender, EventArgs e)
+    {
+        
+    }
+
+    private void OnResetSizeMenuItemClicked(object? sender, EventArgs e)
+    {
+        _model.Width = DefaultWidth;
+        _view.Width = _model.Width;
+
+        _model.Height = DefaultHeight;
+        _view.Height = _model.Height;
+    }
+
+    private void OnChangeThemeMenuItemClicked(object? sender, EventArgs e)
+    {
+        if (sender is MenuItem menuItem)
+            ApplyTheme((string)menuItem.Header);
+    }
+
+    private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
+    {
+        
+    }
+
     private void OnTextChanged(object? sender, EventArgs e)
     {
         _model.Text = _view.Text;
@@ -78,8 +118,12 @@ public class NotePresenter
             _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
     }
 
-    private void ApplyTheme(ThemeModel theme)
+    private void ApplyTheme(string themeName)
     {
+        ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Name == themeName);
+        if (theme == null)
+            return;
+
         ThemeColorModel themeColor;
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 

@@ -1,13 +1,11 @@
-﻿using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Properties;
-using PinnyNotes.WpfUi.ViewModels;
-using System;
-using System.Drawing;
+﻿using System.Drawing;
 using Point = System.Drawing.Point;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows;
+
+using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Models;
 
@@ -153,7 +151,7 @@ public class NoteModel
     public int GravityY { get; set; }
     public nint WindowHandle { get; set; }
 
-    public ThemeModel Theme { get; set; }
+    public ThemeModel Theme { get; set; } = null!;
     public bool IsPinned { get; set; }
 
     public bool IsSaved { get; set; }

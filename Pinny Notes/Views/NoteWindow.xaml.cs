@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
-using PinnyNotes.WpfUi.Views.Controls;
+using PinnyNotes.WpfUi.Views.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -29,6 +29,8 @@ public partial class NoteWindow : Window, INoteView
     }
 
     public nint Handle { get; set; }
+
+    public NoteTitleBarContextMenu TitleBarContextMenu { get; set; } = null!;
 
     public string Text
     {
@@ -64,8 +66,7 @@ public partial class NoteWindow : Window, INoteView
 
     public event EventHandler? NewNoteClicked;
     public event EventHandler? CloseNoteClicked;
-    public event EventHandler? ResetSizeClicked;
-    public event EventHandler? SettingsClicked;
+    public event EventHandler? TitleBarRightClicked;
 
     public event EventHandler? TextChanged;
 
@@ -189,12 +190,16 @@ public partial class NoteWindow : Window, INoteView
         }
     }
 
+    private void TitleBar_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        TitleBarRightClicked?.Invoke(sender, e);
+
+        TitleBarGrid.ContextMenu = TitleBarContextMenu;
+    }
+
     private void NewButton_Click(object sender, RoutedEventArgs e) => NewNoteClicked?.Invoke(sender, e);
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) => CloseNoteClicked?.Invoke(sender, e);
-
-    private void ResetSizeMenuItem_Click(object sender, RoutedEventArgs e) => ResetSizeClicked?.Invoke(sender, e);
-    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e) => SettingsClicked?.Invoke(sender, e);
 
 
     private void NoteTextBox_TextChanged(object sender, RoutedEventArgs e) => TextChanged?.Invoke(sender, e);
