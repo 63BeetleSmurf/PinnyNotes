@@ -229,13 +229,13 @@
             </Grid.ContextMenu>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="1">
-            <controls:NoteTextBox
+            <controls:NoteTextBoxControl
                 BorderThickness="0"
                 Background="Transparent"
                 Foreground="{DynamicResource NoteFontBrush}"
                 CaretBrush="{DynamicResource NoteFontBrush}"
                 FontSize="16"
-                Name="NoteTextBox"
+                x:Name="NoteTextBox"
                 Padding="5,5,5,5"
                 TextChanged="NoteTextBox_TextChanged"
                 SpellCheck.IsEnabled="{Binding SpellCheck}"

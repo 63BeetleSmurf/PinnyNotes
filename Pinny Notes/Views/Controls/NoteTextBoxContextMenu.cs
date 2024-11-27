@@ -10,7 +10,7 @@ namespace PinnyNotes.WpfUi.Views.Controls;
 
 public class NoteTextBoxContextMenu : ContextMenu
 {
-    private readonly NoteTextBox _noteTextBox;
+    private readonly NoteTextBoxControl _noteTextBox;
 
     private void OnCopyClicked(object sender, RoutedEventArgs e) => _noteTextBox.Copy();
     private void OnCutClicked(object sender, RoutedEventArgs e) => _noteTextBox.Cut();
@@ -18,7 +18,7 @@ public class NoteTextBoxContextMenu : ContextMenu
     private void OnSelectAllClicked(object sender, RoutedEventArgs e) => _noteTextBox.SelectAll();
     private void OnClearClicked(object sender, RoutedEventArgs e) => _noteTextBox.Clear();
 
-    public NoteTextBoxContextMenu(NoteTextBox noteTextBox)
+    public NoteTextBoxContextMenu(NoteTextBoxControl noteTextBox)
     {
         _noteTextBox = noteTextBox;
 

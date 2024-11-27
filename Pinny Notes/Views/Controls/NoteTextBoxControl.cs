@@ -11,11 +11,11 @@ using PinnyNotes.WpfUi.Tools;
 
 namespace PinnyNotes.WpfUi.Views.Controls;
 
-public class NoteTextBox : TextBox
+public class NoteTextBoxControl : TextBox
 {
     public IEnumerable<ITool> Tools = [];
 
-    public NoteTextBox()
+    public NoteTextBoxControl()
     {
         AcceptsReturn = true;
         AcceptsTab = true;
