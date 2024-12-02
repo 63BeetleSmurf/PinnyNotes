@@ -97,162 +97,163 @@
             </TabItem>
 
             <TabItem Header="Tools">
-                <StackPanel>
-                    <Label Content="Active / Favourite" FontWeight="Bold" />
-                    <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
-                        <Label Content="Base64"/>
-                        <ComboBox
-                            Width="120"
-                            Name="Base64ToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Base64" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="Base64ToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Bracket" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="BracketToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Case" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="CaseToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Date Time" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="DateTimeToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Gibberish" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="GibberishToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Hash" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="HashToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="HTML Entity" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="HtmlEntityToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Indent" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="IndentToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Join" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="JoinToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="JSON" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="JsonToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="List" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="ListToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Quote" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="QuoteToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Remove" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="RemoveToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Slash" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="SlashToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Sort" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="SortToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Split" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="SplitToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Trim" Width="100" />
+                            <ComboBox
+                                Width="120"
+                                Name="TrimToolStateComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Bracket"/>
-                        <ComboBox
-                            Width="120"
-                            Name="BracketToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Case"/>
-                        <ComboBox
-                            Width="120"
-                            Name="CaseToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Date Time"/>
-                        <ComboBox
-                            Width="120"
-                            Name="DateTimeToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Gibberish"/>
-                        <ComboBox
-                            Width="120"
-                            Name="GibberishToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Hash"/>
-                        <ComboBox
-                            Width="120"
-                            Name="HashToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="HTML Entity"/>
-                        <ComboBox
-                            Width="120"
-                            Name="HtmlEntityToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Indent"/>
-                        <ComboBox
-                            Width="120"
-                            Name="IndentToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Join"/>
-                        <ComboBox
-                            Width="120"
-                            Name="JoinToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="JSON"/>
-                        <ComboBox
-                            Width="120"
-                            Name="JsonToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="List"/>
-                        <ComboBox
-                            Width="120"
-                            Name="ListToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Quote"/>
-                        <ComboBox
-                            Width="120"
-                            Name="QuoteToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Remove"/>
-                        <ComboBox
-                            Width="120"
-                            Name="RemoveToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Slash"/>
-                        <ComboBox
-                            Width="120"
-                            Name="SlashToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Sort"/>
-                        <ComboBox
-                            Width="120"
-                            Name="SortToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Split"/>
-                        <ComboBox
-                            Width="120"
-                            Name="SplitToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Trim"/>
-                        <ComboBox
-                            Width="120"
-                            Name="TrimToolStateComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
         </TabControl>

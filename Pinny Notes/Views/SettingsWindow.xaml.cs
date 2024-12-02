@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
+
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.ViewModels;
@@ -229,7 +229,135 @@ public partial class SettingsWindow : Window
     }
 
     // Tools
+    #region Tools
 
+    public List<KeyValuePair<int, string>> PopulateToolStates
+    {
+        set
+        {
+            PopulateComboBox(Base64ToolStateComboBox, value);
+            PopulateComboBox(BracketToolStateComboBox, value);
+            PopulateComboBox(CaseToolStateComboBox, value);
+            PopulateComboBox(DateTimeToolStateComboBox, value);
+            PopulateComboBox(GibberishToolStateComboBox, value);
+            PopulateComboBox(HashToolStateComboBox, value);
+            PopulateComboBox(HtmlEntityToolStateComboBox, value);
+            PopulateComboBox(IndentToolStateComboBox, value);
+            PopulateComboBox(JoinToolStateComboBox, value);
+            PopulateComboBox(JsonToolStateComboBox, value);
+            PopulateComboBox(ListToolStateComboBox, value);
+            PopulateComboBox(QuoteToolStateComboBox, value);
+            PopulateComboBox(RemoveToolStateComboBox, value);
+            PopulateComboBox(SlashToolStateComboBox, value);
+            PopulateComboBox(SortToolStateComboBox, value);
+            PopulateComboBox(SplitToolStateComboBox, value);
+            PopulateComboBox(TrimToolStateComboBox, value);
+        }
+    }
+
+    public ToolStates Base64ToolState
+    {
+        get => (ToolStates)Base64ToolStateComboBox.SelectedValue;
+        set => Base64ToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates BracketToolState
+    {
+        get => (ToolStates)BracketToolStateComboBox.SelectedValue;
+        set => BracketToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates CaseToolState
+    {
+        get => (ToolStates)CaseToolStateComboBox.SelectedValue;
+        set => CaseToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates DateTimeToolState
+    {
+        get => (ToolStates)DateTimeToolStateComboBox.SelectedValue;
+        set => DateTimeToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates GibberishToolState
+    {
+        get => (ToolStates)GibberishToolStateComboBox.SelectedValue;
+        set => GibberishToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates HashToolState
+    {
+        get => (ToolStates)HashToolStateComboBox.SelectedValue;
+        set => HashToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates HtmlEntityToolState
+    {
+        get => (ToolStates)HtmlEntityToolStateComboBox.SelectedValue;
+        set => HtmlEntityToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates IndentToolState
+    {
+        get => (ToolStates)IndentToolStateComboBox.SelectedValue;
+        set => IndentToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates JoinToolState
+    {
+        get => (ToolStates)JoinToolStateComboBox.SelectedValue;
+        set => JoinToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates JsonToolState
+    {
+        get => (ToolStates)JsonToolStateComboBox.SelectedValue;
+        set => JsonToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates ListToolState
+    {
+        get => (ToolStates)ListToolStateComboBox.SelectedValue;
+        set => ListToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates QuoteToolState
+    {
+        get => (ToolStates)QuoteToolStateComboBox.SelectedValue;
+        set => QuoteToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates RemoveToolState
+    {
+        get => (ToolStates)RemoveToolStateComboBox.SelectedValue;
+        set => RemoveToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates SlashToolState
+    {
+        get => (ToolStates)SlashToolStateComboBox.SelectedValue;
+        set => SlashToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates SortToolState
+    {
+        get => (ToolStates)SortToolStateComboBox.SelectedValue;
+        set => SortToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates SplitToolState
+    {
+        get => (ToolStates)SplitToolStateComboBox.SelectedValue;
+        set => SplitToolStateComboBox.SelectedValue = value;
+    }
+
+    public ToolStates TrimToolState
+    {
+        get => (ToolStates)TrimToolStateComboBox.SelectedValue;
+        set => TrimToolStateComboBox.SelectedValue = value;
+    }
+
+    #endregion
 
     private void TransparentNotesCheckBox_Checked(object sender, RoutedEventArgs e)
     {
