@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
         Title="Pinny Notes Settings"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
