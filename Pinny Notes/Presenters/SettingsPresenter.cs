@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Windows;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Views;
 
@@ -130,5 +130,15 @@ public class SettingsPresenter
     private void OnCancelClicked(object? sender, EventArgs e)
     {
         _view.Close();
+    }
+
+    public void ShowWindow(Window? owner)
+    {
+        _view.Owner = owner;
+
+        if (_view.IsVisible)
+            _view.Activate();
+        else
+            _view.Show();
     }
 }

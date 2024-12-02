@@ -25,7 +25,7 @@ public partial class App : Application
     private Mutex _mutex = null!;
     private EventWaitHandle _eventWaitHandle = null!;
 
-    private SettingsWindow? _settingsWindow;
+    private SettingsPresenter? _settingsPresenter;
     private NotifyIconComponent? NotifyIcon;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -77,24 +77,23 @@ public partial class App : Application
 
     public void CreateNewNote()
     {
-        var model = new NoteModel();
-        var view = new NoteWindow();
-        var presenter = new NotePresenter(model, view);
+        NotePresenter presenter = new(
+            new NoteModel(),
+            new NoteWindow()
+        );
 
-        view.Show();
+        presenter.ShowWindow();
     }
 
     public void ShowSettingsWindow(Window? owner = null)
     {
-        if (_settingsWindow == null || !_settingsWindow.IsLoaded)
-            _settingsWindow = new SettingsWindow();
+        if (_settingsPresenter == null)
+            _settingsPresenter = new(
+                new SettingsModel(),
+                new SettingsWindow()
+            );
 
-        _settingsWindow.Owner = owner;
-
-        if (_settingsWindow.IsVisible)
-            _settingsWindow.Activate();
-        else
-            _settingsWindow.Show();
+        _settingsPresenter.ShowWindow(owner);
     }
 
     private async void CheckForNewRelease()

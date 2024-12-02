@@ -23,6 +23,7 @@ public class NotePresenter
         _view.Height = _model.Height;
         _view.Left = _model.X;
         _view.Top = _model.Y;
+        _view.ShowInTaskbar = Settings.Default.ShowNotesInTaskbar;
 
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
@@ -102,13 +103,15 @@ public class NotePresenter
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
     {
-        
+        ((App)System.Windows.Application.Current).ShowSettingsWindow();
     }
 
     private void OnTextChanged(object? sender, EventArgs e)
     {
         _model.Text = _view.Text;
     }
+
+    public void ShowWindow() => _view.Show();
 
     private void UpdateWindowOpacity()
     {
