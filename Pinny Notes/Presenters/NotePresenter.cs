@@ -12,9 +12,9 @@ namespace PinnyNotes.WpfUi.Presenters;
 public class NotePresenter
 {
     private readonly NoteModel _model;
-    private readonly INoteView _view;
+    private readonly NoteWindow _view;
 
-    public NotePresenter(NoteModel model, INoteView view)
+    public NotePresenter(NoteModel model, NoteWindow view)
     {
         _view = view;
         _model = model;

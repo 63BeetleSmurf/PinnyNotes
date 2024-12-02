@@ -15,7 +15,7 @@ using PinnyNotes.WpfUi.Views.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views;
 
-public partial class NoteWindow : Window, INoteView
+public partial class NoteWindow : Window
 {
     public NoteWindow()
     {

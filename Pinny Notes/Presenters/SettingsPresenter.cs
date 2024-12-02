@@ -8,9 +8,9 @@ namespace PinnyNotes.WpfUi.Presenters;
 public class SettingsPresenter
 {
     private SettingsModel _model;
-    private ISettingsView _view;
+    private SettingsWindow _view;
 
-    public SettingsPresenter(SettingsModel model, ISettingsView view)
+    public SettingsPresenter(SettingsModel model, SettingsWindow view)
     {
         _model = model;
         _view = view;

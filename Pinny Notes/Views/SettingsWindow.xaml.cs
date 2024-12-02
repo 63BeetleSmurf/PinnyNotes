@@ -8,7 +8,7 @@ using PinnyNotes.WpfUi.Helpers;
 
 namespace PinnyNotes.WpfUi.Views;
 
-public partial class SettingsWindow : Window, ISettingsView
+public partial class SettingsWindow : Window
 {
     private Window _lastOwner;
 
