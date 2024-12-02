@@ -49,25 +49,25 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Color {
+        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        public string Theme {
             get {
-                return ((int)(this["Color"]));
+                return ((string)(this["Theme"]));
             }
             set {
-                this["Color"] = value;
+                this["Theme"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool CycleColors {
+        public bool CycleThemes {
             get {
-                return ((bool)(this["CycleColors"]));
+                return ((bool)(this["CycleThemes"]));
             }
             set {
-                this["CycleColors"] = value;
+                this["CycleThemes"] = value;
             }
         }
         
