@@ -127,6 +127,9 @@ public class NoteModel
 
             if (parent != null && theme == parent.Theme)
                 theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
+
+            Settings.Default.Theme = theme.Name;
+            Settings.Default.Save();
         }
 
         Theme = theme;
