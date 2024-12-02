@@ -1,6 +1,24 @@
 # Change Log
 
 
+## v2.0.0 - Pending
+
+### Added
+- 
+
+### Changed
+- Underlying architecture from MVVM (partial) to MVP.
+- Save action is now only available from title bar context menu.
+- Clear action is now only available from note text context menu.
+- Complete rewrite of theme handling code.
+- Combined enabled and favourite tool setting into tool state with Enabled, Disabled and Favourite options.
+- Settings are now applied using Ok or Apply buttons rather than instantly.
+- 
+
+### Fixed
+- 
+
+
 ## v1.12.1 - 21/11/2024
 
 ### Fixed
