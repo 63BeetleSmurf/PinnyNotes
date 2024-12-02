@@ -29,6 +29,8 @@ public class NotePresenter
         _view.WindowMoved += OnWindowMoved;
         _view.WindowActivated += OnWindowActivated;
 
+        _view.NewNoteClicked += OnNewNoteClicked;
+        _view.CloseNoteClicked += OnCloseNoteClicked;
         _view.TitleBarRightClicked += OnTitleBarRightClicked;
 
         _view.TextChanged += OnTextChanged;
@@ -36,6 +38,8 @@ public class NotePresenter
         ApplyTheme();
         UpdateWindowOpacity();
     }
+
+    public void ShowWindow() => _view.Show();
 
     private void OnWindowLoaded(object? sender, EventArgs e)
     {
@@ -63,6 +67,16 @@ public class NotePresenter
     {
         _view.Topmost = _model.IsPinned;
         UpdateWindowOpacity();
+    }
+
+    private void OnNewNoteClicked(object? sender, EventArgs e)
+    {
+        ((App)System.Windows.Application.Current).CreateNewNote(_model);
+    }
+
+    private void OnCloseNoteClicked(object? sender, EventArgs e)
+    {
+        _view.Close();
     }
 
     private void OnTitleBarRightClicked(object? sender, EventArgs e)
@@ -110,8 +124,6 @@ public class NotePresenter
     {
         _model.Text = _view.Text;
     }
-
-    public void ShowWindow() => _view.Show();
 
     private void UpdateWindowOpacity()
     {

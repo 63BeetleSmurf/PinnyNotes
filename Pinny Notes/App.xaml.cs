@@ -75,10 +75,10 @@ public partial class App : Application
         base.OnExit(e);
     }
 
-    public void CreateNewNote()
+    public void CreateNewNote(NoteModel? parent = null)
     {
         NotePresenter presenter = new(
-            new NoteModel(),
+            new NoteModel(parent),
             new NoteWindow()
         );
 
