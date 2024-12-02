@@ -2,7 +2,7 @@
 
 public enum ToolStates
 {
-    Enabled = 1,
-    Disabled = 2,
-    Favorite = 3
+    Enabled = 0,
+    Disabled = 1,
+    Favorite = 2
 }
