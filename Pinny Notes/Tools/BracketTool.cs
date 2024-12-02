@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class BracketTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.BracketToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.BracketToolFavourite;
+    public ToolStates State => (ToolStates)ToolSettings.Default.BracketToolState;
 
     private static char[] _openingBrackets = {'(', '{', '['};
     private static char[] _closingBrackets = { ')', '}', ']' };

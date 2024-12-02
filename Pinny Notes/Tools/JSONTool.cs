@@ -2,14 +2,14 @@
 using System.Text.Json;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class JsonTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.JsonToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.JsonToolFavourite;
+    public ToolStates State => (ToolStates)ToolSettings.Default.JsonToolState;
 
     public enum ToolActions
     {

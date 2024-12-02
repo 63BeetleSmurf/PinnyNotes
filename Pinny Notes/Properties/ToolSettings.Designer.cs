@@ -25,409 +25,205 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Base64ToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Base64ToolState {
             get {
-                return ((bool)(this["Base64ToolEnabled"]));
+                return ((int)(this["Base64ToolState"]));
             }
             set {
-                this["Base64ToolEnabled"] = value;
+                this["Base64ToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Base64ToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int BracketToolState {
             get {
-                return ((bool)(this["Base64ToolFavourite"]));
+                return ((int)(this["BracketToolState"]));
             }
             set {
-                this["Base64ToolFavourite"] = value;
+                this["BracketToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BracketToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int CaseToolState {
             get {
-                return ((bool)(this["BracketToolEnabled"]));
+                return ((int)(this["CaseToolState"]));
             }
             set {
-                this["BracketToolEnabled"] = value;
+                this["CaseToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool BracketToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int DateTimeToolState {
             get {
-                return ((bool)(this["BracketToolFavourite"]));
+                return ((int)(this["DateTimeToolState"]));
             }
             set {
-                this["BracketToolFavourite"] = value;
+                this["DateTimeToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool CaseToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int GibberishToolState {
             get {
-                return ((bool)(this["CaseToolEnabled"]));
+                return ((int)(this["GibberishToolState"]));
             }
             set {
-                this["CaseToolEnabled"] = value;
+                this["GibberishToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CaseToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int HashToolState {
             get {
-                return ((bool)(this["CaseToolFavourite"]));
+                return ((int)(this["HashToolState"]));
             }
             set {
-                this["CaseToolFavourite"] = value;
+                this["HashToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DateTimeToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int HtmlEntityToolState {
             get {
-                return ((bool)(this["DateTimeToolEnabled"]));
+                return ((int)(this["HtmlEntityToolState"]));
             }
             set {
-                this["DateTimeToolEnabled"] = value;
+                this["HtmlEntityToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DateTimeToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int IndentToolState {
             get {
-                return ((bool)(this["DateTimeToolFavourite"]));
+                return ((int)(this["IndentToolState"]));
             }
             set {
-                this["DateTimeToolFavourite"] = value;
+                this["IndentToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool GibberishToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int JoinToolState {
             get {
-                return ((bool)(this["GibberishToolEnabled"]));
+                return ((int)(this["JoinToolState"]));
             }
             set {
-                this["GibberishToolEnabled"] = value;
+                this["JoinToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool GibberishToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int JsonToolState {
             get {
-                return ((bool)(this["GibberishToolFavourite"]));
+                return ((int)(this["JsonToolState"]));
             }
             set {
-                this["GibberishToolFavourite"] = value;
+                this["JsonToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool HashToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ListToolState {
             get {
-                return ((bool)(this["HashToolEnabled"]));
+                return ((int)(this["ListToolState"]));
             }
             set {
-                this["HashToolEnabled"] = value;
+                this["ListToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HashToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int QuoteToolState {
             get {
-                return ((bool)(this["HashToolFavourite"]));
+                return ((int)(this["QuoteToolState"]));
             }
             set {
-                this["HashToolFavourite"] = value;
+                this["QuoteToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool HtmlEntityToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int RemoveToolState {
             get {
-                return ((bool)(this["HtmlEntityToolEnabled"]));
+                return ((int)(this["RemoveToolState"]));
             }
             set {
-                this["HtmlEntityToolEnabled"] = value;
+                this["RemoveToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HtmlEntityToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SlashToolState {
             get {
-                return ((bool)(this["HtmlEntityToolFavourite"]));
+                return ((int)(this["SlashToolState"]));
             }
             set {
-                this["HtmlEntityToolFavourite"] = value;
+                this["SlashToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IndentToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SortToolState {
             get {
-                return ((bool)(this["IndentToolEnabled"]));
+                return ((int)(this["SortToolState"]));
             }
             set {
-                this["IndentToolEnabled"] = value;
+                this["SortToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IndentToolFavourite {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SplitToolState {
             get {
-                return ((bool)(this["IndentToolFavourite"]));
+                return ((int)(this["SplitToolState"]));
             }
             set {
-                this["IndentToolFavourite"] = value;
+                this["SplitToolState"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool JoinToolEnabled {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int TrimToolState {
             get {
-                return ((bool)(this["JoinToolEnabled"]));
+                return ((int)(this["TrimToolState"]));
             }
             set {
-                this["JoinToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool JoinToolFavourite {
-            get {
-                return ((bool)(this["JoinToolFavourite"]));
-            }
-            set {
-                this["JoinToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool JsonToolEnabled {
-            get {
-                return ((bool)(this["JsonToolEnabled"]));
-            }
-            set {
-                this["JsonToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool JsonToolFavourite {
-            get {
-                return ((bool)(this["JsonToolFavourite"]));
-            }
-            set {
-                this["JsonToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ListToolEnabled {
-            get {
-                return ((bool)(this["ListToolEnabled"]));
-            }
-            set {
-                this["ListToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ListToolFavourite {
-            get {
-                return ((bool)(this["ListToolFavourite"]));
-            }
-            set {
-                this["ListToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool QuoteToolEnabled {
-            get {
-                return ((bool)(this["QuoteToolEnabled"]));
-            }
-            set {
-                this["QuoteToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool QuoteToolFavourite {
-            get {
-                return ((bool)(this["QuoteToolFavourite"]));
-            }
-            set {
-                this["QuoteToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RemoveToolEnabled {
-            get {
-                return ((bool)(this["RemoveToolEnabled"]));
-            }
-            set {
-                this["RemoveToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RemoveToolFavourite {
-            get {
-                return ((bool)(this["RemoveToolFavourite"]));
-            }
-            set {
-                this["RemoveToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SlashToolEnabled {
-            get {
-                return ((bool)(this["SlashToolEnabled"]));
-            }
-            set {
-                this["SlashToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SlashToolFavourite {
-            get {
-                return ((bool)(this["SlashToolFavourite"]));
-            }
-            set {
-                this["SlashToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SortToolEnabled {
-            get {
-                return ((bool)(this["SortToolEnabled"]));
-            }
-            set {
-                this["SortToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SortToolFavourite {
-            get {
-                return ((bool)(this["SortToolFavourite"]));
-            }
-            set {
-                this["SortToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SplitToolEnabled {
-            get {
-                return ((bool)(this["SplitToolEnabled"]));
-            }
-            set {
-                this["SplitToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SplitToolFavourite {
-            get {
-                return ((bool)(this["SplitToolFavourite"]));
-            }
-            set {
-                this["SplitToolFavourite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool TrimToolEnabled {
-            get {
-                return ((bool)(this["TrimToolEnabled"]));
-            }
-            set {
-                this["TrimToolEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TrimToolFavourite {
-            get {
-                return ((bool)(this["TrimToolFavourite"]));
-            }
-            set {
-                this["TrimToolFavourite"] = value;
+                this["TrimToolState"] = value;
             }
         }
     }

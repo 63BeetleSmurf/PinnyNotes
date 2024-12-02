@@ -1,11 +1,41 @@
 ﻿using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
-using System.Drawing.Imaging;
+using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Models;
 
 public class SettingsModel
 {
+    private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
+        new(StartupPositions.TopLeft, "Top Left"),
+        new(StartupPositions.TopCenter, "Top Center"),
+        new(StartupPositions.TopRight, "Top Right"),
+        new(StartupPositions.MiddleLeft, "Middle Left"),
+        new(StartupPositions.MiddleCenter, "Middle Center"),
+        new(StartupPositions.MiddleRight, "Middle Right"),
+        new(StartupPositions.BottomLeft, "Bottom Left"),
+        new(StartupPositions.BottomCenter, "Bottom Center"),
+        new(StartupPositions.BottomRight, "Bottom Right")
+    ];
+
+    private static readonly KeyValuePair<MinimizeModes, string>[] _minimizeModeList = [
+        new(MinimizeModes.Allow, "Yes"),
+        new(MinimizeModes.Prevent, "No"),
+        new(MinimizeModes.PreventIfPinned, "When not pinned")
+    ];
+
+    private static readonly KeyValuePair<ColorModes, string>[] _colorModeList = [
+        new(ColorModes.Light, "Light"),
+        new(ColorModes.Dark, "Dark"),
+        new(ColorModes.System, "System Default")
+    ];
+
+    private static readonly KeyValuePair<ToolStates, string>[] _toolStateList = [
+        new(ToolStates.Enabled, "Enabled"),
+        new(ToolStates.Disabled, "Disabled"),
+        new(ToolStates.Favorite, "Favorite")
+    ];
+
     public SettingsModel(NoteModel? noteWindow = null)
     {
         LoadSettings();
@@ -14,7 +44,6 @@ public class SettingsModel
 
     private void LoadSettings()
     {
-
         StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
         CycleColors = Settings.Default.CycleColors;
         TrimCopiedText = Settings.Default.TrimCopiedText;
@@ -41,23 +70,23 @@ public class SettingsModel
 
         #region Tools
 
-        Base64ToolState = ToolSettings.Default.Base64ToolState;
-        BracketToolState = ToolSettings.Default.BracketToolState;
-        CaseToolState = ToolSettings.Default.CaseToolState;
-        DateTimeToolState = ToolSettings.Default.DateTimeToolState;
-        GibberishToolState = ToolSettings.Default.GibberishToolState;
-        HashToolState = ToolSettings.Default.HashToolState;
-        HtmlEntityToolState = ToolSettings.Default.HtmlEntityToolState;
-        IndentToolState = ToolSettings.Default.IndentToolState;
-        JoinToolState = ToolSettings.Default.JoinToolState;
-        JsonToolState = ToolSettings.Default.JsonToolState;
-        ListToolState = ToolSettings.Default.ListToolState;
-        QuoteToolState = ToolSettings.Default.QuoteToolState;
-        RemoveToolState = ToolSettings.Default.RemoveToolState;
-        SlashToolState = ToolSettings.Default.SlashToolState;
-        SortToolState = ToolSettings.Default.SortToolState;
-        SplitToolState = ToolSettings.Default.SplitToolState;
-        TrimToolState = ToolSettings.Default.TrimToolState;
+        Base64ToolState = (ToolStates)ToolSettings.Default.Base64ToolState;
+        BracketToolState = (ToolStates)ToolSettings.Default.BracketToolState;
+        CaseToolState = (ToolStates)ToolSettings.Default.CaseToolState;
+        DateTimeToolState = (ToolStates)ToolSettings.Default.DateTimeToolState;
+        GibberishToolState = (ToolStates)ToolSettings.Default.GibberishToolState;
+        HashToolState = (ToolStates)ToolSettings.Default.HashToolState;
+        HtmlEntityToolState = (ToolStates)ToolSettings.Default.HtmlEntityToolState;
+        IndentToolState = (ToolStates)ToolSettings.Default.IndentToolState;
+        JoinToolState = (ToolStates)ToolSettings.Default.JoinToolState;
+        JsonToolState = (ToolStates)ToolSettings.Default.JsonToolState;
+        ListToolState = (ToolStates)ToolSettings.Default.ListToolState;
+        QuoteToolState = (ToolStates)ToolSettings.Default.QuoteToolState;
+        RemoveToolState = (ToolStates)ToolSettings.Default.RemoveToolState;
+        SlashToolState = (ToolStates)ToolSettings.Default.SlashToolState;
+        SortToolState = (ToolStates)ToolSettings.Default.SortToolState;
+        SplitToolState = (ToolStates)ToolSettings.Default.SplitToolState;
+        TrimToolState = (ToolStates)ToolSettings.Default.TrimToolState;
 
         #endregion
     }
@@ -66,49 +95,49 @@ public class SettingsModel
     {
     }
 
-    private StartupPositions StartupPosition { get; set; }
-    private bool CycleColors { get; set; }
-    private bool TrimCopiedText { get; set; }
-    private bool TrimPastedText { get; set; }
-    private bool MiddleClickPaste { get; set; }
-    private bool AutoCopy { get; set; }
-    private bool SpellChecker { get; set; }
-    private bool NewLineAtEnd { get; set; }
-    private bool KeepNewLineAtEndVisible { get; set; }
-    private bool AutoIndent { get; set; }
-    private bool TabSpaces { get; set; }
-    private int TabWidth { get; set; }
-    private bool ConvertIndentation { get; set; }
-    private MinimizeModes MinimizeMode { get; set; }
-    private bool TransparentNotes { get; set; }
-    private bool OpaqueWhenFocused { get; set; }
-    private bool OnlyTransparentWhenPinned { get; set; }
-    private ColorModes ColorMode { get; set; }
-    private bool UseMonoFont { get; set; }
-    private bool HideTitleBar { get; set; }
-    private bool ShowTrayIcon { get; set; }
-    private bool ShowNotesInTaskbar { get; set; }
-    private bool CheckForUpdates { get; set; }
+    public StartupPositions StartupPosition { get; set; }
+    public bool CycleColors { get; set; }
+    public bool TrimCopiedText { get; set; }
+    public bool TrimPastedText { get; set; }
+    public bool MiddleClickPaste { get; set; }
+    public bool AutoCopy { get; set; }
+    public bool SpellChecker { get; set; }
+    public bool NewLineAtEnd { get; set; }
+    public bool KeepNewLineAtEndVisible { get; set; }
+    public bool AutoIndent { get; set; }
+    public bool TabSpaces { get; set; }
+    public int TabWidth { get; set; }
+    public bool ConvertIndentation { get; set; }
+    public MinimizeModes MinimizeMode { get; set; }
+    public bool TransparentNotes { get; set; }
+    public bool OpaqueWhenFocused { get; set; }
+    public bool OnlyTransparentWhenPinned { get; set; }
+    public ColorModes ColorMode { get; set; }
+    public bool UseMonoFont { get; set; }
+    public bool HideTitleBar { get; set; }
+    public bool ShowTrayIcon { get; set; }
+    public bool ShowNotesInTaskbar { get; set; }
+    public bool CheckForUpdates { get; set; }
 
     #region Tools
 
-    private ToolStates Base64ToolState { get; set; }
-    private ToolStates BracketToolState { get; set; }
-    private ToolStates CaseToolState { get; set; }
-    private ToolStates DateTimeToolState { get; set; }
-    private ToolStates GibberishToolState { get; set; }
-    private ToolStates HashToolState { get; set; }
-    private ToolStates HtmlEntityToolState { get; set; }
-    private ToolStates IndentToolState { get; set; }
-    private ToolStates JoinToolState { get; set; }
-    private ToolStates JsonToolState { get; set; }
-    private ToolStates ListToolState { get; set; }
-    private ToolStates QuoteToolState { get; set; }
-    private ToolStates RemoveToolState { get; set; }
-    private ToolStates SlashToolState { get; set; }
-    private ToolStates SortToolState { get; set; }
-    private ToolStates SplitToolState { get; set; }
-    private ToolStates TrimToolState { get; set; }
+    public ToolStates Base64ToolState { get; set; }
+    public ToolStates BracketToolState { get; set; }
+    public ToolStates CaseToolState { get; set; }
+    public ToolStates DateTimeToolState { get; set; }
+    public ToolStates GibberishToolState { get; set; }
+    public ToolStates HashToolState { get; set; }
+    public ToolStates HtmlEntityToolState { get; set; }
+    public ToolStates IndentToolState { get; set; }
+    public ToolStates JoinToolState { get; set; }
+    public ToolStates JsonToolState { get; set; }
+    public ToolStates ListToolState { get; set; }
+    public ToolStates QuoteToolState { get; set; }
+    public ToolStates RemoveToolState { get; set; }
+    public ToolStates SlashToolState { get; set; }
+    public ToolStates SortToolState { get; set; }
+    public ToolStates SplitToolState { get; set; }
+    public ToolStates TrimToolState { get; set; }
 
     #endregion
 }

@@ -8,7 +8,7 @@ using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi.Views;
 
-public partial class SettingsWindow : Window
+public partial class SettingsWindow : Window, ISettingsView
 {
     private Window _lastOwner;
 
@@ -122,9 +122,9 @@ public partial class SettingsWindow : Window
         set => CycleColorsCheckBox.IsChecked = value;
     }
 
-    public MinimizeModes ColorMode
+    public ColorModes ColorMode
     {
-        get => (MinimizeModes)ColorModeComboBox.SelectedValue;
+        get => (ColorModes)ColorModeComboBox.SelectedValue;
         set => ColorModeComboBox.SelectedValue = value;
     }
     public List<KeyValuePair<int, string>> PopulateColorModes

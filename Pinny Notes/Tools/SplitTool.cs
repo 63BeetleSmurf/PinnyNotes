@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
@@ -9,8 +10,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class SplitTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.SplitToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.SplitToolFavourite;
+    public ToolStates State => (ToolStates)ToolSettings.Default.SplitToolState;
 
     private string? _selectedText = null;
 

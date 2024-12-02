@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Tools;
 using PinnyNotes.WpfUi.Views.Controls;
 
@@ -144,21 +145,18 @@ public class NoteTextBoxContextMenu : ContextMenu
 
     private void AddToolContextMenus()
     {
-        IEnumerable<ITool> favouriteTools = _noteTextBox.Tools.Where(t => t.IsEnabled && t.IsFavourite);
+        IEnumerable<ITool> favouriteTools = _noteTextBox.Tools.Where(t => t.State == ToolStates.Favorite);
         bool hasFavouriteTools = favouriteTools.Any();
-        IEnumerable<ITool> standardTools = _noteTextBox.Tools.Where(t => t.IsEnabled && !t.IsFavourite);
+        IEnumerable<ITool> standardTools = _noteTextBox.Tools.Where(t => t.State == ToolStates.Enabled);
         bool hasStandardTools = standardTools.Any();
 
         if (hasFavouriteTools || hasStandardTools)
             Items.Add(new Separator());
 
         foreach (ITool tool in favouriteTools)
-        {
-            if (tool.IsEnabled)
-                Items.Add(
-                    tool.GetMenuItem()
-                );
-        }
+            Items.Add(
+                tool.GetMenuItem()
+            );
 
         if (hasStandardTools)
         {

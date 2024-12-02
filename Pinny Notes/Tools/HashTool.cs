@@ -3,14 +3,14 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class HashTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.HashToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.HashToolFavourite;
+    public ToolStates State => (ToolStates)ToolSettings.Default.HashToolState;
 
     public enum ToolActions
     {

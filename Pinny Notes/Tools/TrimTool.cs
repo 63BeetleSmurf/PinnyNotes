@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class TrimTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.TrimToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.TrimToolFavourite;
+    public ToolStates State => (ToolStates)ToolSettings.Default.TrimToolState;
 
     public enum ToolActions
     {
