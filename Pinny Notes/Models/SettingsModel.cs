@@ -92,23 +92,23 @@ public class SettingsModel
 
     #region Tools
 
-    private ToolState Base64ToolState { get; set; }
-    private ToolState BracketToolState { get; set; }
-    private ToolState CaseToolState { get; set; }
-    private ToolState DateTimeToolState { get; set; }
-    private ToolState GibberishToolState { get; set; }
-    private ToolState HashToolState { get; set; }
-    private ToolState HtmlEntityToolState { get; set; }
-    private ToolState IndentToolState { get; set; }
-    private ToolState JoinToolState { get; set; }
-    private ToolState JsonToolState { get; set; }
-    private ToolState ListToolState { get; set; }
-    private ToolState QuoteToolState { get; set; }
-    private ToolState RemoveToolState { get; set; }
-    private ToolState SlashToolState { get; set; }
-    private ToolState SortToolState { get; set; }
-    private ToolState SplitToolState { get; set; }
-    private ToolState TrimToolState { get; set; }
+    private ToolStates Base64ToolState { get; set; }
+    private ToolStates BracketToolState { get; set; }
+    private ToolStates CaseToolState { get; set; }
+    private ToolStates DateTimeToolState { get; set; }
+    private ToolStates GibberishToolState { get; set; }
+    private ToolStates HashToolState { get; set; }
+    private ToolStates HtmlEntityToolState { get; set; }
+    private ToolStates IndentToolState { get; set; }
+    private ToolStates JoinToolState { get; set; }
+    private ToolStates JsonToolState { get; set; }
+    private ToolStates ListToolState { get; set; }
+    private ToolStates QuoteToolState { get; set; }
+    private ToolStates RemoveToolState { get; set; }
+    private ToolStates SlashToolState { get; set; }
+    private ToolStates SortToolState { get; set; }
+    private ToolStates SplitToolState { get; set; }
+    private ToolStates TrimToolState { get; set; }
 
     #endregion
 }
