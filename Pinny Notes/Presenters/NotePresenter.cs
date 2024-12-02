@@ -11,14 +11,6 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class NotePresenter
 {
-    public const int DefaultWidth = 300;
-    public const int DefaultHeight = 300;
-
-    private const double _opaqueOpacity = 1.0;
-    private const double _transparentOpacity = 0.8;
-
-    private const string _monoFontFamily = "Consolas";
-
     private readonly NoteModel _model;
     private readonly INoteView _view;
 
@@ -90,10 +82,8 @@ public class NotePresenter
 
     private void OnResetSizeMenuItemClicked(object? sender, EventArgs e)
     {
-        _model.Width = DefaultWidth;
+        _model.SetDefaultSize();
         _view.Width = _model.Width;
-
-        _model.Height = DefaultHeight;
         _view.Height = _model.Height;
     }
 
@@ -127,11 +117,11 @@ public class NotePresenter
         bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
 
         if (_view.IsFocused)
-            _view.Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
+            _view.Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _model.TransparentOpacity : _model.OpaqueOpacity;
         else if (_model.IsPinned)
-            _view.Opacity = transparentNotes ? _transparentOpacity : _opaqueOpacity;
+            _view.Opacity = transparentNotes ? _model.TransparentOpacity : _model.OpaqueOpacity;
         else
-            _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
+            _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _model.TransparentOpacity : _model.OpaqueOpacity;
     }
 
     private void ApplyTheme()

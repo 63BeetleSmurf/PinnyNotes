@@ -322,5 +322,65 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["LastUpdateCheck"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int DefaultWidth {
+            get {
+                return ((int)(this["DefaultWidth"]));
+            }
+            set {
+                this["DefaultWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int DefaultHeight {
+            get {
+                return ((int)(this["DefaultHeight"]));
+            }
+            set {
+                this["DefaultHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double OpaqueOpacity {
+            get {
+                return ((double)(this["OpaqueOpacity"]));
+            }
+            set {
+                this["OpaqueOpacity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
+        public double TransparentOpacity {
+            get {
+                return ((double)(this["TransparentOpacity"]));
+            }
+            set {
+                this["TransparentOpacity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Consolas")]
+        public string MonoFontFamily {
+            get {
+                return ((string)(this["MonoFontFamily"]));
+            }
+            set {
+                this["MonoFontFamily"] = value;
+            }
+        }
     }
 }

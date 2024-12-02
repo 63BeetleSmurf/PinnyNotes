@@ -13,6 +13,7 @@ public class NoteModel
 {
     public NoteModel(NoteModel? parent = null)
     {
+        SetDefaultSize();
         InitNotePosition(parent);
         InitTheme(parent);
     }
@@ -132,6 +133,15 @@ public class NoteModel
     }
 
     private ThemeModel GetNextTheme(int currentIndex) => (currentIndex + 1 < ThemeHelper.Themes.Count) ? ThemeHelper.Themes[currentIndex + 1] : ThemeHelper.Themes[0];
+
+    public void SetDefaultSize()
+    {
+        Width = Settings.Default.DefaultWidth;
+        Height = Settings.Default.DefaultHeight;
+    }
+
+    public double OpaqueOpacity { get => Settings.Default.OpaqueOpacity; }
+    public double TransparentOpacity { get => Settings.Default.TransparentOpacity; }
 
     private string _text = "";
     public string Text {
