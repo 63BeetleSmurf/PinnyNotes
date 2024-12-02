@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Views;
 
@@ -15,8 +16,9 @@ public class SettingsPresenter
         _model = model;
         _view = view;
 
-        _view.SaveClicked += OnSaveClicked;
-        _view.CloseClicked += OnCancelClicked;
+        _view.OkClicked += OnOkClicked;
+        _view.CancelClicked += OnCancelClicked;
+        _view.ApplyClicked += OnApplyClicked;
 
         LoadSettings();
     }
@@ -121,15 +123,20 @@ public class SettingsPresenter
         _model.SaveSettings();
     }
 
-    private void OnSaveClicked(object? sender, EventArgs e)
+    private void OnOkClicked(object? sender, EventArgs e)
     {
         SaveSettings();
-        _view.Close();
+        _view.Hide();
     }
 
     private void OnCancelClicked(object? sender, EventArgs e)
     {
-        _view.Close();
+        _view.Hide();
+    }
+
+    private void OnApplyClicked(object? sender, EventArgs e)
+    {
+        SaveSettings();
     }
 
     public void ShowWindow(Window? owner)

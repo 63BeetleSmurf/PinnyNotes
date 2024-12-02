@@ -258,8 +258,9 @@
         </TabControl>
 
         <StackPanel Grid.Row="1" Margin="0,5,5,5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="CloseButton" Content="Close" Click="CloseButton_Click" Margin="0,0,10,0" Width="50" Height="25" />
-            <Button Name="SaveButton" Content="Save" Click="SaveButton_Click" Width="50" Height="25" />
+            <Button Name="OkButton" Content="Ok" Click="OkButton_Click" Width="55" Height="22" />
+            <Button Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Margin="10,0,10,0" Width="55" Height="22" />
+            <Button Name="ApplyButton" Content="Apply" Click="ApplyButton_Click" Width="55" Height="22" />
         </StackPanel>
 
     </Grid>

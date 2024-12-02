@@ -353,8 +353,9 @@ public partial class SettingsWindow : Window
 
     #endregion
 
-    public event EventHandler? CloseClicked;
-    public event EventHandler? SaveClicked;
+    public event EventHandler? OkClicked;
+    public event EventHandler? CancelClicked;
+    public event EventHandler? ApplyClicked;
 
     private void TransparentNotesCheckBox_Checked(object sender, RoutedEventArgs e)
     {
@@ -369,13 +370,18 @@ public partial class SettingsWindow : Window
         KeepNewLineAtEndVisibleCheckBox.IsEnabled = NewLineAtEndCheckBox.IsChecked ?? false;
     }
 
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    private void OkButton_Click(object sender, RoutedEventArgs e)
     {
-        CloseClicked?.Invoke(sender, e);
+        OkClicked?.Invoke(sender, e);
     }
 
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
-        SaveClicked?.Invoke(sender, e);
+        CancelClicked?.Invoke(sender, e);
+    }
+
+    private void ApplyButton_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyClicked?.Invoke(sender, e);
     }
 }
