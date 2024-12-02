@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -14,14 +14,8 @@ public partial class SettingsWindow : Window, ISettingsView
 
     public SettingsWindow()
     {
-        DataContext = new SettingsViewModel();
         InitializeComponent();
         _lastOwner = Owner;
-    }
-
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
     }
 
     private void Window_Activated(object sender, System.EventArgs e)
@@ -359,6 +353,9 @@ public partial class SettingsWindow : Window, ISettingsView
 
     #endregion
 
+    public event EventHandler? CloseClicked;
+    public event EventHandler? SaveClicked;
+
     private void TransparentNotesCheckBox_Checked(object sender, RoutedEventArgs e)
     {
         bool subSettingsEnabled = TransparentNotesCheckBox.IsChecked ?? false;
@@ -370,5 +367,15 @@ public partial class SettingsWindow : Window, ISettingsView
     private void NewLineAtEndCheckBox_Checked(object sender, RoutedEventArgs e)
     {
         KeepNewLineAtEndVisibleCheckBox.IsEnabled = NewLineAtEndCheckBox.IsChecked ?? false;
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        CloseClicked?.Invoke(sender, e);
+    }
+
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        SaveClicked?.Invoke(sender, e);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using PinnyNotes.WpfUi.Enums;
 
@@ -6,6 +7,8 @@ namespace PinnyNotes.WpfUi.Views;
 
 public interface ISettingsView
 {
+    public void Close();
+
     List<KeyValuePair<int, string>> PopulateColorModes { set; }
     List<KeyValuePair<int, string>> PopulateMinimizeModes { set; }
     List<KeyValuePair<int, string>> PopulateStartupPositions { set; }
@@ -52,4 +55,7 @@ public interface ISettingsView
     ToolStates SortToolState { get; set; }
     ToolStates SplitToolState { get; set; }
     ToolStates TrimToolState { get; set; }
+
+    event EventHandler SaveClicked;
+    event EventHandler CloseClicked;
 }

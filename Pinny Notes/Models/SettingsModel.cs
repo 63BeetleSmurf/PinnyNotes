@@ -45,7 +45,7 @@ public class SettingsModel
     private void LoadSettings()
     {
         StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
-        CycleColors = Settings.Default.CycleColors;
+        CycleColors = Settings.Default.CycleThemes;
         TrimCopiedText = Settings.Default.TrimCopiedText;
         TrimPastedText = Settings.Default.TrimPastedText;
         MiddleClickPaste = Settings.Default.MiddleClickPaste;
@@ -87,6 +87,54 @@ public class SettingsModel
         SortToolState = (ToolStates)ToolSettings.Default.SortToolState;
         SplitToolState = (ToolStates)ToolSettings.Default.SplitToolState;
         TrimToolState = (ToolStates)ToolSettings.Default.TrimToolState;
+
+        #endregion
+    }
+    public void SaveSettings()
+    {
+        Settings.Default.StartupPosition = (int)StartupPosition;
+        Settings.Default.CycleThemes = CycleColors;
+        Settings.Default.TrimCopiedText = TrimCopiedText;
+        Settings.Default.TrimPastedText = TrimPastedText;
+        Settings.Default.MiddleClickPaste = MiddleClickPaste;
+        Settings.Default.AutoCopy = AutoCopy;
+        Settings.Default.SpellCheck = SpellChecker;
+        Settings.Default.NewLineAtEnd = NewLineAtEnd;
+        Settings.Default.KeepNewLineAtEndVisible = KeepNewLineAtEndVisible;
+        Settings.Default.AutoIndent = AutoIndent;
+        Settings.Default.TabSpaces = TabSpaces;
+        Settings.Default.TabWidth = TabWidth;
+        Settings.Default.ConvertIndentation = ConvertIndentation;
+        Settings.Default.MinimizeMode = (int)MinimizeMode;
+        Settings.Default.TransparentNotes = TransparentNotes;
+        Settings.Default.OpaqueWhenFocused = OpaqueWhenFocused;
+        Settings.Default.OnlyTransparentWhenPinned = OnlyTransparentWhenPinned;
+        Settings.Default.ColorMode = (int)ColorMode;
+        Settings.Default.UseMonoFont = UseMonoFont;
+        Settings.Default.HideTitleBar = HideTitleBar;
+        Settings.Default.ShowTrayIcon = ShowTrayIcon;
+        Settings.Default.ShowNotesInTaskbar = ShowNotesInTaskbar;
+        Settings.Default.CheckForUpdates = CheckForUpdates;
+
+        #region Tools
+
+        ToolSettings.Default.Base64ToolState = (int)Base64ToolState;
+        ToolSettings.Default.BracketToolState = (int)BracketToolState;
+        ToolSettings.Default.CaseToolState = (int)CaseToolState;
+        ToolSettings.Default.DateTimeToolState = (int)DateTimeToolState;
+        ToolSettings.Default.GibberishToolState = (int)GibberishToolState;
+        ToolSettings.Default.HashToolState = (int)HashToolState;
+        ToolSettings.Default.HtmlEntityToolState = (int)HtmlEntityToolState;
+        ToolSettings.Default.IndentToolState = (int)IndentToolState;
+        ToolSettings.Default.JoinToolState = (int)JoinToolState;
+        ToolSettings.Default.JsonToolState = (int)JsonToolState;
+        ToolSettings.Default.ListToolState = (int)ListToolState;
+        ToolSettings.Default.QuoteToolState = (int)QuoteToolState;
+        ToolSettings.Default.RemoveToolState = (int)RemoveToolState;
+        ToolSettings.Default.SlashToolState = (int)SlashToolState;
+        ToolSettings.Default.SortToolState = (int)SortToolState;
+        ToolSettings.Default.SplitToolState = (int)SplitToolState;
+        ToolSettings.Default.TrimToolState = (int)TrimToolState;
 
         #endregion
     }

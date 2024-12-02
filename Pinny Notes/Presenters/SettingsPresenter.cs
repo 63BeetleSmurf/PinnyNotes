@@ -16,7 +16,7 @@ public class SettingsPresenter
         _view = view;
 
         _view.SaveClicked += OnSaveClicked;
-        _view.CancelClicked += OnCancelClicked;
+        _view.CloseClicked += OnCancelClicked;
 
         LoadSettings();
     }
@@ -118,16 +118,16 @@ public class SettingsPresenter
 
         #endregion
 
-        _model.Save();
+        _model.SaveSettings();
     }
 
-    private void OnSaveClicked(object sender, EventArgs e)
+    private void OnSaveClicked(object? sender, EventArgs e)
     {
         SaveSettings();
         _view.Close();
     }
 
-    private void OnCancelClicked(object sender, EventArgs e)
+    private void OnCancelClicked(object? sender, EventArgs e)
     {
         _view.Close();
     }
