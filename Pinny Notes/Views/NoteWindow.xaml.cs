@@ -8,9 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Views.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views;
@@ -30,9 +28,64 @@ public partial class NoteWindow : Window
     }
 
     public nint Handle { get; set; }
+    public bool HideTitleBar { get; set; }
 
     public NoteTitleBarContextMenu TitleBarContextMenu { get; set; } = null!;
 
+    public string? MonoFontFamily
+    {
+        get => NoteTextBox.MonoFontFamily;
+        set => NoteTextBox.MonoFontFamily = value;
+    }
+    public bool UseMonoFont
+    {
+        get => NoteTextBox.UseMonoFont;
+        set => NoteTextBox.UseMonoFont = value;
+    }
+    public bool SpellCheck{
+        get => NoteTextBox.SpellCheck.IsEnabled;
+        set => NoteTextBox.SpellCheck.IsEnabled = value;
+    }
+    public bool AutoIndent{
+        get => NoteTextBox.AutoIndent;
+        set => NoteTextBox.AutoIndent = value;
+    }
+    public bool NewLineAtEnd{
+        get => NoteTextBox.NewLineAtEnd;
+        set => NoteTextBox.NewLineAtEnd = value;
+    }
+    public bool KeepNewLineVisible{
+        get => NoteTextBox.KeepNewLineVisible;
+        set => NoteTextBox.KeepNewLineVisible = value;
+    }
+    public bool TabSpaces{
+        get => NoteTextBox.TabSpaces;
+        set => NoteTextBox.TabSpaces = value;
+    }
+    public bool ConvertTabs{
+        get => NoteTextBox.ConvertTabs;
+        set => NoteTextBox.ConvertTabs = value;
+    }
+    public int TabWidth{
+        get => NoteTextBox.TabWidth;
+        set => NoteTextBox.TabWidth = value;
+    }
+    public bool MiddleClickPaste{
+        get => NoteTextBox.MiddleClickPaste;
+        set => NoteTextBox.MiddleClickPaste = value;
+    }
+    public bool TrimPastedText{
+        get => NoteTextBox.TrimPastedText;
+        set => NoteTextBox.TrimPastedText = value;
+    }
+    public bool TrimCopiedText{
+        get => NoteTextBox.TrimCopiedText;
+        set => NoteTextBox.TrimCopiedText = value;
+    }
+    public bool AutoCopy{
+        get => NoteTextBox.AutoCopy;
+        set => NoteTextBox.AutoCopy = value;
+    }
     public string Text
     {
         get => NoteTextBox.Text;
@@ -64,6 +117,7 @@ public partial class NoteWindow : Window
     public event EventHandler? WindowMoved;
     public event EventHandler? WindowActivated;
     public event EventHandler? WindowDeactivated;
+    public event EventHandler? WindowStateChanged;
 
     public event EventHandler? NewNoteClicked;
     public event EventHandler? CloseNoteClicked;
@@ -89,29 +143,17 @@ public partial class NoteWindow : Window
         }
     }
 
-    // This is temperamental enough, leave in view for now.
-    private void NoteWindow_StateChanged(object sender, EventArgs e)
-    {
-        MinimizeModes minimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
-
-        if (WindowState == WindowState.Minimized
-            && (
-                minimizeMode == MinimizeModes.Prevent 
-                || (minimizeMode == MinimizeModes.PreventIfPinned && Topmost)
-            )
-        )
-            WindowState = WindowState.Normal;
-    }
+    private void NoteWindow_StateChanged(object sender, EventArgs e) => WindowStateChanged?.Invoke(sender, e);
 
     private void Window_MouseEnter(object sender, MouseEventArgs e)
     {
-        ShowTitleBar();
+        ToggleTitleBar();
     }
 
     private void Window_MouseLeave(object sender, MouseEventArgs e)
     {
         if (!IsActive)
-            HideTitleBar();
+            ToggleTitleBar(true);
     }
 
     private void Window_Activated(object sender, EventArgs e)
@@ -120,14 +162,14 @@ public partial class NoteWindow : Window
 
         WindowActivated?.Invoke(sender, e);
 
-        ShowTitleBar();
+        ToggleTitleBar();
     }
 
     private void Window_Deactivated(object sender, EventArgs e)
     {
         WindowDeactivated?.Invoke(sender, e);
 
-        HideTitleBar();
+        ToggleTitleBar(true);
     }
 
     // Will probably make a custom window as dark mode does not work in messagebox.
@@ -169,15 +211,12 @@ public partial class NoteWindow : Window
         return MessageBoxResult.Cancel;
     }
 
-    private void HideTitleBar()
+    private void ToggleTitleBar(bool hidden = false)
     {
-        if (Settings.Default.HideTitleBar)
+        if (hidden && HideTitleBar)
             ((Storyboard)FindResource("HideTitleBarAnimation")).Begin();
-    }
-
-    private void ShowTitleBar()
-    {
-        ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
+        else
+            ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
     }
 
     private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)

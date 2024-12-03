@@ -13,9 +13,42 @@ public class NoteModel
 {
     public NoteModel(NoteModel? parent = null)
     {
+        LoadSettings();
         SetDefaultSize();
         InitNotePosition(parent);
         InitTheme(parent);
+    }
+
+    public void LoadSettings()
+    {
+        DefaultWidth = Settings.Default.DefaultWidth;
+        DefaultHeight = Settings.Default.DefaultHeight;
+        DefaultThemeName = Settings.Default.Theme;
+        DefaultOpaqueOpacity = Settings.Default.OpaqueOpacity;
+        DefaultTransparentOpacity = Settings.Default.TransparentOpacity;
+
+        StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
+        MinimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
+        HideTitleBar = Settings.Default.HideTitleBar;
+        CycleThemes = Settings.Default.CycleThemes;
+        ThemeColorMode = (ColorModes)Settings.Default.ColorMode;
+        TransparentNotes = Settings.Default.TransparentNotes;
+        OpaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
+        OnlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
+        ShowInTaskbar = Settings.Default.ShowNotesInTaskbar;
+        MonoFontFamily = Settings.Default.MonoFontFamily;
+        UseMonoFont = Settings.Default.UseMonoFont;
+        SpellCheck = Settings.Default.SpellCheck;
+        AutoIndent = Settings.Default.AutoIndent;
+        NewLineAtEnd = Settings.Default.NewLineAtEnd;
+        KeepNewLineVisible = Settings.Default.KeepNewLineAtEndVisible;
+        TabSpaces = Settings.Default.TabSpaces;
+        ConvertTabs = Settings.Default.ConvertIndentation;
+        TabWidth = Settings.Default.TabWidth;
+        MiddleClickPaste = Settings.Default.MiddleClickPaste;
+        TrimPastedText = Settings.Default.TrimPastedText;
+        TrimCopiedText = Settings.Default.TrimCopiedText;
+        AutoCopy = Settings.Default.AutoCopy;
     }
 
     private void InitNotePosition(NoteModel? parent = null)
@@ -40,7 +73,7 @@ public class NoteModel
             int screenMargin = 78;
             screenBounds = ScreenHelper.GetPrimaryScreenBounds();
 
-            switch ((StartupPositions)Settings.Default.StartupPosition)
+            switch (StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.MiddleLeft:
@@ -62,7 +95,7 @@ public class NoteModel
                     break;
             }
 
-            switch ((StartupPositions)Settings.Default.StartupPosition)
+            switch (StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.TopCenter:
@@ -118,17 +151,20 @@ public class NoteModel
 
     private void InitTheme(NoteModel? parent = null)
     {
-        ThemeModel theme = ThemeHelper.Themes.Find(t => t.Name == Settings.Default.Theme)
+        ThemeModel theme = ThemeHelper.Themes.Find(t => t.Name == DefaultThemeName)
             ?? ThemeHelper.Themes[0];
 
-        if (Settings.Default.CycleThemes && ThemeHelper.Themes.Count > 1)
+        if (CycleThemes && ThemeHelper.Themes.Count > 1)
         {
             theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
 
             if (parent != null && theme == parent.Theme)
                 theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
 
-            Settings.Default.Theme = theme.Name;
+            DefaultThemeName = theme.Name;
+
+            // TODO: Review how this method works after move to database backend
+            Settings.Default.Theme = DefaultThemeName;
             Settings.Default.Save();
         }
 
@@ -139,12 +175,9 @@ public class NoteModel
 
     public void SetDefaultSize()
     {
-        Width = Settings.Default.DefaultWidth;
-        Height = Settings.Default.DefaultHeight;
+        Width = DefaultWidth;
+        Height = DefaultHeight;
     }
-
-    public double OpaqueOpacity { get => Settings.Default.OpaqueOpacity; }
-    public double TransparentOpacity { get => Settings.Default.TransparentOpacity; }
 
     private string _text = "";
     public string Text {
@@ -168,6 +201,35 @@ public class NoteModel
     public bool IsPinned { get; set; }
 
     public bool IsSaved { get; set; }
+
+    public int DefaultWidth { get; set; }
+    public int DefaultHeight { get; set; }
+    public double DefaultOpaqueOpacity { get; set; }
+    public double DefaultTransparentOpacity { get; set; }
+    public string DefaultThemeName { get; set; } = null!;
+
+    public StartupPositions StartupPosition { get; set; }
+    public MinimizeModes MinimizeMode { get; set; }
+    public bool HideTitleBar { get; set; }
+    public bool CycleThemes { get; set; }
+    public ColorModes ThemeColorMode { get; set; }
+    public bool TransparentNotes { get; set; }
+    public bool OpaqueWhenFocused { get; set; }
+    public bool OnlyTransparentWhenPinned { get; set; }
+    public bool ShowInTaskbar { get; set; }
+    public string? MonoFontFamily { get; set; }
+    public bool UseMonoFont { get; set; }
+    public bool SpellCheck { get; set; }
+    public bool AutoIndent { get; set; }
+    public bool NewLineAtEnd { get; set; }
+    public bool KeepNewLineVisible { get; set; }
+    public bool TabSpaces { get; set; }
+    public bool ConvertTabs { get; set; }
+    public int TabWidth { get; set; }
+    public bool MiddleClickPaste { get; set; }
+    public bool TrimPastedText { get; set; }
+    public bool TrimCopiedText { get; set; }
+    public bool AutoCopy { get; set; }
 
     public void UpdateGravity(Rectangle screenBounds)
     {

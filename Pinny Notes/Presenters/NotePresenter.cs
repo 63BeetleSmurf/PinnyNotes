@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
-using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Presenters;
@@ -23,7 +23,22 @@ public class NotePresenter
         _view.Height = _model.Height;
         _view.Left = _model.X;
         _view.Top = _model.Y;
-        _view.ShowInTaskbar = Settings.Default.ShowNotesInTaskbar;
+
+        _view.HideTitleBar = _model.HideTitleBar;
+        _view.ShowInTaskbar = _model.ShowInTaskbar;
+        _view.MonoFontFamily = _model.MonoFontFamily;
+        _view.UseMonoFont = _model.UseMonoFont;
+        _view.SpellCheck = _model.SpellCheck;
+        _view.AutoIndent = _model.AutoIndent;
+        _view.NewLineAtEnd = _model.NewLineAtEnd;
+        _view.KeepNewLineVisible = _model.KeepNewLineVisible;
+        _view.TabSpaces = _model.TabSpaces;
+        _view.ConvertTabs = _model.ConvertTabs;
+        _view.TabWidth = _model.TabWidth;
+        _view.MiddleClickPaste = _model.MiddleClickPaste;
+        _view.TrimPastedText = _model.TrimPastedText;
+        _view.TrimCopiedText = _model.TrimCopiedText;
+        _view.AutoCopy = _model.AutoCopy;
 
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
@@ -67,6 +82,17 @@ public class NotePresenter
     {
         _view.Topmost = _model.IsPinned;
         UpdateWindowOpacity();
+    }
+
+    private void OnWindowStateChanged(object? sender, EventArgs e)
+    {
+        if (_view.WindowState == WindowState.Minimized
+            && (
+                _model.MinimizeMode == MinimizeModes.Prevent
+                || (_model.MinimizeMode == MinimizeModes.PreventIfPinned && _view.Topmost)
+            )
+        )
+            _view.WindowState = WindowState.Normal;
     }
 
     private void OnNewNoteClicked(object? sender, EventArgs e)
@@ -127,24 +153,23 @@ public class NotePresenter
 
     private void UpdateWindowOpacity()
     {
-        bool transparentNotes = Settings.Default.TransparentNotes;
-        bool opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
+        bool transparentNotes = _model.TransparentNotes;
+        bool opaqueWhenFocused = _model.OpaqueWhenFocused;
+        bool onlyTransparentWhenPinned = _model.OnlyTransparentWhenPinned;
 
         if (_view.IsFocused)
-            _view.Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _model.TransparentOpacity : _model.OpaqueOpacity;
+            _view.Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
         else if (_model.IsPinned)
-            _view.Opacity = transparentNotes ? _model.TransparentOpacity : _model.OpaqueOpacity;
+            _view.Opacity = transparentNotes ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
         else
-            _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _model.TransparentOpacity : _model.OpaqueOpacity;
+            _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
     }
 
     private void ApplyTheme()
     {
         ThemeColorModel themeColor;
-        ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
-        if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
+        if (_model.ThemeColorMode == ColorModes.Dark || (_model.ThemeColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
             themeColor = _model.Theme.DarkColor;
         else
             themeColor = _model.Theme.LightColor;

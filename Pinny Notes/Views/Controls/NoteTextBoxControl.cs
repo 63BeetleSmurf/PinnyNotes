@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
-using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Tools;
 using PinnyNotes.WpfUi.Views.ContextMenus;
 
@@ -59,9 +59,33 @@ public class NoteTextBoxControl : TextBox
     {
         base.OnTextChanged(e);
 
-        if (Settings.Default.NewLineAtEnd && Text != "" && !Text.EndsWith(Environment.NewLine))
+        if (NewLineAtEnd && Text != "" && !Text.EndsWith(Environment.NewLine))
             AddNewLineAtEnd();
     }
+
+    public string? MonoFontFamily { get; set; }
+    private bool _useMonoFont;
+    public bool UseMonoFont {
+        get => _useMonoFont;
+        set
+        {
+            _useMonoFont = value;
+            if (_useMonoFont && !string.IsNullOrWhiteSpace(MonoFontFamily))
+                FontFamily = new FontFamily(MonoFontFamily);
+            else
+                FontFamily = null;
+        }
+    }
+    public bool AutoIndent { get; set; }
+    public bool NewLineAtEnd { get; set; }
+    public bool KeepNewLineVisible { get; set; }
+    public bool TabSpaces { get; set; }
+    public bool ConvertTabs { get; set; }
+    public int TabWidth { get; set; }
+    public bool MiddleClickPaste { get; set; }
+    public bool TrimPastedText { get; set; }
+    public bool TrimCopiedText { get; set; }
+    public bool AutoCopy { get; set; }
 
     private void AddNewLineAtEnd()
     {
@@ -75,12 +99,12 @@ public class NoteTextBoxControl : TextBox
         SelectionStart = selectionStart;
         SelectionLength = selectionLength;
 
-        KeepNewLineAtEndVisible(caretAtEnd);
+        CheckNewLineAtEndVisible(caretAtEnd);
     }
 
-    private void KeepNewLineAtEndVisible(bool caretAtEnd)
+    private void CheckNewLineAtEndVisible(bool caretAtEnd)
     {
-        if (Settings.Default.KeepNewLineAtEndVisible && caretAtEnd)
+        if (KeepNewLineVisible && caretAtEnd)
             ScrollToEnd();
     }
 
@@ -88,7 +112,7 @@ public class NoteTextBoxControl : TextBox
     {
         base.OnSelectionChanged(e);
 
-        if (Settings.Default.AutoCopy && SelectionLength > 0)
+        if (AutoCopy && SelectionLength > 0)
             Copy();
 
     }
@@ -159,7 +183,7 @@ public class NoteTextBoxControl : TextBox
     {
         base.OnMouseUp(e);
 
-        if (e.ChangedButton == MouseButton.Middle && Settings.Default.MiddleClickPaste)
+        if (e.ChangedButton == MouseButton.Middle && MiddleClickPaste)
             Paste();
     }
 
@@ -169,15 +193,15 @@ public class NoteTextBoxControl : TextBox
 
         if (e.Key == Key.Tab)
             e.Handled = HandleTabPressed();
-        else if (e.Key == Key.Return && Settings.Default.AutoIndent)
+        else if (e.Key == Key.Return && AutoIndent)
             e.Handled = HandleReturnPressed();
     }
 
     private bool HandleTabPressed()
     {
-        if ((SelectionLength == 0 || !SelectedText.Contains(Environment.NewLine)) && Keyboard.Modifiers != ModifierKeys.Shift && Settings.Default.TabSpaces)
+        if ((SelectionLength == 0 || !SelectedText.Contains(Environment.NewLine)) && Keyboard.Modifiers != ModifierKeys.Shift && TabSpaces)
         {
-            int spaceCount = Settings.Default.TabWidth;
+            int spaceCount = TabWidth;
             int caretIndex = (SelectionLength == 0) ? CaretIndex : SelectionStart;
 
             int lineStart = GetCharacterIndexFromLineIndex(
@@ -219,7 +243,7 @@ public class NoteTextBoxControl : TextBox
                 }
                 else if (Text[charIndex] == ' ')
                 {
-                    while (charIndex >= 0 && Text[charIndex] == ' ' && tabLength < Settings.Default.TabWidth)
+                    while (charIndex >= 0 && Text[charIndex] == ' ' && tabLength < TabWidth)
                     {
                         tabLength++;
                         charIndex--;
@@ -257,7 +281,7 @@ public class NoteTextBoxControl : TextBox
             Select(selectionStart, selectionEnd - selectionStart);
 
             // Loop though each line adding or removing the indentation where required
-            string indentation = (Settings.Default.TabSpaces) ? "".PadLeft(Settings.Default.TabWidth, ' ') : "\t";
+            string indentation = (TabSpaces) ? "".PadLeft(TabWidth, ' ') : "\t";
             string[] lines = SelectedText.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -355,7 +379,7 @@ public class NoteTextBoxControl : TextBox
 
         string copiedText = SelectedText;
 
-        if (Settings.Default.TrimCopiedText)
+        if (TrimCopiedText)
             copiedText = copiedText.Trim();
 
         Clipboard.SetDataObject(copiedText);
@@ -371,15 +395,15 @@ public class NoteTextBoxControl : TextBox
 
         // Get text from clipboard and trim if specified
         string clipboardString = Clipboard.GetText();
-        if (Settings.Default.TrimPastedText)
+        if (TrimPastedText)
             clipboardString = clipboardString.Trim();
 
         // Replace tabs/spaces if specified
-        if (Settings.Default.ConvertIndentation)
+        if (ConvertTabs)
         {
-            string spaces = "".PadLeft(Settings.Default.TabWidth, ' ');
+            string spaces = "".PadLeft(TabWidth, ' ');
 
-            if (Settings.Default.TabSpaces)
+            if (TabSpaces)
                 clipboardString = clipboardString.Replace("\t", spaces);
             else
                 clipboardString = clipboardString.Replace(spaces, "\t");
@@ -393,7 +417,7 @@ public class NoteTextBoxControl : TextBox
         CaretIndex = caretIndex + clipboardString.Length;
 
         if (!hasSelectedText)
-            KeepNewLineAtEndVisible(caretAtEnd);
+            CheckNewLineAtEndVisible(caretAtEnd);
     }
 
     public int GetLineCount()
@@ -404,7 +428,7 @@ public class NoteTextBoxControl : TextBox
                 - GetLineIndexFromCharacterIndex(SelectionStart)
                 + 1;
         else
-            count = GetLineIndexFromCharacterIndex(Text.Length) + ((Settings.Default.NewLineAtEnd) ? 0 : 1);
+            count = GetLineIndexFromCharacterIndex(Text.Length) + ((NewLineAtEnd) ? 0 : 1);
         return count;
     }
 
