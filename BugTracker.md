@@ -1,3 +1,2 @@
-- Spelling corrections are not shown in context menu.
 - Settings window in wrong position on first load.
 - 
