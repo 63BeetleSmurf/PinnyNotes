@@ -181,6 +181,7 @@ public class SettingsPresenter
     }
     private void OnWindowClosing(object? sender, EventArgs e)
     {
+        _view.Owner = null;
         _view.Hide();
     }
 
