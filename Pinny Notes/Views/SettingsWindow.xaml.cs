@@ -121,22 +121,18 @@ public partial class SettingsWindow : Window
         => PopulateComboBox(ColorModeComboBox, items);
 
     // - Transparency
-    public bool TransparentNotes
+    public TransparencyModes TransparencyMode
     {
-        get => TransparentNotesCheckBox.IsChecked ?? false;
-        set => TransparentNotesCheckBox.IsChecked = value;
+        get => (TransparencyModes)TransparencyModeComboBox.SelectedValue;
+        set => TransparencyModeComboBox.SelectedValue = value;
     }
+    public void PopulateTransparencyModes(IEnumerable<KeyValuePair<TransparencyModes, string>> items)
+        => PopulateComboBox(TransparencyModeComboBox, items);
 
     public bool OpaqueWhenFocused
     {
         get => OpaqueWhenFocusedCheckBox.IsChecked ?? false;
         set => OpaqueWhenFocusedCheckBox.IsChecked = value;
-    }
-
-    public bool OnlyTransparentWhenPinned
-    {
-        get => OnlyTransparentWhenPinnedCheckBox.IsChecked ?? false;
-        set => OnlyTransparentWhenPinnedCheckBox.IsChecked = value;
     }
 
     // Editor
@@ -349,12 +345,10 @@ public partial class SettingsWindow : Window
     public event EventHandler? CancelClicked;
     public event EventHandler? ApplyClicked;
 
-    private void TransparentNotesCheckBox_Checked(object sender, RoutedEventArgs e)
+    private void TransparencyModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        bool subSettingsEnabled = TransparentNotesCheckBox.IsChecked ?? false;
-        OpaqueWhenFocusedCheckBox.IsEnabled = subSettingsEnabled;
-        OpaqueWhenFocusedCheckBox.IsEnabled = subSettingsEnabled;
-
+        object? selectedValue = TransparencyModeComboBox.SelectedValue;
+        OpaqueWhenFocusedCheckBox.IsEnabled = (selectedValue != null && (TransparencyModes)selectedValue != TransparencyModes.Disabled);
     }
 
     private void NewLineAtEndCheckBox_Checked(object sender, RoutedEventArgs e)

@@ -14,6 +14,7 @@
 - Combined enabled and favourite tool setting into tool state with Enabled, Disabled and Favourite options.
 - Settings are now applied using Ok or Apply buttons rather than instantly.
 - Unpinned notes no longer come above pinned notes when focused.
+- Simplified transparency settings.
 
 ### Fixed
 - 

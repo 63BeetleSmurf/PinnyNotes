@@ -62,9 +62,17 @@
                     </StackPanel>
 
                     <Label Content="Transparency" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Transparent Notes" Name="TransparentNotesCheckBox" Checked="TransparentNotesCheckBox_Checked" />
-                    <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" Name="OpaqueWhenFocusedCheckBox" />
-                    <CheckBox Margin="30,5,5,5" Content="Only Transparent When Pinned" Name="OnlyTransparentWhenPinnedCheckBox" />
+                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                        <Label Content="Transparent notes"/>
+                        <ComboBox
+                            Width="120"
+                            Name="TransparencyModeComboBox"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectionChanged="TransparencyModeComboBox_SelectionChanged"
+                        />
+                    </StackPanel>
+                    <CheckBox Margin="30,5,5,0" Content="Always opaque when focused" Name="OpaqueWhenFocusedCheckBox" />
 
                 </StackPanel>
             </TabItem>

@@ -32,9 +32,8 @@ public class NoteModel
         HideTitleBar = Settings.Default.HideTitleBar;
         CycleThemes = Settings.Default.CycleThemes;
         ThemeColorMode = (ColorModes)Settings.Default.ColorMode;
-        TransparentNotes = Settings.Default.TransparentNotes;
+        TransparencyMode = (TransparencyModes)Settings.Default.TransparencyMode;
         OpaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        OnlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
         ShowInTaskbar = Settings.Default.ShowNotesInTaskbar;
         MonoFontFamily = Settings.Default.MonoFontFamily;
         UseMonoFont = Settings.Default.UseMonoFont;
@@ -213,9 +212,8 @@ public class NoteModel
     public bool HideTitleBar { get; set; }
     public bool CycleThemes { get; set; }
     public ColorModes ThemeColorMode { get; set; }
-    public bool TransparentNotes { get; set; }
+    public TransparencyModes TransparencyMode { get; set; }
     public bool OpaqueWhenFocused { get; set; }
-    public bool OnlyTransparentWhenPinned { get; set; }
     public bool ShowInTaskbar { get; set; }
     public string? MonoFontFamily { get; set; }
     public bool UseMonoFont { get; set; }

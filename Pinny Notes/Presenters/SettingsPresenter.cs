@@ -39,6 +39,7 @@ public class SettingsPresenter
         _view.PopulateStartupPositions(SettingsModel.StartupPositionsList);
         _view.PopulateMinimizeModes(SettingsModel.MinimizeModeList);
         _view.PopulateColorModes(SettingsModel.ColorModeList);
+        _view.PopulateTransparencyModes(SettingsModel.TransparencyModeList);
         _view.PopulateToolStates(SettingsModel.ToolStateList);
     }
 
@@ -60,9 +61,8 @@ public class SettingsPresenter
         _view.TabWidth = _model.TabWidth;
         _view.ConvertIndentation = _model.ConvertIndentation;
         _view.MinimizeMode = _model.MinimizeMode;
-        _view.TransparentNotes = _model.TransparentNotes;
+        _view.TransparencyMode = _model.TransparencyMode;
         _view.OpaqueWhenFocused = _model.OpaqueWhenFocused;
-        _view.OnlyTransparentWhenPinned = _model.OnlyTransparentWhenPinned;
         _view.ColorMode = _model.ColorMode;
         _view.UseMonoFont = _model.UseMonoFont;
         _view.HideTitleBar = _model.HideTitleBar;
@@ -109,9 +109,8 @@ public class SettingsPresenter
         _model.TabWidth = _view.TabWidth;
         _model.ConvertIndentation = _view.ConvertIndentation;
         _model.MinimizeMode = _view.MinimizeMode;
-        _model.TransparentNotes = _view.TransparentNotes;
+        _model.TransparencyMode = _view.TransparencyMode;
         _model.OpaqueWhenFocused = _view.OpaqueWhenFocused;
-        _model.OnlyTransparentWhenPinned = _view.OnlyTransparentWhenPinned;
         _model.ColorMode = _view.ColorMode;
         _model.UseMonoFont = _view.UseMonoFont;
         _model.HideTitleBar = _view.HideTitleBar;

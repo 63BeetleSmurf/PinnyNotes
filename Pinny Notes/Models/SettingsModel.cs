@@ -30,6 +30,12 @@ public class SettingsModel
         new(ColorModes.System, "System Default")
     ];
 
+    public static readonly KeyValuePair<TransparencyModes, string>[] TransparencyModeList = [
+        new(TransparencyModes.Disabled, "Disabled"),
+        new(TransparencyModes.Enabled, "Enabled"),
+        new(TransparencyModes.OnlyWhenPinned, "Only when pinned")
+    ];
+
     public static readonly KeyValuePair<ToolStates, string>[] ToolStateList = [
         new(ToolStates.Enabled, "Enabled"),
         new(ToolStates.Disabled, "Disabled"),
@@ -57,9 +63,8 @@ public class SettingsModel
         TabWidth = Settings.Default.TabWidth;
         ConvertIndentation = Settings.Default.ConvertIndentation;
         MinimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
-        TransparentNotes = Settings.Default.TransparentNotes;
+        TransparencyMode = (TransparencyModes)Settings.Default.TransparencyMode;
         OpaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        OnlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
         ColorMode = (ColorModes)Settings.Default.ColorMode;
         UseMonoFont = Settings.Default.UseMonoFont;
         HideTitleBar = Settings.Default.HideTitleBar;
@@ -105,9 +110,8 @@ public class SettingsModel
         Settings.Default.TabWidth = TabWidth;
         Settings.Default.ConvertIndentation = ConvertIndentation;
         Settings.Default.MinimizeMode = (int)MinimizeMode;
-        Settings.Default.TransparentNotes = TransparentNotes;
+        Settings.Default.TransparencyMode = (int)TransparencyMode;
         Settings.Default.OpaqueWhenFocused = OpaqueWhenFocused;
-        Settings.Default.OnlyTransparentWhenPinned = OnlyTransparentWhenPinned;
         Settings.Default.ColorMode = (int)ColorMode;
         Settings.Default.UseMonoFont = UseMonoFont;
         Settings.Default.HideTitleBar = HideTitleBar;
@@ -158,9 +162,8 @@ public class SettingsModel
     public int TabWidth { get; set; }
     public bool ConvertIndentation { get; set; }
     public MinimizeModes MinimizeMode { get; set; }
-    public bool TransparentNotes { get; set; }
+    public TransparencyModes TransparencyMode { get; set; }
     public bool OpaqueWhenFocused { get; set; }
-    public bool OnlyTransparentWhenPinned { get; set; }
     public ColorModes ColorMode { get; set; }
     public bool UseMonoFont { get; set; }
     public bool HideTitleBar { get; set; }

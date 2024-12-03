@@ -163,16 +163,13 @@ public class NotePresenter
 
     private void UpdateWindowOpacity()
     {
-        bool transparentNotes = _model.TransparentNotes;
-        bool opaqueWhenFocused = _model.OpaqueWhenFocused;
-        bool onlyTransparentWhenPinned = _model.OnlyTransparentWhenPinned;
+        bool isTransparent = (
+            _model.TransparencyMode != TransparencyModes.Disabled
+            && (_model.TransparencyMode != TransparencyModes.OnlyWhenPinned || _model.IsPinned)
+            && !(_model.OpaqueWhenFocused && _view.IsActive)
+        );
 
-        if (_view.IsFocused)
-            _view.Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
-        else if (_model.IsPinned)
-            _view.Opacity = transparentNotes ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
-        else
-            _view.Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
+        _view.Opacity = (isTransparent) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
     }
 
     private void ApplyTheme()
