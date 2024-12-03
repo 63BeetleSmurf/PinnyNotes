@@ -1,0 +1,3 @@
+- New Note from Notify Icon does not apply themes or sizing.
+- Spell checker does not seem to be active.
+- 
