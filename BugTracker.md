@@ -1,4 +1,3 @@
-- New Note from Notify Icon does not apply themes or sizing.
 - Spelling corrections are not shown in context menu.
 - Settings window in wrong position on first load.
 - 

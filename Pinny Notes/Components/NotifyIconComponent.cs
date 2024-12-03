@@ -55,7 +55,7 @@ public class NotifyIconComponent : IDisposable
 
     private void NewNote_Click(object? sender, EventArgs e)
     {
-        new NoteWindow().Show();
+        _app.CreateNewNote();
     }
 
     private void Settings_Click(object? sender, EventArgs e)
