@@ -25,7 +25,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Base64ToolState {
             get {
                 return ((int)(this["Base64ToolState"]));
@@ -37,7 +37,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int BracketToolState {
             get {
                 return ((int)(this["BracketToolState"]));
@@ -49,7 +49,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int CaseToolState {
             get {
                 return ((int)(this["CaseToolState"]));
@@ -61,7 +61,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DateTimeToolState {
             get {
                 return ((int)(this["DateTimeToolState"]));
@@ -73,7 +73,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int GibberishToolState {
             get {
                 return ((int)(this["GibberishToolState"]));
@@ -85,7 +85,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int HashToolState {
             get {
                 return ((int)(this["HashToolState"]));
@@ -97,7 +97,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int HtmlEntityToolState {
             get {
                 return ((int)(this["HtmlEntityToolState"]));
@@ -109,7 +109,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int IndentToolState {
             get {
                 return ((int)(this["IndentToolState"]));
@@ -121,7 +121,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int JoinToolState {
             get {
                 return ((int)(this["JoinToolState"]));
@@ -133,7 +133,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int JsonToolState {
             get {
                 return ((int)(this["JsonToolState"]));
@@ -145,7 +145,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ListToolState {
             get {
                 return ((int)(this["ListToolState"]));
@@ -157,7 +157,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int QuoteToolState {
             get {
                 return ((int)(this["QuoteToolState"]));
@@ -169,7 +169,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int RemoveToolState {
             get {
                 return ((int)(this["RemoveToolState"]));
@@ -181,7 +181,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SlashToolState {
             get {
                 return ((int)(this["SlashToolState"]));
@@ -193,7 +193,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SortToolState {
             get {
                 return ((int)(this["SortToolState"]));
@@ -205,7 +205,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SplitToolState {
             get {
                 return ((int)(this["SplitToolState"]));
@@ -217,7 +217,7 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int TrimToolState {
             get {
                 return ((int)(this["TrimToolState"]));
