@@ -44,6 +44,8 @@ public class SettingsPresenter
 
     private void LoadSettings()
     {
+        _model.LoadSettings();
+
         _view.StartupPosition = _model.StartupPosition;
         _view.CycleColors = _model.CycleColors;
         _view.TrimCopiedText = _model.TrimCopiedText;

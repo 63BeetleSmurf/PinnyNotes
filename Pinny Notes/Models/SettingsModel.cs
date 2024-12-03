@@ -38,11 +38,10 @@ public class SettingsModel
 
     public SettingsModel(NoteModel? noteWindow = null)
     {
-        LoadSettings();
         InitWindowPosition(noteWindow);
     }
 
-    private void LoadSettings()
+    public void LoadSettings()
     {
         StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
         CycleColors = Settings.Default.CycleThemes;
@@ -137,6 +136,8 @@ public class SettingsModel
         ToolSettings.Default.TrimToolState = (int)TrimToolState;
 
         #endregion
+
+        Settings.Default.Save();
     }
 
     private void InitWindowPosition(NoteModel? parent = null)
