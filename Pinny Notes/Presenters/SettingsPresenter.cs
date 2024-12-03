@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 
+using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Views;
 
@@ -8,22 +9,26 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class SettingsPresenter
 {
-    private SettingsModel _model;
-    private SettingsWindow _view;
+    private readonly SettingsModel _model;
+    private readonly SettingsWindow _view;
 
     public SettingsPresenter(SettingsModel model, SettingsWindow view)
     {
         _model = model;
         _view = view;
 
+        _view.WindowClosing += OnWindowClosing;
+
         _view.OkClicked += OnOkClicked;
         _view.CancelClicked += OnCancelClicked;
         _view.ApplyClicked += OnApplyClicked;
     }
 
-    public void ShowWindow(Window? owner)
+    public void ShowWindow(Window? owner = null)
     {
         _view.Owner = owner;
+
+        PositionWindow();
 
         PopulateLists();
         LoadSettings();
@@ -32,6 +37,38 @@ public class SettingsPresenter
             _view.Activate();
         else
             _view.Show();
+    }
+
+    private void PositionWindow()
+    {
+        if (_view.Owner == null)
+        {
+            _view.Left = SystemParameters.PrimaryScreenWidth / 2 - _view.Width / 2;
+            _view.Top = SystemParameters.PrimaryScreenHeight / 2 - _view.Height / 2;
+        }
+        else
+        {
+            Point position = new(
+                (_view.Owner.Left + _view.Owner.Width / 2) - _view.Width / 2,
+                (_view.Owner.Top + _view.Owner.Height / 2) - _view.Height / 2
+            );
+            System.Drawing.Rectangle currentScreenBounds = ScreenHelper.GetCurrentScreenBounds(
+                ScreenHelper.GetWindowHandle(_view.Owner)
+            );
+
+            if (position.X < currentScreenBounds.Left)
+                position.X = currentScreenBounds.Left;
+            else if (position.X + _view.Width > currentScreenBounds.Right)
+                position.X = currentScreenBounds.Right - _view.Width;
+
+            if (position.Y < currentScreenBounds.Top)
+                position.Y = currentScreenBounds.Top;
+            else if (position.Y + _view.Height > currentScreenBounds.Bottom)
+                position.Y = currentScreenBounds.Bottom - _view.Height;
+
+            _view.Left = position.X;
+            _view.Top = position.Y;
+        }
     }
 
     private void PopulateLists()
@@ -141,6 +178,10 @@ public class SettingsPresenter
         #endregion
 
         _model.SaveSettings();
+    }
+    private void OnWindowClosing(object? sender, EventArgs e)
+    {
+        _view.Hide();
     }
 
     private void OnOkClicked(object? sender, EventArgs e)

@@ -1,57 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Helpers;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class SettingsWindow : Window
 {
-    private Window _lastOwner;
-
     public SettingsWindow()
     {
         InitializeComponent();
-        _lastOwner = Owner;
-    }
-
-    private void Window_Activated(object sender, System.EventArgs e)
-    {
-        if (Owner == null)
-        {
-            Left = SystemParameters.PrimaryScreenWidth / 2 - Width / 2;
-            Top = SystemParameters.PrimaryScreenHeight / 2 - Height / 2;
-        }
-        else
-        {
-            if (Owner == _lastOwner)
-                return;
-            _lastOwner = Owner;
-
-            Point position = new(
-                (Owner.Left + Owner.Width / 2) - Width / 2,
-                (Owner.Top + Owner.Height / 2) - Height / 2
-            );
-            System.Drawing.Rectangle currentScreenBounds = ScreenHelper.GetCurrentScreenBounds(
-                ScreenHelper.GetWindowHandle(Owner)
-            );
-
-            if (position.X < currentScreenBounds.Left)
-                position.X = currentScreenBounds.Left;
-            else if (position.X + Width > currentScreenBounds.Right)
-                position.X = currentScreenBounds.Right - Width;
-
-            if (position.Y < currentScreenBounds.Top)
-                position.Y = currentScreenBounds.Top;
-            else if (position.Y + Height > currentScreenBounds.Bottom)
-                position.Y = currentScreenBounds.Bottom - Height;
-
-            Left = position.X;
-            Top = position.Y;
-        }
     }
 
     private void PopulateComboBox<TEnum>(ComboBox comboBox, IEnumerable<KeyValuePair<TEnum, string>> items)
@@ -341,9 +302,16 @@ public partial class SettingsWindow : Window
 
     #endregion
 
+    public event EventHandler? WindowClosing;
     public event EventHandler? OkClicked;
     public event EventHandler? CancelClicked;
     public event EventHandler? ApplyClicked;
+
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        WindowClosing?.Invoke(sender, e);
+        e.Cancel = true;
+    }
 
     private void TransparencyModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

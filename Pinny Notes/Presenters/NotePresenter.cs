@@ -153,7 +153,7 @@ public class NotePresenter
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
     {
-        ((App)Application.Current).ShowSettingsWindow();
+        ((App)Application.Current).ShowSettingsWindow(_view);
     }
 
     private void OnTextChanged(object? sender, EventArgs e)

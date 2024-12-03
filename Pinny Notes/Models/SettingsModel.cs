@@ -1,6 +1,7 @@
-﻿using PinnyNotes.WpfUi.Enums;
+﻿using System.Collections.Generic;
+
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
-using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Models;
 
@@ -41,11 +42,6 @@ public class SettingsModel
         new(ToolStates.Disabled, "Disabled"),
         new(ToolStates.Favorite, "Favorite")
     ];
-
-    public SettingsModel(NoteModel? noteWindow = null)
-    {
-        InitWindowPosition(noteWindow);
-    }
 
     public void LoadSettings()
     {
@@ -142,10 +138,6 @@ public class SettingsModel
         #endregion
 
         Settings.Default.Save();
-    }
-
-    private void InitWindowPosition(NoteModel? parent = null)
-    {
     }
 
     public StartupPositions StartupPosition { get; set; }
