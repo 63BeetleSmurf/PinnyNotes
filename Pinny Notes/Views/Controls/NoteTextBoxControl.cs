@@ -73,7 +73,7 @@ public class NoteTextBoxControl : TextBox
             if (_useMonoFont && !string.IsNullOrWhiteSpace(MonoFontFamily))
                 FontFamily = new FontFamily(MonoFontFamily);
             else
-                FontFamily = null;
+                FontFamily = new FontFamily();
         }
     }
     public bool AutoIndent { get; set; }
