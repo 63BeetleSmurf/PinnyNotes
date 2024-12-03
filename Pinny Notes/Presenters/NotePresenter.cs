@@ -79,13 +79,11 @@ public class NotePresenter
 
     private void OnWindowActivated(object? sender, EventArgs e)
     {
-        _view.Topmost = true;
         UpdateWindowOpacity();
     }
 
     private void OnWindowDeactivated(object? sender, EventArgs e)
     {
-        _view.Topmost = _model.IsPinned;
         UpdateWindowOpacity();
     }
 
@@ -108,6 +106,7 @@ public class NotePresenter
     private void OnPinClicked(object? sender, EventArgs e)
     {
         _model.IsPinned = _view.PinButtonState;
+        _view.Topmost = _model.IsPinned;
         UpdateWindowOpacity();
     }
 
