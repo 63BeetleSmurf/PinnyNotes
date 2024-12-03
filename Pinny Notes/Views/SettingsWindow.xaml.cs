@@ -54,10 +54,10 @@ public partial class SettingsWindow : Window
         }
     }
 
-    private void PopulateComboBox(ComboBox comboBox, List<KeyValuePair<int, string>> items)
+    private void PopulateComboBox<TEnum>(ComboBox comboBox, IEnumerable<KeyValuePair<TEnum, string>> items)
     {
         comboBox.Items.Clear();
-        foreach (KeyValuePair<int, string> item in items)
+        foreach (KeyValuePair<TEnum, string> item in items)
             comboBox.Items.Add(item);
     }
 
@@ -88,20 +88,16 @@ public partial class SettingsWindow : Window
         get => (StartupPositions)StartupPositionComboBox.SelectedValue;
         set => StartupPositionComboBox.SelectedValue = value;
     }
-    public List<KeyValuePair<int, string>> PopulateStartupPositions
-    {
-        set => PopulateComboBox(StartupPositionComboBox, value);
-    }
+    public void PopulateStartupPositions(IEnumerable<KeyValuePair<StartupPositions, string>> items)
+        => PopulateComboBox(StartupPositionComboBox, items);
 
     public MinimizeModes MinimizeMode
     {
         get => (MinimizeModes)MinimizeModeComboBox.SelectedValue;
         set => MinimizeModeComboBox.SelectedValue = value;
     }
-    public List<KeyValuePair<int, string>> PopulateMinimizeModes
-    {
-        set => PopulateComboBox(MinimizeModeComboBox, value);
-    }
+    public void PopulateMinimizeModes(IEnumerable<KeyValuePair<MinimizeModes, string>> items)
+        => PopulateComboBox(MinimizeModeComboBox, items);
 
     public bool HideTitleBar
     {
@@ -121,10 +117,8 @@ public partial class SettingsWindow : Window
         get => (ColorModes)ColorModeComboBox.SelectedValue;
         set => ColorModeComboBox.SelectedValue = value;
     }
-    public List<KeyValuePair<int, string>> PopulateColorModes
-    {
-        set => PopulateComboBox(ColorModeComboBox, value);
-    }
+    public void PopulateColorModes(IEnumerable<KeyValuePair<ColorModes, string>> items)
+        => PopulateComboBox(ColorModeComboBox, items);
 
     // - Transparency
     public bool TransparentNotes
@@ -225,28 +219,26 @@ public partial class SettingsWindow : Window
     // Tools
     #region Tools
 
-    public List<KeyValuePair<int, string>> PopulateToolStates
+    public void PopulateToolStates(IEnumerable<KeyValuePair<ToolStates, string>> items)
     {
-        set
-        {
-            PopulateComboBox(Base64ToolStateComboBox, value);
-            PopulateComboBox(BracketToolStateComboBox, value);
-            PopulateComboBox(CaseToolStateComboBox, value);
-            PopulateComboBox(DateTimeToolStateComboBox, value);
-            PopulateComboBox(GibberishToolStateComboBox, value);
-            PopulateComboBox(HashToolStateComboBox, value);
-            PopulateComboBox(HtmlEntityToolStateComboBox, value);
-            PopulateComboBox(IndentToolStateComboBox, value);
-            PopulateComboBox(JoinToolStateComboBox, value);
-            PopulateComboBox(JsonToolStateComboBox, value);
-            PopulateComboBox(ListToolStateComboBox, value);
-            PopulateComboBox(QuoteToolStateComboBox, value);
-            PopulateComboBox(RemoveToolStateComboBox, value);
-            PopulateComboBox(SlashToolStateComboBox, value);
-            PopulateComboBox(SortToolStateComboBox, value);
-            PopulateComboBox(SplitToolStateComboBox, value);
-            PopulateComboBox(TrimToolStateComboBox, value);
-        }
+        // TODO: Probably could use a resource or something here
+        PopulateComboBox(Base64ToolStateComboBox, items);
+        PopulateComboBox(BracketToolStateComboBox, items);
+        PopulateComboBox(CaseToolStateComboBox, items);
+        PopulateComboBox(DateTimeToolStateComboBox, items);
+        PopulateComboBox(GibberishToolStateComboBox, items);
+        PopulateComboBox(HashToolStateComboBox, items);
+        PopulateComboBox(HtmlEntityToolStateComboBox, items);
+        PopulateComboBox(IndentToolStateComboBox, items);
+        PopulateComboBox(JoinToolStateComboBox, items);
+        PopulateComboBox(JsonToolStateComboBox, items);
+        PopulateComboBox(ListToolStateComboBox, items);
+        PopulateComboBox(QuoteToolStateComboBox, items);
+        PopulateComboBox(RemoveToolStateComboBox, items);
+        PopulateComboBox(SlashToolStateComboBox, items);
+        PopulateComboBox(SortToolStateComboBox, items);
+        PopulateComboBox(SplitToolStateComboBox, items);
+        PopulateComboBox(TrimToolStateComboBox, items);
     }
 
     public ToolStates Base64ToolState

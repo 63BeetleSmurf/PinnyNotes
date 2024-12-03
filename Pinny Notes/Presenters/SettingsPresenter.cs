@@ -19,8 +19,27 @@ public class SettingsPresenter
         _view.OkClicked += OnOkClicked;
         _view.CancelClicked += OnCancelClicked;
         _view.ApplyClicked += OnApplyClicked;
+    }
 
+    public void ShowWindow(Window? owner)
+    {
+        _view.Owner = owner;
+
+        PopulateLists();
         LoadSettings();
+
+        if (_view.IsVisible)
+            _view.Activate();
+        else
+            _view.Show();
+    }
+
+    private void PopulateLists()
+    {
+        _view.PopulateStartupPositions(SettingsModel.StartupPositionsList);
+        _view.PopulateMinimizeModes(SettingsModel.MinimizeModeList);
+        _view.PopulateColorModes(SettingsModel.ColorModeList);
+        _view.PopulateToolStates(SettingsModel.ToolStateList);
     }
 
     private void LoadSettings()
@@ -137,15 +156,5 @@ public class SettingsPresenter
     private void OnApplyClicked(object? sender, EventArgs e)
     {
         SaveSettings();
-    }
-
-    public void ShowWindow(Window? owner)
-    {
-        _view.Owner = owner;
-
-        if (_view.IsVisible)
-            _view.Activate();
-        else
-            _view.Show();
     }
 }

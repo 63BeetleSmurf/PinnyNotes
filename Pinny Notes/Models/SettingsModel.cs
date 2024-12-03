@@ -6,7 +6,7 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class SettingsModel
 {
-    private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
+    public static readonly KeyValuePair<StartupPositions, string>[] StartupPositionsList = [
         new(StartupPositions.TopLeft, "Top Left"),
         new(StartupPositions.TopCenter, "Top Center"),
         new(StartupPositions.TopRight, "Top Right"),
@@ -18,19 +18,19 @@ public class SettingsModel
         new(StartupPositions.BottomRight, "Bottom Right")
     ];
 
-    private static readonly KeyValuePair<MinimizeModes, string>[] _minimizeModeList = [
+    public static readonly KeyValuePair<MinimizeModes, string>[] MinimizeModeList = [
         new(MinimizeModes.Allow, "Yes"),
         new(MinimizeModes.Prevent, "No"),
         new(MinimizeModes.PreventIfPinned, "When not pinned")
     ];
 
-    private static readonly KeyValuePair<ColorModes, string>[] _colorModeList = [
+    public static readonly KeyValuePair<ColorModes, string>[] ColorModeList = [
         new(ColorModes.Light, "Light"),
         new(ColorModes.Dark, "Dark"),
         new(ColorModes.System, "System Default")
     ];
 
-    private static readonly KeyValuePair<ToolStates, string>[] _toolStateList = [
+    public static readonly KeyValuePair<ToolStates, string>[] ToolStateList = [
         new(ToolStates.Enabled, "Enabled"),
         new(ToolStates.Disabled, "Disabled"),
         new(ToolStates.Favorite, "Favorite")
