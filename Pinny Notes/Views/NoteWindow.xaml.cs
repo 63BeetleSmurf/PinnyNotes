@@ -28,6 +28,11 @@ public partial class NoteWindow : Window
     }
 
     public nint Handle { get; set; }
+    public bool PinButtonState
+    {
+        get => PinButton.IsChecked ?? false;
+        set => PinButton.IsChecked = value;
+    } 
     public bool HideTitleBar { get; set; }
 
     public NoteTitleBarContextMenu TitleBarContextMenu { get; set; } = null!;
@@ -120,6 +125,7 @@ public partial class NoteWindow : Window
     public event EventHandler? WindowStateChanged;
 
     public event EventHandler? NewNoteClicked;
+    public event EventHandler? PinClicked;
     public event EventHandler? CloseNoteClicked;
     public event EventHandler? TitleBarRightClicked;
 
@@ -158,8 +164,6 @@ public partial class NoteWindow : Window
 
     private void Window_Activated(object sender, EventArgs e)
     {
-        Topmost = true;
-
         WindowActivated?.Invoke(sender, e);
 
         ToggleTitleBar();
@@ -238,7 +242,7 @@ public partial class NoteWindow : Window
     }
 
     private void NewButton_Click(object sender, RoutedEventArgs e) => NewNoteClicked?.Invoke(sender, e);
-
+    private void PinButton_Click(object sender, RoutedEventArgs e) => PinClicked?.Invoke(sender, e);
     private void CloseButton_Click(object sender, RoutedEventArgs e) => CloseNoteClicked?.Invoke(sender, e);
 
 

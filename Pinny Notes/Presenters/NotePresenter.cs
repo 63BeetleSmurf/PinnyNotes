@@ -23,6 +23,7 @@ public class NotePresenter
         _view.Height = _model.Height;
         _view.Left = _model.X;
         _view.Top = _model.Y;
+        _view.PinButtonState = _model.IsPinned;
 
         _view.HideTitleBar = _model.HideTitleBar;
         _view.ShowInTaskbar = _model.ShowInTaskbar;
@@ -43,8 +44,11 @@ public class NotePresenter
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
         _view.WindowActivated += OnWindowActivated;
+        _view.WindowDeactivated += OnWindowDeactivated;
+        _view.WindowStateChanged += OnWindowStateChanged;
 
         _view.NewNoteClicked += OnNewNoteClicked;
+        _view.PinClicked += OnPinClicked;
         _view.CloseNoteClicked += OnCloseNoteClicked;
         _view.TitleBarRightClicked += OnTitleBarRightClicked;
 
@@ -75,6 +79,7 @@ public class NotePresenter
 
     private void OnWindowActivated(object? sender, EventArgs e)
     {
+        _view.Topmost = true;
         UpdateWindowOpacity();
     }
 
@@ -97,7 +102,13 @@ public class NotePresenter
 
     private void OnNewNoteClicked(object? sender, EventArgs e)
     {
-        ((App)System.Windows.Application.Current).CreateNewNote(_model);
+        ((App)Application.Current).CreateNewNote(_model);
+    }
+
+    private void OnPinClicked(object? sender, EventArgs e)
+    {
+        _model.IsPinned = _view.PinButtonState;
+        UpdateWindowOpacity();
     }
 
     private void OnCloseNoteClicked(object? sender, EventArgs e)
@@ -143,7 +154,7 @@ public class NotePresenter
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
     {
-        ((App)System.Windows.Application.Current).ShowSettingsWindow();
+        ((App)Application.Current).ShowSettingsWindow();
     }
 
     private void OnTextChanged(object? sender, EventArgs e)
