@@ -6,10 +6,11 @@
         mc:Ignorable="d"
         Title="Pinny Notes Settings"
         ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight"
+        Width="320"
+        Height="440"
         Closing="Window_Closing"
         >
-    <Grid Margin="5,5,5,5" Width="310" Height="420">
+    <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
