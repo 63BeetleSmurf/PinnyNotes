@@ -13,10 +13,9 @@ public class NoteModel
 {
     public NoteModel(NoteModel? parent = null)
     {
-        LoadSettings();
+        LoadSettings(parent?.Theme.Name);
         SetDefaultSize();
         InitNotePosition(parent);
-        InitTheme(parent);
     }
 
     private string _text = "";
@@ -46,12 +45,10 @@ public class NoteModel
     public int DefaultHeight { get; set; }
     public double DefaultOpaqueOpacity { get; set; }
     public double DefaultTransparentOpacity { get; set; }
-    public string DefaultThemeName { get; set; } = null!;
 
     public StartupPositions StartupPosition { get; set; }
     public MinimizeModes MinimizeMode { get; set; }
     public bool HideTitleBar { get; set; }
-    public bool CycleThemes { get; set; }
     public ColorModes ThemeColorMode { get; set; }
     public TransparencyModes TransparencyMode { get; set; }
     public bool OpaqueWhenFocused { get; set; }
@@ -70,18 +67,26 @@ public class NoteModel
     public bool TrimCopiedText { get; set; }
     public bool AutoCopy { get; set; }
 
-    public void LoadSettings()
+    public void LoadSettings(string? parentThemeName = null)
     {
         DefaultWidth = Settings.Default.DefaultWidth;
         DefaultHeight = Settings.Default.DefaultHeight;
-        DefaultThemeName = Settings.Default.Theme;
         DefaultOpaqueOpacity = Settings.Default.OpaqueOpacity;
         DefaultTransparentOpacity = Settings.Default.TransparentOpacity;
+
+        if (Settings.Default.CycleThemes)
+        {
+            Theme = ThemeHelper.GetNextTheme(Settings.Default.Theme, parentThemeName);
+            SaveTheme();
+        }
+        else
+        {
+            Theme = ThemeHelper.GetThemeOrDefault(Settings.Default.Theme);
+        }
 
         StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
         MinimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
         HideTitleBar = Settings.Default.HideTitleBar;
-        CycleThemes = Settings.Default.CycleThemes;
         ThemeColorMode = (ColorModes)Settings.Default.ColorMode;
         TransparencyMode = (TransparencyModes)Settings.Default.TransparencyMode;
         OpaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
@@ -217,28 +222,4 @@ public class NoteModel
         X = position.X;
         Y = position.Y;
     }
-
-    private void InitTheme(NoteModel? parent = null)
-    {
-        ThemeModel theme = ThemeHelper.Themes.Find(t => t.Name == DefaultThemeName)
-            ?? ThemeHelper.Themes[0];
-
-        if (CycleThemes && ThemeHelper.Themes.Count > 1)
-        {
-            theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
-
-            if (parent != null && theme == parent.Theme)
-                theme = GetNextTheme(ThemeHelper.Themes.IndexOf(theme));
-
-            DefaultThemeName = theme.Name;
-
-            // TODO: Review how this method works after move to database backend
-            Settings.Default.Theme = DefaultThemeName;
-            Settings.Default.Save();
-        }
-
-        Theme = theme;
-    }
-
-    private ThemeModel GetNextTheme(int currentIndex) => (currentIndex + 1 < ThemeHelper.Themes.Count) ? ThemeHelper.Themes[currentIndex + 1] : ThemeHelper.Themes[0];
 }

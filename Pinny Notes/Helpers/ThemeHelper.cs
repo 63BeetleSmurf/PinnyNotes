@@ -89,4 +89,20 @@ public static class ThemeHelper
     {
         return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
     }
+
+    public static ThemeModel GetThemeOrDefault(string name)
+    {
+        return Themes.Find(t => t.Name == name)
+            ?? Themes[0];
+    }
+
+    public static ThemeModel GetNextTheme(string currentName, string? parentName = null)
+    {
+        int nextIndex = (Themes.FindIndex(t => t.Name == currentName) + 1) % Themes.Count;
+
+        if (parentName != null && nextIndex == Themes.FindIndex(t => t.Name == parentName))
+            nextIndex = (nextIndex + 1) % Themes.Count;
+
+        return Themes[nextIndex];
+    }
 }
