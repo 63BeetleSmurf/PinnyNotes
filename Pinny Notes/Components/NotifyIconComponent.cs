@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace PinnyNotes.WpfUi.Components;
@@ -8,10 +7,12 @@ namespace PinnyNotes.WpfUi.Components;
 public class NotifyIconComponent : IDisposable
 {
     private NotifyIcon _notifyIcon;
-    private App _app = (App)System.Windows.Application.Current;
+    private ApplicationManager _applicationManager;
 
-    public NotifyIconComponent()
+    public NotifyIconComponent(ApplicationManager applicationManager)
     {
+        _applicationManager = applicationManager;
+
         _notifyIcon = new()
         {
             Icon = new Icon(
@@ -34,16 +35,15 @@ public class NotifyIconComponent : IDisposable
         _notifyIcon.ContextMenuStrip = contextMenu;
     }
 
+    public void Dispose()
+    {
+        _notifyIcon.Dispose();
+    }
+
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
     {
         if (e.Button != MouseButtons.Left)
-        {
-            foreach (Window window in _app.Windows)
-            {
-                window.WindowState = WindowState.Normal;
-                window.Activate();
-            }
-        }
+            _applicationManager.ActivateNotes();
     }
 
     private void NotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
@@ -53,22 +53,11 @@ public class NotifyIconComponent : IDisposable
     }
 
     private void NewNote_Click(object? sender, EventArgs e)
-    {
-        _app.CreateNewNote();
-    }
+        => _applicationManager.CreateNewNote();
 
     private void Settings_Click(object? sender, EventArgs e)
-    {
-        _app.ShowSettingsWindow();
-    }
+        => _applicationManager.ShowSettingsWindow();
 
     private void Exit_Click(object? sender, EventArgs e)
-    {
-        _app.Shutdown();
-    }
-
-    public void Dispose()
-    {
-        _notifyIcon.Dispose();
-    }
+        => _applicationManager.CloseApplication();
 }

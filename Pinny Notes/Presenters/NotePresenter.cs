@@ -11,11 +11,13 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class NotePresenter
 {
+    private readonly ApplicationManager _applicaitonManager;
     private readonly NoteModel _model;
     private readonly NoteWindow _view;
 
-    public NotePresenter(NoteModel model, NoteWindow view)
+    public NotePresenter(ApplicationManager applicaitonManager, NoteModel model, NoteWindow view)
     {
+        _applicaitonManager = applicaitonManager;
         _view = view;
         _model = model;
 
@@ -100,7 +102,7 @@ public class NotePresenter
 
     private void OnNewNoteClicked(object? sender, EventArgs e)
     {
-        ((App)Application.Current).CreateNewNote(_model);
+        _applicaitonManager.CreateNewNote(_model);
     }
 
     private void OnPinClicked(object? sender, EventArgs e)
@@ -154,7 +156,7 @@ public class NotePresenter
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
     {
-        ((App)Application.Current).ShowSettingsWindow(_view);
+        _applicaitonManager.ShowSettingsWindow(_view);
     }
 
     private void OnTextChanged(object? sender, EventArgs e)

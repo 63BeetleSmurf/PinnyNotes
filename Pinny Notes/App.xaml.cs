@@ -2,13 +2,6 @@
 using System.Threading;
 using System.Windows;
 
-using PinnyNotes.WpfUi.Components;
-using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Models;
-using PinnyNotes.WpfUi.Presenters;
-using PinnyNotes.WpfUi.Properties;
-using PinnyNotes.WpfUi.Views;
-
 namespace PinnyNotes.WpfUi;
 
 public partial class App : Application
@@ -25,14 +18,14 @@ public partial class App : Application
     private Mutex _mutex = null!;
     private EventWaitHandle _eventWaitHandle = null!;
 
-    private SettingsPresenter? _settingsPresenter;
-    private NotifyIconComponent? NotifyIcon;
+    public ApplicationManager ApplicationManager = null!;
+
+    public event EventHandler? NewInstance;
 
     protected override void OnStartup(StartupEventArgs e)
     {
         _mutex = new(true, UniqueMutexName, out bool createdNew);
         _eventWaitHandle = new(false, EventResetMode.AutoReset, UniqueEventName);
-
         if (!createdNew)
         {
             _eventWaitHandle.Set();
@@ -42,76 +35,19 @@ public partial class App : Application
 
         base.OnStartup(e);
 
+        ApplicationManager = new(this);
+
         // Spawn a thread which will be waiting for our event
         Thread thread = new(
             () => {
                 while (_eventWaitHandle.WaitOne())
-                    Current.Dispatcher.BeginInvoke(
-                        () => CreateNewNote()
-                    );
+                    Current.Dispatcher.BeginInvoke(NewInstance);
             }
         )
         {
             // It is important mark it as background otherwise it will prevent app from exiting.
             IsBackground = true
         };
-
         thread.Start();
-
-        if (Settings.Default.ShowTrayIcon)
-        {
-            NotifyIcon = new();
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        }
-
-        CreateNewNote();
-
-        CheckForNewRelease();
-    }
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-        NotifyIcon?.Dispose();
-        base.OnExit(e);
-    }
-
-    public void CreateNewNote(NoteModel? parent = null)
-    {
-        NotePresenter presenter = new(
-            new NoteModel(parent),
-            new NoteWindow()
-        );
-
-        presenter.ShowWindow();
-    }
-
-    public void ShowSettingsWindow(Window? owner = null)
-    {
-        if (_settingsPresenter == null)
-            _settingsPresenter = new(
-                new SettingsModel(),
-                new SettingsWindow()
-            );
-
-        _settingsPresenter.ShowWindow(owner);
-    }
-
-    private async void CheckForNewRelease()
-    {
-        DateTimeOffset date = DateTimeOffset.UtcNow;
-
-        if (Settings.Default.CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
-        {
-            Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
-            Settings.Default.Save();
-
-            if (await VersionHelper.IsNewVersionAvailable())
-                MessageBox.Show(
-                    $"A new version of Pinny Notes is available;{Environment.NewLine}https://github.com/63BeetleSmurf/PinnyNotes/releases/latest",
-                    "Update available",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information
-                );
-        }
     }
 }
