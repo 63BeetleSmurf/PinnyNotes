@@ -66,7 +66,7 @@ public class NotifyIconComponent : IDisposable
 
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
     {
-        if (e.Button != MouseButtons.Left)
+        if (e.Button == MouseButtons.Left)
             _applicationManager.ActivateNotes();
     }
 

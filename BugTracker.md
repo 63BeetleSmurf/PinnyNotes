@@ -1,3 +1,2 @@
 - Apply button on settings window shouldn't always be enabled.
-- Need to right click twice for tray icon menu to open.
 - 
