@@ -274,6 +274,28 @@ public partial class SettingsWindow : Window
     public event EventHandler? CancelClicked;
     public event EventHandler? ApplyClicked;
 
+    public void PopulateToolStates(IEnumerable<KeyValuePair<ToolStates, string>> items)
+    {
+        // TODO: Probably could use a resource or something here
+        PopulateComboBox(Base64ToolStateComboBox, items);
+        PopulateComboBox(BracketToolStateComboBox, items);
+        PopulateComboBox(CaseToolStateComboBox, items);
+        PopulateComboBox(DateTimeToolStateComboBox, items);
+        PopulateComboBox(GibberishToolStateComboBox, items);
+        PopulateComboBox(HashToolStateComboBox, items);
+        PopulateComboBox(HtmlEntityToolStateComboBox, items);
+        PopulateComboBox(IndentToolStateComboBox, items);
+        PopulateComboBox(JoinToolStateComboBox, items);
+        PopulateComboBox(JsonToolStateComboBox, items);
+        PopulateComboBox(ListToolStateComboBox, items);
+        PopulateComboBox(QuoteToolStateComboBox, items);
+        PopulateComboBox(RemoveToolStateComboBox, items);
+        PopulateComboBox(SlashToolStateComboBox, items);
+        PopulateComboBox(SortToolStateComboBox, items);
+        PopulateComboBox(SplitToolStateComboBox, items);
+        PopulateComboBox(TrimToolStateComboBox, items);
+    }
+
     private void Window_Closing(object sender, CancelEventArgs e)
     {
         WindowClosing?.Invoke(sender, e);
@@ -304,28 +326,6 @@ public partial class SettingsWindow : Window
     private void ApplyButton_Click(object sender, RoutedEventArgs e)
     {
         ApplyClicked?.Invoke(sender, e);
-    }
-
-    public void PopulateToolStates(IEnumerable<KeyValuePair<ToolStates, string>> items)
-    {
-        // TODO: Probably could use a resource or something here
-        PopulateComboBox(Base64ToolStateComboBox, items);
-        PopulateComboBox(BracketToolStateComboBox, items);
-        PopulateComboBox(CaseToolStateComboBox, items);
-        PopulateComboBox(DateTimeToolStateComboBox, items);
-        PopulateComboBox(GibberishToolStateComboBox, items);
-        PopulateComboBox(HashToolStateComboBox, items);
-        PopulateComboBox(HtmlEntityToolStateComboBox, items);
-        PopulateComboBox(IndentToolStateComboBox, items);
-        PopulateComboBox(JoinToolStateComboBox, items);
-        PopulateComboBox(JsonToolStateComboBox, items);
-        PopulateComboBox(ListToolStateComboBox, items);
-        PopulateComboBox(QuoteToolStateComboBox, items);
-        PopulateComboBox(RemoveToolStateComboBox, items);
-        PopulateComboBox(SlashToolStateComboBox, items);
-        PopulateComboBox(SortToolStateComboBox, items);
-        PopulateComboBox(SplitToolStateComboBox, items);
-        PopulateComboBox(TrimToolStateComboBox, items);
     }
 
     private void PopulateComboBox<TEnum>(ComboBox comboBox, IEnumerable<KeyValuePair<TEnum, string>> items)
