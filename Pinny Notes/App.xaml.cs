@@ -41,7 +41,7 @@ public partial class App : Application
         Thread thread = new(
             () => {
                 while (_eventWaitHandle.WaitOne())
-                    Current.Dispatcher.BeginInvoke(NewInstance);
+                    Current.Dispatcher.BeginInvoke(RaiseNewInstanceEvent);
             }
         )
         {
@@ -50,4 +50,7 @@ public partial class App : Application
         };
         thread.Start();
     }
+
+    private void RaiseNewInstanceEvent()
+        => NewInstance?.Invoke(this, EventArgs.Empty);
 }
