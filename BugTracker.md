@@ -2,5 +2,4 @@
 - Settings are not applied to currently open notes.
 - Theme is not saved when selecting with cycle off.
 - Settings window still being closed somewhere.
-- Default text box context menu sometimes shows.
 - 

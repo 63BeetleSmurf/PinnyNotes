@@ -24,7 +24,8 @@ public class NoteTextBoxControl : TextBox
         TextWrapping = TextWrapping.Wrap;
         VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 
-        //ContextMenu = new(); // May need this, sure there is a reason it was in before
+        // This ensures custom menu is used, without it default context menu sometimes appears.
+        ContextMenu = new();
 
         Tools = [
             new Base64Tool(this),
