@@ -1,5 +1,4 @@
-﻿using PinnyNotes.WpfUi.Views;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
@@ -16,8 +15,8 @@ public class NotifyIconComponent : IDisposable
         _notifyIcon = new()
         {
             Icon = new Icon(
-                    App.GetResourceStream(new Uri("pack://application:,,,/Images/icon.ico")).Stream
-                    ),
+                App.GetResourceStream(new Uri("pack://application:,,,/Images/icon.ico")).Stream
+            ),
             Text = "Pinny Notes",
             Visible = true
         };
@@ -37,7 +36,7 @@ public class NotifyIconComponent : IDisposable
 
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
     {
-        if (e.Button == MouseButtons.Left)
+        if (e.Button != MouseButtons.Left)
         {
             foreach (Window window in _app.Windows)
             {

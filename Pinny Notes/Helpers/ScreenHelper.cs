@@ -23,5 +23,4 @@ public static class ScreenHelper
         return Screen.PrimaryScreen?.Bounds ??
             new Rectangle(0, 0, (int)SystemParameters.PrimaryScreenWidth, (int)SystemParameters.PrimaryScreenHeight);
     }
-
 }

@@ -39,6 +39,28 @@ public class SettingsPresenter
             _view.Show();
     }
 
+    private void OnWindowClosing(object? sender, EventArgs e)
+    {
+        _view.Owner = null;
+        _view.Hide();
+    }
+
+    private void OnOkClicked(object? sender, EventArgs e)
+    {
+        SaveSettings();
+        _view.Hide();
+    }
+
+    private void OnCancelClicked(object? sender, EventArgs e)
+    {
+        _view.Hide();
+    }
+
+    private void OnApplyClicked(object? sender, EventArgs e)
+    {
+        SaveSettings();
+    }
+
     private void PositionWindow()
     {
         if (_view.Owner == null)
@@ -107,8 +129,6 @@ public class SettingsPresenter
         _view.ShowNotesInTaskbar = _model.ShowNotesInTaskbar;
         _view.CheckForUpdates = _model.CheckForUpdates;
 
-        #region Tools
-
         _view.Base64ToolState = _model.Base64ToolState;
         _view.BracketToolState = _model.BracketToolState;
         _view.CaseToolState = _model.CaseToolState;
@@ -126,8 +146,6 @@ public class SettingsPresenter
         _view.SortToolState = _model.SortToolState;
         _view.SplitToolState = _model.SplitToolState;
         _view.TrimToolState = _model.TrimToolState;
-
-        #endregion
     }
 
     private void SaveSettings()
@@ -155,8 +173,6 @@ public class SettingsPresenter
         _model.ShowNotesInTaskbar = _view.ShowNotesInTaskbar;
         _model.CheckForUpdates = _view.CheckForUpdates;
 
-        #region Tools
-
         _model.Base64ToolState = _view.Base64ToolState;
         _model.BracketToolState = _view.BracketToolState;
         _model.CaseToolState = _view.CaseToolState;
@@ -175,29 +191,6 @@ public class SettingsPresenter
         _model.SplitToolState = _view.SplitToolState;
         _model.TrimToolState = _view.TrimToolState;
 
-        #endregion
-
         _model.SaveSettings();
-    }
-    private void OnWindowClosing(object? sender, EventArgs e)
-    {
-        _view.Owner = null;
-        _view.Hide();
-    }
-
-    private void OnOkClicked(object? sender, EventArgs e)
-    {
-        SaveSettings();
-        _view.Hide();
-    }
-
-    private void OnCancelClicked(object? sender, EventArgs e)
-    {
-        _view.Hide();
-    }
-
-    private void OnApplyClicked(object? sender, EventArgs e)
-    {
-        SaveSettings();
     }
 }

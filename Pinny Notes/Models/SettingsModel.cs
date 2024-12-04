@@ -43,6 +43,47 @@ public class SettingsModel
         new(ToolStates.Favorite, "Favorite")
     ];
 
+    public StartupPositions StartupPosition { get; set; }
+    public bool CycleColors { get; set; }
+    public bool TrimCopiedText { get; set; }
+    public bool TrimPastedText { get; set; }
+    public bool MiddleClickPaste { get; set; }
+    public bool AutoCopy { get; set; }
+    public bool SpellChecker { get; set; }
+    public bool NewLineAtEnd { get; set; }
+    public bool KeepNewLineAtEndVisible { get; set; }
+    public bool AutoIndent { get; set; }
+    public bool TabSpaces { get; set; }
+    public int TabWidth { get; set; }
+    public bool ConvertIndentation { get; set; }
+    public MinimizeModes MinimizeMode { get; set; }
+    public TransparencyModes TransparencyMode { get; set; }
+    public bool OpaqueWhenFocused { get; set; }
+    public ColorModes ColorMode { get; set; }
+    public bool UseMonoFont { get; set; }
+    public bool HideTitleBar { get; set; }
+    public bool ShowTrayIcon { get; set; }
+    public bool ShowNotesInTaskbar { get; set; }
+    public bool CheckForUpdates { get; set; }
+
+    public ToolStates Base64ToolState { get; set; }
+    public ToolStates BracketToolState { get; set; }
+    public ToolStates CaseToolState { get; set; }
+    public ToolStates DateTimeToolState { get; set; }
+    public ToolStates GibberishToolState { get; set; }
+    public ToolStates HashToolState { get; set; }
+    public ToolStates HtmlEntityToolState { get; set; }
+    public ToolStates IndentToolState { get; set; }
+    public ToolStates JoinToolState { get; set; }
+    public ToolStates JsonToolState { get; set; }
+    public ToolStates ListToolState { get; set; }
+    public ToolStates QuoteToolState { get; set; }
+    public ToolStates RemoveToolState { get; set; }
+    public ToolStates SlashToolState { get; set; }
+    public ToolStates SortToolState { get; set; }
+    public ToolStates SplitToolState { get; set; }
+    public ToolStates TrimToolState { get; set; }
+
     public void LoadSettings()
     {
         StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
@@ -68,8 +109,6 @@ public class SettingsModel
         ShowNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
         CheckForUpdates = Settings.Default.CheckForUpdates;
 
-        #region Tools
-
         Base64ToolState = (ToolStates)ToolSettings.Default.Base64ToolState;
         BracketToolState = (ToolStates)ToolSettings.Default.BracketToolState;
         CaseToolState = (ToolStates)ToolSettings.Default.CaseToolState;
@@ -87,8 +126,6 @@ public class SettingsModel
         SortToolState = (ToolStates)ToolSettings.Default.SortToolState;
         SplitToolState = (ToolStates)ToolSettings.Default.SplitToolState;
         TrimToolState = (ToolStates)ToolSettings.Default.TrimToolState;
-
-        #endregion
     }
     public void SaveSettings()
     {
@@ -115,8 +152,6 @@ public class SettingsModel
         Settings.Default.ShowNotesInTaskbar = ShowNotesInTaskbar;
         Settings.Default.CheckForUpdates = CheckForUpdates;
 
-        #region Tools
-
         ToolSettings.Default.Base64ToolState = (int)Base64ToolState;
         ToolSettings.Default.BracketToolState = (int)BracketToolState;
         ToolSettings.Default.CaseToolState = (int)CaseToolState;
@@ -135,53 +170,6 @@ public class SettingsModel
         ToolSettings.Default.SplitToolState = (int)SplitToolState;
         ToolSettings.Default.TrimToolState = (int)TrimToolState;
 
-        #endregion
-
         Settings.Default.Save();
     }
-
-    public StartupPositions StartupPosition { get; set; }
-    public bool CycleColors { get; set; }
-    public bool TrimCopiedText { get; set; }
-    public bool TrimPastedText { get; set; }
-    public bool MiddleClickPaste { get; set; }
-    public bool AutoCopy { get; set; }
-    public bool SpellChecker { get; set; }
-    public bool NewLineAtEnd { get; set; }
-    public bool KeepNewLineAtEndVisible { get; set; }
-    public bool AutoIndent { get; set; }
-    public bool TabSpaces { get; set; }
-    public int TabWidth { get; set; }
-    public bool ConvertIndentation { get; set; }
-    public MinimizeModes MinimizeMode { get; set; }
-    public TransparencyModes TransparencyMode { get; set; }
-    public bool OpaqueWhenFocused { get; set; }
-    public ColorModes ColorMode { get; set; }
-    public bool UseMonoFont { get; set; }
-    public bool HideTitleBar { get; set; }
-    public bool ShowTrayIcon { get; set; }
-    public bool ShowNotesInTaskbar { get; set; }
-    public bool CheckForUpdates { get; set; }
-
-    #region Tools
-
-    public ToolStates Base64ToolState { get; set; }
-    public ToolStates BracketToolState { get; set; }
-    public ToolStates CaseToolState { get; set; }
-    public ToolStates DateTimeToolState { get; set; }
-    public ToolStates GibberishToolState { get; set; }
-    public ToolStates HashToolState { get; set; }
-    public ToolStates HtmlEntityToolState { get; set; }
-    public ToolStates IndentToolState { get; set; }
-    public ToolStates JoinToolState { get; set; }
-    public ToolStates JsonToolState { get; set; }
-    public ToolStates ListToolState { get; set; }
-    public ToolStates QuoteToolState { get; set; }
-    public ToolStates RemoveToolState { get; set; }
-    public ToolStates SlashToolState { get; set; }
-    public ToolStates SortToolState { get; set; }
-    public ToolStates SplitToolState { get; set; }
-    public ToolStates TrimToolState { get; set; }
-
-    #endregion
 }

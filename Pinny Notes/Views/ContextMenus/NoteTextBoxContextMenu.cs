@@ -14,12 +14,6 @@ public class NoteTextBoxContextMenu : ContextMenu
 {
     private readonly NoteTextBoxControl _noteTextBox;
 
-    private void OnCopyClicked(object sender, RoutedEventArgs e) => _noteTextBox.Copy();
-    private void OnCutClicked(object sender, RoutedEventArgs e) => _noteTextBox.Cut();
-    private void OnPasteClicked(object sender, RoutedEventArgs e) => _noteTextBox.Paste();
-    private void OnSelectAllClicked(object sender, RoutedEventArgs e) => _noteTextBox.SelectAll();
-    private void OnClearClicked(object sender, RoutedEventArgs e) => _noteTextBox.Clear();
-
     public NoteTextBoxContextMenu(NoteTextBoxControl noteTextBox)
     {
         _noteTextBox = noteTextBox;
@@ -112,6 +106,21 @@ public class NoteTextBoxContextMenu : ContextMenu
 
         AddToolContextMenus();
     }
+
+    private void OnCopyClicked(object sender, RoutedEventArgs e)
+        => _noteTextBox.Copy();
+
+    private void OnCutClicked(object sender, RoutedEventArgs e)
+        => _noteTextBox.Cut();
+
+    private void OnPasteClicked(object sender, RoutedEventArgs e)
+        => _noteTextBox.Paste();
+
+    private void OnSelectAllClicked(object sender, RoutedEventArgs e)
+        => _noteTextBox.SelectAll();
+
+    private void OnClearClicked(object sender, RoutedEventArgs e)
+        => _noteTextBox.Clear();
 
     private void AddSpellCheckMenuItems()
     {

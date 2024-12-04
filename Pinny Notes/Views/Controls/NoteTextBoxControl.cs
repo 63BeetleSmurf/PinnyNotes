@@ -51,18 +51,6 @@ public class NoteTextBoxControl : TextBox
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, PasteEventHandler));
     }
 
-    private void CopyEventHandler(object sender, ExecutedRoutedEventArgs e) => Copy();
-    private void CutEventHandler(object sender, ExecutedRoutedEventArgs e) => Cut();
-    private void PasteEventHandler(object sender, ExecutedRoutedEventArgs e) => Paste();
-
-    protected override void OnTextChanged(TextChangedEventArgs e)
-    {
-        base.OnTextChanged(e);
-
-        if (NewLineAtEnd && Text != "" && !Text.EndsWith(Environment.NewLine))
-            AddNewLineAtEnd();
-    }
-
     public string? MonoFontFamily { get; set; }
     private bool _useMonoFont;
     public bool UseMonoFont {
@@ -87,25 +75,93 @@ public class NoteTextBoxControl : TextBox
     public bool TrimCopiedText { get; set; }
     public bool AutoCopy { get; set; }
 
-    private void AddNewLineAtEnd()
+    public new void Copy()
     {
-        bool caretAtEnd = (CaretIndex == Text.Length);
-        // Preserving selection when adding new line
-        int selectionStart = SelectionStart;
-        int selectionLength = SelectionLength;
-
-        AppendText(Environment.NewLine);
-
-        SelectionStart = selectionStart;
-        SelectionLength = selectionLength;
-
-        CheckNewLineAtEndVisible(caretAtEnd);
+        CopyToClipboard();
     }
 
-    private void CheckNewLineAtEndVisible(bool caretAtEnd)
+    public new void Cut()
     {
-        if (KeepNewLineVisible && caretAtEnd)
-            ScrollToEnd();
+        if (CopyToClipboard())
+            SelectedText = "";
+    }
+
+    public new void Paste()
+    {
+        // Do nothing if clipboard does not contain text.
+        if (!Clipboard.ContainsText())
+            return;
+
+        // Get text from clipboard and trim if specified
+        string clipboardString = Clipboard.GetText();
+        if (TrimPastedText)
+            clipboardString = clipboardString.Trim();
+
+        // Replace tabs/spaces if specified
+        if (ConvertTabs)
+        {
+            string spaces = "".PadLeft(TabWidth, ' ');
+
+            if (TabSpaces)
+                clipboardString = clipboardString.Replace("\t", spaces);
+            else
+                clipboardString = clipboardString.Replace(spaces, "\t");
+        }
+
+        bool hasSelectedText = (SelectionLength > 0);
+        int caretIndex = (hasSelectedText) ? SelectionStart : CaretIndex;
+        bool caretAtEnd = (caretIndex == Text.Length);
+
+        SelectedText = clipboardString;
+        CaretIndex = caretIndex + clipboardString.Length;
+
+        if (!hasSelectedText)
+            CheckNewLineAtEndVisible(caretAtEnd);
+    }
+
+    public int GetLineCount()
+    {
+        int count;
+        if (SelectionLength > 0)
+            count = GetLineIndexFromCharacterIndex(SelectionStart + SelectionLength)
+                - GetLineIndexFromCharacterIndex(SelectionStart)
+                + 1;
+        else
+            count = GetLineIndexFromCharacterIndex(Text.Length) + ((NewLineAtEnd) ? 0 : 1);
+        return count;
+    }
+
+    public int GetWordCount()
+    {
+        string text = (SelectionLength > 0) ? SelectedText : Text;
+        if (text.Length == 0)
+            return 0;
+        return text.Split((char[])[' ', '\t', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+
+    public int GetCharCount()
+    {
+        string text = (SelectionLength > 0) ? SelectedText : Text;
+        if (text.Length == 0)
+            return 0;
+        return text.Length - text.Count(c => c == '\n' || c == '\r'); // Substract new lines from count.
+    }
+
+    private void CopyEventHandler(object sender, ExecutedRoutedEventArgs e)
+        => Copy();
+
+    private void CutEventHandler(object sender, ExecutedRoutedEventArgs e)
+        => Cut();
+
+    private void PasteEventHandler(object sender, ExecutedRoutedEventArgs e)
+        => Paste();
+
+    protected override void OnTextChanged(TextChangedEventArgs e)
+    {
+        base.OnTextChanged(e);
+
+        if (NewLineAtEnd && Text != "" && !Text.EndsWith(Environment.NewLine))
+            AddNewLineAtEnd();
     }
 
     protected override void OnSelectionChanged(RoutedEventArgs e)
@@ -195,6 +251,34 @@ public class NoteTextBoxControl : TextBox
             e.Handled = HandleTabPressed();
         else if (e.Key == Key.Return && AutoIndent)
             e.Handled = HandleReturnPressed();
+    }
+
+    protected override void OnContextMenuOpening(ContextMenuEventArgs e)
+    {
+        base.OnContextMenuOpening(e);
+
+        ContextMenu = new NoteTextBoxContextMenu(this);
+    }
+
+    private void AddNewLineAtEnd()
+    {
+        bool caretAtEnd = (CaretIndex == Text.Length);
+        // Preserving selection when adding new line
+        int selectionStart = SelectionStart;
+        int selectionLength = SelectionLength;
+
+        AppendText(Environment.NewLine);
+
+        SelectionStart = selectionStart;
+        SelectionLength = selectionLength;
+
+        CheckNewLineAtEndVisible(caretAtEnd);
+    }
+
+    private void CheckNewLineAtEndVisible(bool caretAtEnd)
+    {
+        if (KeepNewLineVisible && caretAtEnd)
+            ScrollToEnd();
     }
 
     private bool HandleTabPressed()
@@ -354,24 +438,6 @@ public class NoteTextBoxControl : TextBox
         return true;
     }
 
-    protected override void OnContextMenuOpening(ContextMenuEventArgs e)
-    {
-        base.OnContextMenuOpening(e);
-
-        ContextMenu = new NoteTextBoxContextMenu(this);
-    }
-
-    public new void Copy()
-    {
-        CopyToClipboard();
-    }
-
-    public new void Cut()
-    {
-        if (CopyToClipboard())
-            SelectedText = "";
-    }
-
     private bool CopyToClipboard()
     {
         if (SelectionLength == 0)
@@ -386,66 +452,4 @@ public class NoteTextBoxControl : TextBox
 
         return true;
     }
-
-    public new void Paste()
-    {
-        // Do nothing if clipboard does not contain text.
-        if (!Clipboard.ContainsText())
-            return;
-
-        // Get text from clipboard and trim if specified
-        string clipboardString = Clipboard.GetText();
-        if (TrimPastedText)
-            clipboardString = clipboardString.Trim();
-
-        // Replace tabs/spaces if specified
-        if (ConvertTabs)
-        {
-            string spaces = "".PadLeft(TabWidth, ' ');
-
-            if (TabSpaces)
-                clipboardString = clipboardString.Replace("\t", spaces);
-            else
-                clipboardString = clipboardString.Replace(spaces, "\t");
-        }
-
-        bool hasSelectedText = (SelectionLength > 0);
-        int caretIndex = (hasSelectedText) ? SelectionStart : CaretIndex;
-        bool caretAtEnd = (caretIndex == Text.Length);
-
-        SelectedText = clipboardString;
-        CaretIndex = caretIndex + clipboardString.Length;
-
-        if (!hasSelectedText)
-            CheckNewLineAtEndVisible(caretAtEnd);
-    }
-
-    public int GetLineCount()
-    {
-        int count;
-        if (SelectionLength > 0)
-            count = GetLineIndexFromCharacterIndex(SelectionStart + SelectionLength)
-                - GetLineIndexFromCharacterIndex(SelectionStart)
-                + 1;
-        else
-            count = GetLineIndexFromCharacterIndex(Text.Length) + ((NewLineAtEnd) ? 0 : 1);
-        return count;
-    }
-
-    public int GetWordCount()
-    {
-        string text = (SelectionLength > 0) ? SelectedText : Text;
-        if (text.Length == 0)
-            return 0;
-        return text.Split((char[])[' ', '\t', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Length;
-    }
-
-    public int GetCharCount()
-    {
-        string text = (SelectionLength > 0) ? SelectedText : Text;
-        if (text.Length == 0)
-            return 0;
-        return text.Length - text.Count(c => c == '\n' || c == '\r'); // Substract new lines from count.
-    }
-
 }

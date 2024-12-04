@@ -18,13 +18,6 @@ public partial class NoteWindow : Window
     public NoteWindow()
     {
         InitializeComponent();
-
-        // x
-        // y
-        // width
-        // height
-        // opacity
-        // showintaskbar
     }
 
     public nint Handle { get; set; }
@@ -110,13 +103,27 @@ public partial class NoteWindow : Window
         get => NoteTextBox.SelectionLength;
         set => NoteTextBox.SelectionLength = value;
     }
-    public Brush BorderColorBrush { get => BorderBrush; set => BorderBrush = value; }
-    public Brush TitleBarColorBrush { get => TitleBarGrid.Background; set => TitleBarGrid.Background = value; }
-    public Brush TitleButtonColorBrush { get => (Brush)Resources["TitleButtonBrush"]; set => Resources["TitleButtonBrush"] = value; }
-    public Brush BackgroundColorBrush { get => Background; set => Background = value; }
-    public Brush TextColorBrush { get => (Brush)Resources["NoteFontBrush"]; set => Resources["NoteFontBrush"] = value; }
 
-    public void ScrollToEnd() => NoteTextBox.ScrollToEnd();
+    public Brush BorderColorBrush {
+        get => BorderBrush;
+        set => BorderBrush = value;
+    }
+    public Brush TitleBarColorBrush {
+        get => TitleBarGrid.Background;
+        set => TitleBarGrid.Background = value;
+    }
+    public Brush TitleButtonColorBrush {
+        get => (Brush)Resources["TitleButtonBrush"];
+        set => Resources["TitleButtonBrush"] = value;
+    }
+    public Brush BackgroundColorBrush {
+        get => Background;
+        set => Background = value;
+    }
+    public Brush TextColorBrush {
+        get => (Brush)Resources["NoteFontBrush"];
+        set => Resources["NoteFontBrush"] = value;
+    }
 
     public event EventHandler? WindowLoaded;
     public event EventHandler? WindowMoved;
@@ -130,6 +137,8 @@ public partial class NoteWindow : Window
     public event EventHandler? TitleBarRightClicked;
 
     public event EventHandler? TextChanged;
+
+    public void ScrollToEnd() => NoteTextBox.ScrollToEnd();
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
@@ -245,7 +254,5 @@ public partial class NoteWindow : Window
     private void PinButton_Click(object sender, RoutedEventArgs e) => PinClicked?.Invoke(sender, e);
     private void CloseButton_Click(object sender, RoutedEventArgs e) => CloseNoteClicked?.Invoke(sender, e);
 
-
     private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e) => TextChanged?.Invoke(sender, e);
-
 }

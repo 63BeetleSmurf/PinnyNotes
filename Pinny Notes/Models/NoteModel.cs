@@ -19,6 +19,57 @@ public class NoteModel
         InitTheme(parent);
     }
 
+    private string _text = "";
+    public string Text {
+        get => _text;
+        set
+        {
+            _text = value;
+            IsSaved = false;
+        }
+    }
+
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int GravityX { get; set; }
+    public int GravityY { get; set; }
+    public nint WindowHandle { get; set; }
+
+    public ThemeModel Theme { get; set; } = null!;
+    public bool IsPinned { get; set; }
+
+    public bool IsSaved { get; set; }
+
+    public int DefaultWidth { get; set; }
+    public int DefaultHeight { get; set; }
+    public double DefaultOpaqueOpacity { get; set; }
+    public double DefaultTransparentOpacity { get; set; }
+    public string DefaultThemeName { get; set; } = null!;
+
+    public StartupPositions StartupPosition { get; set; }
+    public MinimizeModes MinimizeMode { get; set; }
+    public bool HideTitleBar { get; set; }
+    public bool CycleThemes { get; set; }
+    public ColorModes ThemeColorMode { get; set; }
+    public TransparencyModes TransparencyMode { get; set; }
+    public bool OpaqueWhenFocused { get; set; }
+    public bool ShowInTaskbar { get; set; }
+    public string? MonoFontFamily { get; set; }
+    public bool UseMonoFont { get; set; }
+    public bool SpellCheck { get; set; }
+    public bool AutoIndent { get; set; }
+    public bool NewLineAtEnd { get; set; }
+    public bool KeepNewLineVisible { get; set; }
+    public bool TabSpaces { get; set; }
+    public bool ConvertTabs { get; set; }
+    public int TabWidth { get; set; }
+    public bool MiddleClickPaste { get; set; }
+    public bool TrimPastedText { get; set; }
+    public bool TrimCopiedText { get; set; }
+    public bool AutoCopy { get; set; }
+
     public void LoadSettings()
     {
         DefaultWidth = Settings.Default.DefaultWidth;
@@ -48,6 +99,18 @@ public class NoteModel
         TrimPastedText = Settings.Default.TrimPastedText;
         TrimCopiedText = Settings.Default.TrimCopiedText;
         AutoCopy = Settings.Default.AutoCopy;
+    }
+
+    public void SetDefaultSize()
+    {
+        Width = DefaultWidth;
+        Height = DefaultHeight;
+    }
+
+    public void UpdateGravity(Rectangle screenBounds)
+    {
+        GravityX = (X - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
+        GravityY = (Y - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
     }
 
     private void InitNotePosition(NoteModel? parent = null)
@@ -171,67 +234,4 @@ public class NoteModel
     }
 
     private ThemeModel GetNextTheme(int currentIndex) => (currentIndex + 1 < ThemeHelper.Themes.Count) ? ThemeHelper.Themes[currentIndex + 1] : ThemeHelper.Themes[0];
-
-    public void SetDefaultSize()
-    {
-        Width = DefaultWidth;
-        Height = DefaultHeight;
-    }
-
-    private string _text = "";
-    public string Text {
-        get => _text;
-        set
-        {
-            _text = value;
-            IsSaved = false;
-        }
-    }
-
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int GravityX { get; set; }
-    public int GravityY { get; set; }
-    public nint WindowHandle { get; set; }
-
-    public ThemeModel Theme { get; set; } = null!;
-    public bool IsPinned { get; set; }
-
-    public bool IsSaved { get; set; }
-
-    public int DefaultWidth { get; set; }
-    public int DefaultHeight { get; set; }
-    public double DefaultOpaqueOpacity { get; set; }
-    public double DefaultTransparentOpacity { get; set; }
-    public string DefaultThemeName { get; set; } = null!;
-
-    public StartupPositions StartupPosition { get; set; }
-    public MinimizeModes MinimizeMode { get; set; }
-    public bool HideTitleBar { get; set; }
-    public bool CycleThemes { get; set; }
-    public ColorModes ThemeColorMode { get; set; }
-    public TransparencyModes TransparencyMode { get; set; }
-    public bool OpaqueWhenFocused { get; set; }
-    public bool ShowInTaskbar { get; set; }
-    public string? MonoFontFamily { get; set; }
-    public bool UseMonoFont { get; set; }
-    public bool SpellCheck { get; set; }
-    public bool AutoIndent { get; set; }
-    public bool NewLineAtEnd { get; set; }
-    public bool KeepNewLineVisible { get; set; }
-    public bool TabSpaces { get; set; }
-    public bool ConvertTabs { get; set; }
-    public int TabWidth { get; set; }
-    public bool MiddleClickPaste { get; set; }
-    public bool TrimPastedText { get; set; }
-    public bool TrimCopiedText { get; set; }
-    public bool AutoCopy { get; set; }
-
-    public void UpdateGravity(Rectangle screenBounds)
-    {
-        GravityX = (X - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
-        GravityY = (Y - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
-    }
 }
