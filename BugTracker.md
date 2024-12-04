@@ -1,3 +1,4 @@
 - Apply button on settings window shouldn't always be enabled.
 - Settings are not applied to currently open notes.
+- Need to right click twice for tray icon menu to open.
 - 
