@@ -1,4 +1,3 @@
 - Apply button on settings window shouldn't always be enabled.
 - Settings are not applied to currently open notes.
-- Settings window still being closed somewhere.
 - 

@@ -41,19 +41,18 @@ public class SettingsPresenter
 
     private void OnWindowClosing(object? sender, EventArgs e)
     {
-        _view.Owner = null;
-        _view.Hide();
+        HideWindow();
     }
 
     private void OnOkClicked(object? sender, EventArgs e)
     {
         SaveSettings();
-        _view.Hide();
+        HideWindow();
     }
 
     private void OnCancelClicked(object? sender, EventArgs e)
     {
-        _view.Hide();
+        HideWindow();
     }
 
     private void OnApplyClicked(object? sender, EventArgs e)
@@ -192,5 +191,11 @@ public class SettingsPresenter
         _model.TrimToolState = _view.TrimToolState;
 
         _model.SaveSettings();
+    }
+
+    private void HideWindow()
+    {
+        _view.Owner = null;
+        _view.Hide();
     }
 }
