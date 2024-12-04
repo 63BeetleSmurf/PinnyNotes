@@ -35,6 +35,8 @@ public class ApplicationManager
         CheckForNewRelease();
     }
 
+    public event EventHandler? SettingsChanged;
+
     public void CreateNewNote(NoteModel? parent = null)
     {
         NotePresenter presenter = new(
@@ -58,10 +60,14 @@ public class ApplicationManager
     public void ShowSettingsWindow(Window? owner = null)
     {
         if (_settingsPresenter == null)
+        {
             _settingsPresenter = new(
+                this,
                 new SettingsModel(),
                 new SettingsWindow()
             );
+            _settingsPresenter.SettingsSaved += OnSettingsSaved;
+        }
 
         _settingsPresenter.ShowWindow(owner);
     }
@@ -78,6 +84,9 @@ public class ApplicationManager
     {
         _notifyIcon?.Dispose();
     }
+
+    private void OnSettingsSaved(object? sender, EventArgs e)
+        => SettingsChanged?.Invoke(sender, e);
 
     private async void CheckForNewRelease()
     {

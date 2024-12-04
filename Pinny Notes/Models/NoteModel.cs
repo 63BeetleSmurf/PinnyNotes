@@ -13,9 +13,10 @@ public class NoteModel
 {
     public NoteModel(NoteModel? parent = null)
     {
-        LoadSettings(parent?.Theme.Name);
+        LoadSettings();
         SetDefaultSize();
-        InitNotePosition(parent);
+        InitTheme(parent?.Theme.Name);
+        InitPosition(parent);
     }
 
     private string _text = "";
@@ -67,22 +68,12 @@ public class NoteModel
     public bool TrimCopiedText { get; set; }
     public bool AutoCopy { get; set; }
 
-    public void LoadSettings(string? parentThemeName = null)
+    public void LoadSettings()
     {
         DefaultWidth = Settings.Default.DefaultWidth;
         DefaultHeight = Settings.Default.DefaultHeight;
         DefaultOpaqueOpacity = Settings.Default.OpaqueOpacity;
         DefaultTransparentOpacity = Settings.Default.TransparentOpacity;
-
-        if (Settings.Default.CycleThemes)
-        {
-            Theme = ThemeHelper.GetNextTheme(Settings.Default.Theme, parentThemeName);
-            SaveTheme();
-        }
-        else
-        {
-            Theme = ThemeHelper.GetThemeOrDefault(Settings.Default.Theme);
-        }
 
         StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
         MinimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
@@ -125,7 +116,7 @@ public class NoteModel
         Settings.Default.Save();
     }
 
-    private void InitNotePosition(NoteModel? parent = null)
+    private void InitPosition(NoteModel? parent = null)
     {
         int noteMargin = 45;
 
@@ -221,5 +212,18 @@ public class NoteModel
 
         X = position.X;
         Y = position.Y;
+    }
+
+    private void InitTheme(string? parentThemeName = null)
+    {
+        if (Settings.Default.CycleThemes)
+        {
+            Theme = ThemeHelper.GetNextTheme(Settings.Default.Theme, parentThemeName);
+            SaveTheme();
+        }
+        else
+        {
+            Theme = ThemeHelper.GetThemeOrDefault(Settings.Default.Theme);
+        }
     }
 }

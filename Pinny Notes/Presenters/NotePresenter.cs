@@ -21,27 +21,9 @@ public class NotePresenter
         _view = view;
         _model = model;
 
-        _view.Width = _model.Width;
-        _view.Height = _model.Height;
-        _view.Left = _model.X;
-        _view.Top = _model.Y;
-        _view.PinButtonState = _model.IsPinned;
+        PopulateViewProperties();
 
-        _view.HideTitleBar = _model.HideTitleBar;
-        _view.ShowInTaskbar = _model.ShowInTaskbar;
-        _view.MonoFontFamily = _model.MonoFontFamily;
-        _view.UseMonoFont = _model.UseMonoFont;
-        _view.SpellCheck = _model.SpellCheck;
-        _view.AutoIndent = _model.AutoIndent;
-        _view.NewLineAtEnd = _model.NewLineAtEnd;
-        _view.KeepNewLineVisible = _model.KeepNewLineVisible;
-        _view.TabSpaces = _model.TabSpaces;
-        _view.ConvertTabs = _model.ConvertTabs;
-        _view.TabWidth = _model.TabWidth;
-        _view.MiddleClickPaste = _model.MiddleClickPaste;
-        _view.TrimPastedText = _model.TrimPastedText;
-        _view.TrimCopiedText = _model.TrimCopiedText;
-        _view.AutoCopy = _model.AutoCopy;
+        _applicaitonManager.SettingsChanged += OnSettingsChanged;
 
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
@@ -61,6 +43,14 @@ public class NotePresenter
     }
 
     public void ShowWindow() => _view.Show();
+
+    private void OnSettingsChanged(object? sender, EventArgs e)
+    {
+        _model.LoadSettings();
+        PopulateViewProperties();
+        UpdateWindowOpacity();
+        ApplyTheme();
+    }
 
     private void OnWindowLoaded(object? sender, EventArgs e)
     {
@@ -162,6 +152,31 @@ public class NotePresenter
     private void OnTextChanged(object? sender, EventArgs e)
     {
         _model.Text = _view.Text;
+    }
+
+    private void PopulateViewProperties()
+    {
+        _view.Width = _model.Width;
+        _view.Height = _model.Height;
+        _view.Left = _model.X;
+        _view.Top = _model.Y;
+        _view.PinButtonState = _model.IsPinned;
+
+        _view.HideTitleBar = _model.HideTitleBar;
+        _view.ShowInTaskbar = _model.ShowInTaskbar;
+        _view.MonoFontFamily = _model.MonoFontFamily;
+        _view.UseMonoFont = _model.UseMonoFont;
+        _view.SpellCheck = _model.SpellCheck;
+        _view.AutoIndent = _model.AutoIndent;
+        _view.NewLineAtEnd = _model.NewLineAtEnd;
+        _view.KeepNewLineVisible = _model.KeepNewLineVisible;
+        _view.TabSpaces = _model.TabSpaces;
+        _view.ConvertTabs = _model.ConvertTabs;
+        _view.TabWidth = _model.TabWidth;
+        _view.MiddleClickPaste = _model.MiddleClickPaste;
+        _view.TrimPastedText = _model.TrimPastedText;
+        _view.TrimCopiedText = _model.TrimCopiedText;
+        _view.AutoCopy = _model.AutoCopy;
     }
 
     private void UpdateWindowOpacity()

@@ -9,11 +9,13 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class SettingsPresenter
 {
+    private readonly ApplicationManager _applicaitonManager;
     private readonly SettingsModel _model;
     private readonly SettingsWindow _view;
 
-    public SettingsPresenter(SettingsModel model, SettingsWindow view)
+    public SettingsPresenter(ApplicationManager applicaitonManager, SettingsModel model, SettingsWindow view)
     {
+        _applicaitonManager = applicaitonManager;
         _model = model;
         _view = view;
 
@@ -23,6 +25,8 @@ public class SettingsPresenter
         _view.CancelClicked += OnCancelClicked;
         _view.ApplyClicked += OnApplyClicked;
     }
+
+    public event EventHandler? SettingsSaved;
 
     public void ShowWindow(Window? owner = null)
     {
@@ -191,6 +195,8 @@ public class SettingsPresenter
         _model.TrimToolState = _view.TrimToolState;
 
         _model.SaveSettings();
+
+        SettingsSaved?.Invoke(this, EventArgs.Empty);
     }
 
     private void HideWindow()
