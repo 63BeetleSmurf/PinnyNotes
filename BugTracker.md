@@ -1,2 +1,1 @@
-- Apply button on settings window shouldn't always be enabled.
 - 
