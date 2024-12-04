@@ -15,6 +15,7 @@
 - Settings are now applied using Ok or Apply buttons rather than instantly.
 - Unpinned notes no longer come above pinned notes when focused.
 - Simplified transparency settings.
+- Tray icon setting now takes effect without needing a restart.
 
 ### Fixed
 - 
