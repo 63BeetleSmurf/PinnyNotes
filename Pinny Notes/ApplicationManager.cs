@@ -14,7 +14,7 @@ public class ApplicationManager
 {
     private readonly App _app;
 
-    private NotifyIconComponent? _notifyIcon;
+    private NotifyIconComponent _notifyIcon;
 
     private SettingsPresenter? _settingsPresenter;
 
@@ -24,14 +24,10 @@ public class ApplicationManager
         _app.NewInstance += OnNewInstance;
         _app.Exit += OnAppExit;
 
-        if (Settings.Default.ShowTrayIcon)
-        {
-            _notifyIcon = new(this);
-            _app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        }
+        _notifyIcon = new(this);
 
+        UpdateTrayIcon();
         CreateNewNote();
-
         CheckForNewRelease();
     }
 
@@ -86,7 +82,18 @@ public class ApplicationManager
     }
 
     private void OnSettingsSaved(object? sender, EventArgs e)
-        => SettingsChanged?.Invoke(sender, e);
+    {
+        UpdateTrayIcon();
+
+        SettingsChanged?.Invoke(sender, e);
+    }
+
+    private void UpdateTrayIcon()
+    {
+        bool isEnabled = Settings.Default.ShowTrayIcon;
+        _notifyIcon.IsEnabled = isEnabled;
+        _app.ShutdownMode = (isEnabled) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
+    }
 
     private async void CheckForNewRelease()
     {

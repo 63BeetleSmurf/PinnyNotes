@@ -6,13 +6,36 @@ namespace PinnyNotes.WpfUi.Components;
 
 public class NotifyIconComponent : IDisposable
 {
-    private NotifyIcon _notifyIcon;
+    private NotifyIcon? _notifyIcon;
     private ApplicationManager _applicationManager;
 
     public NotifyIconComponent(ApplicationManager applicationManager)
     {
         _applicationManager = applicationManager;
+    }
 
+    private bool isEnabled;
+    public bool IsEnabled
+    {
+        get => isEnabled;
+        set
+        {
+            if (isEnabled != value)
+            {
+                isEnabled = value;
+                if (isEnabled)
+                    EnableIcon();
+                else
+                    DisableIcon();
+            }
+        }
+    }
+
+    public void Dispose()
+        => DisableIcon();
+
+    private void EnableIcon()
+    {
         _notifyIcon = new()
         {
             Icon = new Icon(
@@ -35,9 +58,10 @@ public class NotifyIconComponent : IDisposable
         _notifyIcon.ContextMenuStrip = contextMenu;
     }
 
-    public void Dispose()
+    private void DisableIcon()
     {
-        _notifyIcon.Dispose();
+        _notifyIcon?.Dispose();
+        _notifyIcon = null;
     }
 
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)

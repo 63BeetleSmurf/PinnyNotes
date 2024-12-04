@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Pinny Notes Settings"
         ResizeMode="NoResize"
-        Width="320"
+        Width="340"
         Height="440"
         Closing="Window_Closing"
         >
@@ -21,7 +21,7 @@
             <TabItem Header="Application">
                 <StackPanel>
                     <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Show tray icon (restart required)" Name="ShowTrayIconCheckBox" />
+                    <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="ShowTrayIconCheckBox" />
                     <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="ShowNotesInTaskbarCheckBox" />
                     <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="CheckForUpdatesCheckBox" />
                 </StackPanel>
