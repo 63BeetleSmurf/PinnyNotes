@@ -113,6 +113,13 @@ public class NoteModel
         GravityY = (Y - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
     }
 
+    public void SaveTheme()
+    {
+        // TODO: Review how this method works after move to database backend
+        Settings.Default.Theme = Theme.Name;
+        Settings.Default.Save();
+    }
+
     private void InitNotePosition(NoteModel? parent = null)
     {
         int noteMargin = 45;
