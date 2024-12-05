@@ -43,7 +43,11 @@ public class NotePresenter
         UpdateWindowOpacity();
     }
 
-    public void ShowWindow() => _view.Show();
+    public void ShowWindow()
+    {
+        _view.Show();
+        _view.Activate();
+    }
 
     private void OnSettingsChanged(object? sender, EventArgs e)
     {
