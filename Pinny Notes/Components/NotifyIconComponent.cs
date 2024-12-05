@@ -31,6 +31,8 @@ public class NotifyIconComponent : IDisposable
         }
     }
 
+    public event EventHandler? ActivateNotes;
+
     public void Dispose()
         => DisableIcon();
 
@@ -67,7 +69,7 @@ public class NotifyIconComponent : IDisposable
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
     {
         if (e.Button == MouseButtons.Left)
-            _applicationManager.ActivateNotes();
+            ActivateNotes?.Invoke(sender, e);
     }
 
     private void NotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)

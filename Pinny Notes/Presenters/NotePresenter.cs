@@ -24,6 +24,7 @@ public class NotePresenter
         PopulateViewProperties();
 
         _applicaitonManager.SettingsChanged += OnSettingsChanged;
+        _applicaitonManager.ActivateNotes += OnActivateNotes;
 
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
@@ -50,6 +51,11 @@ public class NotePresenter
         PopulateViewProperties();
         UpdateWindowOpacity();
         ApplyTheme();
+    }
+
+    private void OnActivateNotes(object? sender, EventArgs e)
+    {
+        _view.Activate();
     }
 
     private void OnWindowLoaded(object? sender, EventArgs e)

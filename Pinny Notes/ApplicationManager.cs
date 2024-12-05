@@ -25,6 +25,7 @@ public class ApplicationManager
         _app.Exit += OnAppExit;
 
         _notifyIcon = new(this);
+        _notifyIcon.ActivateNotes += OnActivateNotes;
 
         UpdateTrayIcon();
         CreateNewNote();
@@ -32,6 +33,7 @@ public class ApplicationManager
     }
 
     public event EventHandler? SettingsChanged;
+    public event EventHandler? ActivateNotes;
 
     public void CreateNewNote(NoteModel? parent = null)
     {
@@ -42,15 +44,6 @@ public class ApplicationManager
         );
 
         presenter.ShowWindow();
-    }
-
-    public void ActivateNotes()
-    {
-        foreach (Window window in _app.Windows)
-        {
-            window.WindowState = WindowState.Normal;
-            window.Activate();
-        }
     }
 
     public void ShowSettingsWindow(Window? owner = null)
@@ -79,6 +72,11 @@ public class ApplicationManager
     private void OnAppExit(object? sender, EventArgs e)
     {
         _notifyIcon?.Dispose();
+    }
+
+    private void OnActivateNotes(object? sender, EventArgs e)
+    {
+        ActivateNotes?.Invoke(sender, e);
     }
 
     private void OnSettingsSaved(object? sender, EventArgs e)
