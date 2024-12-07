@@ -18,7 +18,7 @@
 - Tray icon setting now takes effect without needing a restart.
 
 ### Fixed
-- 
+- Crash in cases when clipboard reports having text but has issue retrieving it.
 
 
 ## v1.12.1 - 21/11/2024

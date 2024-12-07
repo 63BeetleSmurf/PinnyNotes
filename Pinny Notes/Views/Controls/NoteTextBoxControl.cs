@@ -94,7 +94,16 @@ public class NoteTextBoxControl : TextBox
             return;
 
         // Get text from clipboard and trim if specified
-        string clipboardString = Clipboard.GetText();
+        string clipboardString;
+        try
+        {
+            clipboardString = Clipboard.GetText();
+        }
+        catch
+        {
+            // If there are any issues getting text, just ignore it.
+            return;
+        }
         if (TrimPastedText)
             clipboardString = clipboardString.Trim();
 
