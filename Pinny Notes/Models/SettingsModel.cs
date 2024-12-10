@@ -43,28 +43,30 @@ public class SettingsModel
         new(ToolStates.Favorite, "Favorite")
     ];
 
-    public StartupPositions StartupPosition { get; set; }
-    public bool CycleColors { get; set; }
-    public bool TrimCopiedText { get; set; }
-    public bool TrimPastedText { get; set; }
-    public bool MiddleClickPaste { get; set; }
-    public bool AutoCopy { get; set; }
-    public bool SpellChecker { get; set; }
-    public bool NewLineAtEnd { get; set; }
-    public bool KeepNewLineAtEndVisible { get; set; }
-    public bool AutoIndent { get; set; }
-    public bool TabSpaces { get; set; }
-    public int TabWidth { get; set; }
-    public bool ConvertIndentation { get; set; }
-    public MinimizeModes MinimizeMode { get; set; }
-    public TransparencyModes TransparencyMode { get; set; }
-    public bool OpaqueWhenFocused { get; set; }
-    public ColorModes ColorMode { get; set; }
-    public bool UseMonoFont { get; set; }
-    public bool HideTitleBar { get; set; }
-    public bool ShowTrayIcon { get; set; }
-    public bool ShowNotesInTaskbar { get; set; }
-    public bool CheckForUpdates { get; set; }
+    public int Id { get; init; }
+
+    public StartupPositions? StartupPosition { get; set; }
+    public bool? CycleColors { get; set; }
+    public bool? TrimCopiedText { get; set; }
+    public bool? TrimPastedText { get; set; }
+    public bool? MiddleClickPaste { get; set; }
+    public bool? AutoCopy { get; set; }
+    public bool? SpellChecker { get; set; }
+    public bool? NewLineAtEnd { get; set; }
+    public bool? KeepNewLineAtEndVisible { get; set; }
+    public bool? AutoIndent { get; set; }
+    public bool? TabSpaces { get; set; }
+    public int? TabWidth { get; set; }
+    public bool? ConvertIndentation { get; set; }
+    public MinimizeModes? MinimizeMode { get; set; }
+    public TransparencyModes? TransparencyMode { get; set; }
+    public bool? OpaqueWhenFocused { get; set; }
+    public ColorModes? ColorMode { get; set; }
+    public bool? UseMonoFont { get; set; }
+    public bool? HideTitleBar { get; set; }
+    public bool? ShowTrayIcon { get; set; }
+    public bool? ShowNotesInTaskbar { get; set; }
+    public bool? CheckForUpdates { get; set; }
 
     public ToolStates Base64ToolState { get; set; }
     public ToolStates BracketToolState { get; set; }
