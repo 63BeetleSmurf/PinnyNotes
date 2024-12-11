@@ -144,7 +144,7 @@ public class NotePresenter
     {
         if (sender is MenuItem menuItem)
         {
-            ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Name == (string)menuItem.Header);
+            ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Key == (string)menuItem.Tag);
             if (theme == null)
                 return;
 

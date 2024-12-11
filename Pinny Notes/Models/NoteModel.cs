@@ -15,7 +15,7 @@ public class NoteModel
     {
         LoadSettings();
         SetDefaultSize();
-        InitTheme(parent?.Theme.Name);
+        InitTheme(parent?.Theme.Key);
         InitPosition(parent);
     }
 
@@ -112,7 +112,7 @@ public class NoteModel
     public void SaveTheme()
     {
         // TODO: Review how this method works after move to database backend
-        Settings.Default.Theme = Theme.Name;
+        Settings.Default.Theme = (Settings.Default.Theme.StartsWith("#!CYCLE:")) ? $"#!CYCLE:{Theme.Key}" : Theme.Key;
         Settings.Default.Save();
     }
 
@@ -214,11 +214,11 @@ public class NoteModel
         Y = position.Y;
     }
 
-    private void InitTheme(string? parentThemeName = null)
+    private void InitTheme(string? parentThemeKey = null)
     {
-        if (Settings.Default.CycleThemes)
+        if (Settings.Default.Theme.StartsWith("#!CYCLE:"))
         {
-            Theme = ThemeHelper.GetNextTheme(Settings.Default.Theme, parentThemeName);
+            Theme = ThemeHelper.GetNextTheme(Settings.Default.Theme[8..], parentThemeKey);
             SaveTheme();
         }
         else

@@ -17,153 +17,155 @@ public partial class SettingsWindow : Window
 
     // Application
     // - General
-    public bool ShowTrayIcon
+    public bool Applicaiton_TrayIcon
     {
-        get => ShowTrayIconCheckBox.IsChecked ?? false;
-        set => ShowTrayIconCheckBox.IsChecked = value;
+        get => Applicaiton_TrayIconCheckBox.IsChecked ?? false;
+        set => Applicaiton_TrayIconCheckBox.IsChecked = value;
     }
 
-    public bool ShowNotesInTaskbar
+    public bool Applicaiton_NotesInTaskbar
     {
-        get => ShowNotesInTaskbarCheckBox.IsChecked ?? false;
-        set => ShowNotesInTaskbarCheckBox.IsChecked = value;
+        get => Applicaiton_NotesInTaskbarCheckBox.IsChecked ?? false;
+        set => Applicaiton_NotesInTaskbarCheckBox.IsChecked = value;
     }
 
-    public bool CheckForUpdates
+    public bool Applicaiton_CheckForUpdates
     {
-        get => CheckForUpdatesCheckBox.IsChecked ?? false;
-        set => CheckForUpdatesCheckBox.IsChecked = value;
+        get => Applicaiton_CheckForUpdatesCheckBox.IsChecked ?? false;
+        set => Applicaiton_CheckForUpdatesCheckBox.IsChecked = value;
     }
 
     // Notes
     // - General
-    public StartupPositions StartupPosition
+    public StartupPositions Notes_StartupPosition
     {
-        get => (StartupPositions)StartupPositionComboBox.SelectedValue;
-        set => StartupPositionComboBox.SelectedValue = value;
+        get => (StartupPositions)Notes_StartupPositionComboBox.SelectedValue;
+        set => Notes_StartupPositionComboBox.SelectedValue = value;
     }
-    public void PopulateStartupPositions(IEnumerable<KeyValuePair<StartupPositions, string>> items)
-        => PopulateComboBox(StartupPositionComboBox, items);
+    public void PopulateNotes_StartupPositions(IEnumerable<KeyValuePair<StartupPositions, string>> items)
+        => PopulateComboBox(Notes_StartupPositionComboBox, items);
 
-    public MinimizeModes MinimizeMode
+    public MinimizeModes Notes_MinimizeMode
     {
-        get => (MinimizeModes)MinimizeModeComboBox.SelectedValue;
-        set => MinimizeModeComboBox.SelectedValue = value;
+        get => (MinimizeModes)Notes_MinimizeModeComboBox.SelectedValue;
+        set => Notes_MinimizeModeComboBox.SelectedValue = value;
     }
-    public void PopulateMinimizeModes(IEnumerable<KeyValuePair<MinimizeModes, string>> items)
-        => PopulateComboBox(MinimizeModeComboBox, items);
+    public void PopulateNotes_MinimizeModes(IEnumerable<KeyValuePair<MinimizeModes, string>> items)
+        => PopulateComboBox(Notes_MinimizeModeComboBox, items);
 
-    public bool HideTitleBar
+    public bool Notes_HideTitleBar
     {
-        get => HideTitleBarCheckBox.IsChecked ?? false;
-        set => HideTitleBarCheckBox.IsChecked = value;
+        get => Notes_HideTitleBarCheckBox.IsChecked ?? false;
+        set => Notes_HideTitleBarCheckBox.IsChecked = value;
     }
 
     // - Theme
-    public bool CycleColors
+    public string Notes_DefaultColor
     {
-        get => CycleColorsCheckBox.IsChecked ?? false;
-        set => CycleColorsCheckBox.IsChecked = value;
+        get => (string)Notes_DefaultColorComboBox.SelectedValue;
+        set => Notes_DefaultColorComboBox.SelectedValue = value;
     }
+    public void PopulateNotes_DefaultColors(IEnumerable<KeyValuePair<string, string>> items)
+        => PopulateComboBox(Notes_MinimizeModeComboBox, items);
 
-    public ColorModes ColorMode
+    public ColorModes Notes_ColorMode
     {
-        get => (ColorModes)ColorModeComboBox.SelectedValue;
-        set => ColorModeComboBox.SelectedValue = value;
+        get => (ColorModes)Notes_ColorModeComboBox.SelectedValue;
+        set => Notes_ColorModeComboBox.SelectedValue = value;
     }
-    public void PopulateColorModes(IEnumerable<KeyValuePair<ColorModes, string>> items)
-        => PopulateComboBox(ColorModeComboBox, items);
+    public void PopulateNotes_ColorModes(IEnumerable<KeyValuePair<ColorModes, string>> items)
+        => PopulateComboBox(Notes_ColorModeComboBox, items);
 
     // - Transparency
-    public TransparencyModes TransparencyMode
+    public TransparencyModes Notes_TransparencyMode
     {
-        get => (TransparencyModes)TransparencyModeComboBox.SelectedValue;
-        set => TransparencyModeComboBox.SelectedValue = value;
+        get => (TransparencyModes)Notes_TransparencyModeComboBox.SelectedValue;
+        set => Notes_TransparencyModeComboBox.SelectedValue = value;
     }
-    public void PopulateTransparencyModes(IEnumerable<KeyValuePair<TransparencyModes, string>> items)
-        => PopulateComboBox(TransparencyModeComboBox, items);
+    public void PopulateNotes_TransparencyModes(IEnumerable<KeyValuePair<TransparencyModes, string>> items)
+        => PopulateComboBox(Notes_TransparencyModeComboBox, items);
 
-    public bool OpaqueWhenFocused
+    public bool Notes_OpaqueWhenFocused
     {
-        get => OpaqueWhenFocusedCheckBox.IsChecked ?? false;
-        set => OpaqueWhenFocusedCheckBox.IsChecked = value;
+        get => Notes_OpaqueWhenFocusedCheckBox.IsChecked ?? false;
+        set => Notes_OpaqueWhenFocusedCheckBox.IsChecked = value;
     }
 
     // Editor
     // - General
-    public bool UseMonoFont
+    public bool Editor_MonoFont
     {
-        get => UseMonoFontCheckBox.IsChecked ?? false;
-        set => UseMonoFontCheckBox.IsChecked = value;
+        get => Editor_MonoFontCheckBox.IsChecked ?? false;
+        set => Editor_MonoFontCheckBox.IsChecked = value;
     }
 
-    public bool SpellChecker
+    public bool Editor_SpellCheck
     {
-        get => SpellCheckerCheckBox.IsChecked ?? false;
-        set => SpellCheckerCheckBox.IsChecked = value;
+        get => Editor_SpellCheckCheckBox.IsChecked ?? false;
+        set => Editor_SpellCheckCheckBox.IsChecked = value;
     }
 
-    public bool AutoIndent
+    public bool Editor_AutoIndent
     {
-        get => AutoIndentCheckBox.IsChecked ?? false;
-        set => AutoIndentCheckBox.IsChecked = value;
+        get => Editor_AutoIndentCheckBox.IsChecked ?? false;
+        set => Editor_AutoIndentCheckBox.IsChecked = value;
     }
 
-    public bool NewLineAtEnd
+    public bool Editor_NewLineAtEnd
     {
-        get => NewLineAtEndCheckBox.IsChecked ?? false;
-        set => NewLineAtEndCheckBox.IsChecked = value;
+        get => Editor_NewLineAtEndCheckBox.IsChecked ?? false;
+        set => Editor_NewLineAtEndCheckBox.IsChecked = value;
     }
 
-    public bool KeepNewLineAtEndVisible
+    public bool Editor_KeepNewLineVisible
     {
-        get => KeepNewLineAtEndVisibleCheckBox.IsChecked ?? false;
-        set => KeepNewLineAtEndVisibleCheckBox.IsChecked = value;
+        get => Editor_KeepNewLineVisibleCheckBox.IsChecked ?? false;
+        set => Editor_KeepNewLineVisibleCheckBox.IsChecked = value;
     }
 
     // - Indentation
-    public bool TabSpaces
+    public bool Editor_TabsToSpaces
     {
-        get => TabSpacesCheckBox.IsChecked ?? false;
-        set => TabSpacesCheckBox.IsChecked = value;
+        get => Editor_TabsToSpacesCheckBox.IsChecked ?? false;
+        set => Editor_TabsToSpacesCheckBox.IsChecked = value;
     }
 
-    public bool ConvertIndentation
+    public bool Editor_ConvertIndentationOnPaste
     {
-        get => ConvertIndentationCheckBox.IsChecked ?? false;
-        set => ConvertIndentationCheckBox.IsChecked = value;
+        get => Editor_ConvertIndentationOnPasteCheckBox.IsChecked ?? false;
+        set => Editor_ConvertIndentationOnPasteCheckBox.IsChecked = value;
     }
 
-    public int TabWidth
+    public int Editor_TabWidth
     {
-        get => int.Parse(TabWidthTextBox.Text);
-        set => TabWidthTextBox.Text = value.ToString();
+        get => int.Parse(Editor_TabWidthTextBox.Text);
+        set => Editor_TabWidthTextBox.Text = value.ToString();
     }
 
     // - Copy and Paste
 
-    public bool MiddleClickPaste
+    public bool Editor_MiddleClickPaste
     {
-        get => MiddleClickPasteCheckBox.IsChecked ?? false;
-        set => MiddleClickPasteCheckBox.IsChecked = value;
+        get => Editor_MiddleClickPasteCheckBox.IsChecked ?? false;
+        set => Editor_MiddleClickPasteCheckBox.IsChecked = value;
     }
 
-    public bool TrimPastedText
+    public bool Editor_TrimPastedText
     {
-        get => TrimPastedTextCheckBox.IsChecked ?? false;
-        set => TrimPastedTextCheckBox.IsChecked = value;
+        get => Editor_TrimPastedTextCheckBox.IsChecked ?? false;
+        set => Editor_TrimPastedTextCheckBox.IsChecked = value;
     }
 
-    public bool TrimCopiedText
+    public bool Editor_TrimCopiedText
     {
-        get => TrimCopiedTextCheckBox.IsChecked ?? false;
-        set => TrimCopiedTextCheckBox.IsChecked = value;
+        get => Editor_TrimCopiedTextCheckBox.IsChecked ?? false;
+        set => Editor_TrimCopiedTextCheckBox.IsChecked = value;
     }
 
-    public bool AutoCopy
+    public bool Editor_CopyHighlightedText
     {
-        get => AutoCopyCheckBox.IsChecked ?? false;
-        set => AutoCopyCheckBox.IsChecked = value;
+        get => Editor_CopyHighlightedTextCheckBox.IsChecked ?? false;
+        set => Editor_CopyHighlightedTextCheckBox.IsChecked = value;
     }
 
     // Tools
@@ -302,15 +304,15 @@ public partial class SettingsWindow : Window
         e.Cancel = true;
     }
 
-    private void TransparencyModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void Notes_TransparencyModeComboBoxComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        object? selectedValue = TransparencyModeComboBox.SelectedValue;
-        OpaqueWhenFocusedCheckBox.IsEnabled = (selectedValue != null && (TransparencyModes)selectedValue != TransparencyModes.Disabled);
+        object? selectedValue = Notes_TransparencyModeComboBox.SelectedValue;
+        Notes_OpaqueWhenFocusedCheckBox.IsEnabled = (selectedValue != null && (TransparencyModes)selectedValue != TransparencyModes.Disabled);
     }
 
-    private void NewLineAtEndCheckBox_Checked(object sender, RoutedEventArgs e)
+    private void Editor_NewLineAtEndCheckBox_Checked(object sender, RoutedEventArgs e)
     {
-        KeepNewLineAtEndVisibleCheckBox.IsEnabled = NewLineAtEndCheckBox.IsChecked ?? false;
+        Editor_KeepNewLineVisibleCheckBox.IsEnabled = Editor_NewLineAtEndCheckBox.IsChecked ?? false;
     }
 
     private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -328,10 +330,10 @@ public partial class SettingsWindow : Window
         ApplyClicked?.Invoke(sender, e);
     }
 
-    private void PopulateComboBox<TEnum>(ComboBox comboBox, IEnumerable<KeyValuePair<TEnum, string>> items)
+    private void PopulateComboBox<TKey>(ComboBox comboBox, IEnumerable<KeyValuePair<TKey, string>> items)
     {
         comboBox.Items.Clear();
-        foreach (KeyValuePair<TEnum, string> item in items)
+        foreach (KeyValuePair<TKey, string> item in items)
             comboBox.Items.Add(item);
     }
 }

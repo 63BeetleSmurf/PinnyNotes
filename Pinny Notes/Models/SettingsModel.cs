@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Helpers;
 
 namespace PinnyNotes.WpfUi.Models;
 
@@ -25,6 +25,8 @@ public class SettingsModel
         new(MinimizeModes.PreventIfPinned, "When not pinned")
     ];
 
+    public static readonly KeyValuePair<string, string>[] DefaultColorList = ThemeHelper.GetDefaultColorList();
+
     public static readonly KeyValuePair<ColorModes, string>[] ColorModeList = [
         new(ColorModes.Light, "Light"),
         new(ColorModes.Dark, "Dark"),
@@ -45,28 +47,30 @@ public class SettingsModel
 
     public int Id { get; init; }
 
-    public StartupPositions? StartupPosition { get; set; }
-    public bool? CycleColors { get; set; }
-    public bool? TrimCopiedText { get; set; }
-    public bool? TrimPastedText { get; set; }
-    public bool? MiddleClickPaste { get; set; }
-    public bool? AutoCopy { get; set; }
-    public bool? SpellChecker { get; set; }
-    public bool? NewLineAtEnd { get; set; }
-    public bool? KeepNewLineAtEndVisible { get; set; }
-    public bool? AutoIndent { get; set; }
-    public bool? TabSpaces { get; set; }
-    public int? TabWidth { get; set; }
-    public bool? ConvertIndentation { get; set; }
-    public MinimizeModes? MinimizeMode { get; set; }
-    public TransparencyModes? TransparencyMode { get; set; }
-    public bool? OpaqueWhenFocused { get; set; }
-    public ColorModes? ColorMode { get; set; }
-    public bool? UseMonoFont { get; set; }
-    public bool? HideTitleBar { get; set; }
-    public bool? ShowTrayIcon { get; set; }
-    public bool? ShowNotesInTaskbar { get; set; }
-    public bool? CheckForUpdates { get; set; }
+    public bool? Applicaiton_TrayIcon { get; set; }
+    public bool? Applicaiton_NotesInTaskbar { get; set; }
+    public bool? Applicaiton_CheckForUpdates { get; set; }
+
+    public StartupPositions? Notes_StartupPosition { get; set; }
+    public MinimizeModes? Notes_MinimizeMode { get; set; }
+    public bool? Notes_HideTitleBar { get; set; }
+    public string? Notes_DefaultColor { get; set; }
+    public ColorModes? Notes_ColorMode { get; set; }
+    public TransparencyModes? Notes_TransparencyMode { get; set; }
+    public bool? Notes_OpaqueWhenFocused { get; set; }
+
+    public bool? Editor_MonoFont { get; set; }
+    public bool? Editor_SpellCheck { get; set; }
+    public bool? Editor_AutoIndent { get; set; }
+    public bool? Editor_NewLineAtEnd { get; set; }
+    public bool? Editor_KeepNewLineVisible { get; set; }
+    public bool? Editor_TabsToSpaces { get; set; }
+    public bool? Editor_ConvertIndentationOnPaste { get; set; }
+    public int? Editor_TabWidth { get; set; }
+    public bool? Editor_MiddleClickPaste { get; set; }
+    public bool? Editor_TrimPastedText { get; set; }
+    public bool? Editor_TrimCopiedText { get; set; }
+    public bool? Editor_CopyHighlightedText { get; set; }
 
     public ToolStates Base64ToolState { get; set; }
     public ToolStates BracketToolState { get; set; }
@@ -85,93 +89,4 @@ public class SettingsModel
     public ToolStates SortToolState { get; set; }
     public ToolStates SplitToolState { get; set; }
     public ToolStates TrimToolState { get; set; }
-
-    public void LoadSettings()
-    {
-        StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
-        CycleColors = Settings.Default.CycleThemes;
-        TrimCopiedText = Settings.Default.TrimCopiedText;
-        TrimPastedText = Settings.Default.TrimPastedText;
-        MiddleClickPaste = Settings.Default.MiddleClickPaste;
-        AutoCopy = Settings.Default.AutoCopy;
-        SpellChecker = Settings.Default.SpellCheck;
-        NewLineAtEnd = Settings.Default.NewLineAtEnd;
-        KeepNewLineAtEndVisible = Settings.Default.KeepNewLineAtEndVisible;
-        AutoIndent = Settings.Default.AutoIndent;
-        TabSpaces = Settings.Default.TabSpaces;
-        TabWidth = Settings.Default.TabWidth;
-        ConvertIndentation = Settings.Default.ConvertIndentation;
-        MinimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
-        TransparencyMode = (TransparencyModes)Settings.Default.TransparencyMode;
-        OpaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        ColorMode = (ColorModes)Settings.Default.ColorMode;
-        UseMonoFont = Settings.Default.UseMonoFont;
-        HideTitleBar = Settings.Default.HideTitleBar;
-        ShowTrayIcon = Settings.Default.ShowTrayIcon;
-        ShowNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
-        CheckForUpdates = Settings.Default.CheckForUpdates;
-
-        Base64ToolState = (ToolStates)ToolSettings.Default.Base64ToolState;
-        BracketToolState = (ToolStates)ToolSettings.Default.BracketToolState;
-        CaseToolState = (ToolStates)ToolSettings.Default.CaseToolState;
-        DateTimeToolState = (ToolStates)ToolSettings.Default.DateTimeToolState;
-        GibberishToolState = (ToolStates)ToolSettings.Default.GibberishToolState;
-        HashToolState = (ToolStates)ToolSettings.Default.HashToolState;
-        HtmlEntityToolState = (ToolStates)ToolSettings.Default.HtmlEntityToolState;
-        IndentToolState = (ToolStates)ToolSettings.Default.IndentToolState;
-        JoinToolState = (ToolStates)ToolSettings.Default.JoinToolState;
-        JsonToolState = (ToolStates)ToolSettings.Default.JsonToolState;
-        ListToolState = (ToolStates)ToolSettings.Default.ListToolState;
-        QuoteToolState = (ToolStates)ToolSettings.Default.QuoteToolState;
-        RemoveToolState = (ToolStates)ToolSettings.Default.RemoveToolState;
-        SlashToolState = (ToolStates)ToolSettings.Default.SlashToolState;
-        SortToolState = (ToolStates)ToolSettings.Default.SortToolState;
-        SplitToolState = (ToolStates)ToolSettings.Default.SplitToolState;
-        TrimToolState = (ToolStates)ToolSettings.Default.TrimToolState;
-    }
-    public void SaveSettings()
-    {
-        Settings.Default.StartupPosition = (int)StartupPosition;
-        Settings.Default.CycleThemes = CycleColors;
-        Settings.Default.TrimCopiedText = TrimCopiedText;
-        Settings.Default.TrimPastedText = TrimPastedText;
-        Settings.Default.MiddleClickPaste = MiddleClickPaste;
-        Settings.Default.AutoCopy = AutoCopy;
-        Settings.Default.SpellCheck = SpellChecker;
-        Settings.Default.NewLineAtEnd = NewLineAtEnd;
-        Settings.Default.KeepNewLineAtEndVisible = KeepNewLineAtEndVisible;
-        Settings.Default.AutoIndent = AutoIndent;
-        Settings.Default.TabSpaces = TabSpaces;
-        Settings.Default.TabWidth = TabWidth;
-        Settings.Default.ConvertIndentation = ConvertIndentation;
-        Settings.Default.MinimizeMode = (int)MinimizeMode;
-        Settings.Default.TransparencyMode = (int)TransparencyMode;
-        Settings.Default.OpaqueWhenFocused = OpaqueWhenFocused;
-        Settings.Default.ColorMode = (int)ColorMode;
-        Settings.Default.UseMonoFont = UseMonoFont;
-        Settings.Default.HideTitleBar = HideTitleBar;
-        Settings.Default.ShowTrayIcon = ShowTrayIcon;
-        Settings.Default.ShowNotesInTaskbar = ShowNotesInTaskbar;
-        Settings.Default.CheckForUpdates = CheckForUpdates;
-
-        ToolSettings.Default.Base64ToolState = (int)Base64ToolState;
-        ToolSettings.Default.BracketToolState = (int)BracketToolState;
-        ToolSettings.Default.CaseToolState = (int)CaseToolState;
-        ToolSettings.Default.DateTimeToolState = (int)DateTimeToolState;
-        ToolSettings.Default.GibberishToolState = (int)GibberishToolState;
-        ToolSettings.Default.HashToolState = (int)HashToolState;
-        ToolSettings.Default.HtmlEntityToolState = (int)HtmlEntityToolState;
-        ToolSettings.Default.IndentToolState = (int)IndentToolState;
-        ToolSettings.Default.JoinToolState = (int)JoinToolState;
-        ToolSettings.Default.JsonToolState = (int)JsonToolState;
-        ToolSettings.Default.ListToolState = (int)ListToolState;
-        ToolSettings.Default.QuoteToolState = (int)QuoteToolState;
-        ToolSettings.Default.RemoveToolState = (int)RemoveToolState;
-        ToolSettings.Default.SlashToolState = (int)SlashToolState;
-        ToolSettings.Default.SortToolState = (int)SortToolState;
-        ToolSettings.Default.SplitToolState = (int)SplitToolState;
-        ToolSettings.Default.TrimToolState = (int)TrimToolState;
-
-        Settings.Default.Save();
-    }
 }

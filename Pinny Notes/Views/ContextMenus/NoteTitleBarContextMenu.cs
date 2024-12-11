@@ -65,7 +65,8 @@ public class NoteTitleBarContextMenu : ContextMenu
         {
             MenuItem menuItem = new()
             {
-                Header = theme.Name,
+                Header = theme.DisplayName,
+                Tag = theme.Key,
                 Icon = theme.MenuIcon,
                 IsEnabled = (theme != noteTheme)
             };

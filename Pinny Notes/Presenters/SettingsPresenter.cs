@@ -106,10 +106,11 @@ public class SettingsPresenter
 
     private void PopulateLists()
     {
-        _view.PopulateStartupPositions(SettingsModel.StartupPositionsList);
-        _view.PopulateMinimizeModes(SettingsModel.MinimizeModeList);
-        _view.PopulateColorModes(SettingsModel.ColorModeList);
-        _view.PopulateTransparencyModes(SettingsModel.TransparencyModeList);
+        _view.PopulateNotes_StartupPositions(SettingsModel.StartupPositionsList);
+        _view.PopulateNotes_MinimizeModes(SettingsModel.MinimizeModeList);
+        _view.PopulateNotes_DefaultColors(SettingsModel.DefaultColorList);
+        _view.PopulateNotes_ColorModes(SettingsModel.ColorModeList);
+        _view.PopulateNotes_TransparencyModes(SettingsModel.TransparencyModeList);
         _view.PopulateToolStates(SettingsModel.ToolStateList);
     }
 
@@ -117,28 +118,31 @@ public class SettingsPresenter
     {
         _model.LoadSettings();
 
-        _view.StartupPosition = _model.StartupPosition;
-        _view.CycleColors = _model.CycleColors;
-        _view.TrimCopiedText = _model.TrimCopiedText;
-        _view.TrimCopiedText = _model.TrimCopiedText;
-        _view.MiddleClickPaste = _model.MiddleClickPaste;
-        _view.AutoCopy = _model.AutoCopy;
-        _view.SpellChecker = _model.SpellChecker;
-        _view.NewLineAtEnd = _model.NewLineAtEnd;
-        _view.KeepNewLineAtEndVisible = _model.KeepNewLineAtEndVisible;
-        _view.AutoIndent = _model.AutoIndent;
-        _view.TabSpaces = _model.TabSpaces;
-        _view.TabWidth = _model.TabWidth;
-        _view.ConvertIndentation = _model.ConvertIndentation;
-        _view.MinimizeMode = _model.MinimizeMode;
-        _view.TransparencyMode = _model.TransparencyMode;
-        _view.OpaqueWhenFocused = _model.OpaqueWhenFocused;
-        _view.ColorMode = _model.ColorMode;
-        _view.UseMonoFont = _model.UseMonoFont;
-        _view.HideTitleBar = _model.HideTitleBar;
-        _view.ShowTrayIcon = _model.ShowTrayIcon;
-        _view.ShowNotesInTaskbar = _model.ShowNotesInTaskbar;
-        _view.CheckForUpdates = _model.CheckForUpdates;
+        _view.Applicaiton_TrayIcon = _model.Applicaiton_TrayIcon;
+        _view.Applicaiton_NotesInTaskbar = _model.Applicaiton_NotesInTaskbar;
+        _view.Applicaiton_CheckForUpdates = _model.Applicaiton_CheckForUpdates;
+
+        _view.Notes_StartupPosition = _model.Notes_StartupPosition;
+        _view.Notes_MinimizeMode = _model.Notes_MinimizeMode;
+        _view.Notes_HideTitleBar = _model.Notes_HideTitleBar;
+        _view.Notes_DefaultColor = _model.Notes_DefaultColor;
+        _view.Notes_ColorMode = _model.Notes_ColorMode;
+        _view.Notes_TransparencyMode = _model.Notes_TransparencyMode;
+        _view.Notes_OpaqueWhenFocused = _model.Notes_OpaqueWhenFocused;
+
+        _view.Editor_MonoFont = _model.Editor_MonoFont;
+        _view.Editor_SpellCheck = _model.Editor_SpellCheck;
+        _view.Editor_AutoIndent = _model.Editor_AutoIndent;
+        _view.Editor_NewLineAtEnd = _model.Editor_NewLineAtEnd;
+        _view.Editor_KeepNewLineVisible = _model.Editor_KeepNewLineVisible;
+        _view.Editor_TabsToSpaces = _model.Editor_TabsToSpaces;
+        _view.Editor_ConvertIndentationOnPaste = _model.Editor_ConvertIndentationOnPaste;
+        _view.Editor_TabWidth = _model.Editor_TabWidth;
+        _view.Editor_MiddleClickPaste = _model.Editor_MiddleClickPaste;
+
+        _view.Editor_TrimPastedText = _model.Editor_TrimPastedText;
+        _view.Editor_TrimCopiedText = _model.Editor_TrimCopiedText;
+        _view.Editor_CopyHighlightedText = _model.Editor_CopyHighlightedText;
 
         _view.Base64ToolState = _model.Base64ToolState;
         _view.BracketToolState = _model.BracketToolState;
@@ -163,28 +167,31 @@ public class SettingsPresenter
     {
         _view.ApplyButton.IsEnabled = false;
 
-        _model.StartupPosition = _view.StartupPosition;
-        _model.CycleColors = _view.CycleColors;
-        _model.TrimCopiedText = _view.TrimCopiedText;
-        _model.TrimCopiedText = _view.TrimCopiedText;
-        _model.MiddleClickPaste = _view.MiddleClickPaste;
-        _model.AutoCopy = _view.AutoCopy;
-        _model.SpellChecker = _view.SpellChecker;
-        _model.NewLineAtEnd = _view.NewLineAtEnd;
-        _model.KeepNewLineAtEndVisible = _view.KeepNewLineAtEndVisible;
-        _model.AutoIndent = _view.AutoIndent;
-        _model.TabSpaces = _view.TabSpaces;
-        _model.TabWidth = _view.TabWidth;
-        _model.ConvertIndentation = _view.ConvertIndentation;
-        _model.MinimizeMode = _view.MinimizeMode;
-        _model.TransparencyMode = _view.TransparencyMode;
-        _model.OpaqueWhenFocused = _view.OpaqueWhenFocused;
-        _model.ColorMode = _view.ColorMode;
-        _model.UseMonoFont = _view.UseMonoFont;
-        _model.HideTitleBar = _view.HideTitleBar;
-        _model.ShowTrayIcon = _view.ShowTrayIcon;
-        _model.ShowNotesInTaskbar = _view.ShowNotesInTaskbar;
-        _model.CheckForUpdates = _view.CheckForUpdates;
+        _model.Applicaiton_TrayIcon = _view.Applicaiton_TrayIcon;
+        _model.Applicaiton_NotesInTaskbar = _view.Applicaiton_NotesInTaskbar;
+        _model.Applicaiton_CheckForUpdates = _view.Applicaiton_CheckForUpdates;
+
+        _model.Notes_StartupPosition = _view.Notes_StartupPosition;
+        _model.Notes_MinimizeMode = _view.Notes_MinimizeMode;
+        _model.Notes_HideTitleBar = _view.Notes_HideTitleBar;
+        _model.Notes_DefaultColor = _view.Notes_DefaultColor;
+        _model.Notes_ColorMode = _view.Notes_ColorMode;
+        _model.Notes_TransparencyMode = _view.Notes_TransparencyMode;
+        _model.Notes_OpaqueWhenFocused = _view.Notes_OpaqueWhenFocused;
+
+        _model.Editor_MonoFont = _view.Editor_MonoFont;
+        _model.Editor_SpellCheck = _view.Editor_SpellCheck;
+        _model.Editor_AutoIndent = _view.Editor_AutoIndent;
+        _model.Editor_NewLineAtEnd = _view.Editor_NewLineAtEnd;
+        _model.Editor_KeepNewLineVisible = _view.Editor_KeepNewLineVisible;
+        _model.Editor_TabsToSpaces = _view.Editor_TabsToSpaces;
+        _model.Editor_ConvertIndentationOnPaste = _view.Editor_ConvertIndentationOnPaste;
+        _model.Editor_TabWidth = _view.Editor_TabWidth;
+        _model.Editor_MiddleClickPaste = _view.Editor_MiddleClickPaste;
+
+        _model.Editor_TrimPastedText = _view.Editor_TrimPastedText;
+        _model.Editor_TrimCopiedText = _view.Editor_TrimCopiedText;
+        _model.Editor_CopyHighlightedText = _view.Editor_CopyHighlightedText;
 
         _model.Base64ToolState = _view.Base64ToolState;
         _model.BracketToolState = _view.BracketToolState;
@@ -217,30 +224,30 @@ public class SettingsPresenter
 
     private void AddChangeHandlers()
     {
-        _view.ShowTrayIconCheckBox.Click += OnSettingsChanged;
-        _view.ShowNotesInTaskbarCheckBox.Click += OnSettingsChanged;
-        _view.CheckForUpdatesCheckBox.Click += OnSettingsChanged;
+        _view.Applicaiton_TrayIconCheckBox.Click += OnSettingsChanged;
+        _view.Applicaiton_NotesInTaskbarCheckBox.Click += OnSettingsChanged;
+        _view.Applicaiton_CheckForUpdatesCheckBox.Click += OnSettingsChanged;
 
-        _view.StartupPositionComboBox.SelectionChanged += OnSettingsChanged;
-        _view.MinimizeModeComboBox.SelectionChanged += OnSettingsChanged;
-        _view.HideTitleBarCheckBox.Click += OnSettingsChanged;
-        _view.CycleColorsCheckBox.Click += OnSettingsChanged;
-        _view.ColorModeComboBox.SelectionChanged += OnSettingsChanged;
-        _view.TransparencyModeComboBox.SelectionChanged += OnSettingsChanged;
-        _view.OpaqueWhenFocusedCheckBox.Click += OnSettingsChanged;
+        _view.Notes_StartupPositionComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Notes_MinimizeModeComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Notes_HideTitleBarCheckBox.Click += OnSettingsChanged;
+        _view.Notes_DefaultColorComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Notes_ColorModeComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Notes_TransparencyModeComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Notes_OpaqueWhenFocusedCheckBox.Click += OnSettingsChanged;
 
-        _view.UseMonoFontCheckBox.Click += OnSettingsChanged;
-        _view.SpellCheckerCheckBox.Click += OnSettingsChanged;
-        _view.AutoIndentCheckBox.Click += OnSettingsChanged;
-        _view.NewLineAtEndCheckBox.Click += OnSettingsChanged;
-        _view.KeepNewLineAtEndVisibleCheckBox.Click += OnSettingsChanged;
-        _view.TabSpacesCheckBox.Click += OnSettingsChanged;
-        _view.ConvertIndentationCheckBox.Click += OnSettingsChanged;
-        _view.TabWidthTextBox.TextChanged += OnSettingsChanged;
-        _view.MiddleClickPasteCheckBox.Click += OnSettingsChanged;
-        _view.TrimPastedTextCheckBox.Click += OnSettingsChanged;
-        _view.TrimCopiedTextCheckBox.Click += OnSettingsChanged;
-        _view.AutoCopyCheckBox.Click += OnSettingsChanged;
+        _view.Editor_MonoFontCheckBox.Click += OnSettingsChanged;
+        _view.Editor_SpellCheckCheckBox.Click += OnSettingsChanged;
+        _view.Editor_AutoIndentCheckBox.Click += OnSettingsChanged;
+        _view.Editor_NewLineAtEndCheckBox.Click += OnSettingsChanged;
+        _view.Editor_KeepNewLineVisibleCheckBox.Click += OnSettingsChanged;
+        _view.Editor_TabsToSpacesCheckBox.Click += OnSettingsChanged;
+        _view.Editor_ConvertIndentationOnPasteCheckBox.Click += OnSettingsChanged;
+        _view.Editor_TabWidthTextBox.TextChanged += OnSettingsChanged;
+        _view.Editor_MiddleClickPasteCheckBox.Click += OnSettingsChanged;
+        _view.Editor_TrimPastedTextCheckBox.Click += OnSettingsChanged;
+        _view.Editor_TrimCopiedTextCheckBox.Click += OnSettingsChanged;
+        _view.Editor_CopyHighlightedTextCheckBox.Click += OnSettingsChanged;
 
         _view.Base64ToolStateComboBox.SelectionChanged += OnSettingsChanged;
         _view.BracketToolStateComboBox.SelectionChanged += OnSettingsChanged;

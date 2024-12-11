@@ -25,32 +25,32 @@ public class SettingsRepository : BaseRepository
         SqliteCommand command = connection.CreateCommand();
         command.CommandText = @"
             CREATE TABLE IF NOT EXISTS Settings (
-                Id                              INTEGER PRIMARY KEY AUTOINCREMENT,
+                Id                                  INTEGER PRIMARY KEY AUTOINCREMENT,
 
-                ApplicaitonTrayIcon             INTEGER,
-                ApplicaitonNotesInTaskbar       INTEGER,
-                ApplicaitonCheckForUpdates      INTEGER,
+                Applicaiton_TrayIcon                INTEGER,
+                Applicaiton_NotesInTaskbar          INTEGER,
+                Applicaiton_CheckForUpdates         INTEGER,
 
-                NotesStartupPosition            INTEGER,
-                NotesMinimizeMode               INTEGER,
-                NotesHideTitleBar               INTEGER,
-                NotesDefaultColor               INTEGER,
-                NotesColorMode                  INTEGER,
-                NotesTransparencyMode           INTEGER,
-                NotesOpaqueWhenFocused          INTEGER,
+                Notes_StartupPosition               INTEGER,
+                Notes_MinimizeMode                  INTEGER,
+                Notes_HideTitleBar                  INTEGER,
+                Notes_DefaultColor                  INTEGER,
+                Notes_ColorMode                     INTEGER,
+                Notes_TransparencyMode              INTEGER,
+                Notes_OpaqueWhenFocused             INTEGER,
 
-                EditorMonoFont                  INTEGER,
-                EditorSpellCheck                INTEGER,
-                EditorAutoIndent                INTEGER,
-                EditorNewLineAtEnd              INTEGER,
-                EditorKeepNewLineVisible        INTEGER,
-                EditorTabsToSpaces              INTEGER,
-                EditorConvertIndentationOnPaste INTEGER,
-                EditorTabWidth                  INTEGER,
-                EditorMiddleClickPaste          INTEGER,
-                EditorTrimPastedText            INTEGER,
-                EditorTrimCopiedText            INTEGER,
-                EditorCopyHighlightedText       INTEGER
+                Editor_MonoFont                     INTEGER,
+                Editor_SpellCheck                   INTEGER,
+                Editor_AutoIndent                   INTEGER,
+                Editor_NewLineAtEnd                 INTEGER,
+                Editor_KeepNewLineVisible           INTEGER,
+                Editor_TabsToSpaces                 INTEGER,
+                Editor_ConvertIndentationOnPaste    INTEGER,
+                Editor_TabWidth                     INTEGER,
+                Editor_MiddleClickPaste             INTEGER,
+                Editor_TrimPastedText               INTEGER,
+                Editor_TrimCopiedText               INTEGER,
+                Editor_CopyHighlightedText          INTEGER
             );
 
             CREATE TABLE IF NOT EXISTS Groups (
@@ -102,33 +102,34 @@ public class SettingsRepository : BaseRepository
             SELECT
                 Id,
 
-                ApplicaitonTrayIcon,
-                ApplicaitonNotesInTaskbar,
-                ApplicaitonCheckForUpdates,
+                Applicaiton_TrayIcon,
+                Applicaiton_NotesInTaskbar,
+                Applicaiton_CheckForUpdates,
 
-                NotesStartupPosition,
-                NotesMinimizeMode,
-                NotesHideTitleBar,
-                NotesDefaultColor,
-                NotesColorMode,
-                NotesTransparencyMode,
-                NotesOpaqueWhenFocused,
+                Notes_StartupPosition,
+                Notes_MinimizeMode,
+                Notes_HideTitleBar,
+                Notes_DefaultColor,
+                Notes_ColorMode,
+                Notes_TransparencyMode,
+                Notes_OpaqueWhenFocused,
 
-                EditorMonoFont,
-                EditorSpellCheck,
-                EditorAutoIndent,
-                EditorNewLineAtEnd,
-                EditorKeepNewLineVisible,
-                EditorTabsToSpaces,
-                EditorConvertIndentationOnPaste,
-                EditorTabWidth,
-                EditorMiddleClickPaste,
-                EditorTrimPastedText,
-                EditorTrimCopiedText,
-                EditorCopyHighlightedText
+                Editor_MonoFont,
+                Editor_SpellCheck,
+                Editor_AutoIndent,
+                Editor_NewLineAtEnd,
+                Editor_KeepNewLineVisible,
+                Editor_TabsToSpaces,
+                Editor_ConvertIndentationOnPaste,
+                Editor_TabWidth,
+                Editor_MiddleClickPaste,
+                Editor_TrimPastedText,
+                Editor_TrimCopiedText,
+                Editor_CopyHighlightedText
             FROM
                 Settings
-            WHERE Id = @id
+            WHERE
+                Id = @id
         ";
         command.Parameters.AddWithValue("@id", id);
 
@@ -139,30 +140,30 @@ public class SettingsRepository : BaseRepository
         return new SettingsModel() {
             Id = GetInt(reader, "Id"),
 
-            ShowTrayIcon = GetBoolNullable(reader, "ApplicaitonTrayIcon"),
-            ShowNotesInTaskbar = GetBoolNullable(reader, "ApplicaitonNotesInTaskbar"),
-            CheckForUpdates = GetBoolNullable(reader, "ApplicaitonCheckForUpdates"),
+            Applicaiton_TrayIcon = GetBoolNullable(reader, "Applicaiton_TrayIcon"),
+            Applicaiton_NotesInTaskbar = GetBoolNullable(reader, "Applicaiton_NotesInTaskbar"),
+            Applicaiton_CheckForUpdates = GetBoolNullable(reader, "Applicaiton_CheckForUpdates"),
 
-            StartupPosition = GetEnumNullable<StartupPositions>(reader, "NotesStartupPosition"),
-            MinimizeMode = GetEnumNullable<MinimizeModes>(reader, "NotesMinimizeMode"),
-            HideTitleBar = GetBoolNullable(reader, "NotesHideTitleBar"),
-            DefaultColor = GetStringNullable(reader, "NotesDefaultColor"),
-            ColorMode = GetEnumNullable<ColorModes>(reader, "NotesColorMode"),
-            TransparencyMode = GetEnumNullable<TransparencyModes>(reader, "NotesTransparencyMode"),
-            OpaqueWhenFocused = GetBoolNullable(reader, "NotesOpaqueWhenFocused"),
+            Notes_StartupPosition = GetEnumNullable<StartupPositions>(reader, "Notes_StartupPosition"),
+            Notes_MinimizeMode = GetEnumNullable<MinimizeModes>(reader, "Notes_MinimizeMode"),
+            Notes_HideTitleBar = GetBoolNullable(reader, "Notes_HideTitleBar"),
+            Notes_DefaultColor = GetStringNullable(reader, "Notes_DefaultColor"),
+            Notes_ColorMode = GetEnumNullable<ColorModes>(reader, "Notes_ColorMode"),
+            Notes_TransparencyMode = GetEnumNullable<TransparencyModes>(reader, "Notes_TransparencyMode"),
+            Notes_OpaqueWhenFocused = GetBoolNullable(reader, "Notes_OpaqueWhenFocused"),
 
-            UseMonoFont = GetBoolNullable(reader, "EditorMonoFont"),
-            SpellChecker = GetBoolNullable(reader, "EditorSpellCheck"),
-            AutoIndent = GetBoolNullable(reader, "EditorAutoIndent"),
-            NewLineAtEnd = GetBoolNullable(reader, "EditorNewLineAtEnd"),
-            KeepNewLineAtEndVisible = GetBoolNullable(reader, "EditorKeepNewLineVisible"),
-            TabSpaces = GetBoolNullable(reader, "EditorTabsToSpaces"),
-            ConvertIndentation = GetBoolNullable(reader, "EditorConvertIndentationOnPaste"),
-            TabWidth = GetIntNullable(reader, "EditorTabWidth"),
-            MiddleClickPaste = GetBoolNullable(reader, "EditorMiddleClickPaste"),
-            TrimPastedText = GetBoolNullable(reader, "EditorTrimPastedText"),
-            TrimCopiedText = GetBoolNullable(reader, "EditorTrimCopiedText"),
-            AutoCopy = GetBoolNullable(reader, "EditorCopyHighlightedText")
+            Editor_MonoFont = GetBoolNullable(reader, "Editor_MonoFont"),
+            Editor_SpellCheck = GetBoolNullable(reader, "Editor_SpellCheck"),
+            Editor_AutoIndent = GetBoolNullable(reader, "Editor_AutoIndent"),
+            Editor_NewLineAtEnd = GetBoolNullable(reader, "Editor_NewLineAtEnd"),
+            Editor_KeepNewLineVisible = GetBoolNullable(reader, "Editor_KeepNewLineVisible"),
+            Editor_TabsToSpaces = GetBoolNullable(reader, "Editor_TabsToSpaces"),
+            Editor_ConvertIndentationOnPaste = GetBoolNullable(reader, "Editor_ConvertIndentationOnPaste"),
+            Editor_TabWidth = GetIntNullable(reader, "Editor_TabWidth"),
+            Editor_MiddleClickPaste = GetBoolNullable(reader, "Editor_MiddleClickPaste"),
+            Editor_TrimPastedText = GetBoolNullable(reader, "Editor_TrimPastedText"),
+            Editor_TrimCopiedText = GetBoolNullable(reader, "Editor_TrimCopiedText"),
+            Editor_CopyHighlightedText = GetBoolNullable(reader, "Editor_CopyHighlightedText")
         };
     }
 
