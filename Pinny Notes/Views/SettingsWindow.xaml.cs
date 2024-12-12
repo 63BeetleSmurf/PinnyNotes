@@ -37,6 +37,18 @@ public partial class SettingsWindow : Window
 
     // Notes
     // - General
+    public int Notes_DefaultWidth
+    {
+        get => int.Parse(Notes_DefaultWidthTextBox.Text);
+        set => Notes_DefaultWidthTextBox.Text = value.ToString();
+    }
+
+    public int Notes_DefaultHeight
+    {
+        get => int.Parse(Notes_DefaultHeightTextBox.Text);
+        set => Notes_DefaultHeightTextBox.Text = value.ToString();
+    }
+
     public StartupPositions Notes_StartupPosition
     {
         get => (StartupPositions)Notes_StartupPositionComboBox.SelectedValue;

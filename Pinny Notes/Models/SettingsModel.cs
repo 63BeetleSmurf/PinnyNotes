@@ -51,6 +51,8 @@ public class SettingsModel
     public bool Application_NotesInTaskbar { get; set; }
     public bool Application_CheckForUpdates { get; set; }
 
+    public int DefaultWidth { get; set; }
+    public int DefaultHeight { get; set; }
     public StartupPositions Notes_StartupPosition { get; set; }
     public MinimizeModes Notes_MinimizeMode { get; set; }
     public bool Notes_HideTitleBar { get; set; }

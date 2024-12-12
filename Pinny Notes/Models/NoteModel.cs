@@ -42,21 +42,12 @@ public class NoteModel
 
     public bool IsSaved { get; set; }
 
-    public int DefaultWidth { get; set; }
-    public int DefaultHeight { get; set; }
-
     public SettingsModel Settings { get; }
-
-    public void LoadSettings()
-    {
-        DefaultWidth = Settings.Default.DefaultWidth;
-        DefaultHeight = Settings.Default.DefaultHeight;
-    }
 
     public void SetDefaultSize()
     {
-        Width = DefaultWidth;
-        Height = DefaultHeight;
+        Width = Settings.DefaultWidth;
+        Height = Settings.DefaultHeight;
     }
 
     public void UpdateGravity(Rectangle screenBounds)

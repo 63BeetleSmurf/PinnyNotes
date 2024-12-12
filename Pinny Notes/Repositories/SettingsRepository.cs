@@ -31,6 +31,8 @@ public class SettingsRepository : BaseRepository
                 Application_NotesInTaskbar          INTEGER,
                 Application_CheckForUpdates         INTEGER,
 
+                Notes_DefaultWidth                  INTEGER,
+                Notes_DefaultHeight                 INTEGER,
                 Notes_StartupPosition               INTEGER,
                 Notes_MinimizeMode                  INTEGER,
                 Notes_HideTitleBar                  INTEGER,
@@ -121,6 +123,8 @@ public class SettingsRepository : BaseRepository
             Application_NotesInTaskbar = GetBool(reader, "Application_NotesInTaskbar"),
             Application_CheckForUpdates = GetBool(reader, "Application_CheckForUpdates"),
 
+            Notes_DefaultWidth = GetInt(reader, "Notes_DefaultWidth"),
+            Notes_DefaultHeight = GetInt(reader, "Notes_DefaultHeight"),
             Notes_StartupPosition = GetEnum<StartupPositions>(reader, "Notes_StartupPosition"),
             Notes_MinimizeMode = GetEnum<MinimizeModes>(reader, "Notes_MinimizeMode"),
             Notes_HideTitleBar = GetBool(reader, "Notes_HideTitleBar"),

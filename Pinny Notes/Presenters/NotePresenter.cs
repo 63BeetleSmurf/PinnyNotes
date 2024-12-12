@@ -51,7 +51,6 @@ public class NotePresenter
 
     private void OnSettingsChanged(object? sender, EventArgs e)
     {
-        _model.LoadSettings();
         PopulateViewProperties();
         UpdateWindowOpacity();
         ApplyTheme();

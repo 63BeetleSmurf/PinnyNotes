@@ -122,6 +122,8 @@ public class SettingsPresenter
         _view.Application_NotesInTaskbar = _model.Application_NotesInTaskbar;
         _view.Application_CheckForUpdates = _model.Application_CheckForUpdates;
 
+        _view.DefaultWidth = _model.DefaultWidth;
+        _view.DefaultHeight = _model.DefaultHeight;
         _view.Notes_StartupPosition = _model.Notes_StartupPosition;
         _view.Notes_MinimizeMode = _model.Notes_MinimizeMode;
         _view.Notes_HideTitleBar = _model.Notes_HideTitleBar;
@@ -174,6 +176,8 @@ public class SettingsPresenter
         _model.Application_NotesInTaskbar = _view.Application_NotesInTaskbar;
         _model.Application_CheckForUpdates = _view.Application_CheckForUpdates;
 
+        _model.DefaultWidth = _view.DefaultWidth;
+        _model.DefaultHeight = _view.DefaultHeight;
         _model.Notes_StartupPosition = _view.Notes_StartupPosition;
         _model.Notes_MinimizeMode = _view.Notes_MinimizeMode;
         _model.Notes_HideTitleBar = _view.Notes_HideTitleBar;
@@ -234,6 +238,8 @@ public class SettingsPresenter
         _view.Application_NotesInTaskbarCheckBox.Click += OnSettingsChanged;
         _view.Application_CheckForUpdatesCheckBox.Click += OnSettingsChanged;
 
+        _view.Notes_DefaultWidthTextBox.TextChanged += OnSettingsChanged;
+        _view.Notes_DefaultHeightTextBox.TextChanged += OnSettingsChanged;
         _view.Notes_StartupPositionComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_MinimizeModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_HideTitleBarCheckBox.Click += OnSettingsChanged;
@@ -241,6 +247,8 @@ public class SettingsPresenter
         _view.Notes_ColorModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_TransparencyModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_OpaqueWhenFocusedCheckBox.Click += OnSettingsChanged;
+        _view.Notes_TransparentOpacityTextBox.TextChanged += OnSettingsChanged;
+        _view.Notes_OpaqueOpacityTextBox.TextChanged += OnSettingsChanged;
 
         _view.Editor_UseMonoFontCheckBox.Click += OnSettingsChanged;
         _view.Editor_MonoFontFamilyTextBox.TextChanged += OnSettingsChanged;
