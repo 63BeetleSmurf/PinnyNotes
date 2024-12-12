@@ -129,6 +129,8 @@ public class SettingsPresenter
         _view.Notes_ColorMode = _model.Notes_ColorMode;
         _view.Notes_TransparencyMode = _model.Notes_TransparencyMode;
         _view.Notes_OpaqueWhenFocused = _model.Notes_OpaqueWhenFocused;
+        _view.Notes_TransparentOpacity = _model.Notes_TransparentOpacity;
+        _view.Notes_OpaqueOpacity = _model.Notes_OpaqueOpacity;
 
         _view.Editor_UseMonoFont = _model.Editor_UseMonoFont;
         _view.Editor_MonoFontFamily = _model.Editor_MonoFontFamily;
@@ -179,8 +181,11 @@ public class SettingsPresenter
         _model.Notes_ColorMode = _view.Notes_ColorMode;
         _model.Notes_TransparencyMode = _view.Notes_TransparencyMode;
         _model.Notes_OpaqueWhenFocused = _view.Notes_OpaqueWhenFocused;
+        _model.Notes_TransparentOpacity = _view.Notes_TransparentOpacity;
+        _model.Notes_OpaqueOpacity = _view.Notes_OpaqueOpacity;
 
-        _model.Editor_MonoFont = _view.Editor_MonoFont;
+        _model.Editor_UseMonoFont = _view.Editor_UseMonoFont;
+        _model.Editor_MonoFontFamily = _view.Editor_MonoFontFamily;
         _model.Editor_SpellCheck = _view.Editor_SpellCheck;
         _model.Editor_AutoIndent = _view.Editor_AutoIndent;
         _model.Editor_NewLineAtEnd = _view.Editor_NewLineAtEnd;

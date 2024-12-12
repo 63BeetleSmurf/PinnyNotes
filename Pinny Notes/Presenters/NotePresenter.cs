@@ -198,7 +198,7 @@ public class NotePresenter
             && !(_model.Settings.Notes_OpaqueWhenFocused && _view.IsActive)
         );
 
-        _view.Opacity = (isTransparent) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
+        _view.Opacity = (isTransparent) ? _model.Settings.Notes_TransparentOpacity : _model.Settings.Notes_OpaqueOpacity;
     }
 
     private void ApplyTheme()

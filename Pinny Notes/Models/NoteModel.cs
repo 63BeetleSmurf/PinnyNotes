@@ -44,8 +44,6 @@ public class NoteModel
 
     public int DefaultWidth { get; set; }
     public int DefaultHeight { get; set; }
-    public double DefaultOpaqueOpacity { get; set; }
-    public double DefaultTransparentOpacity { get; set; }
 
     public SettingsModel Settings { get; }
 
@@ -53,8 +51,6 @@ public class NoteModel
     {
         DefaultWidth = Settings.Default.DefaultWidth;
         DefaultHeight = Settings.Default.DefaultHeight;
-        DefaultOpaqueOpacity = Settings.Default.OpaqueOpacity;
-        DefaultTransparentOpacity = Settings.Default.TransparentOpacity;
     }
 
     public void SetDefaultSize()

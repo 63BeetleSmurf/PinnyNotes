@@ -82,6 +82,14 @@
                         />
                     </StackPanel>
                     <CheckBox Margin="30,5,5,0" Content="Always opaque when focused" Name="Notes_OpaqueWhenFocusedCheckBox" />
+                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                        <Label Content="Transparent opacity" />
+                        <TextBox Width="50" Name="Notes_TransparentOpacityTextBox" />
+                    </StackPanel>
+                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                        <Label Content="Opaque opacity" />
+                        <TextBox Width="50" Name="Notes_OpaqueOpacityTextBox" />
+                    </StackPanel>
 
                 </StackPanel>
             </TabItem>

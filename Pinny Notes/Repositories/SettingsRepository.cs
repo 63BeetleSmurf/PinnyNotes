@@ -38,6 +38,8 @@ public class SettingsRepository : BaseRepository
                 Notes_ColorMode                     INTEGER,
                 Notes_TransparencyMode              INTEGER,
                 Notes_OpaqueWhenFocused             INTEGER,
+                Notes_TransparentOpacity            REAL,
+                Notes_OpaqueOpacity                 REAL,
 
                 Editor_UseMonoFont                  INTEGER,
                 Editor_MonoFontFamily               TEXT,
@@ -126,6 +128,8 @@ public class SettingsRepository : BaseRepository
             Notes_ColorMode = GetEnum<ColorModes>(reader, "Notes_ColorMode"),
             Notes_TransparencyMode = GetEnum<TransparencyModes>(reader, "Notes_TransparencyMode"),
             Notes_OpaqueWhenFocused = GetBool(reader, "Notes_OpaqueWhenFocused"),
+            Notes_TransparentOpacity = GetDouble(reader, "Notes_TransparentOpacity"),
+            Notes_OpaqueOpacity = GetDouble(reader, "Notes_OpaqueOpacity"),
 
             Editor_UseMonoFont = GetBool(reader, "Editor_UseMonoFont"),
             Editor_MonoFontFamily = GetString(reader, "Editor_MonoFontFamily"),

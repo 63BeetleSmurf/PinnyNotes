@@ -91,12 +91,30 @@ public partial class SettingsWindow : Window
         set => Notes_OpaqueWhenFocusedCheckBox.IsChecked = value;
     }
 
+    public double Notes_TransparentOpacity
+    {
+        get => double.Parse(Notes_TransparentOpacityTextBox.Text);
+        set => Notes_TransparentOpacityTextBox.Text = value.ToString();
+    }
+
+    public double Notes_OpaqueOpacity
+    {
+        get => double.Parse(Notes_OpaqueOpacityTextBox.Text);
+        set => Notes_OpaqueOpacityTextBox.Text = value.ToString();
+    }
+
     // Editor
     // - General
-    public bool Editor_MonoFont
+    public bool Editor_UseMonoFont
     {
-        get => Editor_MonoFontCheckBox.IsChecked ?? false;
-        set => Editor_MonoFontCheckBox.IsChecked = value;
+        get => Editor_UseMonoFontCheckBox.IsChecked ?? false;
+        set => Editor_UseMonoFontCheckBox.IsChecked = value;
+    }
+
+    public string Editor_MonoFontFamily
+    {
+        get => Editor_MonoFontFamilyTextBox.Text;
+        set => Editor_MonoFontFamilyTextBox.Text = value;
     }
 
     public bool Editor_SpellCheck

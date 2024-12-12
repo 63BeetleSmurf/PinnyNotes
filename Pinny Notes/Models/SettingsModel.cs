@@ -58,6 +58,8 @@ public class SettingsModel
     public ColorModes Notes_ColorMode { get; set; }
     public TransparencyModes Notes_TransparencyMode { get; set; }
     public bool Notes_OpaqueWhenFocused { get; set; }
+    public double Notes_TransparentOpacity { get; set; }
+    public double Notes_OpaqueOpacity { get; set; }
 
     public bool Editor_UseMonoFont { get; set; }
     public string Editor_MonoFontFamily { get; set; } = null!;

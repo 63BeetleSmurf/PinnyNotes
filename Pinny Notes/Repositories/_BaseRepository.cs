@@ -29,6 +29,18 @@ public abstract class BaseRepository
         return GetInt(reader, ordinal);
     }
 
+    protected double GetDouble(SqliteDataReader reader, int ordinal)
+        => reader.GetDouble(ordinal);
+    protected double GetDouble(SqliteDataReader reader, string columnName)
+        => GetDouble(reader, reader.GetOrdinal(columnName));
+    protected double? GetDoubleNullable(SqliteDataReader reader, string columnName)
+    {
+        int ordinal = reader.GetOrdinal(columnName);
+        if (reader.IsDBNull(ordinal))
+            return null;
+        return GetDouble(reader, ordinal);
+    }
+
     protected string GetString(SqliteDataReader reader, int ordinal)
         => reader.GetString(ordinal);
     protected string GetString(SqliteDataReader reader, string columnName)
