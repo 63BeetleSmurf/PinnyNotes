@@ -9,6 +9,8 @@ namespace PinnyNotes.WpfUi.Helpers;
 
 public static class ThemeHelper
 {
+    public const string CycleThemeKey = "#!CYCLE";
+
     public static readonly List<ThemeModel> Themes = [
         // Key, Display Name, MenuIcon
         // Light: TitleBar, TitleBarButtons, Background, Text, Border
@@ -111,7 +113,7 @@ public static class ThemeHelper
     {
         List<KeyValuePair<string, string>> defaultColorList = [];
 
-        defaultColorList.Add(new KeyValuePair<string, string>("#!CYCLE", "Cycle colors"));
+        defaultColorList.Add(new KeyValuePair<string, string>(CycleThemeKey, "Cycle colors"));
 
         foreach (ThemeModel theme in Themes)
             defaultColorList.Add(new KeyValuePair<string, string>(theme.Key, theme.DisplayName));

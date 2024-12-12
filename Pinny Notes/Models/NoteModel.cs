@@ -112,7 +112,7 @@ public class NoteModel
     public void SaveTheme()
     {
         // TODO: Review how this method works after move to database backend
-        Settings.Default.Theme = (Settings.Default.Theme.StartsWith("#!CYCLE:")) ? $"#!CYCLE:{Theme.Key}" : Theme.Key;
+        Settings.Default.Theme = (Settings.Default.Theme.StartsWith(ThemeHelper.CycleThemeKey)) ? $"{ThemeHelper.CycleThemeKey}:{Theme.Key}" : Theme.Key;
         Settings.Default.Save();
     }
 
@@ -216,9 +216,12 @@ public class NoteModel
 
     private void InitTheme(string? parentThemeKey = null)
     {
-        if (Settings.Default.Theme.StartsWith("#!CYCLE:"))
+        if (Settings.Default.Theme.StartsWith(ThemeHelper.CycleThemeKey))
         {
-            Theme = ThemeHelper.GetNextTheme(Settings.Default.Theme[8..], parentThemeKey);
+            Theme = ThemeHelper.GetNextTheme(
+                Settings.Default.Theme[(ThemeHelper.CycleThemeKey.Length + 1)..],
+                parentThemeKey
+            );
             SaveTheme();
         }
         else
