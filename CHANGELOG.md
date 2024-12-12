@@ -4,6 +4,8 @@
 ## v2.0.0 - Pending
 
 ### Added
+- Setting for font family to use when Use mono font is active.
+- Setting to set the opacity levels for when a note is transparent or opaque.
 - 
 
 ### Changed
@@ -16,10 +18,11 @@
 - Unpinned notes no longer come above pinned notes when focused.
 - Simplified transparency settings.
 - Tray icon setting now takes effect without needing a restart.
+- 
 
 ### Fixed
 - Crash in cases when clipboard reports having text but has issue retrieving it.
-
+- 
 
 ## v1.12.1 - 21/11/2024
 
