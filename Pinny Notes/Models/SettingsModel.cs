@@ -59,7 +59,8 @@ public class SettingsModel
     public TransparencyModes Notes_TransparencyMode { get; set; }
     public bool Notes_OpaqueWhenFocused { get; set; }
 
-    public bool Editor_MonoFont { get; set; }
+    public bool Editor_UseMonoFont { get; set; }
+    public string Editor_MonoFontFamily { get; set; } = null!;
     public bool Editor_SpellCheck { get; set; }
     public bool Editor_AutoIndent { get; set; }
     public bool Editor_NewLineAtEnd { get; set; }

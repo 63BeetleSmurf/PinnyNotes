@@ -175,8 +175,8 @@ public class NotePresenter
         _view.HideTitleBar = _model.Settings.Notes_HideTitleBar;
         _view.ShowInTaskbar = _model.Settings.Application_NotesInTaskbar;
 
-        _view.MonoFontFamily = _model.MonoFontFamily;
-        _view.UseMonoFont = _model.Settings.Editor_MonoFont;
+        _view.UseMonoFont = _model.Settings.Editor_UseMonoFont;
+        _view.MonoFontFamily = _model.Settings.Editor_MonoFontFamily;
         _view.SpellCheck = _model.Settings.Editor_SpellCheck;
         _view.AutoIndent = _model.Settings.Editor_AutoIndent;
         _view.NewLineAtEnd = _model.Settings.Editor_NewLineAtEnd;

@@ -39,7 +39,8 @@ public class SettingsRepository : BaseRepository
                 Notes_TransparencyMode              INTEGER,
                 Notes_OpaqueWhenFocused             INTEGER,
 
-                Editor_MonoFont                     INTEGER,
+                Editor_UseMonoFont                  INTEGER,
+                Editor_MonoFontFamily               TEXT,
                 Editor_SpellCheck                   INTEGER,
                 Editor_AutoIndent                   INTEGER,
                 Editor_NewLineAtEnd                 INTEGER,
@@ -126,7 +127,8 @@ public class SettingsRepository : BaseRepository
             Notes_TransparencyMode = GetEnum<TransparencyModes>(reader, "Notes_TransparencyMode"),
             Notes_OpaqueWhenFocused = GetBool(reader, "Notes_OpaqueWhenFocused"),
 
-            Editor_MonoFont = GetBool(reader, "Editor_MonoFont"),
+            Editor_UseMonoFont = GetBool(reader, "Editor_UseMonoFont"),
+            Editor_MonoFontFamily = GetString(reader, "Editor_MonoFontFamily"),
             Editor_SpellCheck = GetBool(reader, "Editor_SpellCheck"),
             Editor_AutoIndent = GetBool(reader, "Editor_AutoIndent"),
             Editor_NewLineAtEnd = GetBool(reader, "Editor_NewLineAtEnd"),

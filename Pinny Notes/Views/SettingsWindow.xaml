@@ -89,7 +89,11 @@
             <TabItem Header="Editor">
                 <StackPanel>
                     <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Use mono font" Name="Editor_MonoFontCheckBox" />
+                    <CheckBox Margin="10,0,5,0" Content="Use mono font" Name="Editor_UseMonoFontCheckBox" />
+                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                        <Label Content="Font Family"/>
+                        <TextBox Width="150" Name="Editor_MonoFontFamilyTextBox" />
+                    </StackPanel>
                     <CheckBox Margin="10,5,5,0" Content="Spell checking" Name="Editor_SpellCheckCheckBox" />
                     <CheckBox Margin="10,5,5,0" Content="Auto indent" Name="Editor_AutoIndentCheckBox" />
                     <CheckBox Margin="10,5,5,0" Content="New line at end" Name="Editor_NewLineAtEndCheckBox" Checked="Editor_NewLineAtEndCheckBox_Checked" />

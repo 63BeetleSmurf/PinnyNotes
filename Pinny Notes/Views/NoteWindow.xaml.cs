@@ -30,15 +30,15 @@ public partial class NoteWindow : Window
 
     public NoteTitleBarContextMenu TitleBarContextMenu { get; set; } = null!;
 
-    public string? MonoFontFamily
-    {
-        get => NoteTextBox.MonoFontFamily;
-        set => NoteTextBox.MonoFontFamily = value;
-    }
     public bool UseMonoFont
     {
         get => NoteTextBox.UseMonoFont;
         set => NoteTextBox.UseMonoFont = value;
+    }
+    public string? MonoFontFamily
+    {
+        get => NoteTextBox.MonoFontFamily;
+        set => NoteTextBox.MonoFontFamily = value;
     }
     public bool SpellCheck{
         get => NoteTextBox.SpellCheck.IsEnabled;

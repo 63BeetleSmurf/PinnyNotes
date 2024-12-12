@@ -130,7 +130,8 @@ public class SettingsPresenter
         _view.Notes_TransparencyMode = _model.Notes_TransparencyMode;
         _view.Notes_OpaqueWhenFocused = _model.Notes_OpaqueWhenFocused;
 
-        _view.Editor_MonoFont = _model.Editor_MonoFont;
+        _view.Editor_UseMonoFont = _model.Editor_UseMonoFont;
+        _view.Editor_MonoFontFamily = _model.Editor_MonoFontFamily;
         _view.Editor_SpellCheck = _model.Editor_SpellCheck;
         _view.Editor_AutoIndent = _model.Editor_AutoIndent;
         _view.Editor_NewLineAtEnd = _model.Editor_NewLineAtEnd;
@@ -236,7 +237,8 @@ public class SettingsPresenter
         _view.Notes_TransparencyModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_OpaqueWhenFocusedCheckBox.Click += OnSettingsChanged;
 
-        _view.Editor_MonoFontCheckBox.Click += OnSettingsChanged;
+        _view.Editor_UseMonoFontCheckBox.Click += OnSettingsChanged;
+        _view.Editor_MonoFontFamilyTextBox.TextChanged += OnSettingsChanged;
         _view.Editor_SpellCheckCheckBox.Click += OnSettingsChanged;
         _view.Editor_AutoIndentCheckBox.Click += OnSettingsChanged;
         _view.Editor_NewLineAtEndCheckBox.Click += OnSettingsChanged;
