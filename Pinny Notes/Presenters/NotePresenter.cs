@@ -202,17 +202,17 @@ public class NotePresenter
 
     private void ApplyTheme()
     {
-        ThemeColorModel themeColor;
+        ThemeColorsModel themeColor;
 
         if (_model.Settings.Notes_ColorMode == ColorModes.Dark || (_model.Settings.Notes_ColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
             themeColor = _model.Theme.DarkColor;
         else
             themeColor = _model.Theme.LightColor;
 
-        _view.TitleBarColorBrush = themeColor.TitleBarBrush;
-        _view.TitleButtonColorBrush = themeColor.TitleBarButtonsBrush;
-        _view.BackgroundColorBrush = themeColor.BackgroundColorBrush;
-        _view.TextColorBrush = themeColor.TextColorBrush;
-        _view.BorderColorBrush = themeColor.BorderColorBrush;
+        _view.TitleBarColorBrush = themeColor.TitleBarColor.Brush;
+        _view.TitleButtonColorBrush = themeColor.TitleBarButtonsColor.Brush;
+        _view.BackgroundColorBrush = themeColor.BackgroundColor.Brush;
+        _view.TextColorBrush = themeColor.TextColor.Brush;
+        _view.BorderColorBrush = themeColor.BorderColor.Brush;
     }
 }

@@ -1,17 +1,18 @@
-﻿using PinnyNotes.WpfUi.Helpers;
-using System.Windows.Media;
-using System.Windows.Shapes;
+﻿using System.Windows.Shapes;
 
 namespace PinnyNotes.WpfUi.Models;
 
 public class ThemeModel
 {
-    public ThemeModel(string key, string displayName, string menuIconColor, ThemeColorModel lightColor, ThemeColorModel darkColor)
+    public ThemeModel(string key, string displayName, string menuIconColorHex, ThemeColorsModel lightColor, ThemeColorsModel darkColor)
     {
         Key = key;
         DisplayName = displayName;
 
-        MenuIconColorHex = menuIconColor;
+        MenuIconColor = new()
+        {
+            ColorHex = menuIconColorHex
+        };
 
         LightColor = lightColor;
         DarkColor = darkColor;
@@ -20,33 +21,7 @@ public class ThemeModel
     public string Key { get; set; }
     public string DisplayName { get; set; }
 
-    // Menu Icon
-    private string _menuIconColorHex = null!;
-    public string MenuIconColorHex
-    {
-        get => _menuIconColorHex;
-        set
-        {
-            _menuIconColorHex = value;
-            _menuIconColor = ThemeHelper.HexToColor(_menuIconColorHex);
-        }
-    }
-
-    private Color _menuIconColor;
-    public Color TitleBarColor
-    {
-        get => _menuIconColor;
-        set
-        {
-            _menuIconColor = value;
-            _menuIconColorHex = ThemeHelper.ColorToHex(_menuIconColor);
-        }
-    }
-
-    public SolidColorBrush MenuIconBrush
-    {
-        get => new SolidColorBrush(_menuIconColor);
-    }
+    public ColorModel MenuIconColor { get; }
 
     public Rectangle MenuIcon
     {
@@ -54,10 +29,10 @@ public class ThemeModel
         {
             Width = 20,
             Height = 20,
-            Fill = MenuIconBrush
+            Fill = MenuIconColor.Brush
         };
     }
 
-    public ThemeColorModel LightColor { get; set; }
-    public ThemeColorModel DarkColor { get; set; }
+    public ThemeColorsModel LightColor { get; set; }
+    public ThemeColorsModel DarkColor { get; set; }
 }
