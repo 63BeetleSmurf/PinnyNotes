@@ -25,7 +25,7 @@ public partial class NoteWindow : Window
     {
         get => PinButton.IsChecked ?? false;
         set => PinButton.IsChecked = value;
-    } 
+    }
     public bool HideTitleBar { get; set; }
 
     public NoteTitleBarContextMenu TitleBarContextMenu { get; set; } = null!;

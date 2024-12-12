@@ -6,7 +6,7 @@ using PinnyNotes.WpfUi.Components;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Presenters;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Repositories;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi;
@@ -19,8 +19,12 @@ public class ApplicationManager
 
     private SettingsPresenter? _settingsPresenter;
 
+    private readonly SettingsRepository _settingsRepository;
+
     public readonly string DataPath;
     public readonly string ConnectionString;
+
+    public readonly SettingsModel ApplicationSettings;
 
     public ApplicationManager(App app)
     {
@@ -34,6 +38,10 @@ public class ApplicationManager
             Directory.CreateDirectory(DataPath);
 
         ConnectionString = $"Data Source={Path.Combine(DataPath, "pinny_notes.sqlite")}";
+
+        _settingsRepository = new(this);
+
+        ApplicationSettings = _settingsRepository.GetApplicationSettings();
 
         _notifyIcon = new(this);
         _notifyIcon.ActivateNotes += OnActivateNotes;
@@ -50,7 +58,7 @@ public class ApplicationManager
     {
         NotePresenter presenter = new(
             this,
-            new NoteModel(parent),
+            new NoteModel(ApplicationSettings, parent),
             new NoteWindow()
         );
 
@@ -99,7 +107,7 @@ public class ApplicationManager
 
     private void UpdateTrayIcon()
     {
-        bool isEnabled = Settings.Default.ShowTrayIcon;
+        bool isEnabled = ApplicationSettings.Application_TrayIcon;
         _notifyIcon.IsEnabled = isEnabled;
         _app.ShutdownMode = (isEnabled) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
     }
@@ -108,7 +116,7 @@ public class ApplicationManager
     {
         DateTimeOffset date = DateTimeOffset.UtcNow;
 
-        if (Settings.Default.CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        if (ApplicationSettings.Application_CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
         {
             Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
             Settings.Default.Save();

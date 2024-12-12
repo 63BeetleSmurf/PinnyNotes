@@ -17,22 +17,22 @@ public partial class SettingsWindow : Window
 
     // Application
     // - General
-    public bool Applicaiton_TrayIcon
+    public bool Application_TrayIcon
     {
-        get => Applicaiton_TrayIconCheckBox.IsChecked ?? false;
-        set => Applicaiton_TrayIconCheckBox.IsChecked = value;
+        get => Application_TrayIconCheckBox.IsChecked ?? false;
+        set => Application_TrayIconCheckBox.IsChecked = value;
     }
 
-    public bool Applicaiton_NotesInTaskbar
+    public bool Application_NotesInTaskbar
     {
-        get => Applicaiton_NotesInTaskbarCheckBox.IsChecked ?? false;
-        set => Applicaiton_NotesInTaskbarCheckBox.IsChecked = value;
+        get => Application_NotesInTaskbarCheckBox.IsChecked ?? false;
+        set => Application_NotesInTaskbarCheckBox.IsChecked = value;
     }
 
-    public bool Applicaiton_CheckForUpdates
+    public bool Application_CheckForUpdates
     {
-        get => Applicaiton_CheckForUpdatesCheckBox.IsChecked ?? false;
-        set => Applicaiton_CheckForUpdatesCheckBox.IsChecked = value;
+        get => Application_CheckForUpdatesCheckBox.IsChecked ?? false;
+        set => Application_CheckForUpdatesCheckBox.IsChecked = value;
     }
 
     // Notes

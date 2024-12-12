@@ -47,30 +47,30 @@ public class SettingsModel
 
     public int Id { get; init; }
 
-    public bool? Applicaiton_TrayIcon { get; set; }
-    public bool? Applicaiton_NotesInTaskbar { get; set; }
-    public bool? Applicaiton_CheckForUpdates { get; set; }
+    public bool Application_TrayIcon { get; set; }
+    public bool Application_NotesInTaskbar { get; set; }
+    public bool Application_CheckForUpdates { get; set; }
 
-    public StartupPositions? Notes_StartupPosition { get; set; }
-    public MinimizeModes? Notes_MinimizeMode { get; set; }
-    public bool? Notes_HideTitleBar { get; set; }
-    public string? Notes_DefaultColor { get; set; }
-    public ColorModes? Notes_ColorMode { get; set; }
-    public TransparencyModes? Notes_TransparencyMode { get; set; }
-    public bool? Notes_OpaqueWhenFocused { get; set; }
+    public StartupPositions Notes_StartupPosition { get; set; }
+    public MinimizeModes Notes_MinimizeMode { get; set; }
+    public bool Notes_HideTitleBar { get; set; }
+    public string Notes_DefaultColor { get; set; } = null!;
+    public ColorModes Notes_ColorMode { get; set; }
+    public TransparencyModes Notes_TransparencyMode { get; set; }
+    public bool Notes_OpaqueWhenFocused { get; set; }
 
-    public bool? Editor_MonoFont { get; set; }
-    public bool? Editor_SpellCheck { get; set; }
-    public bool? Editor_AutoIndent { get; set; }
-    public bool? Editor_NewLineAtEnd { get; set; }
-    public bool? Editor_KeepNewLineVisible { get; set; }
-    public bool? Editor_TabsToSpaces { get; set; }
-    public bool? Editor_ConvertIndentationOnPaste { get; set; }
-    public int? Editor_TabWidth { get; set; }
-    public bool? Editor_MiddleClickPaste { get; set; }
-    public bool? Editor_TrimPastedText { get; set; }
-    public bool? Editor_TrimCopiedText { get; set; }
-    public bool? Editor_CopyHighlightedText { get; set; }
+    public bool Editor_MonoFont { get; set; }
+    public bool Editor_SpellCheck { get; set; }
+    public bool Editor_AutoIndent { get; set; }
+    public bool Editor_NewLineAtEnd { get; set; }
+    public bool Editor_KeepNewLineVisible { get; set; }
+    public bool Editor_TabsToSpaces { get; set; }
+    public bool Editor_ConvertIndentationOnPaste { get; set; }
+    public int Editor_TabWidth { get; set; }
+    public bool Editor_MiddleClickPaste { get; set; }
+    public bool Editor_TrimPastedText { get; set; }
+    public bool Editor_TrimCopiedText { get; set; }
+    public bool Editor_CopyHighlightedText { get; set; }
 
     public ToolStates Base64ToolState { get; set; }
     public ToolStates BracketToolState { get; set; }

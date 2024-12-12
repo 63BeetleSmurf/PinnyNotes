@@ -5,15 +5,15 @@ using System.Windows;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Models;
 
 public class NoteModel
 {
-    public NoteModel(NoteModel? parent = null)
+    public NoteModel(SettingsModel settings, NoteModel? parent = null)
     {
-        LoadSettings();
+        Settings = settings;
+
         SetDefaultSize();
         InitTheme(parent?.Theme.Key);
         InitPosition(parent);
@@ -47,26 +47,7 @@ public class NoteModel
     public double DefaultOpaqueOpacity { get; set; }
     public double DefaultTransparentOpacity { get; set; }
 
-    public StartupPositions StartupPosition { get; set; }
-    public MinimizeModes MinimizeMode { get; set; }
-    public bool HideTitleBar { get; set; }
-    public ColorModes ThemeColorMode { get; set; }
-    public TransparencyModes TransparencyMode { get; set; }
-    public bool OpaqueWhenFocused { get; set; }
-    public bool ShowInTaskbar { get; set; }
-    public string? MonoFontFamily { get; set; }
-    public bool UseMonoFont { get; set; }
-    public bool SpellCheck { get; set; }
-    public bool AutoIndent { get; set; }
-    public bool NewLineAtEnd { get; set; }
-    public bool KeepNewLineVisible { get; set; }
-    public bool TabSpaces { get; set; }
-    public bool ConvertTabs { get; set; }
-    public int TabWidth { get; set; }
-    public bool MiddleClickPaste { get; set; }
-    public bool TrimPastedText { get; set; }
-    public bool TrimCopiedText { get; set; }
-    public bool AutoCopy { get; set; }
+    public SettingsModel Settings { get; }
 
     public void LoadSettings()
     {
@@ -74,27 +55,6 @@ public class NoteModel
         DefaultHeight = Settings.Default.DefaultHeight;
         DefaultOpaqueOpacity = Settings.Default.OpaqueOpacity;
         DefaultTransparentOpacity = Settings.Default.TransparentOpacity;
-
-        StartupPosition = (StartupPositions)Settings.Default.StartupPosition;
-        MinimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
-        HideTitleBar = Settings.Default.HideTitleBar;
-        ThemeColorMode = (ColorModes)Settings.Default.ColorMode;
-        TransparencyMode = (TransparencyModes)Settings.Default.TransparencyMode;
-        OpaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        ShowInTaskbar = Settings.Default.ShowNotesInTaskbar;
-        MonoFontFamily = Settings.Default.MonoFontFamily;
-        UseMonoFont = Settings.Default.UseMonoFont;
-        SpellCheck = Settings.Default.SpellCheck;
-        AutoIndent = Settings.Default.AutoIndent;
-        NewLineAtEnd = Settings.Default.NewLineAtEnd;
-        KeepNewLineVisible = Settings.Default.KeepNewLineAtEndVisible;
-        TabSpaces = Settings.Default.TabSpaces;
-        ConvertTabs = Settings.Default.ConvertIndentation;
-        TabWidth = Settings.Default.TabWidth;
-        MiddleClickPaste = Settings.Default.MiddleClickPaste;
-        TrimPastedText = Settings.Default.TrimPastedText;
-        TrimCopiedText = Settings.Default.TrimCopiedText;
-        AutoCopy = Settings.Default.AutoCopy;
     }
 
     public void SetDefaultSize()
@@ -138,7 +98,7 @@ public class NoteModel
             int screenMargin = 78;
             screenBounds = ScreenHelper.GetPrimaryScreenBounds();
 
-            switch (StartupPosition)
+            switch (Settings.Notes_StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.MiddleLeft:
@@ -160,7 +120,7 @@ public class NoteModel
                     break;
             }
 
-            switch (StartupPosition)
+            switch (Settings.Notes_StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.TopCenter:

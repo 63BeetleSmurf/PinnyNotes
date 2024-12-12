@@ -21,9 +21,9 @@
             <TabItem Header="Application">
                 <StackPanel>
                     <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="Applicaiton_TrayIconCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="Applicaiton_NotesInTaskbarCheckBox" />
-                    <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="Applicaiton_CheckForUpdatesCheckBox" />
+                    <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="Application_TrayIconCheckBox" />
+                    <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="Application_NotesInTaskbarCheckBox" />
+                    <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="Application_CheckForUpdatesCheckBox" />
                 </StackPanel>
             </TabItem>
 

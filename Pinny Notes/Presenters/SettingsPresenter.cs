@@ -9,13 +9,13 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class SettingsPresenter
 {
-    private readonly ApplicationManager _applicaitonManager;
+    private readonly ApplicationManager _applicationManager;
     private readonly SettingsModel _model;
     private readonly SettingsWindow _view;
 
-    public SettingsPresenter(ApplicationManager applicaitonManager, SettingsModel model, SettingsWindow view)
+    public SettingsPresenter(ApplicationManager applicationManager, SettingsModel model, SettingsWindow view)
     {
-        _applicaitonManager = applicaitonManager;
+        _applicationManager = applicationManager;
         _model = model;
         _view = view;
 
@@ -118,9 +118,9 @@ public class SettingsPresenter
     {
         _model.LoadSettings();
 
-        _view.Applicaiton_TrayIcon = _model.Applicaiton_TrayIcon;
-        _view.Applicaiton_NotesInTaskbar = _model.Applicaiton_NotesInTaskbar;
-        _view.Applicaiton_CheckForUpdates = _model.Applicaiton_CheckForUpdates;
+        _view.Application_TrayIcon = _model.Application_TrayIcon;
+        _view.Application_NotesInTaskbar = _model.Application_NotesInTaskbar;
+        _view.Application_CheckForUpdates = _model.Application_CheckForUpdates;
 
         _view.Notes_StartupPosition = _model.Notes_StartupPosition;
         _view.Notes_MinimizeMode = _model.Notes_MinimizeMode;
@@ -167,9 +167,9 @@ public class SettingsPresenter
     {
         _view.ApplyButton.IsEnabled = false;
 
-        _model.Applicaiton_TrayIcon = _view.Applicaiton_TrayIcon;
-        _model.Applicaiton_NotesInTaskbar = _view.Applicaiton_NotesInTaskbar;
-        _model.Applicaiton_CheckForUpdates = _view.Applicaiton_CheckForUpdates;
+        _model.Application_TrayIcon = _view.Application_TrayIcon;
+        _model.Application_NotesInTaskbar = _view.Application_NotesInTaskbar;
+        _model.Application_CheckForUpdates = _view.Application_CheckForUpdates;
 
         _model.Notes_StartupPosition = _view.Notes_StartupPosition;
         _model.Notes_MinimizeMode = _view.Notes_MinimizeMode;
@@ -224,9 +224,9 @@ public class SettingsPresenter
 
     private void AddChangeHandlers()
     {
-        _view.Applicaiton_TrayIconCheckBox.Click += OnSettingsChanged;
-        _view.Applicaiton_NotesInTaskbarCheckBox.Click += OnSettingsChanged;
-        _view.Applicaiton_CheckForUpdatesCheckBox.Click += OnSettingsChanged;
+        _view.Application_TrayIconCheckBox.Click += OnSettingsChanged;
+        _view.Application_NotesInTaskbarCheckBox.Click += OnSettingsChanged;
+        _view.Application_CheckForUpdatesCheckBox.Click += OnSettingsChanged;
 
         _view.Notes_StartupPositionComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_MinimizeModeComboBox.SelectionChanged += OnSettingsChanged;

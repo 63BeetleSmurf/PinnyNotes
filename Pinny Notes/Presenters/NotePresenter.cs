@@ -11,20 +11,20 @@ namespace PinnyNotes.WpfUi.Presenters;
 
 public class NotePresenter
 {
-    private readonly ApplicationManager _applicaitonManager;
+    private readonly ApplicationManager _applicationManager;
     private readonly NoteModel _model;
     private readonly NoteWindow _view;
 
-    public NotePresenter(ApplicationManager applicaitonManager, NoteModel model, NoteWindow view)
+    public NotePresenter(ApplicationManager applicationManager, NoteModel model, NoteWindow view)
     {
-        _applicaitonManager = applicaitonManager;
+        _applicationManager = applicationManager;
         _view = view;
         _model = model;
 
         PopulateViewProperties();
 
-        _applicaitonManager.SettingsChanged += OnSettingsChanged;
-        _applicaitonManager.ActivateNotes += OnActivateNotes;
+        _applicationManager.SettingsChanged += OnSettingsChanged;
+        _applicationManager.ActivateNotes += OnActivateNotes;
 
         _view.WindowLoaded += OnWindowLoaded;
         _view.WindowMoved += OnWindowMoved;
@@ -93,8 +93,8 @@ public class NotePresenter
     {
         if (_view.WindowState == WindowState.Minimized
             && (
-                _model.MinimizeMode == MinimizeModes.Prevent
-                || (_model.MinimizeMode == MinimizeModes.PreventIfPinned && _view.Topmost)
+                _model.Settings.Notes_MinimizeMode == MinimizeModes.Prevent
+                || (_model.Settings.Notes_MinimizeMode == MinimizeModes.PreventIfPinned && _view.Topmost)
             )
         )
             _view.WindowState = WindowState.Normal;
@@ -102,7 +102,7 @@ public class NotePresenter
 
     private void OnNewNoteClicked(object? sender, EventArgs e)
     {
-        _applicaitonManager.CreateNewNote(_model);
+        _applicationManager.CreateNewNote(_model);
     }
 
     private void OnPinClicked(object? sender, EventArgs e)
@@ -156,7 +156,7 @@ public class NotePresenter
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
     {
-        _applicaitonManager.ShowSettingsWindow(_view);
+        _applicationManager.ShowSettingsWindow(_view);
     }
 
     private void OnTextChanged(object? sender, EventArgs e)
@@ -172,29 +172,30 @@ public class NotePresenter
         _view.Top = _model.Y;
         _view.PinButtonState = _model.IsPinned;
 
-        _view.HideTitleBar = _model.HideTitleBar;
-        _view.ShowInTaskbar = _model.ShowInTaskbar;
+        _view.HideTitleBar = _model.Settings.Notes_HideTitleBar;
+        _view.ShowInTaskbar = _model.Settings.Application_NotesInTaskbar;
+
         _view.MonoFontFamily = _model.MonoFontFamily;
-        _view.UseMonoFont = _model.UseMonoFont;
-        _view.SpellCheck = _model.SpellCheck;
-        _view.AutoIndent = _model.AutoIndent;
-        _view.NewLineAtEnd = _model.NewLineAtEnd;
-        _view.KeepNewLineVisible = _model.KeepNewLineVisible;
-        _view.TabSpaces = _model.TabSpaces;
-        _view.ConvertTabs = _model.ConvertTabs;
-        _view.TabWidth = _model.TabWidth;
-        _view.MiddleClickPaste = _model.MiddleClickPaste;
-        _view.TrimPastedText = _model.TrimPastedText;
-        _view.TrimCopiedText = _model.TrimCopiedText;
-        _view.AutoCopy = _model.AutoCopy;
+        _view.UseMonoFont = _model.Settings.Editor_MonoFont;
+        _view.SpellCheck = _model.Settings.Editor_SpellCheck;
+        _view.AutoIndent = _model.Settings.Editor_AutoIndent;
+        _view.NewLineAtEnd = _model.Settings.Editor_NewLineAtEnd;
+        _view.KeepNewLineVisible = _model.Settings.Editor_KeepNewLineVisible;
+        _view.TabSpaces = _model.Settings.Editor_TabsToSpaces;
+        _view.ConvertTabs = _model.Settings.Editor_ConvertIndentationOnPaste;
+        _view.TabWidth = _model.Settings.Editor_TabWidth;
+        _view.MiddleClickPaste = _model.Settings.Editor_MiddleClickPaste;
+        _view.TrimPastedText = _model.Settings.Editor_TrimPastedText;
+        _view.TrimCopiedText = _model.Settings.Editor_TrimCopiedText;
+        _view.AutoCopy = _model.Settings.Editor_CopyHighlightedText;
     }
 
     private void UpdateWindowOpacity()
     {
         bool isTransparent = (
-            _model.TransparencyMode != TransparencyModes.Disabled
-            && (_model.TransparencyMode != TransparencyModes.OnlyWhenPinned || _model.IsPinned)
-            && !(_model.OpaqueWhenFocused && _view.IsActive)
+            _model.Settings.Notes_TransparencyMode != TransparencyModes.Disabled
+            && (_model.Settings.Notes_TransparencyMode != TransparencyModes.OnlyWhenPinned || _model.IsPinned)
+            && !(_model.Settings.Notes_OpaqueWhenFocused && _view.IsActive)
         );
 
         _view.Opacity = (isTransparent) ? _model.DefaultTransparentOpacity : _model.DefaultOpaqueOpacity;
@@ -204,7 +205,7 @@ public class NotePresenter
     {
         ThemeColorModel themeColor;
 
-        if (_model.ThemeColorMode == ColorModes.Dark || (_model.ThemeColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
+        if (_model.Settings.Notes_ColorMode == ColorModes.Dark || (_model.Settings.Notes_ColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
             themeColor = _model.Theme.DarkColor;
         else
             themeColor = _model.Theme.LightColor;
