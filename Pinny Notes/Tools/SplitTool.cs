@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -22,7 +21,7 @@ public partial class SplitTool : BaseTool, ITool
         SplitSelected
     }
 
-    public SplitTool(TextBox noteTextBox) : base(noteTextBox)
+    public SplitTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Split";
         _menuActions.Add(new("Comma", SplitCommaMenuAction));

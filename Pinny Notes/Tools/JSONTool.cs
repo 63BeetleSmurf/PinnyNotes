@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text.Json;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -21,7 +20,7 @@ public partial class JsonTool : BaseTool, ITool
         WriteIndented = true
     };
 
-    public JsonTool(TextBox noteTextBox) : base(noteTextBox)
+    public JsonTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "JSON";
         _menuActions.Add(new("Prettify", JsonPrettifyMenuAction));

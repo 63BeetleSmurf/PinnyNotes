@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -15,7 +14,7 @@ public partial class DateTimeTool : BaseTool, ITool
         DateTimeSortableDateTime
     }
 
-    public DateTimeTool(TextBox noteTextBox) : base(noteTextBox)
+    public DateTimeTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Date Time";
         _menuActions.Add(new("Sortable Date Time", DateTimeSortableDateTimeMenuAction));

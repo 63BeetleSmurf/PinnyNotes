@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -17,7 +16,7 @@ public partial class HtmlEntityTool : BaseTool, ITool
         EntityDecode
     }
 
-    public HtmlEntityTool(TextBox noteTextBox) : base(noteTextBox)
+    public HtmlEntityTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "HTML Entity";
         _menuActions.Add(new("Encode", EntityEncodeMenuAction));

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -16,7 +15,7 @@ public partial class Base64Tool : BaseTool, ITool
         Base64Decode
     }
 
-    public Base64Tool(TextBox noteTextBox) : base(noteTextBox)
+    public Base64Tool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Base64";
         _menuActions.Add(new("Encode", Base64EncodeMenuAction));

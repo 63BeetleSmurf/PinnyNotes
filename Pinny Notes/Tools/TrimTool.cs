@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -18,7 +17,7 @@ public partial class TrimTool : BaseTool, ITool
         TrimLines
     }
 
-    public TrimTool(TextBox noteTextBox) : base(noteTextBox)
+    public TrimTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Trim";
         _menuActions.Add(new("Start", TrimStartMenuAction));

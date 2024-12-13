@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -18,7 +17,7 @@ public partial class CaseTool : BaseTool, ITool
         CaseTitle
     }
 
-    public CaseTool(TextBox noteTextBox) : base(noteTextBox)
+    public CaseTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Case";
         _menuActions.Add(new("Lower", CaseLowerMenuAction));

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -17,7 +16,7 @@ public partial class JoinTool : BaseTool, ITool
         JoinTab
     }
 
-    public JoinTool(TextBox noteTextBox) : base(noteTextBox)
+    public JoinTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Join";
         _menuActions.Add(new("Comma", JoinCommaMenuAction));

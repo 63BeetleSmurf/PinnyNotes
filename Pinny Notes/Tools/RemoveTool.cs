@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -25,7 +24,7 @@ public partial class RemoveTool : BaseTool, ITool
         RemoveSelected
     }
 
-    public RemoveTool(TextBox noteTextBox) : base(noteTextBox)
+    public RemoveTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Remove";
         _menuActions.Add(new("Spaces", RemoveSpacesMenuAction));

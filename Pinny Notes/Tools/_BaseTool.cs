@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public abstract class BaseTool(TextBox noteTextBox)
+public abstract class BaseTool(NoteTextBoxControl noteTextBox)
 {
-    protected TextBox _noteTextBox = noteTextBox;
+    protected NoteTextBoxControl _noteTextBox = noteTextBox;
     protected string _name = null!;
     protected List<ToolMenuAction> _menuActions = [];
 
@@ -50,7 +50,7 @@ public abstract class BaseTool(TextBox noteTextBox)
         {
             string noteText = _noteTextBox.Text;
             // Ignore trailing new line if it was automatically added
-            if (Settings.Default.NewLineAtEnd && _noteTextBox.Text.EndsWith(Environment.NewLine))
+            if (_noteTextBox.NewLineAtEnd && _noteTextBox.Text.EndsWith(Environment.NewLine))
                 noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
             _noteTextBox.Text = function(noteText, action);
             if (_noteTextBox.Text.Length > 0)
@@ -65,7 +65,7 @@ public abstract class BaseTool(TextBox noteTextBox)
 
         string[] lines = noteText.Split(Environment.NewLine);
         // Ignore trailing new line if it was automatically added
-        if (Settings.Default.NewLineAtEnd && lines[^1] == "")
+        if (_noteTextBox.NewLineAtEnd && lines[^1] == "")
             lines = lines[..^1];
 
         List<string> newLines = [];
@@ -97,7 +97,7 @@ public abstract class BaseTool(TextBox noteTextBox)
         _noteTextBox.SelectedText = text;
 
         _noteTextBox.CaretIndex = caretIndex + text.Length;
-        if (!hasSelectedText && Settings.Default.KeepNewLineAtEndVisible && caretAtEnd)
+        if (!hasSelectedText && _noteTextBox.KeepNewLineVisible && caretAtEnd)
             _noteTextBox.ScrollToEnd();
     }
 }

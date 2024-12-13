@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -17,7 +16,7 @@ public partial class ListTool : BaseTool, ITool
         ListRemove
     }
 
-    public ListTool(TextBox noteTextBox) : base(noteTextBox)
+    public ListTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "List";
         _menuActions.Add(new("Enumerate", ListEnumerateMenuAction));

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -22,7 +21,7 @@ public partial class QuoteTool : BaseTool, ITool
         Trim
     }
 
-    public QuoteTool(TextBox noteTextBox) : base(noteTextBox)
+    public QuoteTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Quote";
         _menuActions.Add(new("Double", QuoteDoubleMenuAction));

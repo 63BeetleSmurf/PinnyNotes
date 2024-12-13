@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -23,7 +22,7 @@ public partial class BracketTool : BaseTool, ITool
         BracketTrimAll,
     }
 
-    public BracketTool(TextBox noteTextBox) : base(noteTextBox)
+    public BracketTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Bracket";
         _menuActions.Add(new("Parentheses", BracketParenthesesMenuAction));

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -21,7 +20,7 @@ public partial class HashTool : BaseTool, ITool
         HashMD5
     }
 
-    public HashTool(TextBox noteTextBox) : base(noteTextBox)
+    public HashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Hash";
         _menuActions.Add(new("SHA512", HashSHA512MenuAction));

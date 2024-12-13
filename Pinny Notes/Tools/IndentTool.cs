@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -17,7 +16,7 @@ public partial class IndentTool : BaseTool, ITool
         IndentTab
     }
 
-    public IndentTool(TextBox noteTextBox) : base(noteTextBox)
+    public IndentTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Indent";
         _menuActions.Add(new("2 Spaces", Indent2SpacesMenuAction));

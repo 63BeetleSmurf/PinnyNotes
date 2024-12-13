@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -16,7 +15,7 @@ public partial class SortTool : BaseTool, ITool
         SortDescending
     }
 
-    public SortTool(TextBox noteTextBox) : base(noteTextBox)
+    public SortTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         _name = "Sort";
         _menuActions.Add(new("Ascending", SortAscendingMenuAction));
