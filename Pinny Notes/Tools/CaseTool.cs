@@ -3,13 +3,12 @@ using System.Globalization;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class CaseTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.CaseToolState;
+    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.CaseToolState;
 
     public enum ToolActions
     {

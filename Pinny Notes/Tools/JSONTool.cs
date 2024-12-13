@@ -3,13 +3,12 @@ using System.Text.Json;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class JsonTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.JsonToolState;
+    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.JsonToolState;
 
     public enum ToolActions
     {

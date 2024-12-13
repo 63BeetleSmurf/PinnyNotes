@@ -2,13 +2,12 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class IndentTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.IndentToolState;
+    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.IndentToolState;
 
     public enum ToolActions
     {

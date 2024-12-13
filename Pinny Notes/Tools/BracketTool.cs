@@ -3,13 +3,12 @@ using System.Linq;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class BracketTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.BracketToolState;
+    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.BracketToolState;
 
     private static char[] _openingBrackets = {'(', '{', '['};
     private static char[] _closingBrackets = { ')', '}', ']' };

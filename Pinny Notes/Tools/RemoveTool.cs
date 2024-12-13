@@ -4,13 +4,12 @@ using System.Text;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class RemoveTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.RemoveToolState;
+    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.RemoveToolState;
 
     private string? _selectedText = null;
 
