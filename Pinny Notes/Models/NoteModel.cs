@@ -46,8 +46,8 @@ public class NoteModel
 
     public void SetDefaultSize()
     {
-        Width = Settings.DefaultWidth;
-        Height = Settings.DefaultHeight;
+        Width = Settings.Notes_DefaultWidth;
+        Height = Settings.Notes_DefaultHeight;
     }
 
     public void UpdateGravity(Rectangle screenBounds)

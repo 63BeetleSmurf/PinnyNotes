@@ -122,8 +122,8 @@ public class SettingsPresenter
         _view.Application_NotesInTaskbar = _model.Application_NotesInTaskbar;
         _view.Application_CheckForUpdates = _model.Application_CheckForUpdates;
 
-        _view.DefaultWidth = _model.DefaultWidth;
-        _view.DefaultHeight = _model.DefaultHeight;
+        _view.Notes_DefaultWidth = _model.Notes_DefaultWidth;
+        _view.Notes_DefaultHeight = _model.Notes_DefaultHeight;
         _view.Notes_StartupPosition = _model.Notes_StartupPosition;
         _view.Notes_MinimizeMode = _model.Notes_MinimizeMode;
         _view.Notes_HideTitleBar = _model.Notes_HideTitleBar;
@@ -176,8 +176,8 @@ public class SettingsPresenter
         _model.Application_NotesInTaskbar = _view.Application_NotesInTaskbar;
         _model.Application_CheckForUpdates = _view.Application_CheckForUpdates;
 
-        _model.DefaultWidth = _view.DefaultWidth;
-        _model.DefaultHeight = _view.DefaultHeight;
+        _model.Notes_DefaultWidth = _view.Notes_DefaultWidth;
+        _model.Notes_DefaultHeight = _view.Notes_DefaultHeight;
         _model.Notes_StartupPosition = _view.Notes_StartupPosition;
         _model.Notes_MinimizeMode = _view.Notes_MinimizeMode;
         _model.Notes_HideTitleBar = _view.Notes_HideTitleBar;
