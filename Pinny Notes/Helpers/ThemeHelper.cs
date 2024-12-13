@@ -102,7 +102,7 @@ public static class ThemeHelper
     public static ThemeModel GetNextTheme(string? currentKey, string? parentKey = null)
     {
         int nextIndex = 0;
-        if (currentKey == null)
+        if (currentKey != null)
             nextIndex = (Themes.FindIndex(t => t.Key == currentKey) + 1) % Themes.Count;
 
         if (parentKey != null && nextIndex == Themes.FindIndex(t => t.Key == parentKey))
