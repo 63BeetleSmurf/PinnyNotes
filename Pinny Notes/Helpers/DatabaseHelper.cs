@@ -42,7 +42,7 @@ public static class DatabaseHelper
         ";
 
         using SqliteCommand command = new(query, connection);
-        if (command.ExecuteScalar() != null)
+        if (command.ExecuteScalar() == null)
             return false;
 
         return true;
@@ -50,20 +50,22 @@ public static class DatabaseHelper
 
     private static void InitializeDatabase(SqliteConnection connection)
     {
-        string query = $@"
+        string query = @"
             CREATE TABLE IF NOT EXISTS SchemaInfo (
                 Id      INTEGER PRIMARY KEY AUTOINCREMENT,
                 Version INTEGER
             );
             INSERT INTO SchemaInfo (Id, Version) VALUES
-                (0, {SchemaVersion});
+                (0, @schemaVersion);
 
-            CREATE TABLE IF NOT EXISTS ApplicationdData (
+            CREATE TABLE IF NOT EXISTS ApplicationData (
                 Id                  INTEGER PRIMARY KEY AUTOINCREMENT,
 
                 LastUpdateCheck     INTEGER,
                 LastThemeColorKey   STRING
             );
+            INSERT INTO ApplicationData (Id, LastUpdateCheck, LastThemeColorKey) VALUES
+                (0, NULL, NULL);
 
             CREATE TABLE IF NOT EXISTS Settings (
                 Id                                  INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -107,7 +109,7 @@ public static class DatabaseHelper
                 (
                     0,
                     1, 1, 0,
-                    300, 300, 0, 0, 0, ""{ThemeHelper.CycleThemeKey}"", 0, 2, 1, 0.8, 1.0,
+                    300, 300, 0, 0, 0, @cycleThemeKey, 0, 2, 1, 0.8, 1.0,
                     0, ""Consolas"", 1, 1, 1, 1, 0, 0, 4, 1, 1, 1, 0
                 );
 
@@ -119,7 +121,7 @@ public static class DatabaseHelper
                 Name        TEXT    NOT NULL,
                 Color       INTEGER,
 
-                FOREIGN KEY(""SettingsId"") REFERENCES ""Settings""(""Id""),
+                FOREIGN KEY(""SettingsId"") REFERENCES ""Settings""(""Id"")
             );
             INSERT INTO Groups (Id, Name) VALUES
                 (0, ""Ungrouped"");
@@ -146,13 +148,16 @@ public static class DatabaseHelper
                 IsPinned    INTEGER,
 
                 FOREIGN KEY(""SettingsId"") REFERENCES ""Settings""(""Id""),
-                FOREIGN KEY(""GroupId"")    REFERENCES ""Groups""(""Id""),
+                FOREIGN KEY(""GroupId"")    REFERENCES ""Groups""(""Id"")
             );
             INSERT INTO Notes (Id, GroupId, Title, Content) VALUES
                 (1, 0, ""New Note"", ""Welcome to Pinny Notes!"");
         ";
 
         using SqliteCommand command = new(query, connection);
+        command.Parameters.AddWithValue("@cycleThemeKey", ThemeHelper.CycleThemeKey);
+        command.Parameters.AddWithValue("@schemaVersion", SchemaVersion);
+
         command.ExecuteNonQuery();
     }
 }

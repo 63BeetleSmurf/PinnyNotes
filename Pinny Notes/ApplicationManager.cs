@@ -115,7 +115,10 @@ public class ApplicationManager
     {
         DateTimeOffset date = DateTimeOffset.UtcNow;
 
-        if (ApplicationSettings.Application_CheckForUpdates && ApplicationData.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        if (
+            ApplicationSettings.Application_CheckForUpdates
+            && (ApplicationData.LastUpdateCheck == null || ApplicationData.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        )
         {
             ApplicationData.LastUpdateCheck = date.ToUnixTimeSeconds();
 
