@@ -111,6 +111,8 @@ public class SettingsRepository : BaseRepository
             WHERE
                 Id = @id
         ";
+        command.Parameters.AddWithValue("@id", settings.Id);
+
         command.Parameters.AddWithValue("@application_TrayIcon", settings.Application_TrayIcon);
         command.Parameters.AddWithValue("@application_NotesInTaskbar", settings.Application_NotesInTaskbar);
         command.Parameters.AddWithValue("@application_CheckForUpdates", settings.Application_CheckForUpdates);

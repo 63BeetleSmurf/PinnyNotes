@@ -56,6 +56,8 @@ public class ApplicationDataRepository : BaseRepository
             WHERE
                 Id = @id
         ";
+        command.Parameters.AddWithValue("@id", applicationData.Id);
+
         command.Parameters.AddWithValue("@lastUpdateCheck", applicationData.LastUpdateCheck);
         command.Parameters.AddWithValue("@lastThemeColorKey", applicationData.LastThemeColorKey);
 
