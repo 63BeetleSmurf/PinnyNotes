@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
@@ -21,7 +20,6 @@ public class ApplicationManager
 
     private readonly SettingsRepository _settingsRepository;
 
-    public readonly string DataPath;
     public readonly string ConnectionString;
 
     public readonly SettingsModel ApplicationSettings;
@@ -32,15 +30,9 @@ public class ApplicationManager
         _app.NewInstance += OnNewInstance;
         _app.Exit += OnAppExit;
 
-        string usersAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        DataPath = Path.Combine(usersAppDataPath, "Pinny Notes");
-        if (!Path.Exists(DataPath))
-            Directory.CreateDirectory(DataPath);
-
-        ConnectionString = $"Data Source={Path.Combine(DataPath, "pinny_notes.sqlite")}";
-
+        ConnectionString = DatabaseHelper.GetConnectionString();
+        DatabaseHelper.CheckDatabase(ConnectionString);
         _settingsRepository = new(this);
-
         ApplicationSettings = _settingsRepository.GetApplicationSettings();
 
         _notifyIcon = new(this);
