@@ -67,7 +67,7 @@ public class ApplicationManager
         {
             _settingsPresenter = new(
                 this,
-                new SettingsModel(),
+                ApplicationSettings,
                 new SettingsWindow()
             );
             _settingsPresenter.SettingsSaved += OnSettingsSaved;

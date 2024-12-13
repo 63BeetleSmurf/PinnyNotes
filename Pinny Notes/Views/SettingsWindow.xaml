@@ -6,8 +6,8 @@
         mc:Ignorable="d"
         Title="Pinny Notes Settings"
         ResizeMode="NoResize"
-        Width="340"
-        Height="455"
+        Width="360"
+        Height="400"
         Closing="Window_Closing"
         >
     <Grid Margin="5,5,5,5">
@@ -19,115 +19,121 @@
         <TabControl Grid.Row="0">
 
             <TabItem Header="Application">
-                <StackPanel>
-                    <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="Application_TrayIconCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="Application_NotesInTaskbarCheckBox" />
-                    <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="Application_CheckForUpdatesCheckBox" />
-                </StackPanel>
+                <ScrollViewer>
+                    <StackPanel>
+                        <Label Content="General" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="Application_TrayIconCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="Application_NotesInTaskbarCheckBox" />
+                        <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="Application_CheckForUpdatesCheckBox" />
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Notes">
-                <StackPanel>
-                    <Label Content="General" FontWeight="Bold" />
-                    <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
-                        <Label Content="Default size"/>
-                        <TextBox Width="50" Name="Notes_DefaultWidthTextBox" />
-                        <Label Content="x"/>
-                        <TextBox Width="50" Name="Notes_DefaultHeightTextBox" />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Startup Position"/>
-                        <ComboBox
-                            Width="120"
-                            Name="Notes_StartupPositionComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Allow notes to be minimized"/>
-                        <ComboBox
-                            Width="120"
-                            Name="Notes_MinimizeModeComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <CheckBox Margin="10,5,5,0" Content="Hide title bar" Name="Notes_HideTitleBarCheckBox" />
+                <ScrollViewer>
+                    <StackPanel>
+                        <Label Content="General" FontWeight="Bold" />
+                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
+                            <Label Content="Default size"/>
+                            <TextBox Width="50" Name="Notes_DefaultWidthTextBox" />
+                            <Label Content="x"/>
+                            <TextBox Width="50" Name="Notes_DefaultHeightTextBox" />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Startup Position"/>
+                            <ComboBox
+                                Width="120"
+                                Name="Notes_StartupPositionComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Allow notes to be minimized"/>
+                            <ComboBox
+                                Width="120"
+                                Name="Notes_MinimizeModeComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <CheckBox Margin="10,5,5,0" Content="Hide title bar" Name="Notes_HideTitleBarCheckBox" />
 
-                    <Label Content="Theme" FontWeight="Bold" />
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Default color"/>
-                        <ComboBox
-                            Width="120"
-                            Name="Notes_DefaultThemeColorComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Color mode"/>
-                        <ComboBox
-                            Width="120"
-                            Name="Notes_ColorModeComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                        />
-                    </StackPanel>
+                        <Label Content="Theme" FontWeight="Bold" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Default color"/>
+                            <ComboBox
+                                Width="120"
+                                Name="Notes_DefaultThemeColorComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Color mode"/>
+                            <ComboBox
+                                Width="120"
+                                Name="Notes_ColorModeComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                            />
+                        </StackPanel>
 
-                    <Label Content="Transparency" FontWeight="Bold" />
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Make notes transparent"/>
-                        <ComboBox
-                            Width="120"
-                            Name="Notes_TransparencyModeComboBox"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectionChanged="Notes_TransparencyModeComboBoxComboBox_SelectionChanged"
-                        />
-                    </StackPanel>
-                    <CheckBox Margin="30,5,5,0" Content="Always opaque when focused" Name="Notes_OpaqueWhenFocusedCheckBox" />
-                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                        <Label Content="Transparent opacity" />
-                        <TextBox Width="50" Name="Notes_TransparentOpacityTextBox" />
-                    </StackPanel>
-                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                        <Label Content="Opaque opacity" />
-                        <TextBox Width="50" Name="Notes_OpaqueOpacityTextBox" />
-                    </StackPanel>
+                        <Label Content="Transparency" FontWeight="Bold" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Make notes transparent"/>
+                            <ComboBox
+                                Width="120"
+                                Name="Notes_TransparencyModeComboBox"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectionChanged="Notes_TransparencyModeComboBoxComboBox_SelectionChanged"
+                            />
+                        </StackPanel>
+                        <CheckBox Margin="30,5,5,0" Content="Always opaque when focused" Name="Notes_OpaqueWhenFocusedCheckBox" />
+                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                            <Label Content="Transparent opacity" />
+                            <TextBox Width="50" Name="Notes_TransparentOpacityTextBox" />
+                        </StackPanel>
+                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                            <Label Content="Opaque opacity" />
+                            <TextBox Width="50" Name="Notes_OpaqueOpacityTextBox" />
+                        </StackPanel>
 
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Editor">
-                <StackPanel>
-                    <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Use mono font" Name="Editor_UseMonoFontCheckBox" />
-                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                        <Label Content="Font Family"/>
-                        <TextBox Width="150" Name="Editor_MonoFontFamilyTextBox" />
+                <ScrollViewer>
+                    <StackPanel>
+                        <Label Content="General" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Use mono font" Name="Editor_UseMonoFontCheckBox" />
+                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                            <Label Content="Font Family"/>
+                            <TextBox Width="150" Name="Editor_MonoFontFamilyTextBox" />
+                        </StackPanel>
+                        <CheckBox Margin="10,5,5,0" Content="Spell checking" Name="Editor_SpellCheckCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Auto indent" Name="Editor_AutoIndentCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="New line at end" Name="Editor_NewLineAtEndCheckBox" Checked="Editor_NewLineAtEndCheckBox_Checked" />
+                        <CheckBox Margin="30,5,5,0" Content="Keep new line at end visible" Name="Editor_KeepNewLineVisibleCheckBox" />
+
+                        <Label Content="Indentation" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" Name="Editor_TabsToSpacesCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" Name="Editor_ConvertIndentationOnPasteCheckBox" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Tab width"/>
+                            <TextBox Width="50" Name="Editor_TabWidthTextBox" />
+                        </StackPanel>
+
+                        <Label Content="Copy and Paste" FontWeight="Bold" />
+                        <CheckBox Margin="10,5,5,0" Content="Middle click paste" Name="Editor_MiddleClickPasteCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Trim pasted text" Name="Editor_TrimPastedTextCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Trim copied text" Name="Editor_TrimCopiedTextCheckBox" />
+                        <CheckBox Margin="10,5,5,5" Content="Copy highlighted text" Name="Editor_CopyHighlightedTextCheckBox" />
+
                     </StackPanel>
-                    <CheckBox Margin="10,5,5,0" Content="Spell checking" Name="Editor_SpellCheckCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="Auto indent" Name="Editor_AutoIndentCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="New line at end" Name="Editor_NewLineAtEndCheckBox" Checked="Editor_NewLineAtEndCheckBox_Checked" />
-                    <CheckBox Margin="30,5,5,0" Content="Keep new line at end visible" Name="Editor_KeepNewLineVisibleCheckBox" />
-
-                    <Label Content="Indentation" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" Name="Editor_TabsToSpacesCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" Name="Editor_ConvertIndentationOnPasteCheckBox" />
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Tab width"/>
-                        <TextBox Width="50" Name="Editor_TabWidthTextBox" />
-                    </StackPanel>
-
-                    <Label Content="Copy and Paste" FontWeight="Bold" />
-                    <CheckBox Margin="10,5,5,0" Content="Middle click paste" Name="Editor_MiddleClickPasteCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="Trim pasted text" Name="Editor_TrimPastedTextCheckBox" />
-                    <CheckBox Margin="10,5,5,0" Content="Trim copied text" Name="Editor_TrimCopiedTextCheckBox" />
-                    <CheckBox Margin="10,5,5,5" Content="Copy highlighted text" Name="Editor_CopyHighlightedTextCheckBox" />
-
-                </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Tools">
