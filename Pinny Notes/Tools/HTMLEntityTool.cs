@@ -3,12 +3,13 @@ using System.Net;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class HtmlEntityTool : BaseTool, ITool
 {
-    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.HtmlEntityToolState;
+    public ToolStates State => (ToolStates)ToolSettings.Default.HtmlEntityToolState;
 
     public enum ToolActions
     {

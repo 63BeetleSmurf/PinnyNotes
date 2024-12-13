@@ -2,12 +2,13 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public partial class ListTool : BaseTool, ITool
 {
-    public ToolStates State => ToolStates.Disabled; // (ToolStates)ToolSettings.Default.ListToolState;
+    public ToolStates State => (ToolStates)ToolSettings.Default.ListToolState;
 
     public enum ToolActions
     {
