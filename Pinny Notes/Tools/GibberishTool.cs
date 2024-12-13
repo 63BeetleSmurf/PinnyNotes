@@ -7,7 +7,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class GibberishTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.GibberishToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -24,8 +24,9 @@ public partial class GibberishTool : BaseTool, ITool
 
     private Random random = new();
 
-    public GibberishTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public GibberishTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Gibberish";
         _menuActions.Add(new("Word", GibberishWordMenuAction));
         _menuActions.Add(new("Title", GibberishTitleMenuAction));

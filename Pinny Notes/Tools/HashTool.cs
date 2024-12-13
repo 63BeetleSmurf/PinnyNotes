@@ -9,7 +9,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class HashTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.HashToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -20,8 +20,9 @@ public partial class HashTool : BaseTool, ITool
         HashMD5
     }
 
-    public HashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public HashTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Hash";
         _menuActions.Add(new("SHA512", HashSHA512MenuAction));
         _menuActions.Add(new("SHA384", HashSHA384MenuAction));

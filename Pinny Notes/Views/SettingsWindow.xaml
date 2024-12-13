@@ -143,7 +143,7 @@
                             <Label Content="Base64" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="Base64ToolStateComboBox"
+                                Name="Tool_Base64StateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -152,7 +152,7 @@
                             <Label Content="Bracket" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="BracketToolStateComboBox"
+                                Name="Tool_BracketStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -161,7 +161,7 @@
                             <Label Content="Case" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="CaseToolStateComboBox"
+                                Name="Tool_CaseStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -170,7 +170,7 @@
                             <Label Content="Date Time" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="DateTimeToolStateComboBox"
+                                Name="Tool_DateTimeStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -179,7 +179,7 @@
                             <Label Content="Gibberish" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="GibberishToolStateComboBox"
+                                Name="Tool_GibberishStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -188,7 +188,7 @@
                             <Label Content="Hash" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="HashToolStateComboBox"
+                                Name="Tool_HashStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -197,7 +197,7 @@
                             <Label Content="HTML Entity" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="HtmlEntityToolStateComboBox"
+                                Name="Tool_HtmlEntityStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -206,7 +206,7 @@
                             <Label Content="Indent" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="IndentToolStateComboBox"
+                                Name="Tool_IndentStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -215,7 +215,7 @@
                             <Label Content="Join" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="JoinToolStateComboBox"
+                                Name="Tool_JoinStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -224,7 +224,7 @@
                             <Label Content="JSON" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="JsonToolStateComboBox"
+                                Name="Tool_JsonStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -233,7 +233,7 @@
                             <Label Content="List" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="ListToolStateComboBox"
+                                Name="Tool_ListStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -242,7 +242,7 @@
                             <Label Content="Quote" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="QuoteToolStateComboBox"
+                                Name="Tool_QuoteStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -251,7 +251,7 @@
                             <Label Content="Remove" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="RemoveToolStateComboBox"
+                                Name="Tool_RemoveStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -260,7 +260,7 @@
                             <Label Content="Slash" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="SlashToolStateComboBox"
+                                Name="Tool_SlashStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -269,7 +269,7 @@
                             <Label Content="Sort" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="SortToolStateComboBox"
+                                Name="Tool_SortStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -278,7 +278,7 @@
                             <Label Content="Split" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="SplitToolStateComboBox"
+                                Name="Tool_SplitStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />
@@ -287,7 +287,7 @@
                             <Label Content="Trim" Width="100" />
                             <ComboBox
                                 Width="120"
-                                Name="TrimToolStateComboBox"
+                                Name="Tool_TrimStateComboBox"
                                 SelectedValuePath="Key"
                                 DisplayMemberPath="Value"
                             />

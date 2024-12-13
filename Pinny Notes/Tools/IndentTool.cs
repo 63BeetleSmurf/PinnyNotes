@@ -7,7 +7,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class IndentTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.IndentToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -16,8 +16,9 @@ public partial class IndentTool : BaseTool, ITool
         IndentTab
     }
 
-    public IndentTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public IndentTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Indent";
         _menuActions.Add(new("2 Spaces", Indent2SpacesMenuAction));
         _menuActions.Add(new("4 Spaces", Indent4SpacesMenuAction));

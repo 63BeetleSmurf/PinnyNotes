@@ -9,7 +9,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class SplitTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.SplitToolState;
+    public ToolStates State { get; }
 
     private string? _selectedText = null;
 
@@ -21,8 +21,9 @@ public partial class SplitTool : BaseTool, ITool
         SplitSelected
     }
 
-    public SplitTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public SplitTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Split";
         _menuActions.Add(new("Comma", SplitCommaMenuAction));
         _menuActions.Add(new("Space", SplitSpaceMenuAction));

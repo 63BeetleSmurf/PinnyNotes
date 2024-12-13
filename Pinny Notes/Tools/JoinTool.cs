@@ -7,7 +7,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class JoinTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.JoinToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -16,8 +16,9 @@ public partial class JoinTool : BaseTool, ITool
         JoinTab
     }
 
-    public JoinTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public JoinTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Join";
         _menuActions.Add(new("Comma", JoinCommaMenuAction));
         _menuActions.Add(new("Space", JoinSpaceMenuAction));

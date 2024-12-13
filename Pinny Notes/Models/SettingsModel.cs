@@ -77,21 +77,21 @@ public class SettingsModel
     public bool Editor_TrimCopiedText { get; set; }
     public bool Editor_CopyHighlightedText { get; set; }
 
-    public ToolStates Base64ToolState { get; set; }
-    public ToolStates BracketToolState { get; set; }
-    public ToolStates CaseToolState { get; set; }
-    public ToolStates DateTimeToolState { get; set; }
-    public ToolStates GibberishToolState { get; set; }
-    public ToolStates HashToolState { get; set; }
-    public ToolStates HtmlEntityToolState { get; set; }
-    public ToolStates IndentToolState { get; set; }
-    public ToolStates JoinToolState { get; set; }
-    public ToolStates JsonToolState { get; set; }
-    public ToolStates ListToolState { get; set; }
-    public ToolStates QuoteToolState { get; set; }
-    public ToolStates RemoveToolState { get; set; }
-    public ToolStates SlashToolState { get; set; }
-    public ToolStates SortToolState { get; set; }
-    public ToolStates SplitToolState { get; set; }
-    public ToolStates TrimToolState { get; set; }
+    public ToolStates Tool_Base64State { get; set; }
+    public ToolStates Tool_BracketState { get; set; }
+    public ToolStates Tool_CaseState { get; set; }
+    public ToolStates Tool_DateTimeState { get; set; }
+    public ToolStates Tool_GibberishState { get; set; }
+    public ToolStates Tool_HashState { get; set; }
+    public ToolStates Tool_HtmlEntityState { get; set; }
+    public ToolStates Tool_IndentState { get; set; }
+    public ToolStates Tool_JoinState { get; set; }
+    public ToolStates Tool_JsonState { get; set; }
+    public ToolStates Tool_ListState { get; set; }
+    public ToolStates Tool_QuoteState { get; set; }
+    public ToolStates Tool_RemoveState { get; set; }
+    public ToolStates Tool_SlashState { get; set; }
+    public ToolStates Tool_SortState { get; set; }
+    public ToolStates Tool_SplitState { get; set; }
+    public ToolStates Tool_TrimState { get; set; }
 }

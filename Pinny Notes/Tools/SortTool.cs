@@ -7,7 +7,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class SortTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.SortToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -15,8 +15,9 @@ public partial class SortTool : BaseTool, ITool
         SortDescending
     }
 
-    public SortTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public SortTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Sort";
         _menuActions.Add(new("Ascending", SortAscendingMenuAction));
         _menuActions.Add(new("Descending", SortDescendingMenuAction));

@@ -9,7 +9,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class RemoveTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.RemoveToolState;
+    public ToolStates State { get; }
 
     private string? _selectedText = null;
 
@@ -24,8 +24,9 @@ public partial class RemoveTool : BaseTool, ITool
         RemoveSelected
     }
 
-    public RemoveTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public RemoveTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Remove";
         _menuActions.Add(new("Spaces", RemoveSpacesMenuAction));
         _menuActions.Add(new("Tabs", RemoveTabsMenuAction));

@@ -8,7 +8,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class SlashTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.SlashToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -17,8 +17,9 @@ public partial class SlashTool : BaseTool, ITool
         SlashSwap
     }
 
-    public SlashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public SlashTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Slash";
         _menuActions.Add(new("All Forward (/)", SlashAllForwardMenuAction));
         _menuActions.Add(new("All Back (\\)", SlashAllBackMenuAction));

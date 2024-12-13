@@ -65,7 +65,25 @@ public class SettingsRepository : BaseRepository
             Editor_MiddleClickPaste = GetBool(reader, "Editor_MiddleClickPaste"),
             Editor_TrimPastedText = GetBool(reader, "Editor_TrimPastedText"),
             Editor_TrimCopiedText = GetBool(reader, "Editor_TrimCopiedText"),
-            Editor_CopyHighlightedText = GetBool(reader, "Editor_CopyHighlightedText")
+            Editor_CopyHighlightedText = GetBool(reader, "Editor_CopyHighlightedText"),
+
+            Tool_Base64State = GetEnum<ToolStates>(reader, "Tool_Base64State"),
+            Tool_BracketState = GetEnum<ToolStates>(reader, "Tool_BracketState"),
+            Tool_CaseState = GetEnum<ToolStates>(reader, "Tool_CaseState"),
+            Tool_DateTimeState = GetEnum<ToolStates>(reader, "Tool_DateTimeState"),
+            Tool_GibberishState = GetEnum<ToolStates>(reader, "Tool_GibberishState"),
+            Tool_HashState = GetEnum<ToolStates>(reader, "Tool_HashState"),
+            Tool_HtmlEntityState = GetEnum<ToolStates>(reader, "Tool_HtmlEntityState"),
+            Tool_IndentState = GetEnum<ToolStates>(reader, "Tool_IndentState"),
+            Tool_JoinState = GetEnum<ToolStates>(reader, "Tool_JoinState"),
+            Tool_JsonState = GetEnum<ToolStates>(reader, "Tool_JsonState"),
+            Tool_ListState = GetEnum<ToolStates>(reader, "Tool_JsonState"),
+            Tool_QuoteState = GetEnum<ToolStates>(reader, "Tool_QuoteState"),
+            Tool_RemoveState = GetEnum<ToolStates>(reader, "Tool_RemoveState"),
+            Tool_SlashState = GetEnum<ToolStates>(reader, "Tool_SlashState"),
+            Tool_SortState = GetEnum<ToolStates>(reader, "Tool_SortState"),
+            Tool_SplitState = GetEnum<ToolStates>(reader, "Tool_SplitState"),
+            Tool_TrimState = GetEnum<ToolStates>(reader, "Tool_TrimState"),
         };
     }
 
@@ -107,7 +125,25 @@ public class SettingsRepository : BaseRepository
                 Editor_MiddleClickPaste             = @editor_MiddleClickPaste,
                 Editor_TrimPastedText               = @editor_TrimPastedText,
                 Editor_TrimCopiedText               = @editor_TrimCopiedText,
-                Editor_CopyHighlightedText          = @editor_CopyHighlightedText
+                Editor_CopyHighlightedText          = @editor_CopyHighlightedText,
+
+                Tool_Base64State        = @tool_Base64State,
+                Tool_BracketState       = @tool_BracketState,
+                Tool_CaseState          = @tool_CaseState,
+                Tool_DateTimeState      = @tool_DateTimeState,
+                Tool_GibberishState     = @tool_GibberishState,
+                Tool_HashState          = @tool_HashState,
+                Tool_HtmlEntityState    = @tool_HtmlEntityState,
+                Tool_IndentState        = @tool_IndentState,
+                Tool_JoinState          = @tool_JoinState,
+                Tool_JsonState          = @tool_JsonState,
+                Tool_ListState          = @tool_ListState,
+                Tool_QuoteState         = @tool_QuoteState,
+                Tool_RemoveState        = @tool_RemoveState,
+                Tool_SlashState         = @tool_SlashState,
+                Tool_SortState          = @tool_SortState,
+                Tool_SplitState         = @tool_SplitState,
+                Tool_TrimState          = @tool_TrimState
             WHERE
                 Id = @id
         ";
@@ -142,6 +178,24 @@ public class SettingsRepository : BaseRepository
         command.Parameters.AddWithValue("@editor_TrimPastedText", settings.Editor_TrimPastedText);
         command.Parameters.AddWithValue("@editor_TrimCopiedText", settings.Editor_TrimCopiedText);
         command.Parameters.AddWithValue("@editor_CopyHighlightedText", settings.Editor_CopyHighlightedText);
+
+        command.Parameters.AddWithValue("@tool_Base64State", settings.Tool_Base64State);
+        command.Parameters.AddWithValue("@tool_BracketState", settings.Tool_BracketState);
+        command.Parameters.AddWithValue("@tool_CaseState", settings.Tool_CaseState);
+        command.Parameters.AddWithValue("@tool_DateTimeState", settings.Tool_DateTimeState);
+        command.Parameters.AddWithValue("@tool_GibberishState", settings.Tool_GibberishState);
+        command.Parameters.AddWithValue("@tool_HashState", settings.Tool_HashState);
+        command.Parameters.AddWithValue("@tool_HtmlEntityState", settings.Tool_HtmlEntityState);
+        command.Parameters.AddWithValue("@tool_IndentState", settings.Tool_IndentState);
+        command.Parameters.AddWithValue("@tool_JoinState", settings.Tool_JoinState);
+        command.Parameters.AddWithValue("@tool_JsonState", settings.Tool_JsonState);
+        command.Parameters.AddWithValue("@tool_ListState", settings.Tool_ListState);
+        command.Parameters.AddWithValue("@tool_QuoteState", settings.Tool_QuoteState);
+        command.Parameters.AddWithValue("@tool_RemoveState", settings.Tool_RemoveState);
+        command.Parameters.AddWithValue("@tool_SlashState", settings.Tool_SlashState);
+        command.Parameters.AddWithValue("@tool_SortState", settings.Tool_SortState);
+        command.Parameters.AddWithValue("@tool_SplitState", settings.Tool_SplitState);
+        command.Parameters.AddWithValue("@tool_TrimState", settings.Tool_TrimState);
 
         command.ExecuteNonQuery();
     }

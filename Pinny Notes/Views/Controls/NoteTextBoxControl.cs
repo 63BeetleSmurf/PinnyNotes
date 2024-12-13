@@ -14,7 +14,7 @@ namespace PinnyNotes.WpfUi.Views.Controls;
 
 public class NoteTextBoxControl : TextBox
 {
-    public IEnumerable<ITool> Tools = [];
+    public List<ITool> Tools = [];
 
     public NoteTextBoxControl()
     {
@@ -26,26 +26,6 @@ public class NoteTextBoxControl : TextBox
 
         // This ensures custom menu is used, without it default context menu sometimes appears.
         ContextMenu = new();
-
-        Tools = [
-            new Base64Tool(this),
-            new BracketTool(this),
-            new CaseTool(this),
-            new DateTimeTool(this),
-            new GibberishTool(this),
-            new HashTool(this),
-            new HtmlEntityTool(this),
-            new IndentTool(this),
-            new JoinTool(this),
-            new JsonTool(this),
-            new ListTool(this),
-            new QuoteTool(this),
-            new RemoveTool(this),
-            new SlashTool(this),
-            new SortTool(this),
-            new SplitTool(this),
-            new TrimTool(this)
-        ];
 
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, CopyEventHandler));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, CutEventHandler));

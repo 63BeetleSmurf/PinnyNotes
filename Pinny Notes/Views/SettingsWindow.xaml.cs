@@ -199,106 +199,106 @@ public partial class SettingsWindow : Window
     }
 
     // Tools
-    public ToolStates Base64ToolState
+    public ToolStates Tool_Base64State
     {
-        get => (ToolStates)Base64ToolStateComboBox.SelectedValue;
-        set => Base64ToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_Base64StateComboBox.SelectedValue;
+        set => Tool_Base64StateComboBox.SelectedValue = value;
     }
 
-    public ToolStates BracketToolState
+    public ToolStates Tool_BracketState
     {
-        get => (ToolStates)BracketToolStateComboBox.SelectedValue;
-        set => BracketToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_BracketStateComboBox.SelectedValue;
+        set => Tool_BracketStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates CaseToolState
+    public ToolStates Tool_CaseState
     {
-        get => (ToolStates)CaseToolStateComboBox.SelectedValue;
-        set => CaseToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_CaseStateComboBox.SelectedValue;
+        set => Tool_CaseStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates DateTimeToolState
+    public ToolStates Tool_DateTimeState
     {
-        get => (ToolStates)DateTimeToolStateComboBox.SelectedValue;
-        set => DateTimeToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_DateTimeStateComboBox.SelectedValue;
+        set => Tool_DateTimeStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates GibberishToolState
+    public ToolStates Tool_GibberishState
     {
-        get => (ToolStates)GibberishToolStateComboBox.SelectedValue;
-        set => GibberishToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_GibberishStateComboBox.SelectedValue;
+        set => Tool_GibberishStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates HashToolState
+    public ToolStates Tool_HashState
     {
-        get => (ToolStates)HashToolStateComboBox.SelectedValue;
-        set => HashToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_HashStateComboBox.SelectedValue;
+        set => Tool_HashStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates HtmlEntityToolState
+    public ToolStates Tool_HtmlEntityState
     {
-        get => (ToolStates)HtmlEntityToolStateComboBox.SelectedValue;
-        set => HtmlEntityToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_HtmlEntityStateComboBox.SelectedValue;
+        set => Tool_HtmlEntityStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates IndentToolState
+    public ToolStates Tool_IndentState
     {
-        get => (ToolStates)IndentToolStateComboBox.SelectedValue;
-        set => IndentToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_IndentStateComboBox.SelectedValue;
+        set => Tool_IndentStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates JoinToolState
+    public ToolStates Tool_JoinState
     {
-        get => (ToolStates)JoinToolStateComboBox.SelectedValue;
-        set => JoinToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_JoinStateComboBox.SelectedValue;
+        set => Tool_JoinStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates JsonToolState
+    public ToolStates Tool_JsonState
     {
-        get => (ToolStates)JsonToolStateComboBox.SelectedValue;
-        set => JsonToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_JsonStateComboBox.SelectedValue;
+        set => Tool_JsonStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates ListToolState
+    public ToolStates Tool_ListState
     {
-        get => (ToolStates)ListToolStateComboBox.SelectedValue;
-        set => ListToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_ListStateComboBox.SelectedValue;
+        set => Tool_ListStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates QuoteToolState
+    public ToolStates Tool_QuoteState
     {
-        get => (ToolStates)QuoteToolStateComboBox.SelectedValue;
-        set => QuoteToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_QuoteStateComboBox.SelectedValue;
+        set => Tool_QuoteStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates RemoveToolState
+    public ToolStates Tool_RemoveState
     {
-        get => (ToolStates)RemoveToolStateComboBox.SelectedValue;
-        set => RemoveToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_RemoveStateComboBox.SelectedValue;
+        set => Tool_RemoveStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates SlashToolState
+    public ToolStates Tool_SlashState
     {
-        get => (ToolStates)SlashToolStateComboBox.SelectedValue;
-        set => SlashToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_SlashStateComboBox.SelectedValue;
+        set => Tool_SlashStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates SortToolState
+    public ToolStates Tool_SortState
     {
-        get => (ToolStates)SortToolStateComboBox.SelectedValue;
-        set => SortToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_SortStateComboBox.SelectedValue;
+        set => Tool_SortStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates SplitToolState
+    public ToolStates Tool_SplitState
     {
-        get => (ToolStates)SplitToolStateComboBox.SelectedValue;
-        set => SplitToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_SplitStateComboBox.SelectedValue;
+        set => Tool_SplitStateComboBox.SelectedValue = value;
     }
 
-    public ToolStates TrimToolState
+    public ToolStates Tool_TrimState
     {
-        get => (ToolStates)TrimToolStateComboBox.SelectedValue;
-        set => TrimToolStateComboBox.SelectedValue = value;
+        get => (ToolStates)Tool_TrimStateComboBox.SelectedValue;
+        set => Tool_TrimStateComboBox.SelectedValue = value;
     }
 
     public event EventHandler? WindowClosing;
@@ -309,23 +309,23 @@ public partial class SettingsWindow : Window
     public void PopulateToolStates(IEnumerable<KeyValuePair<ToolStates, string>> items)
     {
         // TODO: Probably could use a resource or something here
-        PopulateComboBox(Base64ToolStateComboBox, items);
-        PopulateComboBox(BracketToolStateComboBox, items);
-        PopulateComboBox(CaseToolStateComboBox, items);
-        PopulateComboBox(DateTimeToolStateComboBox, items);
-        PopulateComboBox(GibberishToolStateComboBox, items);
-        PopulateComboBox(HashToolStateComboBox, items);
-        PopulateComboBox(HtmlEntityToolStateComboBox, items);
-        PopulateComboBox(IndentToolStateComboBox, items);
-        PopulateComboBox(JoinToolStateComboBox, items);
-        PopulateComboBox(JsonToolStateComboBox, items);
-        PopulateComboBox(ListToolStateComboBox, items);
-        PopulateComboBox(QuoteToolStateComboBox, items);
-        PopulateComboBox(RemoveToolStateComboBox, items);
-        PopulateComboBox(SlashToolStateComboBox, items);
-        PopulateComboBox(SortToolStateComboBox, items);
-        PopulateComboBox(SplitToolStateComboBox, items);
-        PopulateComboBox(TrimToolStateComboBox, items);
+        PopulateComboBox(Tool_Base64StateComboBox, items);
+        PopulateComboBox(Tool_BracketStateComboBox, items);
+        PopulateComboBox(Tool_CaseStateComboBox, items);
+        PopulateComboBox(Tool_DateTimeStateComboBox, items);
+        PopulateComboBox(Tool_GibberishStateComboBox, items);
+        PopulateComboBox(Tool_HashStateComboBox, items);
+        PopulateComboBox(Tool_HtmlEntityStateComboBox, items);
+        PopulateComboBox(Tool_IndentStateComboBox, items);
+        PopulateComboBox(Tool_JoinStateComboBox, items);
+        PopulateComboBox(Tool_JsonStateComboBox, items);
+        PopulateComboBox(Tool_ListStateComboBox, items);
+        PopulateComboBox(Tool_QuoteStateComboBox, items);
+        PopulateComboBox(Tool_RemoveStateComboBox, items);
+        PopulateComboBox(Tool_SlashStateComboBox, items);
+        PopulateComboBox(Tool_SortStateComboBox, items);
+        PopulateComboBox(Tool_SplitStateComboBox, items);
+        PopulateComboBox(Tool_TrimStateComboBox, items);
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)

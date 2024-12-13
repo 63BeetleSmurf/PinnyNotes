@@ -147,23 +147,23 @@ public class SettingsPresenter
         _view.Editor_TrimCopiedText = _model.Editor_TrimCopiedText;
         _view.Editor_CopyHighlightedText = _model.Editor_CopyHighlightedText;
 
-        _view.Base64ToolState = _model.Base64ToolState;
-        _view.BracketToolState = _model.BracketToolState;
-        _view.CaseToolState = _model.CaseToolState;
-        _view.DateTimeToolState = _model.DateTimeToolState;
-        _view.GibberishToolState = _model.GibberishToolState;
-        _view.HashToolState = _model.HashToolState;
-        _view.HtmlEntityToolState = _model.HtmlEntityToolState;
-        _view.IndentToolState = _model.IndentToolState;
-        _view.JoinToolState = _model.JoinToolState;
-        _view.JsonToolState = _model.JsonToolState;
-        _view.ListToolState = _model.ListToolState;
-        _view.QuoteToolState = _model.QuoteToolState;
-        _view.RemoveToolState = _model.RemoveToolState;
-        _view.SlashToolState = _model.SlashToolState;
-        _view.SortToolState = _model.SortToolState;
-        _view.SplitToolState = _model.SplitToolState;
-        _view.TrimToolState = _model.TrimToolState;
+        _view.Tool_Base64State = _model.Tool_Base64State;
+        _view.Tool_BracketState = _model.Tool_BracketState;
+        _view.Tool_CaseState = _model.Tool_CaseState;
+        _view.Tool_DateTimeState = _model.Tool_DateTimeState;
+        _view.Tool_GibberishState = _model.Tool_GibberishState;
+        _view.Tool_HashState = _model.Tool_HashState;
+        _view.Tool_HtmlEntityState = _model.Tool_HtmlEntityState;
+        _view.Tool_IndentState = _model.Tool_IndentState;
+        _view.Tool_JoinState = _model.Tool_JoinState;
+        _view.Tool_JsonState = _model.Tool_JsonState;
+        _view.Tool_ListState = _model.Tool_ListState;
+        _view.Tool_QuoteState = _model.Tool_QuoteState;
+        _view.Tool_RemoveState = _model.Tool_RemoveState;
+        _view.Tool_SlashState = _model.Tool_SlashState;
+        _view.Tool_SortState = _model.Tool_SortState;
+        _view.Tool_SplitState = _model.Tool_SplitState;
+        _view.Tool_TrimState = _model.Tool_TrimState;
     }
 
     private void SaveSettings()
@@ -201,23 +201,23 @@ public class SettingsPresenter
         _model.Editor_TrimCopiedText = _view.Editor_TrimCopiedText;
         _model.Editor_CopyHighlightedText = _view.Editor_CopyHighlightedText;
 
-        _model.Base64ToolState = _view.Base64ToolState;
-        _model.BracketToolState = _view.BracketToolState;
-        _model.CaseToolState = _view.CaseToolState;
-        _model.DateTimeToolState = _view.DateTimeToolState;
-        _model.GibberishToolState = _view.GibberishToolState;
-        _model.HashToolState = _view.HashToolState;
-        _model.HtmlEntityToolState = _view.HtmlEntityToolState;
-        _model.IndentToolState = _view.IndentToolState;
-        _model.JoinToolState = _view.JoinToolState;
-        _model.JsonToolState = _view.JsonToolState;
-        _model.ListToolState = _view.ListToolState;
-        _model.QuoteToolState = _view.QuoteToolState;
-        _model.RemoveToolState = _view.RemoveToolState;
-        _model.SlashToolState = _view.SlashToolState;
-        _model.SortToolState = _view.SortToolState;
-        _model.SplitToolState = _view.SplitToolState;
-        _model.TrimToolState = _view.TrimToolState;
+        _model.Tool_Base64State = _view.Tool_Base64State;
+        _model.Tool_BracketState = _view.Tool_BracketState;
+        _model.Tool_CaseState = _view.Tool_CaseState;
+        _model.Tool_DateTimeState = _view.Tool_DateTimeState;
+        _model.Tool_GibberishState = _view.Tool_GibberishState;
+        _model.Tool_HashState = _view.Tool_HashState;
+        _model.Tool_HtmlEntityState = _view.Tool_HtmlEntityState;
+        _model.Tool_IndentState = _view.Tool_IndentState;
+        _model.Tool_JoinState = _view.Tool_JoinState;
+        _model.Tool_JsonState = _view.Tool_JsonState;
+        _model.Tool_ListState = _view.Tool_ListState;
+        _model.Tool_QuoteState = _view.Tool_QuoteState;
+        _model.Tool_RemoveState = _view.Tool_RemoveState;
+        _model.Tool_SlashState = _view.Tool_SlashState;
+        _model.Tool_SortState = _view.Tool_SortState;
+        _model.Tool_SplitState = _view.Tool_SplitState;
+        _model.Tool_TrimState = _view.Tool_TrimState;
 
         SettingsSaved?.Invoke(this, EventArgs.Empty);
     }
@@ -260,22 +260,22 @@ public class SettingsPresenter
         _view.Editor_TrimCopiedTextCheckBox.Click += OnSettingsChanged;
         _view.Editor_CopyHighlightedTextCheckBox.Click += OnSettingsChanged;
 
-        _view.Base64ToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.BracketToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.CaseToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.DateTimeToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.GibberishToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.HashToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.HtmlEntityToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.IndentToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.JoinToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.JsonToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.ListToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.QuoteToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.RemoveToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.SlashToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.SortToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.SplitToolStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.TrimToolStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_Base64StateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_BracketStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_CaseStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_DateTimeStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_GibberishStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_HashStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_HtmlEntityStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_IndentStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_JoinStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_JsonStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_ListStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_QuoteStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_RemoveStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_SlashStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_SortStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_SplitStateComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Tool_TrimStateComboBox.SelectionChanged += OnSettingsChanged;
     }
 }

@@ -10,6 +10,8 @@ using System.Windows.Media.Animation;
 
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Views.ContextMenus;
+using PinnyNotes.WpfUi.Tools;
+using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -102,6 +104,11 @@ public partial class NoteWindow : Window
     {
         get => NoteTextBox.SelectionLength;
         set => NoteTextBox.SelectionLength = value;
+    }
+
+    public List<ITool> Tools
+    {
+        get => NoteTextBox.Tools;
     }
 
     public Brush BorderColorBrush {

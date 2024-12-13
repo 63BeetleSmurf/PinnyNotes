@@ -7,7 +7,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class TrimTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.TrimToolState;
+    public ToolStates State { get; }
 
     public enum ToolActions
     {
@@ -17,8 +17,9 @@ public partial class TrimTool : BaseTool, ITool
         TrimLines
     }
 
-    public TrimTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public TrimTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Trim";
         _menuActions.Add(new("Start", TrimStartMenuAction));
         _menuActions.Add(new("End", TrimEndMenuAction));

@@ -8,7 +8,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class QuoteTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.QuoteToolState;
+    public ToolStates State { get; }
 
     private static char[] _openingQuotes = { '\'', '"', '`', '‘', '“' };
     private static char[] _closingQuotes = { '\'', '"', '`', '’', '”' };
@@ -21,8 +21,9 @@ public partial class QuoteTool : BaseTool, ITool
         Trim
     }
 
-    public QuoteTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public QuoteTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Quote";
         _menuActions.Add(new("Double", QuoteDoubleMenuAction));
         _menuActions.Add(new("Single", QuoteSingleMenuAction));

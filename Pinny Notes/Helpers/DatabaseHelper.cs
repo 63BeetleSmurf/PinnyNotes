@@ -98,19 +98,39 @@ public static class DatabaseHelper
                 Editor_MiddleClickPaste             INTEGER,
                 Editor_TrimPastedText               INTEGER,
                 Editor_TrimCopiedText               INTEGER,
-                Editor_CopyHighlightedText          INTEGER
+                Editor_CopyHighlightedText          INTEGER,
+
+                Tool_Base64State        INTEGER,
+                Tool_BracketState       INTEGER,
+                Tool_CaseState          INTEGER,
+                Tool_DateTimeState      INTEGER,
+                Tool_GibberishState     INTEGER,
+                Tool_HashState          INTEGER,
+                Tool_HtmlEntityState    INTEGER,
+                Tool_IndentState        INTEGER,
+                Tool_JoinState          INTEGER,
+                Tool_JsonState          INTEGER,
+                Tool_ListState          INTEGER,
+                Tool_QuoteState         INTEGER,
+                Tool_RemoveState        INTEGER,
+                Tool_SlashState         INTEGER,
+                Tool_SortState          INTEGER,
+                Tool_SplitState         INTEGER,
+                Tool_TrimState          INTEGER
             );
             INSERT INTO Settings (
                 Id,
                 Application_TrayIcon, Application_NotesInTaskbar, Application_CheckForUpdates,
                 Notes_DefaultWidth, Notes_DefaultHeight, Notes_StartupPosition, Notes_MinimizeMode, Notes_HideTitleBar, Notes_DefaultThemeColorKey, Notes_ColorMode, Notes_TransparencyMode, Notes_OpaqueWhenFocused, Notes_TransparentOpacity, Notes_OpaqueOpacity,
-                Editor_UseMonoFont, Editor_MonoFontFamily, Editor_SpellCheck, Editor_AutoIndent, Editor_NewLineAtEnd, Editor_KeepNewLineVisible, Editor_TabsToSpaces, Editor_ConvertIndentationOnPaste, Editor_TabWidth, Editor_MiddleClickPaste, Editor_TrimPastedText, Editor_TrimCopiedText, Editor_CopyHighlightedText
+                Editor_UseMonoFont, Editor_MonoFontFamily, Editor_SpellCheck, Editor_AutoIndent, Editor_NewLineAtEnd, Editor_KeepNewLineVisible, Editor_TabsToSpaces, Editor_ConvertIndentationOnPaste, Editor_TabWidth, Editor_MiddleClickPaste, Editor_TrimPastedText, Editor_TrimCopiedText, Editor_CopyHighlightedText,
+                Tool_Base64State, Tool_BracketState, Tool_CaseState, Tool_DateTimeState, Tool_GibberishState, Tool_HashState, Tool_HtmlEntityState, Tool_IndentState, Tool_JoinState, Tool_JsonState, Tool_ListState, Tool_QuoteState, Tool_RemoveState, Tool_SlashState, Tool_SortState, Tool_SplitState, Tool_TrimState
             ) VALUES
                 (
                     0,
                     1, 1, 0,
                     300, 300, 0, 0, 0, @cycleThemeKey, 0, 2, 1, 0.8, 1.0,
-                    0, ""Consolas"", 1, 1, 1, 1, 0, 0, 4, 1, 1, 1, 0
+                    0, ""Consolas"", 1, 1, 1, 1, 0, 0, 4, 1, 1, 1, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 );
 
             CREATE TABLE IF NOT EXISTS Groups (

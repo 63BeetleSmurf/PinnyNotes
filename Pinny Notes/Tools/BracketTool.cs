@@ -8,7 +8,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class BracketTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)ToolSettings.Default.BracketToolState;
+    public ToolStates State { get; }
 
     private static char[] _openingBrackets = {'(', '{', '['};
     private static char[] _closingBrackets = { ')', '}', ']' };
@@ -22,8 +22,9 @@ public partial class BracketTool : BaseTool, ITool
         BracketTrimAll,
     }
 
-    public BracketTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
+    public BracketTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
     {
+        State = state;
         _name = "Bracket";
         _menuActions.Add(new("Parentheses", BracketParenthesesMenuAction));
         _menuActions.Add(new("Curly", BracketCurlyMenuAction));
