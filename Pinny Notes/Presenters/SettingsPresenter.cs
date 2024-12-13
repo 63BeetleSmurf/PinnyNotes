@@ -108,7 +108,7 @@ public class SettingsPresenter
     {
         _view.PopulateNotes_StartupPositions(SettingsModel.StartupPositionsList);
         _view.PopulateNotes_MinimizeModes(SettingsModel.MinimizeModeList);
-        _view.PopulateNotes_DefaultColors(SettingsModel.DefaultColorList);
+        _view.PopulateNotes_DefaultThemeColors(SettingsModel.DefaultColorList);
         _view.PopulateNotes_ColorModes(SettingsModel.ColorModeList);
         _view.PopulateNotes_TransparencyModes(SettingsModel.TransparencyModeList);
         _view.PopulateToolStates(SettingsModel.ToolStateList);
@@ -116,8 +116,6 @@ public class SettingsPresenter
 
     private void LoadSettings()
     {
-        _model.LoadSettings();
-
         _view.Application_TrayIcon = _model.Application_TrayIcon;
         _view.Application_NotesInTaskbar = _model.Application_NotesInTaskbar;
         _view.Application_CheckForUpdates = _model.Application_CheckForUpdates;
@@ -127,7 +125,7 @@ public class SettingsPresenter
         _view.Notes_StartupPosition = _model.Notes_StartupPosition;
         _view.Notes_MinimizeMode = _model.Notes_MinimizeMode;
         _view.Notes_HideTitleBar = _model.Notes_HideTitleBar;
-        _view.Notes_DefaultColor = _model.Notes_DefaultColor;
+        _view.Notes_DefaultThemeColorKey = _model.Notes_DefaultThemeColorKey;
         _view.Notes_ColorMode = _model.Notes_ColorMode;
         _view.Notes_TransparencyMode = _model.Notes_TransparencyMode;
         _view.Notes_OpaqueWhenFocused = _model.Notes_OpaqueWhenFocused;
@@ -181,7 +179,7 @@ public class SettingsPresenter
         _model.Notes_StartupPosition = _view.Notes_StartupPosition;
         _model.Notes_MinimizeMode = _view.Notes_MinimizeMode;
         _model.Notes_HideTitleBar = _view.Notes_HideTitleBar;
-        _model.Notes_DefaultColor = _view.Notes_DefaultColor;
+        _model.Notes_DefaultThemeColorKey = _view.Notes_DefaultThemeColorKey;
         _model.Notes_ColorMode = _view.Notes_ColorMode;
         _model.Notes_TransparencyMode = _view.Notes_TransparencyMode;
         _model.Notes_OpaqueWhenFocused = _view.Notes_OpaqueWhenFocused;
@@ -221,8 +219,6 @@ public class SettingsPresenter
         _model.SplitToolState = _view.SplitToolState;
         _model.TrimToolState = _view.TrimToolState;
 
-        _model.SaveSettings();
-
         SettingsSaved?.Invoke(this, EventArgs.Empty);
     }
 
@@ -243,7 +239,7 @@ public class SettingsPresenter
         _view.Notes_StartupPositionComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_MinimizeModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_HideTitleBarCheckBox.Click += OnSettingsChanged;
-        _view.Notes_DefaultColorComboBox.SelectionChanged += OnSettingsChanged;
+        _view.Notes_DefaultThemeColorComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_ColorModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_TransparencyModeComboBox.SelectionChanged += OnSettingsChanged;
         _view.Notes_OpaqueWhenFocusedCheckBox.Click += OnSettingsChanged;

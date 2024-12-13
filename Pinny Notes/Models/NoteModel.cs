@@ -10,8 +10,11 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class NoteModel
 {
-    public NoteModel(SettingsModel settings, NoteModel? parent = null)
+    private readonly ApplicationDataModel _applicaitonData;
+
+    public NoteModel(ApplicationDataModel applicaitonData, SettingsModel settings, NoteModel? parent = null)
     {
+        _applicaitonData = applicaitonData;
         Settings = settings;
 
         SetDefaultSize();
@@ -54,13 +57,6 @@ public class NoteModel
     {
         GravityX = (X - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
         GravityY = (Y - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
-    }
-
-    public void SaveTheme()
-    {
-        // TODO: Review how this method works after move to database backend
-        Settings.Default.Theme = (Settings.Default.Theme.StartsWith(ThemeHelper.CycleThemeKey)) ? $"{ThemeHelper.CycleThemeKey}:{Theme.Key}" : Theme.Key;
-        Settings.Default.Save();
     }
 
     private void InitPosition(NoteModel? parent = null)
@@ -163,17 +159,14 @@ public class NoteModel
 
     private void InitTheme(string? parentThemeKey = null)
     {
-        if (Settings.Default.Theme.StartsWith(ThemeHelper.CycleThemeKey))
+        if (Settings.Notes_DefaultThemeColorKey == ThemeHelper.CycleThemeKey)
         {
-            Theme = ThemeHelper.GetNextTheme(
-                Settings.Default.Theme[(ThemeHelper.CycleThemeKey.Length + 1)..],
-                parentThemeKey
-            );
-            SaveTheme();
+            Theme = ThemeHelper.GetNextTheme(_applicaitonData.LastThemeColorKey, parentThemeKey);
+            _applicaitonData.LastThemeColorKey = Theme.Key;
         }
         else
         {
-            Theme = ThemeHelper.GetThemeOrDefault(Settings.Default.Theme);
+            Theme = ThemeHelper.GetThemeOrDefault(Settings.Notes_DefaultThemeColorKey);
         }
     }
 }

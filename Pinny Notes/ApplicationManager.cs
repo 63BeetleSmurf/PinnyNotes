@@ -18,10 +18,12 @@ public class ApplicationManager
 
     private SettingsPresenter? _settingsPresenter;
 
-    private readonly SettingsRepository _settingsRepository;
-
     public readonly string ConnectionString;
 
+    private readonly ApplicationDataRepository _applicationDataRepository;
+    private readonly SettingsRepository _settingsRepository;
+
+    public readonly ApplicationDataModel ApplicationData;
     public readonly SettingsModel ApplicationSettings;
 
     public ApplicationManager(App app)
@@ -32,6 +34,8 @@ public class ApplicationManager
 
         ConnectionString = DatabaseHelper.GetConnectionString();
         DatabaseHelper.CheckDatabase(ConnectionString);
+        _applicationDataRepository = new(this);
+        ApplicationData = _applicationDataRepository.GetApplicationData();
         _settingsRepository = new(this);
         ApplicationSettings = _settingsRepository.GetApplicationSettings();
 
@@ -50,7 +54,7 @@ public class ApplicationManager
     {
         NotePresenter presenter = new(
             this,
-            new NoteModel(ApplicationSettings, parent),
+            new NoteModel(ApplicationData, ApplicationSettings, parent),
             new NoteWindow()
         );
 
@@ -82,6 +86,9 @@ public class ApplicationManager
 
     private void OnAppExit(object? sender, EventArgs e)
     {
+        _applicationDataRepository.UpdateApplicationData(ApplicationData);
+        _settingsRepository.UpdateSettings(ApplicationSettings);
+
         _notifyIcon?.Dispose();
     }
 
@@ -108,10 +115,9 @@ public class ApplicationManager
     {
         DateTimeOffset date = DateTimeOffset.UtcNow;
 
-        if (ApplicationSettings.Application_CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        if (ApplicationSettings.Application_CheckForUpdates && ApplicationData.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
         {
-            Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
-            Settings.Default.Save();
+            ApplicationData.LastUpdateCheck = date.ToUnixTimeSeconds();
 
             if (await VersionHelper.IsNewVersionAvailable())
                 MessageBox.Show(

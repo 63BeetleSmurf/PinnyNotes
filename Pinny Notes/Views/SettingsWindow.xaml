@@ -61,7 +61,7 @@
                         <Label Content="Default color"/>
                         <ComboBox
                             Width="120"
-                            Name="Notes_DefaultColorComboBox"
+                            Name="Notes_DefaultThemeColorComboBox"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
                         />

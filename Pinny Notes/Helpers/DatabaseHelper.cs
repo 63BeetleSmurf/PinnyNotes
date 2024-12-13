@@ -58,6 +58,13 @@ public static class DatabaseHelper
             INSERT INTO SchemaInfo (Id, Version) VALUES
                 (0, {SchemaVersion});
 
+            CREATE TABLE IF NOT EXISTS ApplicationdData (
+                Id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+
+                LastUpdateCheck     INTEGER,
+                LastThemeColorKey   STRING
+            );
+
             CREATE TABLE IF NOT EXISTS Settings (
                 Id                                  INTEGER PRIMARY KEY AUTOINCREMENT,
 
@@ -70,7 +77,7 @@ public static class DatabaseHelper
                 Notes_StartupPosition               INTEGER,
                 Notes_MinimizeMode                  INTEGER,
                 Notes_HideTitleBar                  INTEGER,
-                Notes_DefaultColor                  TEXT,
+                Notes_DefaultThemeColorKey          TEXT,
                 Notes_ColorMode                     INTEGER,
                 Notes_TransparencyMode              INTEGER,
                 Notes_OpaqueWhenFocused             INTEGER,
@@ -94,13 +101,13 @@ public static class DatabaseHelper
             INSERT INTO Settings (
                 Id,
                 Application_TrayIcon, Application_NotesInTaskbar, Application_CheckForUpdates,
-                Notes_DefaultWidth, Notes_DefaultHeight, Notes_StartupPosition, Notes_MinimizeMode, Notes_HideTitleBar, Notes_DefaultColor, Notes_ColorMode, Notes_TransparencyMode, Notes_OpaqueWhenFocused, Notes_TransparentOpacity, Notes_OpaqueOpacity,
+                Notes_DefaultWidth, Notes_DefaultHeight, Notes_StartupPosition, Notes_MinimizeMode, Notes_HideTitleBar, Notes_DefaultThemeColorKey, Notes_ColorMode, Notes_TransparencyMode, Notes_OpaqueWhenFocused, Notes_TransparentOpacity, Notes_OpaqueOpacity,
                 Editor_UseMonoFont, Editor_MonoFontFamily, Editor_SpellCheck, Editor_AutoIndent, Editor_NewLineAtEnd, Editor_KeepNewLineVisible, Editor_TabsToSpaces, Editor_ConvertIndentationOnPaste, Editor_TabWidth, Editor_MiddleClickPaste, Editor_TrimPastedText, Editor_TrimCopiedText, Editor_CopyHighlightedText
             ) VALUES
                 (
                     0,
                     1, 1, 0,
-                    300, 300, 0, 0, 0, ""{ThemeHelper.CycleThemeKey}:"", 0, 2, 1, 0.8, 1.0,
+                    300, 300, 0, 0, 0, ""{ThemeHelper.CycleThemeKey}"", 0, 2, 1, 0.8, 1.0,
                     0, ""Consolas"", 1, 1, 1, 1, 0, 0, 4, 1, 1, 1, 0
                 );
 

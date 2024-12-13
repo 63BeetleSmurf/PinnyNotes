@@ -72,13 +72,13 @@ public partial class SettingsWindow : Window
     }
 
     // - Theme
-    public string Notes_DefaultColor
+    public string Notes_DefaultThemeColorKey
     {
-        get => (string)Notes_DefaultColorComboBox.SelectedValue;
-        set => Notes_DefaultColorComboBox.SelectedValue = value;
+        get => (string)Notes_DefaultThemeColorComboBox.SelectedValue;
+        set => Notes_DefaultThemeColorComboBox.SelectedValue = value;
     }
-    public void PopulateNotes_DefaultColors(IEnumerable<KeyValuePair<string, string>> items)
-        => PopulateComboBox(Notes_MinimizeModeComboBox, items);
+    public void PopulateNotes_DefaultThemeColors(IEnumerable<KeyValuePair<string, string>> items)
+        => PopulateComboBox(Notes_DefaultThemeColorComboBox, items);
 
     public ColorModes Notes_ColorMode
     {

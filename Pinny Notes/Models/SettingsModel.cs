@@ -56,7 +56,7 @@ public class SettingsModel
     public StartupPositions Notes_StartupPosition { get; set; }
     public MinimizeModes Notes_MinimizeMode { get; set; }
     public bool Notes_HideTitleBar { get; set; }
-    public string Notes_DefaultColor { get; set; } = null!;
+    public string Notes_DefaultThemeColorKey { get; set; } = null!;
     public ColorModes Notes_ColorMode { get; set; }
     public TransparencyModes Notes_TransparencyMode { get; set; }
     public bool Notes_OpaqueWhenFocused { get; set; }

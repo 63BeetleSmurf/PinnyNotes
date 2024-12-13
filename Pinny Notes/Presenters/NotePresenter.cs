@@ -148,7 +148,6 @@ public class NotePresenter
                 return;
 
             _model.Theme = theme;
-            _model.SaveTheme();
             ApplyTheme();
         }
     }
