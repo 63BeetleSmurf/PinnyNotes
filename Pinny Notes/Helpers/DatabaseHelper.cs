@@ -53,7 +53,7 @@ public static class DatabaseHelper
         string query = @"
             CREATE TABLE IF NOT EXISTS SchemaInfo (
                 Id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                Version INTEGER
+                Version INTEGER NOT NULL
             );
             INSERT INTO SchemaInfo (Id, Version) VALUES
                 (0, @schemaVersion);

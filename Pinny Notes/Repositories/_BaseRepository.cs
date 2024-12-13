@@ -84,4 +84,9 @@ public abstract class BaseRepository
             return default;
         return GetEnum<T>(reader, ordinal);
     }
+
+    protected static object ToDbValue(object? value)
+    {
+        return value ?? DBNull.Value;
+    }
 }

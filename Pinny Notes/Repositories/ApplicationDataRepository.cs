@@ -58,8 +58,8 @@ public class ApplicationDataRepository : BaseRepository
         ";
         command.Parameters.AddWithValue("@id", applicationData.Id);
 
-        command.Parameters.AddWithValue("@lastUpdateCheck", applicationData.LastUpdateCheck);
-        command.Parameters.AddWithValue("@lastThemeColorKey", applicationData.LastThemeColorKey);
+        command.Parameters.AddWithValue("@lastUpdateCheck", ToDbValue(applicationData.LastUpdateCheck));
+        command.Parameters.AddWithValue("@lastThemeColorKey", ToDbValue(applicationData.LastThemeColorKey));
 
         command.ExecuteNonQuery();
     }
