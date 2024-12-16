@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -11,7 +12,6 @@ using System.Windows.Media.Animation;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Views.ContextMenus;
 using PinnyNotes.WpfUi.Tools;
-using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -23,69 +23,82 @@ public partial class NoteWindow : Window
     }
 
     public nint Handle { get; set; }
-    public bool PinButtonState
+    public bool IsPinned
     {
         get => PinButton.IsChecked ?? false;
         set => PinButton.IsChecked = value;
     }
-    public bool HideTitleBar { get; set; }
+
+    public bool Notes_HideTitleBar { get; set; }
 
     public NoteTitleBarContextMenu TitleBarContextMenu { get; set; } = null!;
 
-    public bool UseMonoFont
+    public bool Editor_UseMonoFont
     {
         get => NoteTextBox.UseMonoFont;
         set => NoteTextBox.UseMonoFont = value;
     }
-    public string? MonoFontFamily
+    public string? Editor_MonoFontFamily
     {
         get => NoteTextBox.MonoFontFamily;
         set => NoteTextBox.MonoFontFamily = value;
     }
-    public bool SpellCheck{
+    public bool Editor_SpellCheck
+    {
         get => NoteTextBox.SpellCheck.IsEnabled;
         set => NoteTextBox.SpellCheck.IsEnabled = value;
     }
-    public bool AutoIndent{
+    public bool Editor_AutoIndent
+    {
         get => NoteTextBox.AutoIndent;
         set => NoteTextBox.AutoIndent = value;
     }
-    public bool NewLineAtEnd{
+    public bool Editor_NewLineAtEnd
+    {
         get => NoteTextBox.NewLineAtEnd;
         set => NoteTextBox.NewLineAtEnd = value;
     }
-    public bool KeepNewLineVisible{
+    public bool Editor_KeepNewLineVisible
+    {
         get => NoteTextBox.KeepNewLineVisible;
         set => NoteTextBox.KeepNewLineVisible = value;
     }
-    public bool TabSpaces{
+    public bool Editor_TabsToSpaces
+    {
         get => NoteTextBox.TabSpaces;
         set => NoteTextBox.TabSpaces = value;
     }
-    public bool ConvertTabs{
+    public bool Editor_ConvertIndentationOnPaste
+    {
         get => NoteTextBox.ConvertTabs;
         set => NoteTextBox.ConvertTabs = value;
     }
-    public int TabWidth{
+    public int Editor_TabWidth
+    {
         get => NoteTextBox.TabWidth;
         set => NoteTextBox.TabWidth = value;
     }
-    public bool MiddleClickPaste{
+    public bool Editor_MiddleClickPaste
+    {
         get => NoteTextBox.MiddleClickPaste;
         set => NoteTextBox.MiddleClickPaste = value;
     }
-    public bool TrimPastedText{
+    public bool Editor_TrimPastedText
+    {
         get => NoteTextBox.TrimPastedText;
         set => NoteTextBox.TrimPastedText = value;
     }
-    public bool TrimCopiedText{
+    public bool Editor_TrimCopiedText
+    {
         get => NoteTextBox.TrimCopiedText;
         set => NoteTextBox.TrimCopiedText = value;
     }
-    public bool AutoCopy{
+    public bool Editor_CopyHighlightedText
+    {
         get => NoteTextBox.AutoCopy;
         set => NoteTextBox.AutoCopy = value;
     }
+
     public string Text
     {
         get => NoteTextBox.Text;

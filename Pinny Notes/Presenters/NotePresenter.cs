@@ -107,7 +107,7 @@ public class NotePresenter
 
     private void OnPinClicked(object? sender, EventArgs e)
     {
-        _model.IsPinned = _view.PinButtonState;
+        _model.IsPinned = _view.IsPinned;
         _view.Topmost = _model.IsPinned;
         UpdateWindowOpacity();
     }
@@ -169,24 +169,9 @@ public class NotePresenter
         _view.Height = _model.Height;
         _view.Left = _model.X;
         _view.Top = _model.Y;
-        _view.PinButtonState = _model.IsPinned;
-
-        _view.HideTitleBar = _model.Settings.Notes_HideTitleBar;
         _view.ShowInTaskbar = _model.Settings.Application_NotesInTaskbar;
 
-        _view.UseMonoFont = _model.Settings.Editor_UseMonoFont;
-        _view.MonoFontFamily = _model.Settings.Editor_MonoFontFamily;
-        _view.SpellCheck = _model.Settings.Editor_SpellCheck;
-        _view.AutoIndent = _model.Settings.Editor_AutoIndent;
-        _view.NewLineAtEnd = _model.Settings.Editor_NewLineAtEnd;
-        _view.KeepNewLineVisible = _model.Settings.Editor_KeepNewLineVisible;
-        _view.TabSpaces = _model.Settings.Editor_TabsToSpaces;
-        _view.ConvertTabs = _model.Settings.Editor_ConvertIndentationOnPaste;
-        _view.TabWidth = _model.Settings.Editor_TabWidth;
-        _view.MiddleClickPaste = _model.Settings.Editor_MiddleClickPaste;
-        _view.TrimPastedText = _model.Settings.Editor_TrimPastedText;
-        _view.TrimCopiedText = _model.Settings.Editor_TrimCopiedText;
-        _view.AutoCopy = _model.Settings.Editor_CopyHighlightedText;
+        PropertiesHelper.CopyMatchingProperties(_model, _view);
 
         _view.Tools.Clear();
         if (_model.Settings.Tool_Base64State != ToolStates.Disabled)
