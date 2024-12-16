@@ -231,9 +231,9 @@ public partial class NoteWindow : Window
         return MessageBoxResult.Cancel;
     }
 
-    private void ToggleTitleBar(bool hidden = false)
+    private void ToggleTitleBar(bool hide = false)
     {
-        if (hidden && HideTitleBar)
+        if (hide && Notes_HideTitleBar)
             ((Storyboard)FindResource("HideTitleBarAnimation")).Begin();
         else
             ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
