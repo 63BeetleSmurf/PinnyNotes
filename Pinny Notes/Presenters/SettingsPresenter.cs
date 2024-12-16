@@ -116,108 +116,14 @@ public class SettingsPresenter
 
     private void LoadSettings()
     {
-        _view.Application_TrayIcon = _model.Application_TrayIcon;
-        _view.Application_NotesInTaskbar = _model.Application_NotesInTaskbar;
-        _view.Application_CheckForUpdates = _model.Application_CheckForUpdates;
-
-        _view.Notes_DefaultWidth = _model.Notes_DefaultWidth;
-        _view.Notes_DefaultHeight = _model.Notes_DefaultHeight;
-        _view.Notes_StartupPosition = _model.Notes_StartupPosition;
-        _view.Notes_MinimizeMode = _model.Notes_MinimizeMode;
-        _view.Notes_HideTitleBar = _model.Notes_HideTitleBar;
-        _view.Notes_DefaultThemeColorKey = _model.Notes_DefaultThemeColorKey;
-        _view.Notes_ColorMode = _model.Notes_ColorMode;
-        _view.Notes_TransparencyMode = _model.Notes_TransparencyMode;
-        _view.Notes_OpaqueWhenFocused = _model.Notes_OpaqueWhenFocused;
-        _view.Notes_TransparentOpacity = _model.Notes_TransparentOpacity;
-        _view.Notes_OpaqueOpacity = _model.Notes_OpaqueOpacity;
-
-        _view.Editor_UseMonoFont = _model.Editor_UseMonoFont;
-        _view.Editor_MonoFontFamily = _model.Editor_MonoFontFamily;
-        _view.Editor_SpellCheck = _model.Editor_SpellCheck;
-        _view.Editor_AutoIndent = _model.Editor_AutoIndent;
-        _view.Editor_NewLineAtEnd = _model.Editor_NewLineAtEnd;
-        _view.Editor_KeepNewLineVisible = _model.Editor_KeepNewLineVisible;
-        _view.Editor_TabsToSpaces = _model.Editor_TabsToSpaces;
-        _view.Editor_ConvertIndentationOnPaste = _model.Editor_ConvertIndentationOnPaste;
-        _view.Editor_TabWidth = _model.Editor_TabWidth;
-        _view.Editor_MiddleClickPaste = _model.Editor_MiddleClickPaste;
-
-        _view.Editor_TrimPastedText = _model.Editor_TrimPastedText;
-        _view.Editor_TrimCopiedText = _model.Editor_TrimCopiedText;
-        _view.Editor_CopyHighlightedText = _model.Editor_CopyHighlightedText;
-
-        _view.Tool_Base64State = _model.Tool_Base64State;
-        _view.Tool_BracketState = _model.Tool_BracketState;
-        _view.Tool_CaseState = _model.Tool_CaseState;
-        _view.Tool_DateTimeState = _model.Tool_DateTimeState;
-        _view.Tool_GibberishState = _model.Tool_GibberishState;
-        _view.Tool_HashState = _model.Tool_HashState;
-        _view.Tool_HtmlEntityState = _model.Tool_HtmlEntityState;
-        _view.Tool_IndentState = _model.Tool_IndentState;
-        _view.Tool_JoinState = _model.Tool_JoinState;
-        _view.Tool_JsonState = _model.Tool_JsonState;
-        _view.Tool_ListState = _model.Tool_ListState;
-        _view.Tool_QuoteState = _model.Tool_QuoteState;
-        _view.Tool_RemoveState = _model.Tool_RemoveState;
-        _view.Tool_SlashState = _model.Tool_SlashState;
-        _view.Tool_SortState = _model.Tool_SortState;
-        _view.Tool_SplitState = _model.Tool_SplitState;
-        _view.Tool_TrimState = _model.Tool_TrimState;
+        PropertiesHelper.CopyMatchingProperties(_model, _view);
     }
 
     private void SaveSettings()
     {
         _view.ApplyButton.IsEnabled = false;
 
-        _model.Application_TrayIcon = _view.Application_TrayIcon;
-        _model.Application_NotesInTaskbar = _view.Application_NotesInTaskbar;
-        _model.Application_CheckForUpdates = _view.Application_CheckForUpdates;
-
-        _model.Notes_DefaultWidth = _view.Notes_DefaultWidth;
-        _model.Notes_DefaultHeight = _view.Notes_DefaultHeight;
-        _model.Notes_StartupPosition = _view.Notes_StartupPosition;
-        _model.Notes_MinimizeMode = _view.Notes_MinimizeMode;
-        _model.Notes_HideTitleBar = _view.Notes_HideTitleBar;
-        _model.Notes_DefaultThemeColorKey = _view.Notes_DefaultThemeColorKey;
-        _model.Notes_ColorMode = _view.Notes_ColorMode;
-        _model.Notes_TransparencyMode = _view.Notes_TransparencyMode;
-        _model.Notes_OpaqueWhenFocused = _view.Notes_OpaqueWhenFocused;
-        _model.Notes_TransparentOpacity = _view.Notes_TransparentOpacity;
-        _model.Notes_OpaqueOpacity = _view.Notes_OpaqueOpacity;
-
-        _model.Editor_UseMonoFont = _view.Editor_UseMonoFont;
-        _model.Editor_MonoFontFamily = _view.Editor_MonoFontFamily;
-        _model.Editor_SpellCheck = _view.Editor_SpellCheck;
-        _model.Editor_AutoIndent = _view.Editor_AutoIndent;
-        _model.Editor_NewLineAtEnd = _view.Editor_NewLineAtEnd;
-        _model.Editor_KeepNewLineVisible = _view.Editor_KeepNewLineVisible;
-        _model.Editor_TabsToSpaces = _view.Editor_TabsToSpaces;
-        _model.Editor_ConvertIndentationOnPaste = _view.Editor_ConvertIndentationOnPaste;
-        _model.Editor_TabWidth = _view.Editor_TabWidth;
-        _model.Editor_MiddleClickPaste = _view.Editor_MiddleClickPaste;
-
-        _model.Editor_TrimPastedText = _view.Editor_TrimPastedText;
-        _model.Editor_TrimCopiedText = _view.Editor_TrimCopiedText;
-        _model.Editor_CopyHighlightedText = _view.Editor_CopyHighlightedText;
-
-        _model.Tool_Base64State = _view.Tool_Base64State;
-        _model.Tool_BracketState = _view.Tool_BracketState;
-        _model.Tool_CaseState = _view.Tool_CaseState;
-        _model.Tool_DateTimeState = _view.Tool_DateTimeState;
-        _model.Tool_GibberishState = _view.Tool_GibberishState;
-        _model.Tool_HashState = _view.Tool_HashState;
-        _model.Tool_HtmlEntityState = _view.Tool_HtmlEntityState;
-        _model.Tool_IndentState = _view.Tool_IndentState;
-        _model.Tool_JoinState = _view.Tool_JoinState;
-        _model.Tool_JsonState = _view.Tool_JsonState;
-        _model.Tool_ListState = _view.Tool_ListState;
-        _model.Tool_QuoteState = _view.Tool_QuoteState;
-        _model.Tool_RemoveState = _view.Tool_RemoveState;
-        _model.Tool_SlashState = _view.Tool_SlashState;
-        _model.Tool_SortState = _view.Tool_SortState;
-        _model.Tool_SplitState = _view.Tool_SplitState;
-        _model.Tool_TrimState = _view.Tool_TrimState;
+        PropertiesHelper.CopyMatchingProperties(_view, _model);
 
         SettingsSaved?.Invoke(this, EventArgs.Empty);
     }
