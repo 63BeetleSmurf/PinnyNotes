@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -7,15 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-using PinnyNotes.WpfUi.Tools;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Views.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views.Controls;
 
 public class NoteTextBoxControl : TextBox
 {
-    public List<ITool> Tools = [];
-
     public NoteTextBoxControl()
     {
         AcceptsReturn = true;
@@ -55,6 +52,24 @@ public class NoteTextBoxControl : TextBox
     public bool TrimPastedText { get; set; }
     public bool TrimCopiedText { get; set; }
     public bool AutoCopy { get; set; }
+
+    public ToolStates Tool_Base64State { get; set; }
+    public ToolStates Tool_BracketState { get; set; }
+    public ToolStates Tool_CaseState { get; set; }
+    public ToolStates Tool_DateTimeState { get; set; }
+    public ToolStates Tool_GibberishState { get; set; }
+    public ToolStates Tool_HashState { get; set; }
+    public ToolStates Tool_HtmlEntityState { get; set; }
+    public ToolStates Tool_IndentState { get; set; }
+    public ToolStates Tool_JoinState { get; set; }
+    public ToolStates Tool_JsonState { get; set; }
+    public ToolStates Tool_ListState { get; set; }
+    public ToolStates Tool_QuoteState { get; set; }
+    public ToolStates Tool_RemoveState { get; set; }
+    public ToolStates Tool_SlashState { get; set; }
+    public ToolStates Tool_SortState { get; set; }
+    public ToolStates Tool_SplitState { get; set; }
+    public ToolStates Tool_TrimState { get; set; }
 
     public new void Copy()
     {

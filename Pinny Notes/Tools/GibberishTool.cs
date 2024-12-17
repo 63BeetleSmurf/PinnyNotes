@@ -1,51 +1,47 @@
 ﻿using System;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class GibberishTool : BaseTool, ITool
+public static class GibberishTool
 {
     private const string _characters = "zqxjkvccuummwwffgghhhhrrrrddddllllttttttaaaaaaooooooiiiiiinnnnnnsssssseeeeeeeeeeee";
 
-    public enum ToolActions
-    {
-        GibberishWord,
-        GibberishTitle,
-        GibberishSentence,
-        GibberishParagraph,
-        GibberishArticle,
-        GibberishName,
-    }
-
-    private const string _characters = "zqxjkvbbppyyggffwwmmuuccllldddrrrhhhsssnnniiiiooooaaaaattttteeeeeeeeee";
     private const string _doubleNewLine = "\r\n\r\n";
 
-    private Random random = new();
+    public const string Name = "Gibberish";
 
-    public GibberishTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Word", OnWordMenuItemClick),
+                new("Title", OnTitleMenuItemClick),
+                new("Sentence", OnSentenceMenuItemClick),
+                new("Paragraph", OnParagraphMenuItemClick),
+                new("Article", OnArticleMenuItemClick),
+                new("-"),
+                new("Name", OnNameMenuItemClick)
+            ]
+        );
+
+    private static void OnWordMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.InsertIntoNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), GenerateWord());
+    private static void OnTitleMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.InsertIntoNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), GenerateTitle());
+    private static void OnSentenceMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.InsertIntoNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), GenerateSentence());
+    private static void OnParagraphMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.InsertIntoNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), GenerateParagraph());
+    private static void OnArticleMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.InsertIntoNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), GenerateArticle());
+    private static void OnNameMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.InsertIntoNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), GenerateTitle(2));
+
+    private static string GenerateWord(bool titleCase = false, Random? random = null)
     {
-        State = state;
-        _name = "Gibberish";
-        _menuActions.Add(new("Word", GibberishWordMenuAction));
-        _menuActions.Add(new("Title", GibberishTitleMenuAction));
-        _menuActions.Add(new("Sentence", GibberishSentenceMenuAction));
-        _menuActions.Add(new("Paragraph", GibberishParagraphMenuAction));
-        _menuActions.Add(new("Article", GibberishArticleMenuAction));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Name", GibberishNameMenuAction));
-    }
+        random ??= new();
 
-    private void GibberishWordMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishWord());
-    private void GibberishTitleMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishTitle());
-    private void GibberishSentenceMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishSentence());
-    private void GibberishParagraphMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishParagraph());
-    private void GibberishArticleMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishArticle());
-    private void GibberishNameMenuAction(object sender, EventArgs e) => InsertIntoNoteText(GenerateGibberishTitle(2));
-
-    private string GenerateGibberishWord(bool titleCase = false)
-    {
         int length = random.Next(2, 11);
         char[] chars = new char[length];
 
@@ -59,8 +55,10 @@ public partial class GibberishTool : BaseTool, ITool
         return new(chars);
     }
 
-    private string GenerateGibberishTitle(int? wordCount = null)
+    private static string GenerateTitle(int? wordCount = null, Random? random = null)
     {
+        random ??= new();
+
         int length;
         if (wordCount != null)
             length = (int)wordCount;
@@ -70,19 +68,21 @@ public partial class GibberishTool : BaseTool, ITool
         string[] words = new string[length];
 
         for (int i = 0; i < length; i++)
-            words[i] = GenerateGibberishWord(true);
+            words[i] = GenerateWord(true);
 
         return string.Join(' ', words);
     }
 
-    private string GenerateGibberishSentence()
+    private static string GenerateSentence(Random? random = null)
     {
+        random ??= new();
+
         int length = random.Next(15, 20);
         string[] words = new string[length];
 
         for (int i = 0; i < length; i++)
         {
-            words[i] = GenerateGibberishWord((i == 0));
+            words[i] = GenerateWord((i == 0));
             if (i >= 2 && i < length - 2 && random.Next(1, 100) <= 10)
                 words[i] = $"{words[i]},";
         }
@@ -90,30 +90,34 @@ public partial class GibberishTool : BaseTool, ITool
         return $"{string.Join(' ', words)}.";
     }
 
-    private string GenerateGibberishParagraph()
+    private static string GenerateParagraph(Random? random = null)
     {
+        random ??= new();
+
         int length = random.Next(2, 6);
         string[] sentences = new string[length];
 
         for (int i = 0; i < length; i++)
-            sentences[i] = GenerateGibberishSentence();
+            sentences[i] = GenerateSentence();
 
         return string.Join(' ', sentences);
     }
 
-    private string GenerateGibberishArticle()
+    private static string GenerateArticle(Random? random = null)
     {
+        random ??= new();
+
         int length = random.Next(5, 10);
         string[] paragraphs = new string[length];
 
         for (int i = 0; i < length; i++)
         {
             if (random.Next(1, 100) <= 40)
-                paragraphs[i] = $"{GenerateGibberishTitle()}{_doubleNewLine}{GenerateGibberishParagraph()}";
+                paragraphs[i] = $"{GenerateTitle()}{_doubleNewLine}{GenerateParagraph()}";
             else
-                paragraphs[i] = GenerateGibberishParagraph();
+                paragraphs[i] = GenerateParagraph();
         }
 
-        return $"{GenerateGibberishTitle()}{_doubleNewLine}{string.Join(_doubleNewLine, paragraphs)}";
+        return $"{GenerateTitle()}{_doubleNewLine}{string.Join(_doubleNewLine, paragraphs)}";
     }
 }

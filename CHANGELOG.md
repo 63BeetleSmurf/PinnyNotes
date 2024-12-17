@@ -19,6 +19,7 @@
 - Unpinned notes no longer come above pinned notes when focused.
 - Simplified transparency settings.
 - Tray icon setting now takes effect without needing a restart.
+- Gibberish tool letter frequencies.
 - 
 
 ### Fixed

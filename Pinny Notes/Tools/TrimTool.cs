@@ -1,54 +1,46 @@
 ﻿using System;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class TrimTool : BaseTool, ITool
+public static class TrimTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Trim";
 
-    public enum ToolActions
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Start", OnStartMenuItemClick),
+                new("End", OnEndMenuItemClick),
+                new("Both", OnBothMenuItemClick),
+                new("Empty Lines", OnLinesMenuItemClick)
+            ]
+        );
+
+    private static void OnStartMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimStart);
+    private static void OnEndMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimEnd);
+    private static void OnBothMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimBoth);
+    private static void OnLinesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimEmptyLines);
+
+    private static string? TrimStart(string line, int index)
+        => line.TrimStart();
+
+    private static string? TrimEnd(string line, int index)
+        => line.TrimEnd();
+
+    private static string? TrimBoth(string line, int index)
+        => line.Trim();
+
+    private static string? TrimEmptyLines(string line, int index)
     {
-        TrimStart,
-        TrimEnd,
-        TrimBoth,
-        TrimLines
-    }
+        if (string.IsNullOrEmpty(line))
+            return null;
 
-    public TrimTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Trim";
-        _menuActions.Add(new("Start", TrimStartMenuAction));
-        _menuActions.Add(new("End", TrimEndMenuAction));
-        _menuActions.Add(new("Both", TrimBothMenuAction));
-        _menuActions.Add(new("Empty Lines", TrimLinesMenuAction));
-    }
-
-    private void TrimStartMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimStart);
-    private void TrimEndMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimEnd);
-    private void TrimBothMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimBoth);
-    private void TrimLinesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.TrimLines);
-
-    private string? ModifyLineCallback(string line, int index, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.TrimStart:
-                return line.TrimStart();
-            case ToolActions.TrimEnd:
-                return line.TrimEnd();
-            case ToolActions.TrimBoth:
-                return line.Trim();
-            case ToolActions.TrimLines:
-                if (string.IsNullOrEmpty(line))
-                    return null;
-                else
-                    return line;
-        }
-
-        return line;
+            return line;
     }
 }

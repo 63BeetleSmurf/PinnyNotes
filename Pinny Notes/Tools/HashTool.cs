@@ -1,68 +1,59 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class HashTool : BaseTool, ITool
+public static class HashTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Hash";
 
-    public enum ToolActions
-    {
-        HashSHA512,
-        HashSHA384,
-        HashSHA256,
-        HashSHA1,
-        HashMD5
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("SHA512", OnSHA512MenuItemClick),
+                new("SHA384", OnSHA384MenuItemClick),
+                new("SHA256", OnSHA256MenuItemClick),
+                new("SHA1", OnSHA1MenuItemClick),
+                new("MD5", OnMD5MenuItemClick)
+            ]
+        );
 
-    public HashTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Hash";
-        _menuActions.Add(new("SHA512", HashSHA512MenuAction));
-        _menuActions.Add(new("SHA384", HashSHA384MenuAction));
-        _menuActions.Add(new("SHA256", HashSHA256MenuAction));
-        _menuActions.Add(new("SHA1", HashSHA1MenuAction));
-        _menuActions.Add(new("MD5", HashMD5MenuAction));
-    }
+    private static void OnSHA512MenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), HashSHA512);
+    private static void OnSHA384MenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), HashSHA384);
+    private static void OnSHA256MenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), HashSHA256);
+    private static void OnSHA1MenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), HashSHA1);
+    private static void OnMD5MenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), HashMD5);
 
-    private void HashSHA512MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA512);
-    private void HashSHA384MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA384);
-    private void HashSHA256MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA256);
-    private void HashSHA1MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashSHA1);
-    private void HashMD5MenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.HashMD5);
-
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        HashAlgorithm hasher;
-        switch (action)
-        {
-            case ToolActions.HashSHA512:
-                hasher = SHA512.Create();
-                break;
-            case ToolActions.HashSHA384:
-                hasher = SHA384.Create();
-                break;
-            case ToolActions.HashSHA256:
-                hasher = SHA256.Create();
-                break;
-            case ToolActions.HashSHA1:
-                hasher = SHA1.Create();
-                break;
-            case ToolActions.HashMD5:
-                hasher = MD5.Create();
-                break;
-            default:
-                return text;
-        }
-
-        return BitConverter.ToString(
-            hasher.ComputeHash(Encoding.UTF8.GetBytes(_noteTextBox.Text))
+    private static string HashSHA512(string text, object? additionalParam)
+        => BitConverter.ToString(
+            SHA512.HashData(Encoding.UTF8.GetBytes(text))
         ).Replace("-", "");
-    }
+
+    private static string HashSHA384(string text, object? additionalParam)
+        => BitConverter.ToString(
+            SHA384.HashData(Encoding.UTF8.GetBytes(text))
+        ).Replace("-", "");
+
+    private static string HashSHA256(string text, object? additionalParam)
+        => BitConverter.ToString(
+            SHA256.HashData(Encoding.UTF8.GetBytes(text))
+        ).Replace("-", "");
+
+    private static string HashSHA1(string text, object? additionalParam)
+        => BitConverter.ToString(
+            SHA1.HashData(Encoding.UTF8.GetBytes(text))
+        ).Replace("-", "");
+
+    private static string HashMD5(string text, object? additionalParam)
+        => BitConverter.ToString(
+            MD5.HashData(Encoding.UTF8.GetBytes(text))
+        ).Replace("-", "");
 }

@@ -1,71 +1,64 @@
 ﻿using System;
 using System.Linq;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class BracketTool : BaseTool, ITool
+public static class BracketTool
 {
-    public ToolStates State { get; }
-
     private static char[] _openingBrackets = {'(', '{', '['};
     private static char[] _closingBrackets = { ')', '}', ']' };
 
-    public enum ToolActions
-    {
-        BracketParentheses,
-        BracketCurly,
-        BracketSquare,
-        BracketTrimOnce,
-        BracketTrimAll,
-    }
+    public const string Name = "Bracket";
 
-    public BracketTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Bracket";
-        _menuActions.Add(new("Parentheses", BracketParenthesesMenuAction));
-        _menuActions.Add(new("Curly", BracketCurlyMenuAction));
-        _menuActions.Add(new("Square", BracketSquareMenuAction));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim Once", BracketTrimOnceMenuAction));
-        _menuActions.Add(new("Trim All", BracketTrimAllMenuAction));
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Parentheses", OnParenthesesMenuItemClick),
+                new("Curly", OnCurlyMenuItemClick),
+                new("Square", OnSquareMenuItemClick),
+                new("-"),
+                new("Trim Once", OnTrimOnceMenuItemClick),
+                new("Trim All", OnTrimAllMenuItemClick)
+            ]
+        );
 
-    private void BracketParenthesesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketParentheses);
-    private void BracketCurlyMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketCurly);
-    private void BracketSquareMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketSquare);
-    private void BracketTrimOnceMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketTrimOnce);
-    private void BracketTrimAllMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.BracketTrimAll);
+    private static void OnParenthesesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddParentheses);
+    private static void OnCurlyMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddCurly);
+    private static void OnSquareMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddSquare);
+    private static void OnTrimOnceMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimOnce);
+    private static void OnTrimAllMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimAll);
 
-    private string? ModifyLineCallback(string line, int index, Enum action)
+    private static string? AddParentheses(string line, int index)
+        => $"({line})";
+
+    private static string? AddCurly(string line, int index)
+        =>  $"{{{line}}}";
+
+    private static string? AddSquare(string line, int index)
+        => $"[{line}]";
+
+    private static string? TrimOnce(string line, int index)
     {
-        switch (action)
-        {
-            case ToolActions.BracketParentheses:
-                return $"({line})";
-            case ToolActions.BracketCurly:
-                return $"{{{line}}}";
-            case ToolActions.BracketSquare:
-                return $"[{line}]";
-            case ToolActions.BracketTrimOnce:
-            {
-                if (line.Length > 0 && _openingBrackets.Contains(line[0]) && _closingBrackets.Contains(line[^1]))
-                    return line[1..^1];
-                else
-                    return line;
-            }
-            case ToolActions.BracketTrimAll:
-            {
-                string newLine = line;
-                while (newLine.Length > 0 && _openingBrackets.Contains(newLine[0]) && _closingBrackets.Contains(newLine[^1]))
-                    newLine = newLine[1..^1];
-                return newLine;
-            }
-        }
+        if (line.Length > 0 && _openingBrackets.Contains(line[0]) && _closingBrackets.Contains(line[^1]))
+            return line[1..^1];
 
         return line;
+    }
+
+    private static string? TrimAll(string line, int index)
+    {
+        string newLine = line;
+
+        while (newLine.Length > 0 && _openingBrackets.Contains(newLine[0]) && _closingBrackets.Contains(newLine[^1]))
+            newLine = newLine[1..^1];
+
+        return newLine;
     }
 }

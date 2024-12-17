@@ -1,94 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 
-using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class RemoveTool : BaseTool, ITool
+public static class RemoveTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Remove";
 
-    private string? _selectedText = null;
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Spaces", OnSpacesMenuItemClick),
+                new("Tabs", OnTabsMenuItemClick),
+                new("New Lines", OnNewLinesMenuItemClick),
+                new("-"),
+                new("Forward Slashes (/)", OnForwardSlashesMenuItemClick),
+                new("Back Slashes (\\)", OnBackSlashesMenuItemClick),
+                new("All Slashes", OnAllSlashesMenuItemClick),
+                new("-"),
+                new("Selected", OnSelectedMenuItemClick)
+            ]
+        );
 
-    public enum ToolActions
+    private static void OnSpacesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveSpaces);
+    private static void OnTabsMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveTabs);
+    private static void OnNewLinesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveNewLines);
+    private static void OnForwardSlashesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveForwardSlashes);
+    private static void OnBackSlashesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveBackSlashes);
+    private static void OnAllSlashesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveAllSlashes);
+    private static void OnSelectedMenuItemClick(object sender, EventArgs e)
     {
-        RemoveSpaces,
-        RemoveTabs,
-        RemoveNewLines,
-        RemoveForwardSlashes,
-        RemoveBackSlashes,
-        RemoveAllSlashes,
-        RemoveSelected
+        NoteTextBoxControl noteTextBox = ToolHelper.GetNoteTextBoxFromSender(sender);
+        string selectedText = noteTextBox.SelectedText;
+        noteTextBox.SelectionLength = 0;
+        ToolHelper.ApplyFunctionToNoteText(noteTextBox, RemoveSelected, noteTextBox.SelectedText);
     }
 
-    public RemoveTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
+    private static string RemoveSpaces(string text, object? additionalParam)
+    => RemoveCharacters(text, [' ']);
+
+    private static string RemoveTabs(string text, object? additionalParam)
+    => RemoveCharacters(text, ['\t']);
+    private static string RemoveNewLines(string text, object? additionalParam)
+    => RemoveCharacters(text, ['\r', '\n']);
+
+    private static string RemoveForwardSlashes(string text, object? additionalParam)
+    => RemoveCharacters(text, ['/']);
+
+    private static string RemoveBackSlashes(string text, object? additionalParam)
+        => RemoveCharacters(text, ['\\']);
+
+    private static string RemoveAllSlashes(string text, object? additionalParam)
+        => RemoveCharacters(text, ['\\', '/']);
+
+    private static string RemoveSelected(string text, object? additionalParam)
     {
-        State = state;
-        _name = "Remove";
-        _menuActions.Add(new("Spaces", RemoveSpacesMenuAction));
-        _menuActions.Add(new("Tabs", RemoveTabsMenuAction));
-        _menuActions.Add(new("New Lines", RemoveNewLinesMenuAction));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Forward Slashes (/)", RemoveForwardSlashesMenuAction));
-        _menuActions.Add(new("Back Slashes (\\)", RemoveBackSlashesMenuAction));
-        _menuActions.Add(new("All Slashes", RemoveAllSlashesMenuAction));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Selected", RemoveSelectedMenuAction));
+        string selectedText = additionalParam as string ?? "";
+        if (string.IsNullOrEmpty(selectedText))
+            return text;
+
+        return text.Replace(text, selectedText);
     }
 
-    private void RemoveSpacesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveSpaces);
-    private void RemoveTabsMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveTabs);
-    private void RemoveNewLinesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveNewLines);
-    private void RemoveForwardSlashesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveForwardSlashes);
-    private void RemoveBackSlashesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveBackSlashes);
-    private void RemoveAllSlashesMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveAllSlashes);
-    private void RemoveSelectedMenuAction(object sender, EventArgs e) => MenuAction(ToolActions.RemoveSelected);
-
-    private void MenuAction(Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.RemoveSelected:
-                _selectedText = null;
-                break;
-            default:
-                _selectedText = _noteTextBox.SelectedText;
-                _noteTextBox.SelectionLength = 0;
-                break;
-        }
-
-        ApplyFunctionToNoteText(ModifyTextCallback, action);
-    }
-
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.RemoveSpaces:
-                return RemoveCharacters(text, [' ']);
-            case ToolActions.RemoveTabs:
-                return RemoveCharacters(text, ['\t']);
-            case ToolActions.RemoveNewLines:
-                return RemoveCharacters(text, ['\r', '\n']);
-            case ToolActions.RemoveForwardSlashes:
-                return RemoveCharacters(text, ['/']);
-            case ToolActions.RemoveBackSlashes:
-                return RemoveCharacters(text, ['\\']);
-            case ToolActions.RemoveAllSlashes:
-                return RemoveCharacters(text, ['\\', '/']);
-            case ToolActions.RemoveSelected:
-                if (!string.IsNullOrEmpty(_selectedText))
-                    return RemoveString(text, _selectedText);
-                break;
-        }
-
-        return text;
-    }
-
-    private string RemoveCharacters(string text, HashSet<char> character)
+    private static string RemoveCharacters(string text, HashSet<char> character)
     {
         StringBuilder stringBuilder = new(text.Length);
 
@@ -99,10 +84,5 @@ public partial class RemoveTool : BaseTool, ITool
         }
 
         return stringBuilder.ToString();
-    }
-
-    private string RemoveString(string text, string toRemove)
-    {
-        return text.Replace(toRemove, "");
     }
 }

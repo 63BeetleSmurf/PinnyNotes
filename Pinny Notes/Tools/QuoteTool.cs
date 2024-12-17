@@ -1,60 +1,50 @@
 ﻿using System;
 using System.Linq;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class QuoteTool : BaseTool, ITool
+public static class QuoteTool
 {
-    public ToolStates State { get; }
-
     private static char[] _openingQuotes = { '\'', '"', '`', '‘', '“' };
     private static char[] _closingQuotes = { '\'', '"', '`', '’', '”' };
 
-    public enum ToolActions
-    {
-        QuoteDouble,
-        QuoteSingle,
-        Backtick,
-        Trim
-    }
+    public const string Name = "Quote";
 
-    public QuoteTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Quote";
-        _menuActions.Add(new("Double", QuoteDoubleMenuAction));
-        _menuActions.Add(new("Single", QuoteSingleMenuAction));
-        _menuActions.Add(new("Backtick", BacktickMenuAction));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim", TrimMenuAction));
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Double", OnDoubleMenuItemClick),
+                new("Single", OnSingleMenuItemClick),
+                new("Backtick", OnBacktickMenuItemClick),
+                new("-"),
+                new("Trim", OnTrimMenuItemClick)
+            ]
+        );
 
-    private void QuoteDoubleMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.QuoteDouble);
-    private void QuoteSingleMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.QuoteSingle);
-    private void BacktickMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Backtick);
-    private void TrimMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Trim);
+    private static void OnDoubleMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddDouble);
+    private static void OnSingleMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddSingle);
+    private static void OnBacktickMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddBacktick);
+    private static void OnTrimMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), TrimQuotes);
 
-    private string? ModifyLineCallback(string line, int index, Enum action)
+    private static string? AddDouble(string line, int index)
+        => $"\"{line}\"";
+
+    private static string? AddSingle(string line, int index)
+        => $"'{line}'";
+
+    private static string? AddBacktick(string line, int index)
+        => $"`{line}`";
+
+    private static string? TrimQuotes(string line, int index)
     {
-        switch (action)
-        {
-            case ToolActions.QuoteDouble:
-                return $"\"{line}\"";
-            case ToolActions.QuoteSingle:
-                return $"'{line}'";
-            case ToolActions.Backtick:
-                return $"`{line}`";
-            case ToolActions.Trim:
-            {
-                if (line.Length > 0 && _openingQuotes.Contains(line[0]) && _closingQuotes.Contains(line[^1]))
-                    return line[1..^1];
-                else
-                    return line;
-            }
-        }
+        if (line.Length > 0 && _openingQuotes.Contains(line[0]) && _closingQuotes.Contains(line[^1]))
+            return line[1..^1];
 
         return line;
     }

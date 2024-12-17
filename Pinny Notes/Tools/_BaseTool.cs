@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Views.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public abstract class BaseTool(NoteTextBoxControl noteTextBox)
+public static class ToolHelper
 {
-    protected NoteTextBoxControl _noteTextBox = noteTextBox;
-    protected string _name = null!;
-    protected List<ToolMenuAction> _menuActions = [];
-
-    public MenuItem GetMenuItem()
+    public static MenuItem GetToolMenuItem(string toolName, IEnumerable<ToolMenuAction> menuActions)
     {
         MenuItem menuItem = new()
         {
-            Header = _name,
+            Header = toolName,
         };
 
-        foreach (ToolMenuAction menuAction in _menuActions)
+        foreach (ToolMenuAction menuAction in menuActions)
         {
             if (menuAction.Name == "-" && menuAction.EventHandler == null)
             {
@@ -40,38 +37,60 @@ public abstract class BaseTool(NoteTextBoxControl noteTextBox)
         return menuItem;
     }
 
-    protected void ApplyFunctionToNoteText(Func<string, Enum, string> function, Enum action)
+    public static NoteTextBoxControl GetNoteTextBoxFromSender(object sender)
     {
-        if (_noteTextBox.SelectionLength > 0)
+        MenuItem? clickedMenuItem = sender as MenuItem;
+
+        DependencyObject? currentItem = clickedMenuItem;
+        while (currentItem != null && currentItem is not ContextMenu)
         {
-            _noteTextBox.SelectedText = function(_noteTextBox.SelectedText, action);
+            if (currentItem is MenuItem menuItem)
+                currentItem = menuItem.Parent;
+            else
+                throw new Exception("Error traversing up to find ContextMenu.");
+        }
+
+        ContextMenu? contextMenu = currentItem as ContextMenu;
+
+        NoteTextBoxControl? noteTextBox = contextMenu?.PlacementTarget as NoteTextBoxControl;
+        if (noteTextBox == null)
+            throw new Exception("Error getting target text box from ContextMenu.");
+
+        return noteTextBox;
+    }
+
+    public static void ApplyFunctionToNoteText(NoteTextBoxControl noteTextBox, Func<string, object?, string> function, object? additionalParam = null)
+    {
+        if (noteTextBox.SelectionLength > 0)
+        {
+            noteTextBox.SelectedText = function(noteTextBox.SelectedText, additionalParam);
         }
         else
         {
-            string noteText = _noteTextBox.Text;
+            string noteText = noteTextBox.Text;
             // Ignore trailing new line if it was automatically added
-            if (_noteTextBox.NewLineAtEnd && _noteTextBox.Text.EndsWith(Environment.NewLine))
+            if (noteTextBox.NewLineAtEnd && noteTextBox.Text.EndsWith(Environment.NewLine))
                 noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
-            _noteTextBox.Text = function(noteText, action);
-            if (_noteTextBox.Text.Length > 0)
-                _noteTextBox.CaretIndex = _noteTextBox.Text.Length - 1;
+            noteTextBox.Text = function(noteText, additionalParam);
+            if (noteTextBox.Text.Length > 0)
+                noteTextBox.CaretIndex = noteTextBox.Text.Length - 1;
         }
     }
 
-    protected void ApplyFunctionToEachLine(Func<string, int, Enum, string?> function, Enum action)
+    public static void ApplyFunctionToEachLine(NoteTextBoxControl noteTextBox, Func<string, int, string?> function)
     {
-        bool hasSelectedText = (_noteTextBox.SelectionLength > 0);
-        string noteText = (hasSelectedText) ? _noteTextBox.SelectedText : _noteTextBox.Text;
+        bool hasSelectedText = (noteTextBox.SelectionLength > 0);
+        string noteText = (hasSelectedText) ? noteTextBox.SelectedText : noteTextBox.Text;
 
         string[] lines = noteText.Split(Environment.NewLine);
         // Ignore trailing new line if it was automatically added
-        if (_noteTextBox.NewLineAtEnd && lines[^1] == "")
+        if (noteTextBox.NewLineAtEnd && lines[^1] == "")
             lines = lines[..^1];
 
         List<string> newLines = [];
         for (int i = 0; i < lines.Length; i++)
         {
-            string? line = function(lines[i], i, action);
+            string? line = function(lines[i], i);
             if (line != null)
                 newLines.Add(line);
         }
@@ -79,25 +98,25 @@ public abstract class BaseTool(NoteTextBoxControl noteTextBox)
         noteText = string.Join(Environment.NewLine, newLines);
 
         if (hasSelectedText)
-            _noteTextBox.SelectedText = noteText;
+            noteTextBox.SelectedText = noteText;
         else
         {
-            _noteTextBox.Text = noteText;
-            if (_noteTextBox.Text.Length > 0)
-                _noteTextBox.CaretIndex = _noteTextBox.Text.Length - 1;
+            noteTextBox.Text = noteText;
+            if (noteTextBox.Text.Length > 0)
+                noteTextBox.CaretIndex = noteTextBox.Text.Length - 1;
         }
     }
 
-    protected void InsertIntoNoteText(string text)
+    public static void InsertIntoNoteText(NoteTextBoxControl noteTextBox, string text)
     {
-        bool hasSelectedText = (_noteTextBox.SelectionLength > 0);
-        int caretIndex = (hasSelectedText) ? _noteTextBox.SelectionStart : _noteTextBox.CaretIndex;
-        bool caretAtEnd = (caretIndex == _noteTextBox.Text.Length);
+        bool hasSelectedText = (noteTextBox.SelectionLength > 0);
+        int caretIndex = (hasSelectedText) ? noteTextBox.SelectionStart : noteTextBox.CaretIndex;
+        bool caretAtEnd = (caretIndex == noteTextBox.Text.Length);
 
-        _noteTextBox.SelectedText = text;
+        noteTextBox.SelectedText = text;
 
-        _noteTextBox.CaretIndex = caretIndex + text.Length;
-        if (!hasSelectedText && _noteTextBox.KeepNewLineVisible && caretAtEnd)
-            _noteTextBox.ScrollToEnd();
+        noteTextBox.CaretIndex = caretIndex + text.Length;
+        if (!hasSelectedText && noteTextBox.KeepNewLineVisible && caretAtEnd)
+            noteTextBox.ScrollToEnd();
     }
 }

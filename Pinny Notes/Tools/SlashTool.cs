@@ -1,51 +1,40 @@
 ﻿using System;
 using System.Text;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class SlashTool : BaseTool, ITool
+public static class SlashTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Slash";
 
-    public enum ToolActions
-    {
-        SlashAllForward,
-        SlashAllBack,
-        SlashSwap
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("All Forward (/)", OnAllForwardMenuItemClick),
+                new("All Back (\\)", OnAllBackMenuItemClick),
+                new("Swap", OnSwapMenuItemClick)
+            ]
+        );
 
-    public SlashTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Slash";
-        _menuActions.Add(new("All Forward (/)", SlashAllForwardMenuAction));
-        _menuActions.Add(new("All Back (\\)", SlashAllBackMenuAction));
-        _menuActions.Add(new("Swap", SlashSwapMenuAction));
-    }
+    private static void OnAllForwardMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), ConvertAllToForwardSlash);
+    private static void OnAllBackMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), ConvertAllToBackSlash);
+    private static void OnSwapMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), SwapSlashes);
 
-    private void SlashAllForwardMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SlashAllForward);
-    private void SlashAllBackMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SlashAllBack);
-    private void SlashSwapMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.SlashSwap);
+    private static string ConvertAllToForwardSlash(string text, object? additionalParam)
+        => text.Replace('\\', '/');
 
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.SlashAllForward:
-                return text.Replace('\\', '/');
-            case ToolActions.SlashAllBack:
-                return text.Replace('/', '\\');
-            case ToolActions.SlashSwap:
-                return SwapCharacters(text, '\\', '/');
-        }
+    private static string ConvertAllToBackSlash(string text, object? additionalParam)
+        => text.Replace('/', '\\');
 
-        return text;
-    }
+    private static string SwapSlashes(string text, object? additionalParam)
+        => SwapCharacters(text, '\\', '/');
 
-    private string SwapCharacters(string text, char character1, char? character2 = null)
+    private static string SwapCharacters(string text, char character1, char? character2 = null)
     {
         StringBuilder stringBuilder = new(text.Length);
 

@@ -1,49 +1,36 @@
 ﻿using System;
 using System.Globalization;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class CaseTool : BaseTool, ITool
+public static class CaseTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Case";
 
-    public enum ToolActions
-    {
-        CaseLower,
-        CaseUpper,
-        CaseTitle
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Lower", OnLowerMenuItemClick),
+                new("Upper", OnUpperMenuItemClick),
+                new("Title", OnTitleMenuItemClick)
+            ]
+        );
 
-    public CaseTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Case";
-        _menuActions.Add(new("Lower", CaseLowerMenuAction));
-        _menuActions.Add(new("Upper", CaseUpperMenuAction));
-        _menuActions.Add(new("Title", CaseTitleMenuAction));
-    }
+    private static void OnLowerMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), LowerCase);
+    private static void OnUpperMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), UpperCase);
+    private static void OnTitleMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), TitleCase);
 
-    private void CaseLowerMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.CaseLower);
-    private void CaseUpperMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.CaseUpper);
-    private void CaseTitleMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.CaseTitle);
+    private static string LowerCase(string text, object? additionalParam)
+        => CultureInfo.CurrentCulture.TextInfo.ToLower(text);
 
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+    private static string UpperCase(string text, object? additionalParam)
+        => CultureInfo.CurrentCulture.TextInfo.ToUpper(text);
 
-        switch (action)
-        {
-            case ToolActions.CaseLower:
-                return textInfo.ToLower(text);
-            case ToolActions.CaseUpper:
-                return textInfo.ToUpper(text);
-            case ToolActions.CaseTitle:
-                return textInfo.ToTitleCase(text);
-        }
-
-        return text;
-    }
+    private static string TitleCase(string text, object? additionalParam)
+        => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text);
 }

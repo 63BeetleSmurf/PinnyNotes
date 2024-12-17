@@ -1,46 +1,36 @@
 ﻿using System;
 using System.Text.Json;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class JsonTool : BaseTool, ITool
+public static class JsonTool
 {
-    public ToolStates State { get; }
-
-    public enum ToolActions
-    {
-        JsonPrettify
-    }
-
-    private readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    private static JsonSerializerOptions _jsonSerializerOptions = new()
     {
         WriteIndented = true
     };
 
-    public JsonTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "JSON";
-        _menuActions.Add(new("Prettify", JsonPrettifyMenuAction));
-    }
+    public const string Name = "JSON";
 
-    private void JsonPrettifyMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JsonPrettify);
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Prettify", OnPrettifyMenuItemClick)
+            ]
+        );
 
-    private string ModifyTextCallback(string text, Enum action)
+    private static void OnPrettifyMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), Prettify);
+
+    private static string Prettify(string text, object? additionalParam)
     {
         try
         {
-            switch (action)
-            {
-                case ToolActions.JsonPrettify:
-                    object? jsonObject = JsonSerializer.Deserialize<object>(text);
-                    if (jsonObject != null)
-                        return JsonSerializer.Serialize<object>(jsonObject, _jsonSerializerOptions);
-                    break;
-            }
+            object? jsonObject = JsonSerializer.Deserialize<object>(text);
+            if (jsonObject != null)
+                return JsonSerializer.Serialize(jsonObject, _jsonSerializerOptions);
         }
         catch
         {

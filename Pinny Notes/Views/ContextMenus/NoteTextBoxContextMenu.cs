@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows;
@@ -154,32 +153,43 @@ public class NoteTextBoxContextMenu : ContextMenu
 
     private void AddToolContextMenus()
     {
-        IEnumerable<ITool> favouriteTools = _noteTextBox.Tools.Where(t => t.State == ToolStates.Favorite);
-        bool hasFavouriteTools = favouriteTools.Any();
-        IEnumerable<ITool> standardTools = _noteTextBox.Tools.Where(t => t.State == ToolStates.Enabled);
-        bool hasStandardTools = standardTools.Any();
-
-        if (hasFavouriteTools || hasStandardTools)
-            Items.Add(new Separator());
-
-        foreach (ITool tool in favouriteTools)
-            Items.Add(
-                tool.GetMenuItem()
-            );
-
-        if (hasStandardTools)
+        MenuItem toolsMenu = new()
         {
-            MenuItem toolsMenu = new()
-            {
-                Header = "Tools"
-            };
-            foreach (ITool tool in standardTools)
-            {
-                toolsMenu.Items.Add(
-                    tool.GetMenuItem()
-                );
-            }
+            Header = "Tools"
+        };
+
+        AddToolToMenu(Base64Tool.MenuItem, _noteTextBox.Tool_Base64State, toolsMenu.Items);
+        AddToolToMenu(BracketTool.MenuItem, _noteTextBox.Tool_BracketState, toolsMenu.Items);
+        AddToolToMenu(CaseTool.MenuItem, _noteTextBox.Tool_CaseState, toolsMenu.Items);
+        AddToolToMenu(DateTimeTool.MenuItem, _noteTextBox.Tool_DateTimeState, toolsMenu.Items);
+        AddToolToMenu(GibberishTool.MenuItem, _noteTextBox.Tool_GibberishState, toolsMenu.Items);
+        AddToolToMenu(HashTool.MenuItem, _noteTextBox.Tool_HashState, toolsMenu.Items);
+        AddToolToMenu(HtmlEntityTool.MenuItem, _noteTextBox.Tool_HtmlEntityState, toolsMenu.Items);
+        AddToolToMenu(IndentTool.MenuItem, _noteTextBox.Tool_IndentState, toolsMenu.Items);
+        AddToolToMenu(JoinTool.MenuItem, _noteTextBox.Tool_JoinState, toolsMenu.Items);
+        AddToolToMenu(JsonTool.MenuItem, _noteTextBox.Tool_JsonState, toolsMenu.Items);
+        AddToolToMenu(ListTool.MenuItem, _noteTextBox.Tool_ListState, toolsMenu.Items);
+        AddToolToMenu(QuoteTool.MenuItem, _noteTextBox.Tool_QuoteState, toolsMenu.Items);
+        AddToolToMenu(RemoveTool.MenuItem, _noteTextBox.Tool_RemoveState, toolsMenu.Items);
+        AddToolToMenu(SlashTool.MenuItem, _noteTextBox.Tool_SlashState, toolsMenu.Items);
+        AddToolToMenu(SortTool.MenuItem, _noteTextBox.Tool_SortState, toolsMenu.Items);
+        AddToolToMenu(SplitTool.MenuItem, _noteTextBox.Tool_SplitState, toolsMenu.Items);
+        AddToolToMenu(TrimTool.MenuItem, _noteTextBox.Tool_TrimState, toolsMenu.Items);
+
+        if (toolsMenu.Items.Count > 0)
             Items.Add(toolsMenu);
+    }
+
+    private void AddToolToMenu(MenuItem toolMenuItem, ToolStates toolState, ItemCollection toolMenuItems)
+    {
+        switch (toolState)
+        {
+            case ToolStates.Favorite:
+                Items.Add(toolMenuItem);
+                break;
+            case ToolStates.Enabled:
+                toolMenuItems.Add(toolMenuItem);
+                break;
         }
     }
 }

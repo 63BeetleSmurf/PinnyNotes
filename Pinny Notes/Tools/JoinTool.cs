@@ -1,46 +1,35 @@
 ﻿using System;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class JoinTool : BaseTool, ITool
+public static class JoinTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Join";
 
-    public enum ToolActions
-    {
-        JoinComma,
-        JoinSpace,
-        JoinTab
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Comma", OnCommaMenuItemClick),
+                new("Space", OnSpaceMenuItemClick),
+                new("Tab", OnTabMenuItemClick)
+            ]
+        );
 
-    public JoinTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Join";
-        _menuActions.Add(new("Comma", JoinCommaMenuAction));
-        _menuActions.Add(new("Space", JoinSpaceMenuAction));
-        _menuActions.Add(new("Tab", JoinTabMenuAction));
-    }
+    private static void OnCommaMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), JoinComma);
+    private static void OnSpaceMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), JoinSpace);
+    private static void OnTabMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), JoinTab);
 
-    private void JoinCommaMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JoinComma);
-    private void JoinSpaceMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JoinSpace);
-    private void JoinTabMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.JoinTab);
+    private static string JoinComma(string text, object? additionalParam)
+        => text.Replace(Environment.NewLine, ",");
 
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.JoinComma:
-                return text.Replace(Environment.NewLine, ",");
-            case ToolActions.JoinSpace:
-                return text.Replace(Environment.NewLine, " ");
-            case ToolActions.JoinTab:
-                return text.Replace(Environment.NewLine, "\t");
-        }
+    private static string JoinSpace(string text, object? additionalParam)
+        => text.Replace(Environment.NewLine, " ");
 
-        return text;
-    }
+    private static string JoinTab(string text, object? additionalParam)
+        => text.Replace(Environment.NewLine, "\t");
 }

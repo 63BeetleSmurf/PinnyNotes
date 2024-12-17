@@ -1,46 +1,35 @@
 ﻿using System;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class IndentTool : BaseTool, ITool
+public static class IndentTool
 {
-    public ToolStates State { get; }
+    public const string Name = "Indent";
 
-    public enum ToolActions
-    {
-        Indent2Spaces,
-        Indent4Spaces,
-        IndentTab
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("2 Spaces", On2SpacesMenuItemClick),
+                new("4 Spaces", On4SpacesMenuItemClick),
+                new("Tab", OnTabMenuItemClick)
+            ]
+        );
 
-    public IndentTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "Indent";
-        _menuActions.Add(new("2 Spaces", Indent2SpacesMenuAction));
-        _menuActions.Add(new("4 Spaces", Indent4SpacesMenuAction));
-        _menuActions.Add(new("Tab", IndentTabMenuAction));
-    }
+    private static void On2SpacesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), Indent2Spaces);
+    private static void On4SpacesMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), Indent4Spaces);
+    private static void OnTabMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), IndentTab);
 
-    private void Indent2SpacesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Indent2Spaces);
-    private void Indent4SpacesMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.Indent4Spaces);
-    private void IndentTabMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.IndentTab);
+    private static string? Indent2Spaces(string line, int index)
+        => $"  {line}";
 
-    private string? ModifyLineCallback(string line, int index, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.Indent2Spaces:
-                return $"  {line}";
-            case ToolActions.Indent4Spaces:
-                return $"    {line}";
-            case ToolActions.IndentTab:
-                return $"\t{line}";
-        }
+    private static string? Indent4Spaces(string line, int index)
+        => $"    {line}";
 
-        return line;
-    }
+    private static string? IndentTab(string line, int index)
+        => $"\t{line}";
 }

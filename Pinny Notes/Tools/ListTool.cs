@@ -1,46 +1,35 @@
 ﻿using System;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class ListTool : BaseTool, ITool
+public static class ListTool
 {
-    public ToolStates State { get; }
+    public const string Name = "List";
 
-    public enum ToolActions
-    {
-        ListEnumerate,
-        ListDash,
-        ListRemove
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Enumerate", OnEnumerateMenuItemClick),
+                new("Dash", OnDashMenuItemClick),
+                new("Remove", OnRemoveMenuItemClick)
+            ]
+        );
 
-    public ListTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "List";
-        _menuActions.Add(new("Enumerate", ListEnumerateMenuAction));
-        _menuActions.Add(new("Dash", ListDashMenuAction));
-        _menuActions.Add(new("Remove", ListRemoveMenuAction));
-    }
+    private static void OnEnumerateMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddEnumeration);
+    private static void OnDashMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), AddDashes);
+    private static void OnRemoveMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToEachLine(ToolHelper.GetNoteTextBoxFromSender(sender), RemoveAll);
 
-    private void ListEnumerateMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.ListEnumerate);
-    private void ListDashMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.ListDash);
-    private void ListRemoveMenuAction(object sender, EventArgs e) => ApplyFunctionToEachLine(ModifyLineCallback, ToolActions.ListRemove);
+    private static string? AddEnumeration(string line, int index)
+        => $"{index + 1}. {line}";
 
-    private string? ModifyLineCallback(string line, int index, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.ListEnumerate:
-                return $"{index + 1}. {line}";
-            case ToolActions.ListDash:
-                return $"- {line}";
-            case ToolActions.ListRemove:
-                return line[(line.IndexOf(' ') + 1)..];
-        }
+    private static string? AddDashes(string line, int index)
+        => $"- {line}";
 
-        return line;
-    }
+    private static string? RemoveAll(string line, int index)
+        => line[(line.IndexOf(' ') + 1)..];
 }

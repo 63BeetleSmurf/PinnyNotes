@@ -1,43 +1,44 @@
 ﻿using System;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Text;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class Base64Tool : BaseTool, ITool
+public static class Base64Tool
 {
-    public ToolStates State { get; }
+    public const string Name = "Base64";
 
-    public enum ToolActions
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Encode", OnEncodeMenuItemClick),
+                new("Decode", OnDecodeMenuItemClick)
+            ]
+        );
+
+    private static void OnEncodeMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), Encode);
+
+    private static void OnDecodeMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), Decode);
+
+    private static string Encode(string text, object? additionalParam)
     {
-        Base64Encode,
-        Base64Decode
+        byte[] textBytes = Encoding.UTF8.GetBytes(text);
+        return Convert.ToBase64String(textBytes);
     }
 
-    public Base64Tool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
+    private static string Decode(string text, object? additionalParam)
     {
-        State = state;
-        _name = "Base64";
-        _menuActions.Add(new("Encode", Base64EncodeMenuAction));
-        _menuActions.Add(new("Decode", Base64DecodeMenuAction));
-    }
-
-    private void Base64EncodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.Base64Encode);
-    private void Base64DecodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.Base64Decode);
-
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        switch (action)
+        try
         {
-            case ToolActions.Base64Encode:
-                byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
-                return System.Convert.ToBase64String(textBytes);
-            case ToolActions.Base64Decode:
-                byte[] base64Bytes = System.Convert.FromBase64String(text);
-                return System.Text.Encoding.UTF8.GetString(base64Bytes);
+            byte[] base64Bytes = Convert.FromBase64String(text);
+            return Encoding.UTF8.GetString(base64Bytes);
         }
-
-        return text;
+        catch
+        {
+            return text;
+        }
     }
 }

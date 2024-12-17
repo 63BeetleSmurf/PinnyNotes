@@ -1,42 +1,30 @@
 ﻿using System;
 using System.Net;
-
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.Controls;
+using System.Windows.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class HtmlEntityTool : BaseTool, ITool
+public static class HtmlEntityTool
 {
-    public ToolStates State { get; }
+    public const string Name = "HTML Entity";
 
-    public enum ToolActions
-    {
-        EntityEncode,
-        EntityDecode
-    }
+    public static MenuItem MenuItem
+        => ToolHelper.GetToolMenuItem(
+            Name,
+            [
+                new("Encode", OnEncodeMenuItemClick),
+                new("Decode", OnDecodeMenuItemClick)
+            ]
+        );
 
-    public HtmlEntityTool(NoteTextBoxControl noteTextBox, ToolStates state) : base(noteTextBox)
-    {
-        State = state;
-        _name = "HTML Entity";
-        _menuActions.Add(new("Encode", EntityEncodeMenuAction));
-        _menuActions.Add(new("Decode", EntityDecodeMenuAction));
-    }
+    private static void OnEncodeMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), Encode);
+    private static void OnDecodeMenuItemClick(object sender, EventArgs e)
+        => ToolHelper.ApplyFunctionToNoteText(ToolHelper.GetNoteTextBoxFromSender(sender), Decode);
 
-    private void EntityEncodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.EntityEncode);
-    private void EntityDecodeMenuAction(object sender, EventArgs e) => ApplyFunctionToNoteText(ModifyTextCallback, ToolActions.EntityDecode);
+    private static string Encode(string text, object? additionalParam)
+        => WebUtility.HtmlEncode(text);
 
-    private string ModifyTextCallback(string text, Enum action)
-    {
-        switch (action)
-        {
-            case ToolActions.EntityEncode:
-                return WebUtility.HtmlEncode(text);
-            case ToolActions.EntityDecode:
-                return WebUtility.HtmlDecode(text);
-        }
-
-        return text;
-    }
+    private static string Decode(string text, object? additionalParam)
+        => WebUtility.HtmlDecode(text);
 }
