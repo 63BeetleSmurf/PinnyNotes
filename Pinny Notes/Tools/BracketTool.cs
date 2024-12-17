@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Helpers;
+
 namespace PinnyNotes.WpfUi.Tools;
 
 public static class BracketTool

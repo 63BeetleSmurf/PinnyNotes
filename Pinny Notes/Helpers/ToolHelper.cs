@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Tools;
 using PinnyNotes.WpfUi.Views.Controls;
 
-namespace PinnyNotes.WpfUi.Tools;
+namespace PinnyNotes.WpfUi.Helpers;
 
 public static class ToolHelper
 {

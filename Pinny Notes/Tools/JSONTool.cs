@@ -2,6 +2,8 @@
 using System.Text.Json;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Helpers;
+
 namespace PinnyNotes.WpfUi.Tools;
 
 public static class JsonTool

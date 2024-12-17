@@ -3,6 +3,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Helpers;
+
 namespace PinnyNotes.WpfUi.Tools;
 
 public static class HashTool

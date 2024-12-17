@@ -2,6 +2,8 @@
 using System.Text;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Helpers;
+
 namespace PinnyNotes.WpfUi.Tools;
 
 public static class Base64Tool
