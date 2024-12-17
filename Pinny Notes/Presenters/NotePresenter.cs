@@ -171,7 +171,7 @@ public class NotePresenter
         _view.Top = _model.Y;
         _view.ShowInTaskbar = _model.Settings.Application_NotesInTaskbar;
 
-        PropertiesHelper.CopyMatchingProperties(_model, _view);
+        PropertiesHelper.CopyMatchingProperties(_model.Settings, _view);
 
         _view.Tools.Clear();
         if (_model.Settings.Tool_Base64State != ToolStates.Disabled)
