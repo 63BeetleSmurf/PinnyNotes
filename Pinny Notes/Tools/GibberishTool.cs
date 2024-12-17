@@ -7,7 +7,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public partial class GibberishTool : BaseTool, ITool
 {
-    public ToolStates State { get; }
+    private const string _characters = "zqxjkvccuummwwffgghhhhrrrrddddllllttttttaaaaaaooooooiiiiiinnnnnnsssssseeeeeeeeeeee";
 
     public enum ToolActions
     {
