@@ -44,8 +44,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Notes_StartupPositionComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -53,8 +53,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Notes_MinimizeModeComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <CheckBox Margin="10,5,5,0" Content="Hide title bar" Name="Notes_HideTitleBarCheckBox" />
@@ -65,8 +65,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Notes_DefaultThemeColorComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -74,8 +74,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Notes_ColorModeComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
 
@@ -85,8 +85,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Notes_TransparencyModeComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                                 SelectionChanged="Notes_TransparencyModeComboBoxComboBox_SelectionChanged"
                             />
                         </StackPanel>
@@ -144,8 +144,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_Base64StateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -153,8 +153,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_BracketStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -162,8 +162,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_CaseStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -171,8 +171,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_DateTimeStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -180,8 +180,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_GibberishStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -189,8 +189,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_HashStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -198,8 +198,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_HtmlEntityStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -207,8 +207,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_IndentStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -216,8 +216,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_JoinStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -225,8 +225,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_JsonStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -234,8 +234,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_ListStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -243,8 +243,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_QuoteStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -252,8 +252,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_RemoveStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -261,8 +261,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_SlashStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -270,8 +270,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_SortStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -279,8 +279,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_SplitStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -288,8 +288,8 @@
                             <ComboBox
                                 Width="120"
                                 Name="Tool_TrimStateComboBox"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
+                                SelectedValuePath="Value"
+                                DisplayMemberPath="Text"
                             />
                         </StackPanel>
                     </StackPanel>

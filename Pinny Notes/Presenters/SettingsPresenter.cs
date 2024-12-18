@@ -36,7 +36,6 @@ public class SettingsPresenter
 
         PositionWindow();
 
-        PopulateLists();
         LoadSettings();
         _view.ApplyButton.IsEnabled = false;
 
@@ -102,16 +101,6 @@ public class SettingsPresenter
             _view.Left = position.X;
             _view.Top = position.Y;
         }
-    }
-
-    private void PopulateLists()
-    {
-        _view.PopulateNotes_StartupPositions(SettingsModel.StartupPositionsList);
-        _view.PopulateNotes_MinimizeModes(SettingsModel.MinimizeModeList);
-        _view.PopulateNotes_DefaultThemeColors(SettingsModel.DefaultColorList);
-        _view.PopulateNotes_ColorModes(SettingsModel.ColorModeList);
-        _view.PopulateNotes_TransparencyModes(SettingsModel.TransparencyModeList);
-        _view.PopulateToolStates(SettingsModel.ToolStateList);
     }
 
     private void LoadSettings()

@@ -111,15 +111,15 @@ public static class ThemeHelper
         return Themes[nextIndex];
     }
 
-    public static KeyValuePair<string, string>[] GetDefaultColorList()
+    public static IEnumerable<ComboBoxItemModel<string>> GetDefaultThemeColorList()
     {
-        List<KeyValuePair<string, string>> defaultColorList = [];
+        List<ComboBoxItemModel<string>> defaultColorList = [];
 
-        defaultColorList.Add(new KeyValuePair<string, string>(CycleThemeKey, "Cycle colors"));
+        defaultColorList.Add(new(CycleThemeKey, "Cycle colors"));
 
         foreach (ThemeModel theme in Themes)
-            defaultColorList.Add(new KeyValuePair<string, string>(theme.Key, theme.DisplayName));
+            defaultColorList.Add(new(theme.Key, theme.DisplayName));
 
-        return defaultColorList.ToArray();
+        return defaultColorList;
     }
 }

@@ -7,44 +7,6 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class SettingsModel
 {
-    public static readonly KeyValuePair<StartupPositions, string>[] StartupPositionsList = [
-        new(StartupPositions.TopLeft, "Top Left"),
-        new(StartupPositions.TopCenter, "Top Center"),
-        new(StartupPositions.TopRight, "Top Right"),
-        new(StartupPositions.MiddleLeft, "Middle Left"),
-        new(StartupPositions.MiddleCenter, "Middle Center"),
-        new(StartupPositions.MiddleRight, "Middle Right"),
-        new(StartupPositions.BottomLeft, "Bottom Left"),
-        new(StartupPositions.BottomCenter, "Bottom Center"),
-        new(StartupPositions.BottomRight, "Bottom Right")
-    ];
-
-    public static readonly KeyValuePair<MinimizeModes, string>[] MinimizeModeList = [
-        new(MinimizeModes.Allow, "Yes"),
-        new(MinimizeModes.Prevent, "No"),
-        new(MinimizeModes.PreventIfPinned, "When not pinned")
-    ];
-
-    public static readonly KeyValuePair<string, string>[] DefaultColorList = ThemeHelper.GetDefaultColorList();
-
-    public static readonly KeyValuePair<ColorModes, string>[] ColorModeList = [
-        new(ColorModes.Light, "Light"),
-        new(ColorModes.Dark, "Dark"),
-        new(ColorModes.System, "System Default")
-    ];
-
-    public static readonly KeyValuePair<TransparencyModes, string>[] TransparencyModeList = [
-        new(TransparencyModes.Disabled, "Disabled"),
-        new(TransparencyModes.Enabled, "Enabled"),
-        new(TransparencyModes.OnlyWhenPinned, "Only when pinned")
-    ];
-
-    public static readonly KeyValuePair<ToolStates, string>[] ToolStateList = [
-        new(ToolStates.Enabled, "Enabled"),
-        new(ToolStates.Disabled, "Disabled"),
-        new(ToolStates.Favorite, "Favorite")
-    ];
-
     public int Id { get; init; }
 
     public bool Application_TrayIcon { get; set; }

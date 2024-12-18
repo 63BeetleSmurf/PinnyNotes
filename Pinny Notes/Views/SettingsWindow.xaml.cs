@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Helpers;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -13,6 +13,32 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
+
+        Notes_StartupPositionComboBox.ItemsSource = SettingsHelper.StartupPositionsList;
+        Notes_MinimizeModeComboBox.ItemsSource = SettingsHelper.MinimizeModeList;
+        Notes_DefaultThemeColorComboBox.ItemsSource = SettingsHelper.DefaultThemeColorList;
+        Notes_ColorModeComboBox.ItemsSource = SettingsHelper.ColorModeList;
+        Notes_TransparencyModeComboBox.ItemsSource = SettingsHelper.TransparencyModeList;
+
+        // TODO: Probably could use a resource or something here
+        // - Tried ObjectDataProvider, got incompatible type errors when setting ItemsSource so gave up.
+        Tool_Base64StateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_BracketStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_CaseStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_DateTimeStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_GibberishStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_HashStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_HtmlEntityStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_IndentStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_JoinStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_JsonStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_ListStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_QuoteStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_RemoveStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_SlashStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_SortStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_SplitStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+        Tool_TrimStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
     }
 
     // Application
@@ -54,16 +80,12 @@ public partial class SettingsWindow : Window
         get => (StartupPositions)Notes_StartupPositionComboBox.SelectedValue;
         set => Notes_StartupPositionComboBox.SelectedValue = value;
     }
-    public void PopulateNotes_StartupPositions(IEnumerable<KeyValuePair<StartupPositions, string>> items)
-        => PopulateComboBox(Notes_StartupPositionComboBox, items);
 
     public MinimizeModes Notes_MinimizeMode
     {
         get => (MinimizeModes)Notes_MinimizeModeComboBox.SelectedValue;
         set => Notes_MinimizeModeComboBox.SelectedValue = value;
     }
-    public void PopulateNotes_MinimizeModes(IEnumerable<KeyValuePair<MinimizeModes, string>> items)
-        => PopulateComboBox(Notes_MinimizeModeComboBox, items);
 
     public bool Notes_HideTitleBar
     {
@@ -77,16 +99,12 @@ public partial class SettingsWindow : Window
         get => (string)Notes_DefaultThemeColorComboBox.SelectedValue;
         set => Notes_DefaultThemeColorComboBox.SelectedValue = value;
     }
-    public void PopulateNotes_DefaultThemeColors(IEnumerable<KeyValuePair<string, string>> items)
-        => PopulateComboBox(Notes_DefaultThemeColorComboBox, items);
 
     public ColorModes Notes_ColorMode
     {
         get => (ColorModes)Notes_ColorModeComboBox.SelectedValue;
         set => Notes_ColorModeComboBox.SelectedValue = value;
     }
-    public void PopulateNotes_ColorModes(IEnumerable<KeyValuePair<ColorModes, string>> items)
-        => PopulateComboBox(Notes_ColorModeComboBox, items);
 
     // - Transparency
     public TransparencyModes Notes_TransparencyMode
@@ -94,8 +112,6 @@ public partial class SettingsWindow : Window
         get => (TransparencyModes)Notes_TransparencyModeComboBox.SelectedValue;
         set => Notes_TransparencyModeComboBox.SelectedValue = value;
     }
-    public void PopulateNotes_TransparencyModes(IEnumerable<KeyValuePair<TransparencyModes, string>> items)
-        => PopulateComboBox(Notes_TransparencyModeComboBox, items);
 
     public bool Notes_OpaqueWhenFocused
     {
@@ -306,28 +322,6 @@ public partial class SettingsWindow : Window
     public event EventHandler? CancelClicked;
     public event EventHandler? ApplyClicked;
 
-    public void PopulateToolStates(IEnumerable<KeyValuePair<ToolStates, string>> items)
-    {
-        // TODO: Probably could use a resource or something here
-        PopulateComboBox(Tool_Base64StateComboBox, items);
-        PopulateComboBox(Tool_BracketStateComboBox, items);
-        PopulateComboBox(Tool_CaseStateComboBox, items);
-        PopulateComboBox(Tool_DateTimeStateComboBox, items);
-        PopulateComboBox(Tool_GibberishStateComboBox, items);
-        PopulateComboBox(Tool_HashStateComboBox, items);
-        PopulateComboBox(Tool_HtmlEntityStateComboBox, items);
-        PopulateComboBox(Tool_IndentStateComboBox, items);
-        PopulateComboBox(Tool_JoinStateComboBox, items);
-        PopulateComboBox(Tool_JsonStateComboBox, items);
-        PopulateComboBox(Tool_ListStateComboBox, items);
-        PopulateComboBox(Tool_QuoteStateComboBox, items);
-        PopulateComboBox(Tool_RemoveStateComboBox, items);
-        PopulateComboBox(Tool_SlashStateComboBox, items);
-        PopulateComboBox(Tool_SortStateComboBox, items);
-        PopulateComboBox(Tool_SplitStateComboBox, items);
-        PopulateComboBox(Tool_TrimStateComboBox, items);
-    }
-
     private void Window_Closing(object sender, CancelEventArgs e)
     {
         WindowClosing?.Invoke(sender, e);
@@ -358,12 +352,5 @@ public partial class SettingsWindow : Window
     private void ApplyButton_Click(object sender, RoutedEventArgs e)
     {
         ApplyClicked?.Invoke(sender, e);
-    }
-
-    private void PopulateComboBox<TKey>(ComboBox comboBox, IEnumerable<KeyValuePair<TKey, string>> items)
-    {
-        comboBox.Items.Clear();
-        foreach (KeyValuePair<TKey, string> item in items)
-            comboBox.Items.Add(item);
     }
 }
