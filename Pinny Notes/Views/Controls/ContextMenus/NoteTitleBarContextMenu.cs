@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 
-namespace PinnyNotes.WpfUi.Views.ContextMenus;
+namespace PinnyNotes.WpfUi.Views.Controls.ContextMenus;
 
 public class NoteTitleBarContextMenu : ContextMenu
 {

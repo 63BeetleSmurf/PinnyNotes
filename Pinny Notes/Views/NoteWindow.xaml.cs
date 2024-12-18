@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Views.ContextMenus;
+using PinnyNotes.WpfUi.Views.Controls.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views;
 

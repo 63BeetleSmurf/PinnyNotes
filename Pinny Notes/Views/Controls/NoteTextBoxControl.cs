@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Views.ContextMenus;
+using PinnyNotes.WpfUi.Views.Controls.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views.Controls;
 

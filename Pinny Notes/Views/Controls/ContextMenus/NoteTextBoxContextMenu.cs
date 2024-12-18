@@ -7,7 +7,7 @@ using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Tools;
 using PinnyNotes.WpfUi.Views.Controls;
 
-namespace PinnyNotes.WpfUi.Views.ContextMenus;
+namespace PinnyNotes.WpfUi.Views.Controls.ContextMenus;
 
 public class NoteTextBoxContextMenu : ContextMenu
 {
