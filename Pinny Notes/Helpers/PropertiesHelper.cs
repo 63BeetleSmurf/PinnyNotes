@@ -8,13 +8,13 @@ public static class PropertiesHelper
     public static void CopyMatchingProperties(object source, object destination)
     {
         PropertyInfo[] sourceProperties = source.GetType().GetProperties();
-        PropertyInfo[] destProperties = destination.GetType().GetProperties();
+        PropertyInfo[] destinationProperties = destination.GetType().GetProperties();
 
         foreach (PropertyInfo sourceProperty in sourceProperties)
         {
-            PropertyInfo? destProperty = destProperties.FirstOrDefault(p => p.Name == sourceProperty.Name && p.PropertyType == sourceProperty.PropertyType);
-            if (destProperty != null && destProperty.CanWrite)
-                destProperty.SetValue(destination, sourceProperty.GetValue(source));
+            PropertyInfo? destinationProperty = destinationProperties.FirstOrDefault(p => p.Name == sourceProperty.Name && p.PropertyType == sourceProperty.PropertyType);
+            if (destinationProperty != null && destinationProperty.CanWrite)
+                destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
         }
     }
 }
