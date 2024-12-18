@@ -161,7 +161,7 @@ public static class DatabaseHelper
                 Height      INTEGER,
 
                 GravityX    INTEGER,
-                GracityY    INTEGER,
+                GravityY    INTEGER,
 
                 Color       INTEGER,
 

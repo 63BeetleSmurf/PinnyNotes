@@ -433,8 +433,8 @@ public class NoteTextBoxControl : TextBox
         string line = GetLineText(GetLineIndexFromCharacterIndex(caretIndex)).TrimEnd(Environment.NewLine.ToCharArray());
 
         // Get the whitespace from the beginning of the line and create our indent string
-        string preceedingWhitespace = new(line.TakeWhile(char.IsWhiteSpace).ToArray());
-        string indent = Environment.NewLine + preceedingWhitespace;
+        string precedingWhitespace = new(line.TakeWhile(char.IsWhiteSpace).ToArray());
+        string indent = Environment.NewLine + precedingWhitespace;
 
         // Add the indent and restore caret position
         Text = Text.Insert(caretIndex, indent);

@@ -53,7 +53,7 @@ public class NotifyIconComponent : IDisposable
         ContextMenuStrip contextMenu = new();
         contextMenu.Items.Add("New Note", null, NewNote_Click);
         contextMenu.Items.Add("-");
-        contextMenu.Items.Add("Setings", null, Settings_Click);
+        contextMenu.Items.Add("Settings", null, Settings_Click);
         contextMenu.Items.Add("-");
         contextMenu.Items.Add("Exit", null, Exit_Click);
 
