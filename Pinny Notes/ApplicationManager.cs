@@ -34,9 +34,10 @@ public class ApplicationManager
 
         ConnectionString = DatabaseHelper.GetConnectionString();
         DatabaseHelper.CheckDatabase(ConnectionString);
-        _applicationDataRepository = new(this);
+        _applicationDataRepository = new(ConnectionString);
+        _settingsRepository = new(ConnectionString);
+
         ApplicationData = _applicationDataRepository.GetApplicationData();
-        _settingsRepository = new(this);
         ApplicationSettings = _settingsRepository.GetApplicationSettings();
 
         _notifyIcon = new(this);

@@ -8,19 +8,19 @@ namespace PinnyNotes.WpfUi.Repositories;
 
 public class SettingsRepository : BaseRepository
 {
-    private readonly ApplicationManager _applicationManager;
+    private readonly string _connectionString;
 
-    public SettingsRepository(ApplicationManager applicationManager)
+    public SettingsRepository(string connectionString)
     {
-        _applicationManager = applicationManager;
+        _connectionString = connectionString;
     }
 
     public SettingsModel GetApplicationSettings()
     {
-        using var connection = new SqliteConnection(_applicationManager.ConnectionString);
+        using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
+        SqliteCommand command = connection.CreateCommand();
         command.CommandText = @"
             SELECT
                 *
@@ -89,10 +89,10 @@ public class SettingsRepository : BaseRepository
 
     public void UpdateSettings(SettingsModel settings)
     {
-        using var connection = new SqliteConnection(_applicationManager.ConnectionString);
+        using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
+        SqliteCommand command = connection.CreateCommand();
         command.CommandText = @"
             UPDATE
                 Settings
