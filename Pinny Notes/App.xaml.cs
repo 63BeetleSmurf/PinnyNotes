@@ -36,6 +36,7 @@ public partial class App : Application
         base.OnStartup(e);
 
         ApplicationManager = new(this);
+        ApplicationManager.Initialize();
 
         // Spawn a thread which will be waiting for our event
         Thread thread = new(

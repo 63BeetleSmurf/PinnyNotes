@@ -41,7 +41,10 @@ public class ApplicationManager
 
         _notifyIcon = new(this);
         _notifyIcon.ActivateNotes += OnActivateNotes;
+    }
 
+    public void Initialize()
+    {
         UpdateTrayIcon();
         CreateNewNote();
         CheckForNewRelease();
@@ -54,7 +57,7 @@ public class ApplicationManager
     {
         NotePresenter presenter = new(
             this,
-            new NoteModel(ApplicationData, ApplicationSettings, parent),
+            new NoteModel(ApplicationSettings, parent),
             new NoteWindow()
         );
 

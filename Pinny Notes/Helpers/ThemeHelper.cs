@@ -99,15 +99,18 @@ public static class ThemeHelper
             ?? Themes[0];
     }
 
-    public static ThemeModel GetNextTheme(string? currentKey, string? parentKey = null)
+    public static ThemeModel GetNextTheme(string? parentKey = null)
     {
+        ApplicationDataModel applicationData = ((App)App.Current).ApplicationManager.ApplicationData;
+
         int nextIndex = 0;
-        if (currentKey != null)
-            nextIndex = (Themes.FindIndex(t => t.Key == currentKey) + 1) % Themes.Count;
+        if (applicationData.LastThemeColorKey != null)
+            nextIndex = (Themes.FindIndex(t => t.Key == applicationData.LastThemeColorKey) + 1) % Themes.Count;
 
         if (parentKey != null && nextIndex == Themes.FindIndex(t => t.Key == parentKey))
             nextIndex = (nextIndex + 1) % Themes.Count;
 
+        applicationData.LastThemeColorKey = Themes[nextIndex].Key;
         return Themes[nextIndex];
     }
 

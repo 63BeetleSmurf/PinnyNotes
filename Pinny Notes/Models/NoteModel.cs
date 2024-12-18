@@ -10,16 +10,13 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class NoteModel
 {
-    private readonly ApplicationDataModel _applicaitonData;
-
-    public NoteModel(ApplicationDataModel applicaitonData, SettingsModel settings, NoteModel? parent = null)
+    public NoteModel(SettingsModel settings, NoteModel? parent = null)
     {
-        _applicaitonData = applicaitonData;
         Settings = settings;
 
         SetDefaultSize();
-        InitTheme(parent?.Theme.Key);
-        InitPosition(parent);
+        InitTheme(Settings.Notes_DefaultThemeColorKey, parent?.Theme.Key);
+        InitPosition(Settings.Notes_StartupPosition, parent);
     }
 
     private string _text = "";
@@ -59,7 +56,7 @@ public class NoteModel
         GravityY = (Y - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
     }
 
-    private void InitPosition(NoteModel? parent = null)
+    private void InitPosition(StartupPositions startupPosition, NoteModel? parent = null)
     {
         int noteMargin = 45;
 
@@ -81,7 +78,7 @@ public class NoteModel
             int screenMargin = 78;
             screenBounds = ScreenHelper.GetPrimaryScreenBounds();
 
-            switch (Settings.Notes_StartupPosition)
+            switch (startupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.MiddleLeft:
@@ -103,7 +100,7 @@ public class NoteModel
                     break;
             }
 
-            switch (Settings.Notes_StartupPosition)
+            switch (startupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.TopCenter:
@@ -157,16 +154,11 @@ public class NoteModel
         Y = position.Y;
     }
 
-    private void InitTheme(string? parentThemeKey = null)
+    private void InitTheme(string defaultThemeColorKey, string? parentThemeKey = null)
     {
-        if (Settings.Notes_DefaultThemeColorKey == ThemeHelper.CycleThemeKey)
-        {
-            Theme = ThemeHelper.GetNextTheme(_applicaitonData.LastThemeColorKey, parentThemeKey);
-            _applicaitonData.LastThemeColorKey = Theme.Key;
-        }
+        if (defaultThemeColorKey == ThemeHelper.CycleThemeKey)
+            Theme = ThemeHelper.GetNextTheme(parentThemeKey);
         else
-        {
-            Theme = ThemeHelper.GetThemeOrDefault(Settings.Notes_DefaultThemeColorKey);
-        }
+            Theme = ThemeHelper.GetThemeOrDefault(defaultThemeColorKey);
     }
 }
