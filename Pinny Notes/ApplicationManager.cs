@@ -58,8 +58,8 @@ public class ApplicationManager
     {
         NotePresenter presenter = new(
             this,
-            new NoteModel(ApplicationSettings, parent),
-            new NoteWindow()
+            new NoteWindow(),
+            parent: parent
         );
 
         presenter.ShowWindow();

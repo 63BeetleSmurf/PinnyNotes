@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Repositories;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Presenters;
@@ -12,14 +13,24 @@ namespace PinnyNotes.WpfUi.Presenters;
 public class NotePresenter
 {
     private readonly ApplicationManager _applicationManager;
+    private readonly NoteRepository _noteRepository;
     private readonly NoteModel _model;
     private readonly NoteWindow _view;
 
-    public NotePresenter(ApplicationManager applicationManager, NoteModel model, NoteWindow view)
+    public NotePresenter(ApplicationManager applicationManager, NoteWindow view, int? noteId = null, NoteModel? parent = null)
     {
         _applicationManager = applicationManager;
+        _noteRepository = new(_applicationManager.ConnectionString);
+
         _view = view;
-        _model = model;
+        if (noteId == null)
+            _model = new()
+            {
+                Id = _noteRepository.Create()
+            };
+        else
+            _model = _noteRepository.GetById((int)noteId);
+        _model.Initialize(applicationManager.ApplicationSettings, parent);
 
         PopulateViewProperties();
 
@@ -90,10 +101,12 @@ public class NotePresenter
 
     private void OnWindowStateChanged(object? sender, EventArgs e)
     {
+        SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
+
         if (_view.WindowState == WindowState.Minimized
             && (
-                _model.Settings.Notes_MinimizeMode == MinimizeModes.Prevent
-                || (_model.Settings.Notes_MinimizeMode == MinimizeModes.PreventIfPinned && _view.Topmost)
+                settings.Notes_MinimizeMode == MinimizeModes.Prevent
+                || (settings.Notes_MinimizeMode == MinimizeModes.PreventIfPinned && _view.Topmost)
             )
         )
             _view.WindowState = WindowState.Normal;
@@ -113,6 +126,7 @@ public class NotePresenter
 
     private void OnCloseNoteClicked(object? sender, EventArgs e)
     {
+        _noteRepository.Update(_model);
         _view.Close();
     }
 
@@ -134,7 +148,10 @@ public class NotePresenter
 
     private void OnResetSizeMenuItemClicked(object? sender, EventArgs e)
     {
-        _model.SetDefaultSize();
+        SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
+
+        _model.Width = settings.Notes_DefaultWidth;
+        _model.Height = settings.Notes_DefaultHeight;
         _view.Width = _model.Width;
         _view.Height = _model.Height;
     }
@@ -164,32 +181,38 @@ public class NotePresenter
 
     private void PopulateViewProperties()
     {
+        SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
+
         _view.Width = _model.Width;
         _view.Height = _model.Height;
         _view.Left = _model.X;
         _view.Top = _model.Y;
-        _view.ShowInTaskbar = _model.Settings.Application_NotesInTaskbar;
+        _view.ShowInTaskbar = settings.Application_NotesInTaskbar;
 
-        PropertiesHelper.CopyMatchingProperties(_model.Settings, _view);
+        PropertiesHelper.CopyMatchingProperties(settings, _view);
 
     }
 
     private void UpdateWindowOpacity()
     {
+        SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
+
         bool isTransparent = (
-            _model.Settings.Notes_TransparencyMode != TransparencyModes.Disabled
-            && (_model.Settings.Notes_TransparencyMode != TransparencyModes.OnlyWhenPinned || _model.IsPinned)
-            && !(_model.Settings.Notes_OpaqueWhenFocused && _view.IsActive)
+            settings.Notes_TransparencyMode != TransparencyModes.Disabled
+            && (settings.Notes_TransparencyMode != TransparencyModes.OnlyWhenPinned || _model.IsPinned)
+            && !(settings.Notes_OpaqueWhenFocused && _view.IsActive)
         );
 
-        _view.Opacity = (isTransparent) ? _model.Settings.Notes_TransparentOpacity : _model.Settings.Notes_OpaqueOpacity;
+        _view.Opacity = (isTransparent) ? settings.Notes_TransparentOpacity : settings.Notes_OpaqueOpacity;
     }
 
     private void ApplyTheme()
     {
+        SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
+
         ThemeColorsModel themeColor;
 
-        if (_model.Settings.Notes_ColorMode == ColorModes.Dark || (_model.Settings.Notes_ColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
+        if (settings.Notes_ColorMode == ColorModes.Dark || (settings.Notes_ColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
             themeColor = _model.Theme.DarkColor;
         else
             themeColor = _model.Theme.LightColor;

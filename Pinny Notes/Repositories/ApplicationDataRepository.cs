@@ -5,35 +5,40 @@ using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.Repositories;
 
-public class ApplicationDataRepository : BaseRepository
+public class ApplicationDataRepository(string connectionString) : BaseRepository(connectionString)
 {
-    private readonly string _connectionString;
+    public static readonly string TableName = "ApplicationData";
 
-    public ApplicationDataRepository(string connectionString)
-    {
-        _connectionString = connectionString;
-    }
+    public static readonly string TableSchema = @"
+        (
+            Id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            LastUpdateCheck     INTEGER DEFAULT NULL,
+            LastThemeColorKey   STRING  DEFAULT NULL
+        );
+    ";
 
     public ApplicationDataModel GetApplicationData()
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        SqliteCommand command = connection.CreateCommand();
-        command.CommandText = @"
-            SELECT
-                *
-            FROM
-                ApplicationData
-            WHERE
-                Id = 0;
-        ";
-
-        using SqliteDataReader reader = command.ExecuteReader();
+        using SqliteDataReader reader = ExecuteReader(
+            connection,
+            @"
+                SELECT
+                    *
+                FROM
+                    ApplicationData
+                WHERE
+                    Id = 1;
+            "
+        );
         if (!reader.Read())
             throw new Exception("Error getting application data.");
 
-        return new ApplicationDataModel() {
+        return new()
+        {
             Id = GetInt(reader, "Id"),
 
             LastUpdateCheck = GetLongNullable(reader, "LastUpdateCheck"),
@@ -46,21 +51,23 @@ public class ApplicationDataRepository : BaseRepository
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        SqliteCommand command = connection.CreateCommand();
-        command.CommandText = @"
-            UPDATE
-                ApplicationData
-            SET
-                LastUpdateCheck     = @lastUpdateCheck,
-                LastThemeColorKey   = @lastThemeColorKey
-            WHERE
-                Id = @id
-        ";
-        command.Parameters.AddWithValue("@id", applicationData.Id);
+        ExecuteNonQuery(
+            connection,
+            @"
+                UPDATE
+                    ApplicationData
+                SET
+                    LastUpdateCheck     = @lastUpdateCheck,
+                    LastThemeColorKey   = @lastThemeColorKey
+                WHERE
+                    Id = @id
+            ",
+            parameters: [
+                new("@lastUpdateCheck", applicationData.LastUpdateCheck),
+                new("@lastThemeColorKey", applicationData.LastThemeColorKey),
 
-        command.Parameters.AddWithValue("@lastUpdateCheck", ToDbValue(applicationData.LastUpdateCheck));
-        command.Parameters.AddWithValue("@lastThemeColorKey", ToDbValue(applicationData.LastThemeColorKey));
-
-        command.ExecuteNonQuery();
+                new("@id", applicationData.Id)
+            ]
+        );
     }
 }

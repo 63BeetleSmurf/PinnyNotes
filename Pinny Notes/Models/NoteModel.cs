@@ -10,14 +10,17 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class NoteModel
 {
-    public NoteModel(SettingsModel settings, NoteModel? parent = null)
+    public void Initialize(SettingsModel settings, NoteModel? parent = null)
     {
         Settings = settings;
 
-        SetDefaultSize();
+        Width = settings.Notes_DefaultWidth;
+        Height = settings.Notes_DefaultHeight;
         InitTheme(Settings.Notes_DefaultThemeColorKey, parent?.Theme.Key);
         InitPosition(Settings.Notes_StartupPosition, parent);
     }
+
+    public int? Id { get; set; }
 
     private string _text = "";
     public string Text {
@@ -42,13 +45,7 @@ public class NoteModel
 
     public bool IsSaved { get; set; }
 
-    public SettingsModel Settings { get; }
-
-    public void SetDefaultSize()
-    {
-        Width = Settings.Notes_DefaultWidth;
-        Height = Settings.Notes_DefaultHeight;
-    }
+    public SettingsModel? Settings { get; set; }
 
     public void UpdateGravity(Rectangle screenBounds)
     {

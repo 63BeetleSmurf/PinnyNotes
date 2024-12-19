@@ -1,15 +1,60 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Repositories;
 
-public abstract class BaseRepository
+public abstract class BaseRepository(string connectionString)
 {
-    protected bool GetBool(SqliteDataReader reader, int ordinal)
+    protected readonly string _connectionString = connectionString;
+
+    private static SqliteCommand CreateCommand(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    {
+        SqliteCommand command = connection.CreateCommand();
+        command.CommandText = query;
+        if (parameters != null)
+            foreach (KeyValuePair<string, object?> parameter in parameters)
+                command.Parameters.AddWithValue(
+                    parameter.Key,
+                    parameter.Value ?? DBNull.Value
+                );
+
+        return command;
+    }
+
+    protected static object? ExecuteScalar(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    {
+        using SqliteCommand command = CreateCommand(connection, query, parameters);
+        return command.ExecuteScalar();
+    }
+
+    public static int ExecuteNonQuery(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    {
+        using SqliteCommand command = CreateCommand(connection, query, parameters);
+        return command.ExecuteNonQuery();
+    }
+
+    protected static SqliteDataReader ExecuteReader(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    {
+        SqliteCommand command = CreateCommand(connection, query, parameters);
+        return command.ExecuteReader();
+    }
+
+    protected int GetLastInsertRowId()
+    {
+        using SqliteConnection connection = new(_connectionString);
+        connection.Open();
+
+        return Convert.ToInt32(
+            ExecuteScalar(connection, "SELECT last_insert_rowid();")
+        );
+    }
+
+    protected static bool GetBool(SqliteDataReader reader, int ordinal)
         => reader.GetBoolean(ordinal);
-    protected bool GetBool(SqliteDataReader reader, string columnName)
+    protected static bool GetBool(SqliteDataReader reader, string columnName)
         => GetBool(reader, reader.GetOrdinal(columnName));
-    protected bool? GetBoolNullable(SqliteDataReader reader, string columnName)
+    protected static bool? GetBoolNullable(SqliteDataReader reader, string columnName)
     {
         int ordinal = reader.GetOrdinal(columnName);
         if (reader.IsDBNull(ordinal))
@@ -17,11 +62,11 @@ public abstract class BaseRepository
         return GetBool(reader, ordinal);
     }
 
-    protected int GetInt(SqliteDataReader reader, int ordinal)
+    protected static int GetInt(SqliteDataReader reader, int ordinal)
         => reader.GetInt32(ordinal);
-    protected int GetInt(SqliteDataReader reader, string columnName)
+    protected static int GetInt(SqliteDataReader reader, string columnName)
         => GetInt(reader, reader.GetOrdinal(columnName));
-    protected int? GetIntNullable(SqliteDataReader reader, string columnName)
+    protected static int? GetIntNullable(SqliteDataReader reader, string columnName)
     {
         int ordinal = reader.GetOrdinal(columnName);
         if (reader.IsDBNull(ordinal))
@@ -29,11 +74,11 @@ public abstract class BaseRepository
         return GetInt(reader, ordinal);
     }
 
-    protected long GetLong(SqliteDataReader reader, int ordinal)
+    protected static long GetLong(SqliteDataReader reader, int ordinal)
         => reader.GetInt64(ordinal);
-    protected long GetLong(SqliteDataReader reader, string columnName)
+    protected static long GetLong(SqliteDataReader reader, string columnName)
         => GetLong(reader, reader.GetOrdinal(columnName));
-    protected long? GetLongNullable(SqliteDataReader reader, string columnName)
+    protected static long? GetLongNullable(SqliteDataReader reader, string columnName)
     {
         int ordinal = reader.GetOrdinal(columnName);
         if (reader.IsDBNull(ordinal))
@@ -41,11 +86,11 @@ public abstract class BaseRepository
         return GetLong(reader, ordinal);
     }
 
-    protected double GetDouble(SqliteDataReader reader, int ordinal)
+    protected static double GetDouble(SqliteDataReader reader, int ordinal)
         => reader.GetDouble(ordinal);
-    protected double GetDouble(SqliteDataReader reader, string columnName)
+    protected static double GetDouble(SqliteDataReader reader, string columnName)
         => GetDouble(reader, reader.GetOrdinal(columnName));
-    protected double? GetDoubleNullable(SqliteDataReader reader, string columnName)
+    protected static double? GetDoubleNullable(SqliteDataReader reader, string columnName)
     {
         int ordinal = reader.GetOrdinal(columnName);
         if (reader.IsDBNull(ordinal))
@@ -53,11 +98,11 @@ public abstract class BaseRepository
         return GetDouble(reader, ordinal);
     }
 
-    protected string GetString(SqliteDataReader reader, int ordinal)
+    protected static string GetString(SqliteDataReader reader, int ordinal)
         => reader.GetString(ordinal);
-    protected string GetString(SqliteDataReader reader, string columnName)
+    protected static string GetString(SqliteDataReader reader, string columnName)
         => GetString(reader, reader.GetOrdinal(columnName));
-    protected string? GetStringNullable(SqliteDataReader reader, string columnName)
+    protected static string? GetStringNullable(SqliteDataReader reader, string columnName)
     {
         int ordinal = reader.GetOrdinal(columnName);
         if (reader.IsDBNull(ordinal))
@@ -65,7 +110,7 @@ public abstract class BaseRepository
         return GetString(reader, ordinal);
     }
 
-    protected T GetEnum<T>(SqliteDataReader reader, int ordinal) where T : Enum
+    protected static T GetEnum<T>(SqliteDataReader reader, int ordinal) where T : Enum
     {
         Type enumType = typeof(T);
         int value = reader.GetInt32(ordinal);
@@ -75,18 +120,13 @@ public abstract class BaseRepository
 
         return (T)Enum.ToObject(enumType, value);
     }
-    protected T GetEnum<T>(SqliteDataReader reader, string columnName) where T : Enum
+    protected static T GetEnum<T>(SqliteDataReader reader, string columnName) where T : Enum
         => GetEnum<T>(reader, reader.GetOrdinal(columnName));
-    protected T? GetEnumNullable<T>(SqliteDataReader reader, string columnName) where T : Enum
+    protected static T? GetEnumNullable<T>(SqliteDataReader reader, string columnName) where T : Enum
     {
         int ordinal = reader.GetOrdinal(columnName);
         if (reader.IsDBNull(ordinal))
             return default;
         return GetEnum<T>(reader, ordinal);
-    }
-
-    protected static object ToDbValue(object? value)
-    {
-        return value ?? DBNull.Value;
     }
 }

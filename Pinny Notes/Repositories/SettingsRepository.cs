@@ -2,39 +2,90 @@
 using System;
 
 using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.Repositories;
 
-public class SettingsRepository : BaseRepository
+public class SettingsRepository(string connectionString) : BaseRepository(connectionString)
 {
-    private readonly string _connectionString;
+    public static readonly string TableName = "Settings";
 
-    public SettingsRepository(string connectionString)
-    {
-        _connectionString = connectionString;
-    }
+    public static readonly string TableSchema = $@"
+        (
+            Id  INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            Application_TrayIcon                INTEGER DEFAULT 1,
+            Application_NotesInTaskbar          INTEGER DEFAULT 1,
+            Application_CheckForUpdates         INTEGER DEFAULT 0,
+
+            Notes_DefaultWidth                  INTEGER DEFAULT 300,
+            Notes_DefaultHeight                 INTEGER DEFAULT 300,
+            Notes_StartupPosition               INTEGER DEFAULT 0,
+            Notes_MinimizeMode                  INTEGER DEFAULT 0,
+            Notes_HideTitleBar                  INTEGER DEFAULT 0,
+            Notes_DefaultThemeColorKey          TEXT    DEFAULT '{ThemeHelper.CycleThemeKey}',
+            Notes_ColorMode                     INTEGER DEFAULT 0,
+            Notes_TransparencyMode              INTEGER DEFAULT 2,
+            Notes_OpaqueWhenFocused             INTEGER DEFAULT 1,
+            Notes_TransparentOpacity            REAL    DEFAULT 0.8,
+            Notes_OpaqueOpacity                 REAL    DEFAULT 1.0,
+
+            Editor_UseMonoFont                  INTEGER DEFAULT 0,
+            Editor_MonoFontFamily               TEXT    DEFAULT 'Consolas',
+            Editor_SpellCheck                   INTEGER DEFAULT 1,
+            Editor_AutoIndent                   INTEGER DEFAULT 1,
+            Editor_NewLineAtEnd                 INTEGER DEFAULT 1,
+            Editor_KeepNewLineVisible           INTEGER DEFAULT 1,
+            Editor_TabsToSpaces                 INTEGER DEFAULT 0,
+            Editor_ConvertIndentationOnPaste    INTEGER DEFAULT 0,
+            Editor_TabWidth                     INTEGER DEFAULT 4,
+            Editor_MiddleClickPaste             INTEGER DEFAULT 1,
+            Editor_TrimPastedText               INTEGER DEFAULT 1,
+            Editor_TrimCopiedText               INTEGER DEFAULT 1,
+            Editor_CopyHighlightedText          INTEGER DEFAULT 0,
+
+            Tool_Base64State                    INTEGER DEFAULT 0,
+            Tool_BracketState                   INTEGER DEFAULT 0,
+            Tool_CaseState                      INTEGER DEFAULT 0,
+            Tool_DateTimeState                  INTEGER DEFAULT 0,
+            Tool_GibberishState                 INTEGER DEFAULT 0,
+            Tool_HashState                      INTEGER DEFAULT 0,
+            Tool_HtmlEntityState                INTEGER DEFAULT 0,
+            Tool_IndentState                    INTEGER DEFAULT 0,
+            Tool_JoinState                      INTEGER DEFAULT 0,
+            Tool_JsonState                      INTEGER DEFAULT 0,
+            Tool_ListState                      INTEGER DEFAULT 0,
+            Tool_QuoteState                     INTEGER DEFAULT 0,
+            Tool_RemoveState                    INTEGER DEFAULT 0,
+            Tool_SlashState                     INTEGER DEFAULT 0,
+            Tool_SortState                      INTEGER DEFAULT 0,
+            Tool_SplitState                     INTEGER DEFAULT 0,
+            Tool_TrimState                      INTEGER DEFAULT 0
+        )
+    ";
 
     public SettingsModel GetApplicationSettings()
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        SqliteCommand command = connection.CreateCommand();
-        command.CommandText = @"
-            SELECT
-                *
-            FROM
-                Settings
-            WHERE
-                Id = 0;
-        ";
-
-        using SqliteDataReader reader = command.ExecuteReader();
+        using SqliteDataReader reader = ExecuteReader(
+            connection,
+            @"
+                SELECT
+                    *
+                FROM
+                    Settings
+                WHERE
+                    Id = 1;
+            "
+        );
         if (!reader.Read())
             throw new Exception("Error getting application settings.");
 
-        return new SettingsModel() {
+        return new()
+        {
             Id = GetInt(reader, "Id"),
 
             Application_TrayIcon = GetBool(reader, "Application_TrayIcon"),
@@ -92,111 +143,113 @@ public class SettingsRepository : BaseRepository
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        SqliteCommand command = connection.CreateCommand();
-        command.CommandText = @"
-            UPDATE
-                Settings
-            SET
-                Application_TrayIcon        = @application_TrayIcon,
-                Application_NotesInTaskbar  = @application_NotesInTaskbar,
-                Application_CheckForUpdates = @application_CheckForUpdates,
+        ExecuteNonQuery(
+            connection,
+            @"
+                UPDATE
+                    Settings
+                SET
+                    Application_TrayIcon        = @application_TrayIcon,
+                    Application_NotesInTaskbar  = @application_NotesInTaskbar,
+                    Application_CheckForUpdates = @application_CheckForUpdates,
 
-                Notes_DefaultWidth          = @notes_DefaultWidth,
-                Notes_DefaultHeight         = @notes_DefaultHeight,
-                Notes_StartupPosition       = @notes_StartupPosition,
-                Notes_MinimizeMode          = @notes_MinimizeMode,
-                Notes_HideTitleBar          = @notes_HideTitleBar,
-                Notes_DefaultThemeColorKey  = @notes_DefaultThemeColorKey,
-                Notes_ColorMode             = @notes_ColorMode,
-                Notes_TransparencyMode      = @notes_TransparencyMode,
-                Notes_OpaqueWhenFocused     = @notes_OpaqueWhenFocused,
-                Notes_TransparentOpacity    = @notes_TransparentOpacity,
-                Notes_OpaqueOpacity         = @notes_OpaqueOpacity,
+                    Notes_DefaultWidth          = @notes_DefaultWidth,
+                    Notes_DefaultHeight         = @notes_DefaultHeight,
+                    Notes_StartupPosition       = @notes_StartupPosition,
+                    Notes_MinimizeMode          = @notes_MinimizeMode,
+                    Notes_HideTitleBar          = @notes_HideTitleBar,
+                    Notes_DefaultThemeColorKey  = @notes_DefaultThemeColorKey,
+                    Notes_ColorMode             = @notes_ColorMode,
+                    Notes_TransparencyMode      = @notes_TransparencyMode,
+                    Notes_OpaqueWhenFocused     = @notes_OpaqueWhenFocused,
+                    Notes_TransparentOpacity    = @notes_TransparentOpacity,
+                    Notes_OpaqueOpacity         = @notes_OpaqueOpacity,
 
-                Editor_UseMonoFont                  = @editor_UseMonoFont,
-                Editor_MonoFontFamily               = @editor_MonoFontFamily,
-                Editor_SpellCheck                   = @editor_SpellCheck,
-                Editor_AutoIndent                   = @editor_AutoIndent,
-                Editor_NewLineAtEnd                 = @editor_NewLineAtEnd,
-                Editor_KeepNewLineVisible           = @editor_KeepNewLineVisible,
-                Editor_TabsToSpaces                 = @editor_TabsToSpaces,
-                Editor_ConvertIndentationOnPaste    = @editor_ConvertIndentationOnPaste,
-                Editor_TabWidth                     = @editor_TabWidth,
-                Editor_MiddleClickPaste             = @editor_MiddleClickPaste,
-                Editor_TrimPastedText               = @editor_TrimPastedText,
-                Editor_TrimCopiedText               = @editor_TrimCopiedText,
-                Editor_CopyHighlightedText          = @editor_CopyHighlightedText,
+                    Editor_UseMonoFont                  = @editor_UseMonoFont,
+                    Editor_MonoFontFamily               = @editor_MonoFontFamily,
+                    Editor_SpellCheck                   = @editor_SpellCheck,
+                    Editor_AutoIndent                   = @editor_AutoIndent,
+                    Editor_NewLineAtEnd                 = @editor_NewLineAtEnd,
+                    Editor_KeepNewLineVisible           = @editor_KeepNewLineVisible,
+                    Editor_TabsToSpaces                 = @editor_TabsToSpaces,
+                    Editor_ConvertIndentationOnPaste    = @editor_ConvertIndentationOnPaste,
+                    Editor_TabWidth                     = @editor_TabWidth,
+                    Editor_MiddleClickPaste             = @editor_MiddleClickPaste,
+                    Editor_TrimPastedText               = @editor_TrimPastedText,
+                    Editor_TrimCopiedText               = @editor_TrimCopiedText,
+                    Editor_CopyHighlightedText          = @editor_CopyHighlightedText,
 
-                Tool_Base64State        = @tool_Base64State,
-                Tool_BracketState       = @tool_BracketState,
-                Tool_CaseState          = @tool_CaseState,
-                Tool_DateTimeState      = @tool_DateTimeState,
-                Tool_GibberishState     = @tool_GibberishState,
-                Tool_HashState          = @tool_HashState,
-                Tool_HtmlEntityState    = @tool_HtmlEntityState,
-                Tool_IndentState        = @tool_IndentState,
-                Tool_JoinState          = @tool_JoinState,
-                Tool_JsonState          = @tool_JsonState,
-                Tool_ListState          = @tool_ListState,
-                Tool_QuoteState         = @tool_QuoteState,
-                Tool_RemoveState        = @tool_RemoveState,
-                Tool_SlashState         = @tool_SlashState,
-                Tool_SortState          = @tool_SortState,
-                Tool_SplitState         = @tool_SplitState,
-                Tool_TrimState          = @tool_TrimState
-            WHERE
-                Id = @id
-        ";
-        command.Parameters.AddWithValue("@id", settings.Id);
+                    Tool_Base64State        = @tool_Base64State,
+                    Tool_BracketState       = @tool_BracketState,
+                    Tool_CaseState          = @tool_CaseState,
+                    Tool_DateTimeState      = @tool_DateTimeState,
+                    Tool_GibberishState     = @tool_GibberishState,
+                    Tool_HashState          = @tool_HashState,
+                    Tool_HtmlEntityState    = @tool_HtmlEntityState,
+                    Tool_IndentState        = @tool_IndentState,
+                    Tool_JoinState          = @tool_JoinState,
+                    Tool_JsonState          = @tool_JsonState,
+                    Tool_ListState          = @tool_ListState,
+                    Tool_QuoteState         = @tool_QuoteState,
+                    Tool_RemoveState        = @tool_RemoveState,
+                    Tool_SlashState         = @tool_SlashState,
+                    Tool_SortState          = @tool_SortState,
+                    Tool_SplitState         = @tool_SplitState,
+                    Tool_TrimState          = @tool_TrimState
+                WHERE
+                    Id = @id
+            ",
+            parameters: [
+                new("@application_TrayIcon", settings.Application_TrayIcon),
+                new("@application_NotesInTaskbar", settings.Application_NotesInTaskbar),
+                new("@application_CheckForUpdates", settings.Application_CheckForUpdates),
 
-        command.Parameters.AddWithValue("@application_TrayIcon", settings.Application_TrayIcon);
-        command.Parameters.AddWithValue("@application_NotesInTaskbar", settings.Application_NotesInTaskbar);
-        command.Parameters.AddWithValue("@application_CheckForUpdates", settings.Application_CheckForUpdates);
+                new("@notes_DefaultWidth", settings.Notes_DefaultWidth),
+                new("@notes_DefaultHeight", settings.Notes_DefaultHeight),
+                new("@notes_StartupPosition", settings.Notes_StartupPosition),
+                new("@notes_MinimizeMode", settings.Notes_MinimizeMode),
+                new("@notes_HideTitleBar", settings.Notes_HideTitleBar),
+                new("@notes_DefaultThemeColorKey", settings.Notes_DefaultThemeColorKey),
+                new("@notes_ColorMode", settings.Notes_ColorMode),
+                new("@notes_TransparencyMode", settings.Notes_TransparencyMode),
+                new("@notes_OpaqueWhenFocused", settings.Notes_OpaqueWhenFocused),
+                new("@notes_TransparentOpacity", settings.Notes_TransparentOpacity),
+                new("@notes_OpaqueOpacity", settings.Notes_OpaqueOpacity),
 
-        command.Parameters.AddWithValue("@notes_DefaultWidth", settings.Notes_DefaultWidth);
-        command.Parameters.AddWithValue("@notes_DefaultHeight", settings.Notes_DefaultHeight);
-        command.Parameters.AddWithValue("@notes_StartupPosition", settings.Notes_StartupPosition);
-        command.Parameters.AddWithValue("@notes_MinimizeMode", settings.Notes_MinimizeMode);
-        command.Parameters.AddWithValue("@notes_HideTitleBar", settings.Notes_HideTitleBar);
-        command.Parameters.AddWithValue("@notes_DefaultThemeColorKey", settings.Notes_DefaultThemeColorKey);
-        command.Parameters.AddWithValue("@notes_ColorMode", settings.Notes_ColorMode);
-        command.Parameters.AddWithValue("@notes_TransparencyMode", settings.Notes_TransparencyMode);
-        command.Parameters.AddWithValue("@notes_OpaqueWhenFocused", settings.Notes_OpaqueWhenFocused);
-        command.Parameters.AddWithValue("@notes_TransparentOpacity", settings.Notes_TransparentOpacity);
-        command.Parameters.AddWithValue("@notes_OpaqueOpacity", settings.Notes_OpaqueOpacity);
+                new("@editor_UseMonoFont", settings.Editor_UseMonoFont),
+                new("@editor_MonoFontFamily", settings.Editor_MonoFontFamily),
+                new("@editor_SpellCheck", settings.Editor_SpellCheck),
+                new("@editor_AutoIndent", settings.Editor_AutoIndent),
+                new("@editor_NewLineAtEnd", settings.Editor_NewLineAtEnd),
+                new("@editor_KeepNewLineVisible", settings.Editor_KeepNewLineVisible),
+                new("@editor_TabsToSpaces", settings.Editor_TabsToSpaces),
+                new("@editor_ConvertIndentationOnPaste", settings.Editor_ConvertIndentationOnPaste),
+                new("@editor_TabWidth", settings.Editor_TabWidth),
+                new("@editor_MiddleClickPaste", settings.Editor_MiddleClickPaste),
+                new("@editor_TrimPastedText", settings.Editor_TrimPastedText),
+                new("@editor_TrimCopiedText", settings.Editor_TrimCopiedText),
+                new("@editor_CopyHighlightedText", settings.Editor_CopyHighlightedText),
 
-        command.Parameters.AddWithValue("@editor_UseMonoFont", settings.Editor_UseMonoFont);
-        command.Parameters.AddWithValue("@editor_MonoFontFamily", settings.Editor_MonoFontFamily);
-        command.Parameters.AddWithValue("@editor_SpellCheck", settings.Editor_SpellCheck);
-        command.Parameters.AddWithValue("@editor_AutoIndent", settings.Editor_AutoIndent);
-        command.Parameters.AddWithValue("@editor_NewLineAtEnd", settings.Editor_NewLineAtEnd);
-        command.Parameters.AddWithValue("@editor_KeepNewLineVisible", settings.Editor_KeepNewLineVisible);
-        command.Parameters.AddWithValue("@editor_TabsToSpaces", settings.Editor_TabsToSpaces);
-        command.Parameters.AddWithValue("@editor_ConvertIndentationOnPaste", settings.Editor_ConvertIndentationOnPaste);
-        command.Parameters.AddWithValue("@editor_TabWidth", settings.Editor_TabWidth);
-        command.Parameters.AddWithValue("@editor_MiddleClickPaste", settings.Editor_MiddleClickPaste);
-        command.Parameters.AddWithValue("@editor_TrimPastedText", settings.Editor_TrimPastedText);
-        command.Parameters.AddWithValue("@editor_TrimCopiedText", settings.Editor_TrimCopiedText);
-        command.Parameters.AddWithValue("@editor_CopyHighlightedText", settings.Editor_CopyHighlightedText);
+                new("@tool_Base64State", settings.Tool_Base64State),
+                new("@tool_BracketState", settings.Tool_BracketState),
+                new("@tool_CaseState", settings.Tool_CaseState),
+                new("@tool_DateTimeState", settings.Tool_DateTimeState),
+                new("@tool_GibberishState", settings.Tool_GibberishState),
+                new("@tool_HashState", settings.Tool_HashState),
+                new("@tool_HtmlEntityState", settings.Tool_HtmlEntityState),
+                new("@tool_IndentState", settings.Tool_IndentState),
+                new("@tool_JoinState", settings.Tool_JoinState),
+                new("@tool_JsonState", settings.Tool_JsonState),
+                new("@tool_ListState", settings.Tool_ListState),
+                new("@tool_QuoteState", settings.Tool_QuoteState),
+                new("@tool_RemoveState", settings.Tool_RemoveState),
+                new("@tool_SlashState", settings.Tool_SlashState),
+                new("@tool_SortState", settings.Tool_SortState),
+                new("@tool_SplitState", settings.Tool_SplitState),
+                new("@tool_TrimState", settings.Tool_TrimState),
 
-        command.Parameters.AddWithValue("@tool_Base64State", settings.Tool_Base64State);
-        command.Parameters.AddWithValue("@tool_BracketState", settings.Tool_BracketState);
-        command.Parameters.AddWithValue("@tool_CaseState", settings.Tool_CaseState);
-        command.Parameters.AddWithValue("@tool_DateTimeState", settings.Tool_DateTimeState);
-        command.Parameters.AddWithValue("@tool_GibberishState", settings.Tool_GibberishState);
-        command.Parameters.AddWithValue("@tool_HashState", settings.Tool_HashState);
-        command.Parameters.AddWithValue("@tool_HtmlEntityState", settings.Tool_HtmlEntityState);
-        command.Parameters.AddWithValue("@tool_IndentState", settings.Tool_IndentState);
-        command.Parameters.AddWithValue("@tool_JoinState", settings.Tool_JoinState);
-        command.Parameters.AddWithValue("@tool_JsonState", settings.Tool_JsonState);
-        command.Parameters.AddWithValue("@tool_ListState", settings.Tool_ListState);
-        command.Parameters.AddWithValue("@tool_QuoteState", settings.Tool_QuoteState);
-        command.Parameters.AddWithValue("@tool_RemoveState", settings.Tool_RemoveState);
-        command.Parameters.AddWithValue("@tool_SlashState", settings.Tool_SlashState);
-        command.Parameters.AddWithValue("@tool_SortState", settings.Tool_SortState);
-        command.Parameters.AddWithValue("@tool_SplitState", settings.Tool_SplitState);
-        command.Parameters.AddWithValue("@tool_TrimState", settings.Tool_TrimState);
-
-        command.ExecuteNonQuery();
+                new("@id", settings.Id)
+            ]
+        );
     }
 }
