@@ -53,6 +53,7 @@ public class NotifyIconComponent : IDisposable
         ContextMenuStrip contextMenu = new();
         contextMenu.Items.Add("New Note", null, NewNote_Click);
         contextMenu.Items.Add("-");
+        contextMenu.Items.Add("Manage Notes", null, ManageNotes_Click);
         contextMenu.Items.Add("Settings", null, Settings_Click);
         contextMenu.Items.Add("-");
         contextMenu.Items.Add("Exit", null, Exit_Click);
@@ -80,6 +81,9 @@ public class NotifyIconComponent : IDisposable
 
     private void NewNote_Click(object? sender, EventArgs e)
         => _applicationManager.CreateNewNote();
+
+    private void ManageNotes_Click(object? sender, EventArgs e)
+        => _applicationManager.ShowManagementWindow();
 
     private void Settings_Click(object? sender, EventArgs e)
         => _applicationManager.ShowSettingsWindow();

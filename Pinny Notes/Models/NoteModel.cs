@@ -20,7 +20,7 @@ public class NoteModel
         InitPosition(Settings.Notes_StartupPosition, parent);
     }
 
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     private string _text = "";
     public string Text {

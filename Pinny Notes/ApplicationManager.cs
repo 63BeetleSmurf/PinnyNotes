@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
@@ -16,6 +17,7 @@ public class ApplicationManager
 
     private NotifyIconComponent _notifyIcon;
 
+    private ManagementPresenter? _managementPresenter;
     private SettingsPresenter? _settingsPresenter;
 
     public readonly string ConnectionString;
@@ -68,6 +70,9 @@ public class ApplicationManager
         ShowNoteWindow(note);
     }
 
+    public IEnumerable<NoteModel> GetNotes()
+        => _noteRepository.GetAll();
+
     public void SaveNote(NoteModel note)
         => _noteRepository.Update(note);
 
@@ -86,6 +91,18 @@ public class ApplicationManager
         note.Initialize(ApplicationSettings);
 
         ShowNoteWindow(note);
+    }
+
+    public void ShowManagementWindow()
+    {
+        if (_managementPresenter == null)
+            _managementPresenter = new(
+                this,
+                new ManagementModel(),
+                new ManagementWindow()
+            );
+
+        _managementPresenter.ShowWindow();
     }
 
     public void ShowSettingsWindow(Window? owner = null)
