@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Media;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.Helpers;
@@ -124,5 +125,13 @@ public static class ThemeHelper
             defaultColorList.Add(new(theme.Key, theme.DisplayName));
 
         return defaultColorList;
+    }
+
+    public static ThemeColorsModel GetThemeColorForMode(ThemeModel theme, ColorModes colorMode)
+    {
+        if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
+            return theme.DarkColor;
+
+        return theme.LightColor;
     }
 }

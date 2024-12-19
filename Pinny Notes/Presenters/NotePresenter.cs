@@ -210,12 +210,7 @@ public class NotePresenter
     {
         SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
 
-        ThemeColorsModel themeColor;
-
-        if (settings.Notes_ColorMode == ColorModes.Dark || (settings.Notes_ColorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
-            themeColor = _model.Theme.DarkColor;
-        else
-            themeColor = _model.Theme.LightColor;
+        ThemeColorsModel themeColor = ThemeHelper.GetThemeColorForMode(_model.Theme, settings.Notes_ColorMode);
 
         _view.TitleBarColorBrush = themeColor.TitleBarColor.Brush;
         _view.TitleButtonColorBrush = themeColor.TitleBarButtonsColor.Brush;
