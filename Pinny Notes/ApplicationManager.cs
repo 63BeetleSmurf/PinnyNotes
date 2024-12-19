@@ -21,6 +21,7 @@ public class ApplicationManager
     public readonly string ConnectionString;
 
     private readonly ApplicationDataRepository _applicationDataRepository;
+    private readonly NoteRepository _noteRepository;
     private readonly SettingsRepository _settingsRepository;
 
     public readonly ApplicationDataModel ApplicationData;
@@ -35,6 +36,7 @@ public class ApplicationManager
         ConnectionString = DatabaseHelper.GetConnectionString();
         DatabaseHelper.CheckDatabase(ConnectionString);
         _applicationDataRepository = new(ConnectionString);
+        _noteRepository = new(ConnectionString);
         _settingsRepository = new(ConnectionString);
 
         ApplicationData = _applicationDataRepository.GetApplicationData();
@@ -56,13 +58,34 @@ public class ApplicationManager
 
     public void CreateNewNote(NoteModel? parent = null)
     {
+        NoteModel note = new()
+        {
+            Id = _noteRepository.Create()
+        };
+        note.Initialize(ApplicationSettings, parent);
+        _noteRepository.Update(note);
+
+        ShowNoteWindow(note);
+    }
+
+    public void SaveNote(NoteModel note)
+        => _noteRepository.Update(note);
+
+    public void ShowNoteWindow(NoteModel model)
+    {
         NotePresenter presenter = new(
             this,
-            new NoteWindow(),
-            parent: parent
+            model,
+            new NoteWindow()
         );
-
         presenter.ShowWindow();
+    }
+    public void ShowNoteWindow(int noteId)
+    {
+        NoteModel note = _noteRepository.GetById(noteId);
+        note.Initialize(ApplicationSettings);
+
+        ShowNoteWindow(note);
     }
 
     public void ShowSettingsWindow(Window? owner = null)

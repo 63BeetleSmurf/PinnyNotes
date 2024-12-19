@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
-using PinnyNotes.WpfUi.Repositories;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Presenters;
@@ -13,24 +12,15 @@ namespace PinnyNotes.WpfUi.Presenters;
 public class NotePresenter
 {
     private readonly ApplicationManager _applicationManager;
-    private readonly NoteRepository _noteRepository;
     private readonly NoteModel _model;
     private readonly NoteWindow _view;
 
-    public NotePresenter(ApplicationManager applicationManager, NoteWindow view, int? noteId = null, NoteModel? parent = null)
+    public NotePresenter(ApplicationManager applicationManager, NoteModel model, NoteWindow view)
     {
         _applicationManager = applicationManager;
-        _noteRepository = new(_applicationManager.ConnectionString);
 
         _view = view;
-        if (noteId == null)
-            _model = new()
-            {
-                Id = _noteRepository.Create()
-            };
-        else
-            _model = _noteRepository.GetById((int)noteId);
-        _model.Initialize(applicationManager.ApplicationSettings, parent);
+        _model = model;
 
         PopulateViewProperties();
 
@@ -126,7 +116,7 @@ public class NotePresenter
 
     private void OnCloseNoteClicked(object? sender, EventArgs e)
     {
-        _noteRepository.Update(_model);
+        _applicationManager.SaveNote(_model);
         _view.Close();
     }
 
