@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -19,21 +17,14 @@ public partial class NoteWindow : Window
         InitializeComponent();
 
         Loaded += OnWindowLoaded;
-        Closing += OnWindowClosing;
         Activated += OnWindowActivated;
         Deactivated += OnWindowDeactivated;
-        StateChanged += OnWindowStateChanged;
         MouseEnter += OnWindowMouseEnter;
         MouseLeave += OnWindowMouseLeave;
         MouseDown += OnWindowMouseDown;
 
         TitleBarGrid.MouseDown += OnTitleBarMouseDown;
         TitleBarGrid.MouseRightButtonUp += OnTitleBarMouseRightButtonUp;
-        NewButton.Click += OnNewButtonClick;
-        PinButton.Click += OnPinButtonClick;
-        CloseButton.Click += OnCloseButtonClick;
-
-        NoteTextBox.TextChanged += OnNoteTextChanged;
     }
 
     public nint Handle { get; set; }
@@ -86,19 +77,7 @@ public partial class NoteWindow : Window
     public Brush BackgroundColorBrush { get => Background; set => Background = value; }
     public Brush TextColorBrush { get => (Brush)Resources["NoteFontBrush"]; set => Resources["NoteFontBrush"] = value; }
 
-    public event EventHandler? WindowLoaded;
-    public event EventHandler? WindowClosing;
-    public event EventHandler? WindowActivated;
-    public event EventHandler? WindowDeactivated;
-    public event EventHandler? WindowStateChanged;
     public event EventHandler? WindowMoved;
-
-    public event EventHandler? TitleBarMouseRightClick;
-    public event EventHandler? NewButtonClick;
-    public event EventHandler? PinButtonClick;
-    public event EventHandler? CloseButtonClick;
-
-    public event EventHandler? NoteTextChanged;
 
     public void ScrollToEnd() => NoteTextBox.ScrollToEnd();
 
@@ -106,31 +85,16 @@ public partial class NoteWindow : Window
     {
         // Ensure handle is set before invoking event
         Handle = ScreenHelper.GetWindowHandle(this);
-        WindowLoaded?.Invoke(sender, e);
-    }
-
-    private void OnWindowClosing(object? sender, CancelEventArgs e)
-    {
-        WindowClosing?.Invoke(sender, e);
     }
 
     private void OnWindowActivated(object? sender, EventArgs e)
     {
-        WindowActivated?.Invoke(sender, e);
-
         ToggleTitleBar();
     }
 
     private void OnWindowDeactivated(object? sender, EventArgs e)
     {
-        WindowDeactivated?.Invoke(sender, e);
-
         ToggleTitleBar(true);
-    }
-
-    private void OnWindowStateChanged(object? sender, EventArgs e)
-    {
-        WindowStateChanged?.Invoke(sender, e);
     }
 
     private void OnWindowMouseEnter(object sender, MouseEventArgs e)
@@ -168,29 +132,7 @@ public partial class NoteWindow : Window
 
     private void OnTitleBarMouseRightButtonUp(object sender, MouseButtonEventArgs e)
     {
-        TitleBarMouseRightClick?.Invoke(sender, e);
-
         TitleBarGrid.ContextMenu = TitleBarContextMenu;
-    }
-
-    private void OnNewButtonClick(object sender, RoutedEventArgs e)
-    {
-        NewButtonClick?.Invoke(sender, e);
-    }
-
-    private void OnPinButtonClick(object sender, RoutedEventArgs e)
-    {
-        PinButtonClick?.Invoke(sender, e);
-    }
-
-    private void OnCloseButtonClick(object sender, RoutedEventArgs e)
-    {
-        CloseButtonClick?.Invoke(sender, e);
-    }
-
-    private void OnNoteTextChanged(object sender, TextChangedEventArgs e)
-    {
-        NoteTextChanged?.Invoke(sender, e);
     }
 
     private void ToggleTitleBar(bool hide = false)

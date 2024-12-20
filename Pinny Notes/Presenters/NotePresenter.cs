@@ -27,19 +27,19 @@ public class NotePresenter
         _applicationManager.SettingsChanged += OnSettingsChanged;
         _applicationManager.ActivateNotes += OnActivateNotes;
 
-        _view.WindowLoaded += OnWindowLoaded;
-        _view.WindowClosing += OnWindowClosing;
-        _view.WindowActivated += OnWindowActivated;
-        _view.WindowDeactivated += OnWindowDeactivated;
-        _view.WindowStateChanged += OnWindowStateChanged;
+        _view.Loaded += OnWindowLoaded;
+        _view.Closing += OnWindowClosing;
+        _view.Activated += OnWindowActivated;
+        _view.Deactivated += OnWindowDeactivated;
+        _view.StateChanged += OnWindowStateChanged;
         _view.WindowMoved += OnWindowMoved;
 
-        _view.TitleBarMouseRightClick += OnTitleBarMouseRightClick;
-        _view.NewButtonClick += OnNewButtonClick;
-        _view.PinButtonClick += OnPinButtonClick;
-        _view.CloseButtonClick += OnCloseButtonClick;
+        _view.TitleBarGrid.MouseRightButtonUp += OnTitleBarMouseRightClick;
+        _view.NewButton.Click += OnNewButtonClick;
+        _view.PinButton.Click += OnPinButtonClick;
+        _view.CloseButton.Click += OnCloseButtonClick;
 
-        _view.NoteTextChanged += OnNoteTextChanged;
+        _view.NoteTextBox.TextChanged += OnNoteTextChanged;
 
         ApplyTheme();
         UpdateWindowOpacity();
