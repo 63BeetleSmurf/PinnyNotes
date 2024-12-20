@@ -28,17 +28,18 @@ public class NotePresenter
         _applicationManager.ActivateNotes += OnActivateNotes;
 
         _view.WindowLoaded += OnWindowLoaded;
-        _view.WindowMoved += OnWindowMoved;
+        _view.WindowClosing += OnWindowClosing;
         _view.WindowActivated += OnWindowActivated;
         _view.WindowDeactivated += OnWindowDeactivated;
         _view.WindowStateChanged += OnWindowStateChanged;
+        _view.WindowMoved += OnWindowMoved;
 
-        _view.NewNoteClicked += OnNewNoteClicked;
-        _view.PinClicked += OnPinClicked;
-        _view.CloseNoteClicked += OnCloseNoteClicked;
-        _view.TitleBarRightClicked += OnTitleBarRightClicked;
+        _view.TitleBarMouseRightClick += OnTitleBarMouseRightClick;
+        _view.NewButtonClick += OnNewButtonClick;
+        _view.PinButtonClick += OnPinButtonClick;
+        _view.CloseButtonClick += OnCloseButtonClick;
 
-        _view.TextChanged += OnTextChanged;
+        _view.NoteTextChanged += OnNoteTextChanged;
 
         ApplyTheme();
         UpdateWindowOpacity();
@@ -67,16 +68,9 @@ public class NotePresenter
         _model.WindowHandle = _view.Handle; // May not be needed, see gravity update
     }
 
-    private void OnWindowMoved(object? sender, EventArgs e)
+    private void OnWindowClosing(object? sender, EventArgs e)
     {
-        // Reset gravity depending what position the note was moved to.
-        // This does not effect the saved start up setting, only what
-        // direction new child notes will go towards.
-        _model.X = (int)_view.Left;
-        _model.Y = (int)_view.Top;
-        _model.UpdateGravity(
-            ScreenHelper.GetCurrentScreenBounds(_view.Handle)
-        );
+        
     }
 
     private void OnWindowActivated(object? sender, EventArgs e)
@@ -102,25 +96,19 @@ public class NotePresenter
             _view.WindowState = WindowState.Normal;
     }
 
-    private void OnNewNoteClicked(object? sender, EventArgs e)
+    private void OnWindowMoved(object? sender, EventArgs e)
     {
-        _applicationManager.CreateNewNote(_model);
+        // Reset gravity depending what position the note was moved to.
+        // This does not effect the saved start up setting, only what
+        // direction new child notes will go towards.
+        _model.X = (int)_view.Left;
+        _model.Y = (int)_view.Top;
+        _model.UpdateGravity(
+            ScreenHelper.GetCurrentScreenBounds(_view.Handle)
+        );
     }
 
-    private void OnPinClicked(object? sender, EventArgs e)
-    {
-        _model.IsPinned = _view.IsPinned;
-        _view.Topmost = _model.IsPinned;
-        UpdateWindowOpacity();
-    }
-
-    private void OnCloseNoteClicked(object? sender, EventArgs e)
-    {
-        _applicationManager.SaveNote(_model);
-        _view.Close();
-    }
-
-    private void OnTitleBarRightClicked(object? sender, EventArgs e)
+    private void OnTitleBarMouseRightClick(object? sender, EventArgs e)
     {
         _view.TitleBarContextMenu = new(
             _model.Theme,
@@ -129,11 +117,6 @@ public class NotePresenter
             OnChangeThemeMenuItemClicked,
             OnSettingsMenuItemClicked
         );
-    }
-
-    private void OnSaveMenuItemClicked(object? sender, EventArgs e)
-    {
-        
     }
 
     private void OnResetSizeMenuItemClicked(object? sender, EventArgs e)
@@ -164,9 +147,32 @@ public class NotePresenter
         _applicationManager.ShowSettingsWindow(_view);
     }
 
-    private void OnTextChanged(object? sender, EventArgs e)
+    private void OnNewButtonClick(object? sender, EventArgs e)
+    {
+        _applicationManager.CreateNewNote(_model);
+    }
+
+    private void OnPinButtonClick(object? sender, EventArgs e)
+    {
+        _model.IsPinned = _view.IsPinned;
+        _view.Topmost = _model.IsPinned;
+        UpdateWindowOpacity();
+    }
+
+    private void OnCloseButtonClick(object? sender, EventArgs e)
+    {
+        _applicationManager.SaveNote(_model);
+        _view.Close();
+    }
+
+    private void OnNoteTextChanged(object? sender, EventArgs e)
     {
         _model.Text = _view.Text;
+    }
+
+    private void OnSaveMenuItemClicked(object? sender, EventArgs e)
+    {
+        
     }
 
     private void PopulateViewProperties()

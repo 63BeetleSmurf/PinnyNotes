@@ -8,18 +8,10 @@
         mc:Ignorable="d"
         MinHeight="75" MinWidth="150"
         WindowStyle="None"
-        MouseDown="NoteWindow_MouseDown"
         ResizeMode="CanResizeWithGrip"
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
         BorderThickness="1"
-        Loaded="Window_Loaded"
-        StateChanged="NoteWindow_StateChanged"
-        MouseEnter="Window_MouseEnter"
-        MouseLeave="Window_MouseLeave"
-        Activated="Window_Activated"
-        Deactivated="Window_Deactivated"
-        Closing="Window_Closing"
         Icon="/Images/icon.ico"
         >
     <Window.Resources>
@@ -60,8 +52,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" MouseRightButtonUp="TitleBar_MouseRightButtonUp">
-            <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0" Style="{StaticResource FadeOutButton}" Focusable="False">
+        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40">
+            <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" ToolTip="New Note" Padding="0,0,0,0" Style="{StaticResource FadeOutButton}" Focusable="False">
                 <Button.Template>
                     <ControlTemplate>
                         <Grid>
@@ -71,7 +63,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <ToggleButton Name="PinButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Center" ToolTip="Toggle On Top" Padding="0,0,0,0" Style="{StaticResource FadeOutToggleButton}" Focusable="False" Click="PinButton_Click">
+            <ToggleButton Name="PinButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Center" ToolTip="Toggle On Top" Padding="0,0,0,0" Style="{StaticResource FadeOutToggleButton}" Focusable="False">
                 <ToggleButton.Template>
                     <ControlTemplate TargetType="ToggleButton">
                         <Grid>
@@ -95,7 +87,7 @@
                     </ControlTemplate>
                 </ToggleButton.Template>
             </ToggleButton>
-            <Button Name="CloseButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close" Padding="0,0,0,0" Style="{StaticResource FadeOutButton}" Focusable="False">
+            <Button Name="CloseButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0" ToolTip="Close" Padding="0,0,0,0" Style="{StaticResource FadeOutButton}" Focusable="False">
                 <Button.Template>
                     <ControlTemplate>
                         <Grid>
@@ -115,7 +107,6 @@
                 FontSize="16"
                 x:Name="NoteTextBox"
                 Padding="5,5,5,5"
-                TextChanged="NoteTextBox_TextChanged"
                 SpellCheck.IsEnabled="{Binding SpellCheck}"
                 FontFamily="{Binding FontFamily}"
                 />

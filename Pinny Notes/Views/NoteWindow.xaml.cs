@@ -1,7 +1,5 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,6 +17,23 @@ public partial class NoteWindow : Window
     public NoteWindow()
     {
         InitializeComponent();
+
+        Loaded += OnWindowLoaded;
+        Closing += OnWindowClosing;
+        Activated += OnWindowActivated;
+        Deactivated += OnWindowDeactivated;
+        StateChanged += OnWindowStateChanged;
+        MouseEnter += OnWindowMouseEnter;
+        MouseLeave += OnWindowMouseLeave;
+        MouseDown += OnWindowMouseDown;
+
+        TitleBarGrid.MouseDown += OnTitleBarMouseDown;
+        TitleBarGrid.MouseRightButtonUp += OnTitleBarMouseRightButtonUp;
+        NewButton.Click += OnNewButtonClick;
+        PinButton.Click += OnPinButtonClick;
+        CloseButton.Click += OnCloseButtonClick;
+
+        NoteTextBox.TextChanged += OnNoteTextChanged;
     }
 
     public nint Handle { get; set; }
@@ -72,28 +87,64 @@ public partial class NoteWindow : Window
     public Brush TextColorBrush { get => (Brush)Resources["NoteFontBrush"]; set => Resources["NoteFontBrush"] = value; }
 
     public event EventHandler? WindowLoaded;
-    public event EventHandler? WindowMoved;
+    public event EventHandler? WindowClosing;
     public event EventHandler? WindowActivated;
     public event EventHandler? WindowDeactivated;
     public event EventHandler? WindowStateChanged;
+    public event EventHandler? WindowMoved;
 
-    public event EventHandler? NewNoteClicked;
-    public event EventHandler? PinClicked;
-    public event EventHandler? CloseNoteClicked;
-    public event EventHandler? TitleBarRightClicked;
+    public event EventHandler? TitleBarMouseRightClick;
+    public event EventHandler? NewButtonClick;
+    public event EventHandler? PinButtonClick;
+    public event EventHandler? CloseButtonClick;
 
-    public event EventHandler? TextChanged;
+    public event EventHandler? NoteTextChanged;
 
     public void ScrollToEnd() => NoteTextBox.ScrollToEnd();
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void OnWindowLoaded(object sender, RoutedEventArgs e)
     {
         // Ensure handle is set before invoking event
         Handle = ScreenHelper.GetWindowHandle(this);
         WindowLoaded?.Invoke(sender, e);
     }
 
-    private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
+    private void OnWindowClosing(object? sender, CancelEventArgs e)
+    {
+        WindowClosing?.Invoke(sender, e);
+    }
+
+    private void OnWindowActivated(object? sender, EventArgs e)
+    {
+        WindowActivated?.Invoke(sender, e);
+
+        ToggleTitleBar();
+    }
+
+    private void OnWindowDeactivated(object? sender, EventArgs e)
+    {
+        WindowDeactivated?.Invoke(sender, e);
+
+        ToggleTitleBar(true);
+    }
+
+    private void OnWindowStateChanged(object? sender, EventArgs e)
+    {
+        WindowStateChanged?.Invoke(sender, e);
+    }
+
+    private void OnWindowMouseEnter(object sender, MouseEventArgs e)
+    {
+        ToggleTitleBar();
+    }
+
+    private void OnWindowMouseLeave(object sender, MouseEventArgs e)
+    {
+        if (!IsActive)
+            ToggleTitleBar(true);
+    }
+
+    private void OnWindowMouseDown(object sender, MouseButtonEventArgs e)
     {
         // Check mouse button is pressed as a missed click of a button
         // can cause issues with DragMove().
@@ -104,81 +155,7 @@ public partial class NoteWindow : Window
         }
     }
 
-    private void NoteWindow_StateChanged(object sender, EventArgs e) => WindowStateChanged?.Invoke(sender, e);
-
-    private void Window_MouseEnter(object sender, MouseEventArgs e)
-    {
-        ToggleTitleBar();
-    }
-
-    private void Window_MouseLeave(object sender, MouseEventArgs e)
-    {
-        if (!IsActive)
-            ToggleTitleBar(true);
-    }
-
-    private void Window_Activated(object sender, EventArgs e)
-    {
-        WindowActivated?.Invoke(sender, e);
-
-        ToggleTitleBar();
-    }
-
-    private void Window_Deactivated(object sender, EventArgs e)
-    {
-        WindowDeactivated?.Invoke(sender, e);
-
-        ToggleTitleBar(true);
-    }
-
-    // Will probably make a custom window as dark mode does not work in messagebox.
-    // Will actully not need this once database is added
-    private void Window_Closing(object sender, CancelEventArgs e)
-    {
-        //if (!_viewModel.IsSaved && NoteTextBox.Text != "")
-        //{
-        //    MessageBoxResult messageBoxResult = MessageBox.Show(
-        //        this,
-        //        "Do you want to save this note?",
-        //        "Pinny Notes",
-        //        MessageBoxButton.YesNoCancel,
-        //        MessageBoxImage.Question
-        //    );
-        //    // If the user presses cancel on the message box or 
-        //    // save dialog, do not close.
-        //    if (
-        //        (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
-        //        || messageBoxResult == MessageBoxResult.Cancel
-        //    )
-        //        e.Cancel = true;
-        //}
-    }
-
-    // This will become Export note once database added
-    private MessageBoxResult SaveNote()
-    {
-        SaveFileDialog saveFileDialog = new()
-        {
-            Filter = "Text Documents (*.txt)|*.txt|All Files|*"
-        };
-        if (saveFileDialog.ShowDialog(this) == true)
-        {
-            File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-            //_viewModel.IsSaved = true; // IsSaved will move to mean i the database
-            return MessageBoxResult.OK;
-        }
-        return MessageBoxResult.Cancel;
-    }
-
-    private void ToggleTitleBar(bool hide = false)
-    {
-        if (hide && Notes_HideTitleBar)
-            ((Storyboard)FindResource("HideTitleBarAnimation")).Begin();
-        else
-            ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
-    }
-
-    private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+    private void OnTitleBarMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.ClickCount >= 2)
         {
@@ -189,16 +166,38 @@ public partial class NoteWindow : Window
         }
     }
 
-    private void TitleBar_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+    private void OnTitleBarMouseRightButtonUp(object sender, MouseButtonEventArgs e)
     {
-        TitleBarRightClicked?.Invoke(sender, e);
+        TitleBarMouseRightClick?.Invoke(sender, e);
 
         TitleBarGrid.ContextMenu = TitleBarContextMenu;
     }
 
-    private void NewButton_Click(object sender, RoutedEventArgs e) => NewNoteClicked?.Invoke(sender, e);
-    private void PinButton_Click(object sender, RoutedEventArgs e) => PinClicked?.Invoke(sender, e);
-    private void CloseButton_Click(object sender, RoutedEventArgs e) => CloseNoteClicked?.Invoke(sender, e);
+    private void OnNewButtonClick(object sender, RoutedEventArgs e)
+    {
+        NewButtonClick?.Invoke(sender, e);
+    }
 
-    private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e) => TextChanged?.Invoke(sender, e);
+    private void OnPinButtonClick(object sender, RoutedEventArgs e)
+    {
+        PinButtonClick?.Invoke(sender, e);
+    }
+
+    private void OnCloseButtonClick(object sender, RoutedEventArgs e)
+    {
+        CloseButtonClick?.Invoke(sender, e);
+    }
+
+    private void OnNoteTextChanged(object sender, TextChangedEventArgs e)
+    {
+        NoteTextChanged?.Invoke(sender, e);
+    }
+
+    private void ToggleTitleBar(bool hide = false)
+    {
+        if (hide && Notes_HideTitleBar)
+            ((Storyboard)FindResource("HideTitleBarAnimation")).Begin();
+        else
+            ((Storyboard)FindResource("ShowTitleBarAnimation")).Begin();
+    }
 }
