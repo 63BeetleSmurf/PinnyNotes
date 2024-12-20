@@ -41,6 +41,9 @@ public class NoteModel
     public nint WindowHandle { get; set; }
 
     public ThemeModel Theme { get; set; } = null!;
+    public ThemeColorsModel ThemeColors
+        => ThemeHelper.GetThemeColorForMode(Theme, Settings?.Notes_ColorMode ?? ColorModes.Light);
+
     public bool IsPinned { get; set; }
 
     public bool IsSaved { get; set; }

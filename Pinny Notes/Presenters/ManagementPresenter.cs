@@ -20,9 +20,8 @@ public class ManagementPresenter
 
     private void Initialize()
     {
-        foreach (NoteModel note in _applicationManager.GetNotes())
-            _model.NotePreviews.Add(new(note));
-        _view.DisplayNotes(_model.NotePreviews);
+        _model.Notes = _applicationManager.GetNotes();
+        _view.DisplayNotes(_model.Notes);
     }
 
     public void ShowWindow()

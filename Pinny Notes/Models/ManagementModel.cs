@@ -4,5 +4,5 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class ManagementModel
 {
-    public List<NotePreviewModel> NotePreviews { get; set; } = [];
+    public IEnumerable<NoteModel> Notes { get; set; } = [];
 }

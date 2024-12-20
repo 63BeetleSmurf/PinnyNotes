@@ -12,7 +12,7 @@ public partial class ManagementWindow : Window
         InitializeComponent();
     }
 
-    public void DisplayNotes(IEnumerable<NotePreviewModel> notes)
+    public void DisplayNotes(IEnumerable<NoteModel> notes)
     {
         NotesListView.ItemsSource = notes;
     }

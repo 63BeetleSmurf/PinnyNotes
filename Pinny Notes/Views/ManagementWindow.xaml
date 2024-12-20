@@ -16,12 +16,12 @@
                     <Border Width="125"
                             Height="125"
                             Margin="5"
-                            Background="{Binding Theme.BackgroundColor.Brush}"
-                            BorderBrush="{Binding Theme.BorderColor.Brush}"
+                            Background="{Binding ThemeColors.BackgroundColor.Brush}"
+                            BorderBrush="{Binding ThemeColors.BorderColor.Brush}"
                             BorderThickness="1">
                         <StackPanel>
-                            <TextBlock Text="" FontWeight="Bold" FontSize="14" Background="AliceBlue" Padding="5,2,5,2" />
-                            <TextBlock Text="{Binding Text}" FontSize="12" TextWrapping="Wrap" Padding="5,2,5,2" />
+                            <TextBlock Text="" FontWeight="Bold" FontSize="14" Padding="5,2,5,2" Background="{Binding ThemeColors.TitleBarColor.Brush}" Foreground="{Binding ThemeColors.TextColor.Brush}" />
+                            <TextBlock Text="{Binding Text}" FontSize="12" TextWrapping="Wrap" Padding="5,2,5,2" Foreground="{Binding ThemeColors.TextColor.Brush}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

@@ -198,14 +198,10 @@ public class NotePresenter
 
     private void ApplyTheme()
     {
-        SettingsModel settings = _model.Settings ?? _applicationManager.ApplicationSettings;
-
-        ThemeColorsModel themeColor = ThemeHelper.GetThemeColorForMode(_model.Theme, settings.Notes_ColorMode);
-
-        _view.TitleBarColorBrush = themeColor.TitleBarColor.Brush;
-        _view.TitleButtonColorBrush = themeColor.TitleBarButtonsColor.Brush;
-        _view.BackgroundColorBrush = themeColor.BackgroundColor.Brush;
-        _view.TextColorBrush = themeColor.TextColor.Brush;
-        _view.BorderColorBrush = themeColor.BorderColor.Brush;
+        _view.TitleBarColorBrush = _model.ThemeColors.TitleBarColor.Brush;
+        _view.TitleButtonColorBrush = _model.ThemeColors.TitleBarButtonsColor.Brush;
+        _view.BackgroundColorBrush = _model.ThemeColors.BackgroundColor.Brush;
+        _view.TextColorBrush = _model.ThemeColors.TextColor.Brush;
+        _view.BorderColorBrush = _model.ThemeColors.BorderColor.Brush;
     }
 }
