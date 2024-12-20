@@ -40,15 +40,10 @@ public abstract class BaseRepository(string connectionString)
         return command.ExecuteReader();
     }
 
-    protected int GetLastInsertRowId()
-    {
-        using SqliteConnection connection = new(_connectionString);
-        connection.Open();
-
-        return Convert.ToInt32(
+    protected int GetLastInsertRowId(SqliteConnection connection)
+        => Convert.ToInt32(
             ExecuteScalar(connection, "SELECT last_insert_rowid();")
         );
-    }
 
     protected static bool GetBool(SqliteDataReader reader, int ordinal)
         => reader.GetBoolean(ordinal);

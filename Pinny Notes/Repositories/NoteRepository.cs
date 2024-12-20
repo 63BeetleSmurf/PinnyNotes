@@ -74,7 +74,7 @@ public class NoteRepository(string connectionString) : BaseRepository(connection
             "
         );
 
-        return GetLastInsertRowId();
+        return GetLastInsertRowId(connection);
     }
 
     public NoteModel GetById(int id)
