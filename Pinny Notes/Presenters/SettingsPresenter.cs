@@ -19,13 +19,13 @@ public class SettingsPresenter
         _model = model;
         _view = view;
 
-        _view.WindowClosing += OnWindowClosing;
+        _view.Closing += OnWindowClosing;
 
-        _view.OkClicked += OnOkClicked;
-        _view.CancelClicked += OnCancelClicked;
-        _view.ApplyClicked += OnApplyClicked;
+        _view.OkButton.Click += OnOkButtonClick;
+        _view.CancelButton.Click += OnCancelButtonClick;
+        _view.ApplyButton.Click += OnApplyButtonClick;
 
-        AddChangeHandlers();
+        _view.SettingsChanged += OnSettingsChanged;
     }
 
     public event EventHandler? SettingsSaved;
@@ -50,18 +50,18 @@ public class SettingsPresenter
         HideWindow();
     }
 
-    private void OnOkClicked(object? sender, EventArgs e)
+    private void OnOkButtonClick(object? sender, EventArgs e)
     {
         SaveSettings();
         HideWindow();
     }
 
-    private void OnCancelClicked(object? sender, EventArgs e)
+    private void OnCancelButtonClick(object? sender, EventArgs e)
     {
         HideWindow();
     }
 
-    private void OnApplyClicked(object? sender, EventArgs e)
+    private void OnApplyButtonClick(object? sender, EventArgs e)
     {
         SaveSettings();
     }
@@ -121,56 +121,5 @@ public class SettingsPresenter
     {
         _view.Owner = null;
         _view.Hide();
-    }
-
-    private void AddChangeHandlers()
-    {
-        _view.Application_TrayIconCheckBox.Click += OnSettingsChanged;
-        _view.Application_NotesInTaskbarCheckBox.Click += OnSettingsChanged;
-        _view.Application_CheckForUpdatesCheckBox.Click += OnSettingsChanged;
-
-        _view.Notes_DefaultWidthTextBox.TextChanged += OnSettingsChanged;
-        _view.Notes_DefaultHeightTextBox.TextChanged += OnSettingsChanged;
-        _view.Notes_StartupPositionComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Notes_MinimizeModeComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Notes_HideTitleBarCheckBox.Click += OnSettingsChanged;
-        _view.Notes_DefaultThemeColorComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Notes_ColorModeComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Notes_TransparencyModeComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Notes_OpaqueWhenFocusedCheckBox.Click += OnSettingsChanged;
-        _view.Notes_TransparentOpacityTextBox.TextChanged += OnSettingsChanged;
-        _view.Notes_OpaqueOpacityTextBox.TextChanged += OnSettingsChanged;
-
-        _view.Editor_UseMonoFontCheckBox.Click += OnSettingsChanged;
-        _view.Editor_MonoFontFamilyTextBox.TextChanged += OnSettingsChanged;
-        _view.Editor_SpellCheckCheckBox.Click += OnSettingsChanged;
-        _view.Editor_AutoIndentCheckBox.Click += OnSettingsChanged;
-        _view.Editor_NewLineAtEndCheckBox.Click += OnSettingsChanged;
-        _view.Editor_KeepNewLineVisibleCheckBox.Click += OnSettingsChanged;
-        _view.Editor_TabsToSpacesCheckBox.Click += OnSettingsChanged;
-        _view.Editor_ConvertIndentationOnPasteCheckBox.Click += OnSettingsChanged;
-        _view.Editor_TabWidthTextBox.TextChanged += OnSettingsChanged;
-        _view.Editor_MiddleClickPasteCheckBox.Click += OnSettingsChanged;
-        _view.Editor_TrimPastedTextCheckBox.Click += OnSettingsChanged;
-        _view.Editor_TrimCopiedTextCheckBox.Click += OnSettingsChanged;
-        _view.Editor_CopyHighlightedTextCheckBox.Click += OnSettingsChanged;
-
-        _view.Tool_Base64StateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_BracketStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_CaseStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_DateTimeStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_GibberishStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_HashStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_HtmlEntityStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_IndentStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_JoinStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_JsonStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_ListStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_QuoteStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_RemoveStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_SlashStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_SortStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_SplitStateComboBox.SelectionChanged += OnSettingsChanged;
-        _view.Tool_TrimStateComboBox.SelectionChanged += OnSettingsChanged;
     }
 }

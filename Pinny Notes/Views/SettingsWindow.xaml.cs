@@ -39,6 +39,9 @@ public partial class SettingsWindow : Window
         Tool_SortStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
         Tool_SplitStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
         Tool_TrimStateComboBox.ItemsSource = SettingsHelper.ToolStateList;
+
+        Notes_TransparencyModeComboBox.SelectionChanged += Notes_TransparencyModeComboBox_SelectionChanged;
+        Editor_NewLineAtEndCheckBox.Click += Editor_NewLineAtEndCheckBox_Click;
     }
 
     // Application
@@ -317,40 +320,24 @@ public partial class SettingsWindow : Window
         set => Tool_TrimStateComboBox.SelectedValue = value;
     }
 
-    public event EventHandler? WindowClosing;
-    public event EventHandler? OkClicked;
-    public event EventHandler? CancelClicked;
-    public event EventHandler? ApplyClicked;
+    public event EventHandler? SettingsChanged;
 
-    private void Window_Closing(object sender, CancelEventArgs e)
+    private void OnSettingChanged(object sender, EventArgs e)
     {
-        WindowClosing?.Invoke(sender, e);
-        e.Cancel = true;
+        SettingsChanged?.Invoke(sender, e);
     }
 
-    private void Notes_TransparencyModeComboBoxComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void Notes_TransparencyModeComboBox_SelectionChanged(object sender, EventArgs e)
     {
         object? selectedValue = Notes_TransparencyModeComboBox.SelectedValue;
-        Notes_OpaqueWhenFocusedCheckBox.IsEnabled = (selectedValue != null && (TransparencyModes)selectedValue != TransparencyModes.Disabled);
+        bool isEnabled = (selectedValue != null && (TransparencyModes)selectedValue != TransparencyModes.Disabled);
+        Notes_OpaqueWhenFocusedCheckBox.IsEnabled = isEnabled;
+        Notes_TransparentOpacityTextBox.IsEnabled = isEnabled;
+        Notes_OpaqueOpacityTextBox.IsEnabled = isEnabled;
     }
 
-    private void Editor_NewLineAtEndCheckBox_Checked(object sender, RoutedEventArgs e)
+    private void Editor_NewLineAtEndCheckBox_Click(object sender, EventArgs e)
     {
         Editor_KeepNewLineVisibleCheckBox.IsEnabled = Editor_NewLineAtEndCheckBox.IsChecked ?? false;
-    }
-
-    private void OkButton_Click(object sender, RoutedEventArgs e)
-    {
-        OkClicked?.Invoke(sender, e);
-    }
-
-    private void CancelButton_Click(object sender, RoutedEventArgs e)
-    {
-        CancelClicked?.Invoke(sender, e);
-    }
-
-    private void ApplyButton_Click(object sender, RoutedEventArgs e)
-    {
-        ApplyClicked?.Invoke(sender, e);
     }
 }

@@ -8,7 +8,6 @@
         ResizeMode="NoResize"
         Width="360"
         Height="400"
-        Closing="Window_Closing"
         >
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
@@ -22,9 +21,9 @@
                 <ScrollViewer>
                     <StackPanel>
                         <Label Content="General" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="Application_TrayIconCheckBox" />
-                        <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="Application_NotesInTaskbarCheckBox" />
-                        <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="Application_CheckForUpdatesCheckBox" />
+                        <CheckBox Margin="10,0,5,0" Content="Show tray icon" Name="Application_TrayIconCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" Name="Application_NotesInTaskbarCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" Name="Application_CheckForUpdatesCheckBox" Click="OnSettingChanged" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -35,9 +34,9 @@
                         <Label Content="General" FontWeight="Bold" />
                         <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
                             <Label Content="Default size"/>
-                            <TextBox Width="50" Name="Notes_DefaultWidthTextBox" />
+                            <TextBox Width="50" Name="Notes_DefaultWidthTextBox" TextChanged="OnSettingChanged" />
                             <Label Content="x"/>
-                            <TextBox Width="50" Name="Notes_DefaultHeightTextBox" />
+                            <TextBox Width="50" Name="Notes_DefaultHeightTextBox" TextChanged="OnSettingChanged" />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
                             <Label Content="Startup Position"/>
@@ -46,6 +45,7 @@
                                 Name="Notes_StartupPositionComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -55,9 +55,10 @@
                                 Name="Notes_MinimizeModeComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
-                        <CheckBox Margin="10,5,5,0" Content="Hide title bar" Name="Notes_HideTitleBarCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Hide title bar" Name="Notes_HideTitleBarCheckBox" Click="OnSettingChanged" />
 
                         <Label Content="Theme" FontWeight="Bold" />
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -67,6 +68,7 @@
                                 Name="Notes_DefaultThemeColorComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -76,6 +78,7 @@
                                 Name="Notes_ColorModeComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
 
@@ -87,17 +90,17 @@
                                 Name="Notes_TransparencyModeComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
-                                SelectionChanged="Notes_TransparencyModeComboBoxComboBox_SelectionChanged"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
-                        <CheckBox Margin="30,5,5,0" Content="Always opaque when focused" Name="Notes_OpaqueWhenFocusedCheckBox" />
+                        <CheckBox Margin="30,5,5,0" Content="Always opaque when focused" Name="Notes_OpaqueWhenFocusedCheckBox" Click="OnSettingChanged" />
                         <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
                             <Label Content="Transparent opacity" />
-                            <TextBox Width="50" Name="Notes_TransparentOpacityTextBox" />
+                            <TextBox Width="50" Name="Notes_TransparentOpacityTextBox"  TextChanged="OnSettingChanged"/>
                         </StackPanel>
                         <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
                             <Label Content="Opaque opacity" />
-                            <TextBox Width="50" Name="Notes_OpaqueOpacityTextBox" />
+                            <TextBox Width="50" Name="Notes_OpaqueOpacityTextBox" TextChanged="OnSettingChanged" />
                         </StackPanel>
 
                     </StackPanel>
@@ -108,29 +111,29 @@
                 <ScrollViewer>
                     <StackPanel>
                         <Label Content="General" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Use mono font" Name="Editor_UseMonoFontCheckBox" />
+                        <CheckBox Margin="10,0,5,0" Content="Use mono font" Name="Editor_UseMonoFontCheckBox" Click="OnSettingChanged" />
                         <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
                             <Label Content="Font Family"/>
-                            <TextBox Width="150" Name="Editor_MonoFontFamilyTextBox" />
+                            <TextBox Width="150" Name="Editor_MonoFontFamilyTextBox" TextChanged="OnSettingChanged" />
                         </StackPanel>
-                        <CheckBox Margin="10,5,5,0" Content="Spell checking" Name="Editor_SpellCheckCheckBox" />
-                        <CheckBox Margin="10,5,5,0" Content="Auto indent" Name="Editor_AutoIndentCheckBox" />
-                        <CheckBox Margin="10,5,5,0" Content="New line at end" Name="Editor_NewLineAtEndCheckBox" Checked="Editor_NewLineAtEndCheckBox_Checked" />
-                        <CheckBox Margin="30,5,5,0" Content="Keep new line at end visible" Name="Editor_KeepNewLineVisibleCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Spell checking" Name="Editor_SpellCheckCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,0" Content="Auto indent" Name="Editor_AutoIndentCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,0" Content="New line at end" Name="Editor_NewLineAtEndCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="30,5,5,0" Content="Keep new line at end visible" Name="Editor_KeepNewLineVisibleCheckBox" Click="OnSettingChanged" />
 
                         <Label Content="Indentation" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" Name="Editor_TabsToSpacesCheckBox" />
-                        <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" Name="Editor_ConvertIndentationOnPasteCheckBox" />
+                        <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" Name="Editor_TabsToSpacesCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" Name="Editor_ConvertIndentationOnPasteCheckBox" Click="OnSettingChanged" />
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
                             <Label Content="Tab width"/>
-                            <TextBox Width="50" Name="Editor_TabWidthTextBox" />
+                            <TextBox Width="50" Name="Editor_TabWidthTextBox" TextChanged="OnSettingChanged" />
                         </StackPanel>
 
                         <Label Content="Copy and Paste" FontWeight="Bold" />
-                        <CheckBox Margin="10,5,5,0" Content="Middle click paste" Name="Editor_MiddleClickPasteCheckBox" />
-                        <CheckBox Margin="10,5,5,0" Content="Trim pasted text" Name="Editor_TrimPastedTextCheckBox" />
-                        <CheckBox Margin="10,5,5,0" Content="Trim copied text" Name="Editor_TrimCopiedTextCheckBox" />
-                        <CheckBox Margin="10,5,5,5" Content="Copy highlighted text" Name="Editor_CopyHighlightedTextCheckBox" />
+                        <CheckBox Margin="10,5,5,0" Content="Middle click paste" Name="Editor_MiddleClickPasteCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,0" Content="Trim pasted text" Name="Editor_TrimPastedTextCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,0" Content="Trim copied text" Name="Editor_TrimCopiedTextCheckBox" Click="OnSettingChanged" />
+                        <CheckBox Margin="10,5,5,5" Content="Copy highlighted text" Name="Editor_CopyHighlightedTextCheckBox" Click="OnSettingChanged" />
 
                     </StackPanel>
                 </ScrollViewer>
@@ -146,6 +149,7 @@
                                 Name="Tool_Base64StateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -155,6 +159,7 @@
                                 Name="Tool_BracketStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -164,6 +169,7 @@
                                 Name="Tool_CaseStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -173,6 +179,7 @@
                                 Name="Tool_DateTimeStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -182,6 +189,7 @@
                                 Name="Tool_GibberishStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -191,6 +199,7 @@
                                 Name="Tool_HashStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -200,6 +209,7 @@
                                 Name="Tool_HtmlEntityStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -209,6 +219,7 @@
                                 Name="Tool_IndentStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -218,6 +229,7 @@
                                 Name="Tool_JoinStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -227,6 +239,7 @@
                                 Name="Tool_JsonStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -236,6 +249,7 @@
                                 Name="Tool_ListStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -245,6 +259,7 @@
                                 Name="Tool_QuoteStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -254,6 +269,7 @@
                                 Name="Tool_RemoveStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -263,6 +279,7 @@
                                 Name="Tool_SlashStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -272,6 +289,7 @@
                                 Name="Tool_SortStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -281,6 +299,7 @@
                                 Name="Tool_SplitStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
@@ -290,6 +309,7 @@
                                 Name="Tool_TrimStateComboBox"
                                 SelectedValuePath="Value"
                                 DisplayMemberPath="Text"
+                                SelectionChanged="OnSettingChanged"
                             />
                         </StackPanel>
                     </StackPanel>
@@ -299,9 +319,9 @@
         </TabControl>
 
         <StackPanel Grid.Row="1" Margin="0,5,5,5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="OkButton" Content="Ok" Click="OkButton_Click" Width="65" Height="25" />
-            <Button Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Margin="10,0,10,0" Width="65" Height="25" />
-            <Button Name="ApplyButton" Content="Apply" Click="ApplyButton_Click" Width="65" Height="25" />
+            <Button Name="OkButton" Content="Ok" Width="65" Height="25" />
+            <Button Name="CancelButton" Content="Cancel" Margin="10,0,10,0" Width="65" Height="25" />
+            <Button Name="ApplyButton" Content="Apply" Width="65" Height="25" />
         </StackPanel>
 
     </Grid>
