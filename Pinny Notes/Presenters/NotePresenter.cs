@@ -45,10 +45,17 @@ public class NotePresenter
         UpdateWindowOpacity();
     }
 
+    public int NoteId => _model.Id;
+
     public void ShowWindow()
     {
         _view.Show();
         _view.Activate();
+    }
+
+    public void CloseWindow()
+    {
+        _view.Close();
     }
 
     private void OnSettingsChanged(object? sender, EventArgs e)
@@ -162,7 +169,7 @@ public class NotePresenter
     private void OnCloseButtonClick(object? sender, EventArgs e)
     {
         _applicationManager.SaveNote(_model);
-        _view.Close();
+        _applicationManager.CloseNoteWindow(NoteId);
     }
 
     private void OnNoteTextChanged(object? sender, EventArgs e)

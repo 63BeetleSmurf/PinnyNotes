@@ -1,4 +1,6 @@
-﻿using PinnyNotes.WpfUi.Models;
+﻿using System;
+
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Presenters;
@@ -15,6 +17,8 @@ public class ManagementPresenter
         _model = model;
         _view = view;
 
+        _view.Closed += OnWindowClosed;
+
         Initialize();
     }
 
@@ -28,5 +32,10 @@ public class ManagementPresenter
     {
         _view.Show();
         _view.Activate();
+    }
+
+    public void OnWindowClosed(object? sender, EventArgs e)
+    {
+        _applicationManager.CloseManagementWindow();
     }
 }

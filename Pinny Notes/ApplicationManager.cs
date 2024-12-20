@@ -17,14 +17,15 @@ public class ApplicationManager
 
     private NotifyIconComponent _notifyIcon;
 
+    private List<NotePresenter> _notePresenters = [];
     private ManagementPresenter? _managementPresenter;
     private SettingsPresenter? _settingsPresenter;
-
-    public readonly string ConnectionString;
 
     private readonly ApplicationDataRepository _applicationDataRepository;
     private readonly NoteRepository _noteRepository;
     private readonly SettingsRepository _settingsRepository;
+
+    public readonly string ConnectionString;
 
     public readonly ApplicationDataModel ApplicationData;
     public readonly SettingsModel ApplicationSettings;
@@ -83,6 +84,8 @@ public class ApplicationManager
             model,
             new NoteWindow()
         );
+        _notePresenters.Add(presenter);
+
         presenter.ShowWindow();
     }
     public void ShowNoteWindow(int noteId)
@@ -91,6 +94,16 @@ public class ApplicationManager
         note.Initialize(ApplicationSettings);
 
         ShowNoteWindow(note);
+    }
+
+    public void CloseNoteWindow(int noteId)
+    {
+        NotePresenter? presenter = _notePresenters.Find(p => p.NoteId == noteId);
+        if (presenter == null)
+            return;
+
+        presenter.CloseWindow();
+        presenter = null;
     }
 
     public void ShowManagementWindow()
@@ -103,6 +116,11 @@ public class ApplicationManager
             );
 
         _managementPresenter.ShowWindow();
+    }
+
+    public void CloseManagementWindow()
+    {
+        _managementPresenter = null;
     }
 
     public void ShowSettingsWindow(Window? owner = null)
