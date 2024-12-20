@@ -130,13 +130,25 @@ public class NoteRepository(string connectionString) : BaseRepository(connection
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        ExecuteNonQuery(
+        int affectedRows = ExecuteNonQuery(
             connection,
             @"
                 UPDATE
                     Notes
                 SET
-                    Content = @content
+                    Content = @content,
+
+                    X = @x,
+                    Y = @y,
+                    Width = @width,
+                    Height = @height,
+
+                    GravityX = @gravityX,
+                    GravityY = @gravityY,
+
+                    ThemeKey = @themeKey,
+
+                    IsPinned = @isPinned
                 WHERE
                     Id = @id;
             ",
@@ -158,6 +170,9 @@ public class NoteRepository(string connectionString) : BaseRepository(connection
                 new("@id", model.Id)
             ]
         );
+
+        if (affectedRows == 0)
+            throw new Exception($"Error updating note width id {model.Id}.");
     }
 
     public void Delete(int id)
