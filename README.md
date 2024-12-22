@@ -1,8 +1,10 @@
+<a href="https://www.buymeacoffee.com/63beetlesmurf" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 # Pinny Notes
 
 ![Pinny Notes Screenshot](assets/Screenshot.png)
 
-Pinny Notes is a versatile sticky note application that allows you to ìpinî notes, keeping them always on top of other windows. It also offers a variety of handy tools accessible via right-click menus.
+Pinny Notes is a versatile sticky note application that allows you to ‚Äúpin‚Äù notes, keeping them always on top of other windows. It also offers a variety of handy tools accessible via right-click menus.
 
 ## Features
 
