@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
@@ -7,6 +6,7 @@ using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Presenters;
 using PinnyNotes.WpfUi.Repositories;
+using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi;
@@ -17,18 +17,18 @@ public class ApplicationManager
 
     private NotifyIconComponent _notifyIcon;
 
-    private List<NotePresenter> _notePresenters = [];
     private ManagementPresenter? _managementPresenter;
     private SettingsPresenter? _settingsPresenter;
 
     private readonly ApplicationDataRepository _applicationDataRepository;
-    private readonly NoteRepository _noteRepository;
     private readonly SettingsRepository _settingsRepository;
 
     public readonly string ConnectionString;
 
     public readonly ApplicationDataModel ApplicationData;
     public readonly SettingsModel ApplicationSettings;
+
+    public NoteService NoteService {  get; }
 
     public ApplicationManager(App app)
     {
@@ -39,11 +39,12 @@ public class ApplicationManager
         ConnectionString = DatabaseHelper.GetConnectionString();
         DatabaseHelper.CheckDatabase(ConnectionString);
         _applicationDataRepository = new(ConnectionString);
-        _noteRepository = new(ConnectionString);
         _settingsRepository = new(ConnectionString);
 
         ApplicationData = _applicationDataRepository.GetApplicationData();
         ApplicationSettings = _settingsRepository.GetApplicationSettings();
+
+        NoteService = new(this);
 
         _notifyIcon = new(this);
         _notifyIcon.ActivateNotes += OnActivateNotes;
@@ -52,58 +53,8 @@ public class ApplicationManager
     public void Initialize()
     {
         UpdateTrayIcon();
-        CreateNewNote();
+        NoteService.OpenNewNote();
         CheckForNewRelease();
-    }
-
-    public event EventHandler? SettingsChanged;
-    public event EventHandler? ActivateNotes;
-
-    public void CreateNewNote(NoteModel? parent = null)
-    {
-        NoteModel note = new()
-        {
-            Id = _noteRepository.Create()
-        };
-        note.Initialize(ApplicationSettings, parent);
-        _noteRepository.Update(note);
-
-        ShowNoteWindow(note);
-    }
-
-    public IEnumerable<NoteModel> GetNotes()
-        => _noteRepository.GetAll();
-
-    public void SaveNote(NoteModel note)
-        => _noteRepository.Update(note);
-
-    public void ShowNoteWindow(NoteModel model)
-    {
-        NotePresenter presenter = new(
-            this,
-            model,
-            new NoteWindow()
-        );
-        _notePresenters.Add(presenter);
-
-        presenter.ShowWindow();
-    }
-    public void ShowNoteWindow(int noteId)
-    {
-        NoteModel note = _noteRepository.GetById(noteId);
-        note.Initialize(ApplicationSettings);
-
-        ShowNoteWindow(note);
-    }
-
-    public void CloseNoteWindow(int noteId)
-    {
-        NotePresenter? presenter = _notePresenters.Find(p => p.NoteId == noteId);
-        if (presenter == null)
-            return;
-
-        presenter.CloseWindow();
-        presenter = null;
     }
 
     public void ShowManagementWindow()
@@ -143,7 +94,9 @@ public class ApplicationManager
 
     private void OnNewInstance(object? sender, EventArgs e)
     {
-        CreateNewNote();
+        // TO DO: Add setting to choose what happens here.
+        // e.g. new note, show management window, activate notes...
+        NoteService.OpenNewNote();
     }
 
     private void OnAppExit(object? sender, EventArgs e)
@@ -156,14 +109,14 @@ public class ApplicationManager
 
     private void OnActivateNotes(object? sender, EventArgs e)
     {
-        ActivateNotes?.Invoke(sender, e);
+        NoteService.ActivateNoteWindows();
     }
 
     private void OnSettingsSaved(object? sender, EventArgs e)
     {
         UpdateTrayIcon();
 
-        SettingsChanged?.Invoke(sender, e);
+        NoteService.ReloadNoteSettings();
     }
 
     private void UpdateTrayIcon()

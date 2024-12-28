@@ -80,7 +80,7 @@ public class NotifyIconComponent : IDisposable
     }
 
     private void NewNote_Click(object? sender, EventArgs e)
-        => _applicationManager.CreateNewNote();
+        => _applicationManager.NoteService.OpenNewNote();
 
     private void ManageNotes_Click(object? sender, EventArgs e)
         => _applicationManager.ShowManagementWindow();

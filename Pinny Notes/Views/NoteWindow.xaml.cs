@@ -6,14 +6,21 @@ using System.Windows.Media.Animation;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Presenters;
+using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views.Controls.ContextMenus;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
-    public NoteWindow()
+    private NotePresenter _presenter;
+
+    public NoteWindow(NoteService noteService, NoteModel model)
     {
+        _presenter = new(noteService, model, this);
+
         InitializeComponent();
 
         Loaded += OnWindowLoaded;

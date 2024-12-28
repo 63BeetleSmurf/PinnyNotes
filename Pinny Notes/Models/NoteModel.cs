@@ -22,6 +22,11 @@ public class NoteModel
 
     public int Id { get; set; }
 
+    public int? GroupId { get; set; }
+
+    public int? SettingsId { get; set; }
+    public SettingsModel Settings { get; set; } = null!; // Set in Initialize()
+
     private string _text = "";
     public string Text {
         get => _text;
@@ -47,8 +52,6 @@ public class NoteModel
     public bool IsPinned { get; set; }
 
     public bool IsSaved { get; set; }
-
-    public SettingsModel? Settings { get; set; }
 
     public void UpdateGravity(Rectangle screenBounds)
     {
