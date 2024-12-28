@@ -2,7 +2,7 @@
 
 ![Pinny Notes Screenshot](assets/Screenshot.png)
 
-Pinny Notes is a versatile sticky note application that allows you to ìpinî notes, keeping them always on top of other windows. It also offers a variety of handy tools accessible via right-click menus.
+Pinny Notes is a versatile sticky note application that allows you to ‚Äúpin‚Äù notes, keeping them always on top of other windows. It also offers a variety of handy tools accessible via right-click menus.
 
 ## Features
 
@@ -53,3 +53,11 @@ Download the latest release and run the installer.
 #### Portable Version
 
 Download the .zip file, extract it, and run Pinny Notes.exe.
+
+## Funding
+
+Pinny Notes is created completely in my free time, so any donation is much appreciated.
+
+<a href="https://www.buymeacoffee.com/63BeetleSmurf" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C1183AGT)
