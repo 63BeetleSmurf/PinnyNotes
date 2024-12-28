@@ -4,10 +4,8 @@ using System.Windows;
 using PinnyNotes.WpfUi.Components;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
-using PinnyNotes.WpfUi.Presenters;
 using PinnyNotes.WpfUi.Repositories;
 using PinnyNotes.WpfUi.Services;
-using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi;
 
@@ -17,18 +15,17 @@ public class ApplicationManager
 
     private NotifyIconComponent _notifyIcon;
 
-    private ManagementPresenter? _managementPresenter;
-    private SettingsPresenter? _settingsPresenter;
-
     private readonly ApplicationDataRepository _applicationDataRepository;
-    private readonly SettingsRepository _settingsRepository;
 
     public readonly string ConnectionString;
 
     public readonly ApplicationDataModel ApplicationData;
     public readonly SettingsModel ApplicationSettings;
 
-    public NoteService NoteService {  get; }
+    public SettingsService SettingsService { get; }
+    public ManagementService ManagementService { get; }
+    public GroupService GroupService { get; }
+    public NoteService NoteService { get; }
 
     public ApplicationManager(App app)
     {
@@ -38,12 +35,15 @@ public class ApplicationManager
 
         ConnectionString = DatabaseHelper.GetConnectionString();
         DatabaseHelper.CheckDatabase(ConnectionString);
+
         _applicationDataRepository = new(ConnectionString);
-        _settingsRepository = new(ConnectionString);
+        SettingsService = new(this);
 
         ApplicationData = _applicationDataRepository.GetApplicationData();
-        ApplicationSettings = _settingsRepository.GetApplicationSettings();
+        ApplicationSettings = SettingsService.GetApplicationSettings();
 
+        ManagementService = new(this);
+        GroupService = new(this);
         NoteService = new(this);
 
         _notifyIcon = new(this);
@@ -57,40 +57,10 @@ public class ApplicationManager
         CheckForNewRelease();
     }
 
-    public void ShowManagementWindow()
-    {
-        if (_managementPresenter == null)
-            _managementPresenter = new(
-                this,
-                new ManagementModel(),
-                new ManagementWindow()
-            );
-
-        _managementPresenter.ShowWindow();
-    }
-
-    public void CloseManagementWindow()
-    {
-        _managementPresenter = null;
-    }
-
-    public void ShowSettingsWindow(Window? owner = null)
-    {
-        if (_settingsPresenter == null)
-        {
-            _settingsPresenter = new(
-                this,
-                ApplicationSettings,
-                new SettingsWindow()
-            );
-            _settingsPresenter.SettingsSaved += OnSettingsSaved;
-        }
-
-        _settingsPresenter.ShowWindow(owner);
-    }
-
     public void CloseApplication()
-        => _app.Shutdown();
+    {
+        _app.Shutdown();
+    }
 
     private void OnNewInstance(object? sender, EventArgs e)
     {
@@ -102,7 +72,7 @@ public class ApplicationManager
     private void OnAppExit(object? sender, EventArgs e)
     {
         _applicationDataRepository.UpdateApplicationData(ApplicationData);
-        _settingsRepository.UpdateSettings(ApplicationSettings);
+        SettingsService.SaveSettings(ApplicationSettings);
 
         _notifyIcon?.Dispose();
     }

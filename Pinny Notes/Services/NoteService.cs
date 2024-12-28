@@ -2,13 +2,14 @@
 using PinnyNotes.WpfUi.Repositories;
 using PinnyNotes.WpfUi.Views;
 using System;
+using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Services;
 
 public class NoteService
 {
-    private ApplicationManager _applicationManager;
-    private NoteRepository _noteRepository;
+    private readonly ApplicationManager _applicationManager;
+    private readonly NoteRepository _noteRepository;
 
     public NoteService(ApplicationManager applicationManager)
     {
@@ -72,6 +73,11 @@ public class NoteService
     public void ReloadNoteSettings()
     {
         SettingsChanged?.Invoke(null, EventArgs.Empty);
+    }
+
+    public IEnumerable<NoteModel> GetNotes()
+    {
+        return _noteRepository.GetAll();
     }
 
     private SettingsModel GetNoteSettings(NoteModel model)

@@ -2,13 +2,19 @@
 using System.Windows;
 
 using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Presenters;
+using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class ManagementWindow : Window
 {
-    public ManagementWindow()
+    private readonly ManagementPresenter _presenter;
+
+    public ManagementWindow(ManagementService managementService, ManagementModel model)
     {
+        _presenter = new(managementService, model, this);
+
         InitializeComponent();
     }
 

@@ -15,7 +15,7 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
-    private NotePresenter _presenter;
+    private readonly NotePresenter _presenter;
 
     public NoteWindow(NoteService noteService, NoteModel model)
     {

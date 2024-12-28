@@ -1,30 +1,33 @@
 ﻿using System;
 
 using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Presenters;
 
 public class ManagementPresenter
 {
-    private readonly ApplicationManager _applicationManager;
+    private readonly ManagementService _managementService;
     private readonly ManagementModel _model;
     private readonly ManagementWindow _view;
 
-    public ManagementPresenter(ApplicationManager applicationManager, ManagementModel model, ManagementWindow view)
+    public ManagementPresenter(ManagementService managementService, ManagementModel model, ManagementWindow view)
     {
-        _applicationManager = applicationManager;
+        _managementService = managementService;
         _model = model;
         _view = view;
 
-        _view.Closed += OnWindowClosed;
+        _view.Closing += OnWindowClosing;
 
         Initialize();
+
+        _view.Show();
     }
 
     private void Initialize()
     {
-        _model.Notes = _applicationManager.GetNotes();
+        _model.Notes = _managementService.GetNotes();
         _view.DisplayNotes(_model.Notes);
     }
 
@@ -34,8 +37,8 @@ public class ManagementPresenter
         _view.Activate();
     }
 
-    public void OnWindowClosed(object? sender, EventArgs e)
+    public void OnWindowClosing(object? sender, EventArgs e)
     {
-        _applicationManager.CloseManagementWindow();
+        _managementService.CloseManagementWindow();
     }
 }
