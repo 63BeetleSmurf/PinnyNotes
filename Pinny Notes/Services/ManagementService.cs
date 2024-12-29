@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Views;
@@ -27,9 +28,8 @@ public class ManagementService
             _window.Activate();
     }
 
-    public void CloseManagementWindow()
+    public void OnManagementWindowClosed(object? sender, EventArgs e)
     {
-        _window?.Close();
         _window = null;
     }
 

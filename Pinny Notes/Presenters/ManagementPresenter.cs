@@ -1,6 +1,4 @@
-﻿using System;
-
-using PinnyNotes.WpfUi.Models;
+﻿using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
@@ -18,7 +16,7 @@ public class ManagementPresenter
         _model = model;
         _view = view;
 
-        _view.Closing += OnWindowClosing;
+        _view.Closed += managementService.OnManagementWindowClosed;
 
         Initialize();
 
@@ -35,10 +33,5 @@ public class ManagementPresenter
     {
         _view.Show();
         _view.Activate();
-    }
-
-    public void OnWindowClosing(object? sender, EventArgs e)
-    {
-        _managementService.CloseManagementWindow();
     }
 }

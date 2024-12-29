@@ -1,8 +1,9 @@
-﻿using PinnyNotes.WpfUi.Models;
+﻿using System;
+using System.Collections.Generic;
+
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Repositories;
 using PinnyNotes.WpfUi.Views;
-using System;
-using System.Collections.Generic;
 
 namespace PinnyNotes.WpfUi.Services;
 
@@ -62,17 +63,17 @@ public class NoteService
 
     public void OpenSettingsWindowOnNote(NoteWindow window)
     {
-        _applicationManager.ShowSettingsWindow(window);
+        _applicationManager.SettingsService.OpenSettingsWindow(window);
     }
 
-    public void ActivateNoteWindows()
+    public void OnActivateNotes(object? sender, EventArgs e)
     {
-        ActivateNotes?.Invoke(null, EventArgs.Empty);
+        ActivateNotes?.Invoke(sender, e);
     }
 
-    public void ReloadNoteSettings()
+    public void OnSettingsSaved(object? sender, EventArgs e)
     {
-        SettingsChanged?.Invoke(null, EventArgs.Empty);
+        SettingsChanged?.Invoke(sender, e);
     }
 
     public IEnumerable<NoteModel> GetNotes()
@@ -83,12 +84,12 @@ public class NoteService
     private SettingsModel GetNoteSettings(NoteModel model)
     {
         if (model.SettingsId != null)
-            return _applicationManager.SettingsService.GetSettings(model.SettingsId);
+            return _applicationManager.SettingsService.GetSettings((int)model.SettingsId);
 
         SettingsModel? settings = null;
 
         if (model.GroupId != null)
-            settings = _applicationManager.GroupService.GetGroupSettings(model.GroupId);
+            settings = _applicationManager.GroupService.GetGroupSettings((int)model.GroupId);
 
         return settings ?? _applicationManager.ApplicationSettings;
     }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Repositories;
@@ -19,28 +20,40 @@ public class SettingsService
         _settingsRepository = new(_applicationManager.ConnectionString);
     }
 
+    public event EventHandler? SettingsSaved;
+
     public void OpenSettingsWindow(Window? owner = null)
     {
-        if (_settingsPresenter == null)
+        if (_window == null)
         {
-            _settingsPresenter = new(
+            _window = new(
                 this,
-                ApplicationSettings,
-                new SettingsWindow()
-            );
-            _settingsPresenter.SettingsSaved += OnSettingsSaved;
+                _applicationManager.ApplicationSettings
+            )
+            {
+                Owner = owner
+            };
         }
-
-        _settingsPresenter.ShowWindow(owner);
     }
 
     public SettingsModel GetApplicationSettings()
     {
-        return _settingsRepository.GetById(1);
+        return GetSettings(1);
+    }
+
+    public SettingsModel GetSettings(int settingsId)
+    {
+        return _settingsRepository.GetById(settingsId);
     }
 
     public void SaveSettings(SettingsModel settings)
     {
         _settingsRepository.Update(settings);
+        SettingsSaved?.Invoke(null, EventArgs.Empty);
+    }
+
+    public void OnSettingsWindowClosed(object? sender, EventArgs e)
+    {
+        _window = null;
     }
 }

@@ -13,9 +13,9 @@ public partial class ManagementWindow : Window
 
     public ManagementWindow(ManagementService managementService, ManagementModel model)
     {
-        _presenter = new(managementService, model, this);
-
         InitializeComponent();
+
+        _presenter = new(managementService, model, this);
     }
 
     public void DisplayNotes(IEnumerable<NoteModel> notes)

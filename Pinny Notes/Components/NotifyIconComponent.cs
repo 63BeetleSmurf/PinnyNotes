@@ -83,10 +83,10 @@ public class NotifyIconComponent : IDisposable
         => _applicationManager.NoteService.OpenNewNote();
 
     private void ManageNotes_Click(object? sender, EventArgs e)
-        => _applicationManager.ShowManagementWindow();
+        => _applicationManager.ManagementService.OpenManagementWindow();
 
     private void Settings_Click(object? sender, EventArgs e)
-        => _applicationManager.ShowSettingsWindow();
+        => _applicationManager.SettingsService.OpenSettingsWindow();
 
     private void Exit_Click(object? sender, EventArgs e)
         => _applicationManager.CloseApplication();

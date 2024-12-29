@@ -9,28 +9,6 @@ namespace PinnyNotes.WpfUi.Repositories;
 
 public class NoteRepository(string connectionString) : BaseRepository(connectionString)
 {
-    private static NoteModel GetNoteModelFromReader(SqliteDataReader reader)
-    {
-        return new()
-        {
-            Id = GetInt(reader, "Id"),
-
-            Text = GetString(reader, "Content"),
-            
-            X = GetInt(reader, "X"),
-            Y = GetInt(reader, "Y"),
-            Width = GetInt(reader, "Width"),
-            Height = GetInt(reader, "Height"),
-
-            GravityX = GetInt(reader, "GravityX"),
-            GravityY = GetInt(reader, "GravityY"),
-
-            Theme = ThemeHelper.GetThemeOrDefault(GetString(reader, "ThemeKey")),
-
-            IsPinned = GetBool(reader, "IsPinned")
-        };
-    }
-
     public static readonly string TableName = "Notes";
 
     public static readonly string TableSchema = @"
@@ -192,5 +170,30 @@ public class NoteRepository(string connectionString) : BaseRepository(connection
                 new("@id", id)
             ]
         );
+    }
+
+    private static NoteModel GetNoteModelFromReader(SqliteDataReader reader)
+    {
+        return new()
+        {
+            Id = GetInt(reader, "Id"),
+
+            SettingsId = GetIntNullable(reader, "SettingsId"),
+            GroupId = GetIntNullable(reader, "GroupId"),
+
+            Text = GetString(reader, "Content"),
+
+            X = GetInt(reader, "X"),
+            Y = GetInt(reader, "Y"),
+            Width = GetInt(reader, "Width"),
+            Height = GetInt(reader, "Height"),
+
+            GravityX = GetInt(reader, "GravityX"),
+            GravityY = GetInt(reader, "GravityY"),
+
+            Theme = ThemeHelper.GetThemeOrDefault(GetString(reader, "ThemeKey")),
+
+            IsPinned = GetBool(reader, "IsPinned")
+        };
     }
 }

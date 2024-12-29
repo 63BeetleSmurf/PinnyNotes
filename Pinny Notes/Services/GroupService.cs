@@ -1,4 +1,5 @@
-﻿using PinnyNotes.WpfUi.Repositories;
+﻿using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Repositories;
 
 namespace PinnyNotes.WpfUi.Services;
 
@@ -11,5 +12,14 @@ public class GroupService
     {
         _applicationManager = applicationManager;
         _groupRepository = new(_applicationManager.ConnectionString);
+    }
+
+    public SettingsModel GetGroupSettings(int groupId)
+    {
+        GroupModel? group = _groupRepository.GetById(groupId);
+        if (group?.SettingsId != null)
+            return _applicationManager.SettingsService.GetSettings((int)group.SettingsId);
+
+        return _applicationManager.ApplicationSettings;
     }
 }

@@ -29,7 +29,7 @@ public class NotePresenter
         _noteService.ActivateNotes += OnActivateNotes;
 
         _view.Loaded += OnWindowLoaded;
-        _view.Closing += OnWindowClosing;
+        _view.Closed += OnWindowClosing;
         _view.Activated += OnWindowActivated;
         _view.Deactivated += OnWindowDeactivated;
         _view.StateChanged += OnWindowStateChanged;
@@ -44,6 +44,8 @@ public class NotePresenter
 
         ApplyTheme();
         UpdateWindowOpacity();
+
+        _view.Show();
     }
 
     public int NoteId => _model.Id;
@@ -52,11 +54,6 @@ public class NotePresenter
     {
         _view.Show();
         _view.Activate();
-    }
-
-    public void CloseWindow()
-    {
-        _view.Close();
     }
 
     private void OnSettingsChanged(object? sender, EventArgs e)

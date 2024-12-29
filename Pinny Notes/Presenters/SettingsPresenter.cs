@@ -3,37 +3,36 @@ using System.Windows;
 
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Presenters;
 
 public class SettingsPresenter
 {
-    private readonly ApplicationManager _applicationManager;
+    private readonly SettingsService _settingsService;
     private readonly SettingsModel _model;
     private readonly SettingsWindow _view;
 
-    public SettingsPresenter(ApplicationManager applicationManager, SettingsModel model, SettingsWindow view)
+    public SettingsPresenter(SettingsService settingsService, SettingsModel model, SettingsWindow view)
     {
-        _applicationManager = applicationManager;
+        _settingsService = settingsService;
         _model = model;
         _view = view;
 
-        _view.Closing += OnWindowClosing;
+        _view.Closed += settingsService.OnSettingsWindowClosed;
 
         _view.OkButton.Click += OnOkButtonClick;
         _view.CancelButton.Click += OnCancelButtonClick;
         _view.ApplyButton.Click += OnApplyButtonClick;
 
         _view.SettingsChanged += OnSettingsChanged;
+
+        ShowWindow();
     }
 
-    public event EventHandler? SettingsSaved;
-
-    public void ShowWindow(Window? owner = null)
+    public void ShowWindow()
     {
-        _view.Owner = owner;
-
         PositionWindow();
 
         LoadSettings();
@@ -45,20 +44,15 @@ public class SettingsPresenter
             _view.Show();
     }
 
-    private void OnWindowClosing(object? sender, EventArgs e)
-    {
-        HideWindow();
-    }
-
     private void OnOkButtonClick(object? sender, EventArgs e)
     {
         SaveSettings();
-        HideWindow();
+        _view.Close();
     }
 
     private void OnCancelButtonClick(object? sender, EventArgs e)
     {
-        HideWindow();
+        _view.Close();
     }
 
     private void OnApplyButtonClick(object? sender, EventArgs e)
@@ -114,12 +108,6 @@ public class SettingsPresenter
 
         PropertiesHelper.CopyMatchingProperties(_view, _model);
 
-        SettingsSaved?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void HideWindow()
-    {
-        _view.Owner = null;
-        _view.Hide();
+        _settingsService.SaveSettings(_model);
     }
 }

@@ -38,6 +38,7 @@ public class ApplicationManager
 
         _applicationDataRepository = new(ConnectionString);
         SettingsService = new(this);
+        SettingsService.SettingsSaved += OnSettingsSaved;
 
         ApplicationData = _applicationDataRepository.GetApplicationData();
         ApplicationSettings = SettingsService.GetApplicationSettings();
@@ -45,9 +46,10 @@ public class ApplicationManager
         ManagementService = new(this);
         GroupService = new(this);
         NoteService = new(this);
+        SettingsService.SettingsSaved += NoteService.OnSettingsSaved;
 
         _notifyIcon = new(this);
-        _notifyIcon.ActivateNotes += OnActivateNotes;
+        _notifyIcon.ActivateNotes += NoteService.OnActivateNotes;
     }
 
     public void Initialize()
@@ -77,16 +79,9 @@ public class ApplicationManager
         _notifyIcon?.Dispose();
     }
 
-    private void OnActivateNotes(object? sender, EventArgs e)
-    {
-        NoteService.ActivateNoteWindows();
-    }
-
     private void OnSettingsSaved(object? sender, EventArgs e)
     {
         UpdateTrayIcon();
-
-        NoteService.ReloadNoteSettings();
     }
 
     private void UpdateTrayIcon()

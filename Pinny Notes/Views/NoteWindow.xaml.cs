@@ -19,9 +19,9 @@ public partial class NoteWindow : Window
 
     public NoteWindow(NoteService noteService, NoteModel model)
     {
-        _presenter = new(noteService, model, this);
-
         InitializeComponent();
+
+        _presenter = new(noteService, model, this);
 
         Loaded += OnWindowLoaded;
         Activated += OnWindowActivated;

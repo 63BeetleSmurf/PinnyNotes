@@ -1,18 +1,23 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Presenters;
+using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class SettingsWindow : Window
 {
-    public SettingsWindow()
+    private readonly SettingsPresenter _presenter;
+
+    public SettingsWindow(SettingsService settingsService, SettingsModel model)
     {
         InitializeComponent();
+
+        _presenter = new(settingsService, model, this);
 
         Notes_StartupPositionComboBox.ItemsSource = SettingsHelper.StartupPositionsList;
         Notes_MinimizeModeComboBox.ItemsSource = SettingsHelper.MinimizeModeList;
