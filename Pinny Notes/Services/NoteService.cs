@@ -12,6 +12,8 @@ public class NoteService
     private readonly ApplicationManager _applicationManager;
     private readonly NoteRepository _noteRepository;
 
+    private readonly Dictionary<int, NoteWindow> _openNotes = [];
+
     public NoteService(ApplicationManager applicationManager)
     {
         _applicationManager = applicationManager;
@@ -35,23 +37,34 @@ public class NoteService
 
         SaveNote(model);
 
-        new NoteWindow(this, model);
+        _openNotes.Add(
+            model.Id,
+            new NoteWindow(this, model)
+        );
     }
 
     public void OpenExistingNote(int noteId)
     {
-        NoteModel model = _noteRepository.GetById(noteId);
-        model.Initialize(
-            GetNoteSettings(model)
-        );
+        if (_openNotes.ContainsKey(noteId))
+        {
+            _openNotes[noteId].Activate();
+            return;
+        }
 
-        new NoteWindow(this, model);
+        NoteModel model = _noteRepository.GetById(noteId);
+        model.Settings = GetNoteSettings(model);
+
+        _openNotes.Add(
+            model.Id,
+            new NoteWindow(this, model)
+        );
     }
 
     public void CloseNote(NoteModel model, NoteWindow window)
     {
         SaveNote(model);
         window.Close();
+        _openNotes.Remove(model.Id);
     }
 
     public void SaveNote(NoteModel model)

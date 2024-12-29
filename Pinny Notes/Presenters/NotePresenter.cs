@@ -182,6 +182,7 @@ public class NotePresenter
         _view.Left = _model.X;
         _view.Top = _model.Y;
         _view.ShowInTaskbar = _model.Settings.Application_NotesInTaskbar;
+        _view.NoteTextBox.Text = _model.Text;
 
         PropertiesHelper.CopyMatchingProperties(_model.Settings, _view);
 

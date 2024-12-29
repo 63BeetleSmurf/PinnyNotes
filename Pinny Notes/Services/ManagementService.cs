@@ -37,4 +37,9 @@ public class ManagementService
     {
         return _applicationManager.NoteService.GetNotes();
     }
+
+    public void ActivateNote(int noteId)
+    {
+        _applicationManager.NoteService.OpenExistingNote(noteId);
+    }
 }

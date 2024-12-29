@@ -1,4 +1,7 @@
-﻿using PinnyNotes.WpfUi.Models;
+﻿using System;
+using System.Windows.Controls;
+
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
@@ -17,6 +20,7 @@ public class ManagementPresenter
         _view = view;
 
         _view.Closed += managementService.OnManagementWindowClosed;
+        _view.NotesListView.MouseDoubleClick += OnNoteItemDoubleclick;
 
         Initialize();
 
@@ -33,5 +37,18 @@ public class ManagementPresenter
     {
         _view.Show();
         _view.Activate();
+    }
+
+    private void OnNoteItemDoubleclick(object? sender, EventArgs e)
+    {
+        ListView? noteListView = sender as ListView;
+        if (noteListView == null)
+            return;
+
+        NoteModel? selectedNote = noteListView.SelectedItem as NoteModel;
+        if (selectedNote == null)
+            return;
+
+        _managementService.ActivateNote(selectedNote.Id);
     }
 }
