@@ -29,11 +29,9 @@ public class NoteService
         {
             Id = _noteRepository.Create(),
             GroupId = parent?.GroupId ?? groupId,
+            Settings = GetNoteSettings(groupId: groupId)
         };
-        model.Initialize(
-            GetNoteSettings(model),
-            parent
-        );
+        model.Initialize(parent);
 
         SaveNote(model);
 
@@ -52,7 +50,7 @@ public class NoteService
         }
 
         NoteModel model = _noteRepository.GetById(noteId);
-        model.Settings = GetNoteSettings(model);
+        model.Settings = GetNoteSettings(model.SettingsId, model.GroupId);
 
         _openNotes.Add(
             model.Id,
@@ -91,18 +89,21 @@ public class NoteService
 
     public IEnumerable<NoteModel> GetNotes()
     {
-        return _noteRepository.GetAll();
+        IEnumerable<NoteModel> notes = _noteRepository.GetAll();
+        foreach (NoteModel note in notes)
+            note.Settings = GetNoteSettings(note.SettingsId, note.GroupId);
+        return notes;
     }
 
-    private SettingsModel GetNoteSettings(NoteModel model)
+    private SettingsModel GetNoteSettings(int? settingsId = null, int? groupId = null)
     {
-        if (model.SettingsId != null)
-            return _applicationManager.SettingsService.GetSettings((int)model.SettingsId);
+        if (settingsId != null)
+            return _applicationManager.SettingsService.GetSettings((int)settingsId);
 
         SettingsModel? settings = null;
 
-        if (model.GroupId != null)
-            settings = _applicationManager.GroupService.GetGroupSettings((int)model.GroupId);
+        if (groupId != null)
+            settings = _applicationManager.GroupService.GetGroupSettings((int)groupId);
 
         return settings ?? _applicationManager.ApplicationSettings;
     }

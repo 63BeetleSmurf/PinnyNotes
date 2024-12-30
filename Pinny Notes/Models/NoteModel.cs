@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Point = System.Drawing.Point;
 using System.Linq;
 using System.Windows;
@@ -10,12 +11,12 @@ namespace PinnyNotes.WpfUi.Models;
 
 public class NoteModel
 {
-    public void Initialize(SettingsModel settings, NoteModel? parent = null)
-    {
-        Settings = settings;
 
-        Width = settings.Notes_DefaultWidth;
-        Height = settings.Notes_DefaultHeight;
+    public void Initialize(NoteModel? parent = null)
+    {
+        Width = Settings.Notes_DefaultWidth;
+        Height = Settings.Notes_DefaultHeight;
+
         InitTheme(Settings.Notes_DefaultThemeColorKey, parent?.Theme.Key);
         InitPosition(Settings.Notes_StartupPosition, parent);
     }
@@ -25,7 +26,12 @@ public class NoteModel
     public int? GroupId { get; set; }
 
     public int? SettingsId { get; set; }
-    public SettingsModel Settings { get; set; } = null!; // Set in Initialize()
+
+    private SettingsModel? _settings;
+    public SettingsModel Settings {
+        get => _settings ?? throw new Exception("Note settings have note been initialised.");
+        set => _settings = value;
+    } 
 
     private string _text = "";
     public string Text {
@@ -47,7 +53,7 @@ public class NoteModel
 
     public ThemeModel Theme { get; set; } = null!;
     public ThemeColorsModel ThemeColors
-        => ThemeHelper.GetThemeColorForMode(Theme, Settings?.Notes_ColorMode ?? ColorModes.Light);
+        => ThemeHelper.GetThemeColorForMode(Theme, Settings.Notes_ColorMode);
 
     public bool IsPinned { get; set; }
 
