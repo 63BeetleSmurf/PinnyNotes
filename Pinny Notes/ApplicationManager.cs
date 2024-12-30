@@ -74,7 +74,6 @@ public class ApplicationManager
     private void OnAppExit(object? sender, EventArgs e)
     {
         _applicationDataRepository.UpdateApplicationData(ApplicationData);
-        SettingsService.SaveSettings(ApplicationSettings);
 
         _notifyIcon?.Dispose();
     }
