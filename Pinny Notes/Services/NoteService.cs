@@ -60,8 +60,13 @@ public class NoteService
 
     public void CloseNote(NoteModel model, NoteWindow window)
     {
-        SaveNote(model);
         window.Close();
+
+        if (string.IsNullOrWhiteSpace(model.Text))
+            _noteRepository.Delete(model.Id);
+        else
+            SaveNote(model);
+
         _openNotes.Remove(model.Id);
     }
 
