@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,12 +17,19 @@ public class NotePresenter
     private readonly NoteModel _model;
     private readonly NoteWindow _view;
 
+    private readonly Timer _typingTimer;
+
     public NotePresenter(NoteService noteService, NoteModel model, NoteWindow view)
     {
         _noteService = noteService;
 
         _view = view;
         _model = model;
+
+        _typingTimer = new(2000)
+        {
+            AutoReset = false
+        };
 
         PopulateViewProperties();
 
@@ -41,6 +49,8 @@ public class NotePresenter
         _view.CloseButton.Click += OnCloseButtonClick;
 
         _view.NoteTextBox.TextChanged += OnNoteTextChanged;
+
+        _typingTimer.Elapsed += OnTypingStopped;
 
         ApplyTheme();
         UpdateWindowOpacity();
@@ -132,15 +142,17 @@ public class NotePresenter
 
     private void OnChangeThemeMenuItemClicked(object? sender, EventArgs e)
     {
-        if (sender is MenuItem menuItem)
-        {
-            ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Key == (string)menuItem.Tag);
-            if (theme == null)
-                return;
+        if (sender is not MenuItem menuItem)
+            return;
 
-            _model.Theme = theme;
-            ApplyTheme();
-        }
+        ThemeModel? theme = ThemeHelper.Themes.Find(t => t.Key == (string)menuItem.Tag);
+        if (theme == null)
+            return;
+
+        _model.Theme = theme;
+        ApplyTheme();
+
+        _noteService.SaveNote(_model);
     }
 
     private void OnSettingsMenuItemClicked(object? sender, EventArgs e)
@@ -167,7 +179,18 @@ public class NotePresenter
 
     private void OnNoteTextChanged(object? sender, EventArgs e)
     {
+        _typingTimer.Stop();
+        _typingTimer.Start();
+
         _model.Text = _view.Text;
+    }
+
+    private void OnTypingStopped(object? sender, EventArgs e)
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            _noteService.SaveNote(_model);
+        });
     }
 
     private void OnSaveMenuItemClicked(object? sender, EventArgs e)
