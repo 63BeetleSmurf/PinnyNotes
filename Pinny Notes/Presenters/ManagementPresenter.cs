@@ -19,6 +19,8 @@ public class ManagementPresenter
         _model = model;
         _view = view;
 
+        _managementService.NotesChanged += OnNotesChanged;
+
         _view.Closed += managementService.OnManagementWindowClosed;
         _view.NotesListView.MouseDoubleClick += OnNoteItemDoubleclick;
 
@@ -29,14 +31,18 @@ public class ManagementPresenter
 
     private void Initialize()
     {
-        _model.Notes = _managementService.GetNotes();
-        _view.DisplayNotes(_model.Notes);
+        UpdateNotes();
     }
 
     public void ShowWindow()
     {
         _view.Show();
         _view.Activate();
+    }
+
+    private void OnNotesChanged(object? sender, EventArgs e)
+    {
+        UpdateNotes();
     }
 
     private void OnNoteItemDoubleclick(object? sender, EventArgs e)
@@ -50,5 +56,11 @@ public class ManagementPresenter
             return;
 
         _managementService.ActivateNote(selectedNote.Id);
+    }
+
+    private void UpdateNotes()
+    {
+        _model.Notes = _managementService.GetNotes();
+        _view.DisplayNotes(_model.Notes);
     }
 }

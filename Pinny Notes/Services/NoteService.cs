@@ -20,6 +20,8 @@ public class NoteService
         _noteRepository = new(_applicationManager.ConnectionString);
     }
 
+    public event EventHandler? NotesChanged;
+
     public event EventHandler? SettingsChanged;
     public event EventHandler? ActivateNotes;
 
@@ -63,7 +65,7 @@ public class NoteService
         window.Close();
 
         if (string.IsNullOrWhiteSpace(model.Text))
-            _noteRepository.Delete(model.Id);
+            DeleteNote(model.Id);
         else
             SaveNote(model);
 
@@ -72,9 +74,20 @@ public class NoteService
 
     public void SaveNote(NoteModel model)
     {
-        if (!model.IsSaved)
-            _noteRepository.Update(model);
-            model.IsSaved = true;
+        if (model.IsSaved)
+            return;
+
+        _noteRepository.Update(model);
+        model.IsSaved = true;
+
+        NotesChanged?.Invoke(null, EventArgs.Empty);
+    }
+
+    public void DeleteNote(int noteId)
+    {
+        _noteRepository.Delete(noteId);
+
+        NotesChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public void OpenSettingsWindowOnNote(NoteWindow window)

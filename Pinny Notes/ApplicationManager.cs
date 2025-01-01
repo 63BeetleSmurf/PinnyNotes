@@ -47,6 +47,7 @@ public class ApplicationManager
         GroupService = new(this);
         NoteService = new(this);
         SettingsService.SettingsSaved += NoteService.OnSettingsSaved;
+        NoteService.NotesChanged += ManagementService.OnNotesChanged;
 
         _notifyIcon = new(this);
         _notifyIcon.ActivateNotes += NoteService.OnActivateNotes;

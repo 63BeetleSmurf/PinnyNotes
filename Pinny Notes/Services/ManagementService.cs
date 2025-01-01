@@ -17,6 +17,8 @@ public class ManagementService
         _applicationManager = applicationManager;
     }
 
+    public event EventHandler? NotesChanged;
+
     public void OpenManagementWindow()
     {
         if (_window == null)
@@ -26,6 +28,11 @@ public class ManagementService
             );
         else
             _window.Activate();
+    }
+
+    public void OnNotesChanged(object? sender, EventArgs e)
+    {
+        NotesChanged?.Invoke(sender, e);
     }
 
     public void OnManagementWindowClosed(object? sender, EventArgs e)
