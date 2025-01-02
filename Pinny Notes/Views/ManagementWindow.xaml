@@ -10,7 +10,11 @@
         Height="400">
     <Grid>
 
-        <ListView x:Name="NotesListView" Margin="0,0,5,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListView x:Name="NotesListView"
+                  Margin="0,0,5,5"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  SelectionMode="Extended"
+                  >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Width="125"
