@@ -37,7 +37,7 @@ public class NotePresenter
         _noteService.ActivateNotes += OnActivateNotes;
 
         _view.Loaded += OnWindowLoaded;
-        _view.Closed += OnWindowClosing;
+        _view.Closed += OnWindowClosed;
         _view.Activated += OnWindowActivated;
         _view.Deactivated += OnWindowDeactivated;
         _view.StateChanged += OnWindowStateChanged;
@@ -83,9 +83,9 @@ public class NotePresenter
         _model.WindowHandle = _view.Handle; // May not be needed, see gravity update
     }
 
-    private void OnWindowClosing(object? sender, EventArgs e)
+    private void OnWindowClosed(object? sender, EventArgs e)
     {
-        
+        _typingTimer.Stop();
     }
 
     private void OnWindowActivated(object? sender, EventArgs e)
