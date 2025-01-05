@@ -49,4 +49,19 @@ public class ManagementService
     {
         _applicationManager.NoteService.OpenExistingNote(noteId);
     }
+
+    public void CreateNewNote(int? groupId = null)
+    {
+        _applicationManager.NoteService.OpenNewNote(groupId: groupId);
+    }
+
+    public void CloseNote(int noteId)
+    {
+        _applicationManager.NoteService.CloseNote(noteId);
+    }
+
+    public void DeleteNote(int noteId)
+    {
+        _applicationManager.NoteService.DeleteNote(noteId);
+    }
 }

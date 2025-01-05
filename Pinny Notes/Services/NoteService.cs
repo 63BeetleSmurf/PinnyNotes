@@ -60,16 +60,20 @@ public class NoteService
         );
     }
 
-    public void CloseNote(NoteModel model, NoteWindow window)
+    public void CloseNote(int noteId)
+        => CloseNote(_noteRepository.GetById(noteId));
+    public void CloseNote(NoteModel model)
     {
-        window.Close();
-
         if (string.IsNullOrWhiteSpace(model.Text))
+        {
             DeleteNote(model.Id);
+        }
         else
+        {
+            _openNotes[model.Id].Close();
+            _openNotes.Remove(model.Id);
             SaveNote(model);
-
-        _openNotes.Remove(model.Id);
+        }
     }
 
     public void SaveNote(NoteModel model)
@@ -85,6 +89,12 @@ public class NoteService
 
     public void DeleteNote(int noteId)
     {
+        if (_openNotes.ContainsKey(noteId))
+        {
+            _openNotes[noteId].Close();
+            _openNotes.Remove(noteId);
+        }
+
         _noteRepository.Delete(noteId);
 
         NotesChanged?.Invoke(null, EventArgs.Empty);

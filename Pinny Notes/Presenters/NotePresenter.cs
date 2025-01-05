@@ -174,7 +174,7 @@ public class NotePresenter
 
     private void OnCloseButtonClick(object? sender, EventArgs e)
     {
-        _noteService.CloseNote(_model, _view);
+        _noteService.CloseNote(_model);
     }
 
     private void OnNoteTextChanged(object? sender, EventArgs e)
