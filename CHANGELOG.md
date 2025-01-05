@@ -7,6 +7,8 @@
 - Setting for font family to use when Use mono font is active.
 - Setting to set the opacity levels for when a note is transparent or opaque.
 - Settings for default note size.
+- Backend database which saves notes automatically.
+- Management window.
 - 
 
 ### Changed
