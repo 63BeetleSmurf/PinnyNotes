@@ -64,6 +64,9 @@ public class NoteService
         => CloseNote(_noteRepository.GetById(noteId));
     public void CloseNote(NoteModel model)
     {
+        if (!_openNotes.ContainsKey(model.Id))
+            return;
+
         if (string.IsNullOrWhiteSpace(model.Text))
         {
             DeleteNote(model.Id);
