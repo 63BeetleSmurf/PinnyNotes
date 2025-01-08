@@ -1,0 +1,100 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PinnyNotes.AvaloniaUi.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PinnyNotes.AvaloniaUi.Views"
+        x:Class="PinnyNotes.AvaloniaUi.Views.NoteWindow"
+        x:DataType="vm:NoteViewModel"
+        Icon="/Assets/icon.ico"
+        SystemDecorations="BorderOnly"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        MinWidth="{CompiledBinding MinWidth}"
+        MinHeight="{CompiledBinding MinHeight}"
+        Width="{CompiledBinding Width, Mode=TwoWay}"
+        Height="{CompiledBinding Height, Mode=TwoWay}"
+        Topmost="{CompiledBinding IsTopmost}"
+        Title="{CompiledBinding Title}">
+
+    <Design.DataContext>
+        <vm:NoteViewModel />
+    </Design.DataContext>
+
+    <Border BorderBrush="{CompiledBinding WindowBorderBrush}" BorderThickness="1">
+        <Grid RowDefinitions="auto,*" Background="{CompiledBinding NoteBackgroundBrush}">
+
+            <!-- Title bar -->
+            <Grid ColumnDefinitions="*,*,*" Grid.Row="0" Height="40" x:Name="TitleBarGrid" Background="{CompiledBinding TitleBarBackgroundBrush}">
+
+                <!-- New Note Button -->
+                <Button Grid.Column="0" x:Name="NewNoteButton" Margin="10,0,0,0" Focusable="False">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Rectangle Width="20" Height="20" Fill="Transparent"/>
+                                <Path Width="20" Height="20" Data="M 10,2 v 16 M 2,10 h 16"
+                                      StrokeLineCap="Round" Stroke="{CompiledBinding TitleBarButtonBrush}" StrokeThickness="3"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <!-- Topmost Button -->
+                <ToggleButton Grid.Column="1" x:Name="TopmostToggleButton" Focusable="False" HorizontalAlignment="Center" IsChecked="{CompiledBinding IsTopmost, Mode=TwoWay}">
+                    <ToggleButton.Resources>
+                        <local:BoolToAngleConverter x:Key="BoolToAngleConverter" />
+                    </ToggleButton.Resources>
+                    <ToggleButton.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Rectangle Width="20" Height="20" Fill="Transparent"/>
+                                <Path Width="20" Height="20" Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z"
+                                      Fill="{CompiledBinding TitleBarButtonBrush}">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}, Converter={StaticResource BoolToAngleConverter}}" />
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Grid>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
+                <!-- Close Button -->
+                <Button Grid.Column="2" x:Name="CloseButton" Focusable="False" HorizontalAlignment="Right" Margin="0,0,10,0">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Rectangle Width="20" Height="20" Fill="Transparent"/>
+                                <Path Width="20" Height="20" Data="M 3,3 L 17,17 M 3,17 L 17,3"
+                                      StrokeLineCap="Round" Stroke="{CompiledBinding TitleBarButtonBrush}" StrokeThickness="3"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+            </Grid>
+
+            <!-- Note TextBox -->
+            <TextBox x:Name="NoteTextBox" Grid.Row="1" Background="Transparent" CornerRadius="0" BorderThickness="0" Text="{CompiledBinding Text, Mode=TwoWay}" Foreground="{CompiledBinding TitleBarButtonBrush}" Padding="5,5,5,5" AcceptsReturn="True" AcceptsTab="True" DragDrop.AllowDrop="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <TextBox.Styles>
+                    <Style Selector="TextBox:focus-visible /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+
+        </Grid>
+    </Border>
+
+</Window>

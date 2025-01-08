@@ -8,10 +8,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{715897A6-A802-49B1-B6B6-BED86980B4AF}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		CHANGELOG.md = CHANGELOG.md
 		BugTracker.md = BugTracker.md
+		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinnyNotes.AvaloniaUi", "PinnyNotes.AvaloniaUi\PinnyNotes.AvaloniaUi.csproj", "{09E45098-37E1-435A-BA9F-B33F78F558A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09E45098-37E1-435A-BA9F-B33F78F558A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E45098-37E1-435A-BA9F-B33F78F558A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09E45098-37E1-435A-BA9F-B33F78F558A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09E45098-37E1-435A-BA9F-B33F78F558A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
