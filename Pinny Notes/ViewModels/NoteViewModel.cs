@@ -95,8 +95,38 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
     {
         switch (message.PropertyName)
         {
+            case "AutoCopy":
+                AutoCopy = (bool)message.NewValue;
+                break;
+            case "AutoIndent":
+                AutoIndent = (bool)message.NewValue;
+                break;
+            case "ConvertIndentation":
+                ConvertIndentation = (bool)message.NewValue;
+                break;
+            case "KeepNewLineAtEndVisible":
+                KeepNewLineAtEndVisible = (bool)message.NewValue;
+                break;
+            case "MiddleClickPaste":
+                MiddleClickPaste = (bool)message.NewValue;
+                break;
+            case "NewLineAtEnd":
+                NewLineAtEnd = (bool)message.NewValue;
+                break;
             case "SpellCheck":
                 SpellCheck = (bool)message.NewValue;
+                break;
+            case "TabSpaces":
+                TabSpaces = (bool)message.NewValue;
+                break;
+            case "TabWidth":
+                TabWidth = (int)message.NewValue;
+                break;
+            case "TrimCopiedText":
+                TrimCopiedText = (bool)message.NewValue;
+                break;
+            case "TrimPastedText":
+                TrimPastedText = (bool)message.NewValue;
                 break;
             case "TransparentNotes":
             case "OpaqueWhenFocused":
@@ -325,7 +355,27 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
     private double _opacity = (Settings.Default.TransparentNotes && !Settings.Default.OnlyTransparentWhenPinned) ? 0.8 : 1.0;
 
     [ObservableProperty]
+    private bool _autoCopy = Settings.Default.AutoCopy;
+    [ObservableProperty]
+    private bool _autoIndent = Settings.Default.AutoIndent;
+    [ObservableProperty]
+    private bool _convertIndentation = Settings.Default.ConvertIndentation;
+    [ObservableProperty]
+    private bool _keepNewLineAtEndVisible = Settings.Default.KeepNewLineAtEndVisible;
+    [ObservableProperty]
+    private bool _middleClickPaste = Settings.Default.MiddleClickPaste;
+    [ObservableProperty]
+    private bool _newLineAtEnd = Settings.Default.NewLineAtEnd;
+    [ObservableProperty]
     private bool _spellCheck = Settings.Default.SpellCheck;
+    [ObservableProperty]
+    private bool _tabSpaces = Settings.Default.TabSpaces;
+    [ObservableProperty]
+    private int _tabWidth = Settings.Default.TabWidth;
+    [ObservableProperty]
+    private bool _trimCopiedText = Settings.Default.TrimCopiedText;
+    [ObservableProperty]
+    private bool _trimPastedText = Settings.Default.TrimPastedText;
 
     [ObservableProperty]
     private bool _isPinned = false;
