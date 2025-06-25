@@ -242,7 +242,6 @@
                 Background="Transparent"
                 Foreground="{Binding TextColorBrush}"
                 CaretBrush="{Binding TextColorBrush}"
-                ContextMenuOpening="NoteTextBox_ContextMenuOpening"
                 FontSize="16"
                 x:Name="NoteTextBox"
                 Padding="5,5,5,5"

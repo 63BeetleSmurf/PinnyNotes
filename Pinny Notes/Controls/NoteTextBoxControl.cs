@@ -1,14 +1,21 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using Pinny_Notes.Controls.ContextMenus;
+
 namespace Pinny_Notes.Controls;
 
-public class NoteTextBoxControl : TextBox
+public partial class NoteTextBoxControl : TextBox
 {
+    public RelayCommand ClearCommand;
+
+    private NoteTextBoxContextMenu _contextMenu;
+
     public NoteTextBoxControl() : base()
     {
         AcceptsReturn = true;
@@ -25,6 +32,16 @@ public class NoteTextBoxControl : TextBox
         MouseDown += OnMouseDown;
         MouseUp += OnMouseUp;
         PreviewKeyDown += OnPreviewKeyDown;
+        ContextMenuOpening += OnContextMenuOpening;
+
+        ClearCommand = new(Clear);
+
+        InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
+        InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
+        InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
+
+        _contextMenu = new NoteTextBoxContextMenu(this);
+        ContextMenu = _contextMenu;
     }
 
     public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.Register(nameof(AutoCopy), typeof(bool), typeof(NoteTextBoxControl));
@@ -96,6 +113,7 @@ public class NoteTextBoxControl : TextBox
         set => SetValue(TrimPastedTextProperty, value);
     }
 
+    [RelayCommand]
     public new void Copy()
     {
         if (SelectionLength == 0)
@@ -107,12 +125,14 @@ public class NoteTextBoxControl : TextBox
         Clipboard.SetDataObject(copiedText);
     }
 
+    [RelayCommand]
     public new void Cut()
     {
         Copy();
         SelectedText = string.Empty;
     }
 
+    [RelayCommand]
     public new void Paste()
     {
         // Do nothing if clipboard does not contain text.
@@ -144,7 +164,6 @@ public class NoteTextBoxControl : TextBox
         CaretIndex = caretIndex + clipboardString.Length;
         if (!hasSelectedText && KeepNewLineAtEndVisible && caretAtEnd)
             ScrollToEnd();
-
     }
 
     public new int LineCount()
@@ -300,6 +319,11 @@ public class NoteTextBoxControl : TextBox
 
             e.Handled = true;
         }
+    }
+
+    private void OnContextMenuOpening(object sender, ContextMenuEventArgs e)
+    {
+        _contextMenu.Update();
     }
 
     private bool HandledTabPressed()
