@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pinny_Notes.Properties {
+namespace PinnyNotes.WpfUi.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
     internal sealed partial class ToolSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static ToolSettings defaultInstance = ((ToolSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ToolSettings())));

@@ -2,9 +2,9 @@
 using System;
 using System.Windows.Controls;
 
-using Pinny_Notes.Properties;
+using PinnyNotes.WpfUi.Properties;
 
-namespace Pinny_Notes.Tools;
+namespace PinnyNotes.WpfUi.Tools;
 
 public partial class IndentTool : BaseTool, ITool
 {

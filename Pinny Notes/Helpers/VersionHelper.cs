@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Pinny_Notes.Helpers;
+namespace PinnyNotes.WpfUi.Helpers;
 
 public static class VersionHelper
 {

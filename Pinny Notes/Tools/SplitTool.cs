@@ -2,9 +2,9 @@
 using System;
 using System.Windows.Controls;
 
-using Pinny_Notes.Properties;
+using PinnyNotes.WpfUi.Properties;
 
-namespace Pinny_Notes.Tools;
+namespace PinnyNotes.WpfUi.Tools;
 
 // TO DO: Need to fix split by selected text. Possibly TextAction needs to get both text and selected text.
 

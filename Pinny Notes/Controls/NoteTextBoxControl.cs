@@ -6,9 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using Pinny_Notes.Controls.ContextMenus;
+using PinnyNotes.WpfUi.Controls.ContextMenus;
 
-namespace Pinny_Notes.Controls;
+namespace PinnyNotes.WpfUi.Controls;
 
 public partial class NoteTextBoxControl : TextBox
 {

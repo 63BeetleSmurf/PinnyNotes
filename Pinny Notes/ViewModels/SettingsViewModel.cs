@@ -4,10 +4,10 @@ using CommunityToolkit.Mvvm.Messaging.Messages;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-using Pinny_Notes.Enums;
-using Pinny_Notes.Properties;
+using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Properties;
 
-namespace Pinny_Notes.ViewModels;
+namespace PinnyNotes.WpfUi.ViewModels;
 
 public partial class SettingsViewModel : ObservableRecipient
 {

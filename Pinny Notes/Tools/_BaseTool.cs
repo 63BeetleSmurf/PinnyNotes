@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using Pinny_Notes.Properties;
+using PinnyNotes.WpfUi.Properties;
 
-namespace Pinny_Notes.Tools;
+namespace PinnyNotes.WpfUi.Tools;
 
 public abstract class BaseTool(TextBox noteTextBox)
 {

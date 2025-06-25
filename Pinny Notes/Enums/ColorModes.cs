@@ -1,4 +1,4 @@
-﻿namespace Pinny_Notes.Enums;
+﻿namespace PinnyNotes.WpfUi.Enums;
 
 public enum ColorModes
 {

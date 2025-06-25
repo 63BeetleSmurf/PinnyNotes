@@ -8,11 +8,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-using Pinny_Notes.Enums;
-using Pinny_Notes.Helpers;
-using Pinny_Notes.Properties;
+using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Properties;
 
-namespace Pinny_Notes.ViewModels;
+namespace PinnyNotes.WpfUi.ViewModels;
 
 public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyChangedMessage<object>>
 {

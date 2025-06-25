@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Windows;
 
-using Pinny_Notes.Components;
-using Pinny_Notes.Helpers;
-using Pinny_Notes.Properties;
-using Pinny_Notes.Views;
+using PinnyNotes.WpfUi.Components;
+using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Views;
 
-namespace Pinny_Notes;
+namespace PinnyNotes.WpfUi;
 
 public partial class App : Application
 {

@@ -9,12 +9,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-using Pinny_Notes.Enums;
-using Pinny_Notes.Helpers;
-using Pinny_Notes.Properties;
-using Pinny_Notes.ViewModels;
+using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.ViewModels;
 
-namespace Pinny_Notes.Views;
+namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {

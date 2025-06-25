@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
-    <RootNamespace>Pinny_Notes</RootNamespace>
+    <RootNamespace>PinnyNotes.WpfUi</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <PackageIcon>icon.png</PackageIcon>

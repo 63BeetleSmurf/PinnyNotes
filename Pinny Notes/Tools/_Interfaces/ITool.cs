@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Pinny_Notes.Tools;
+namespace PinnyNotes.WpfUi.Tools;
 
 public interface ITool
 {

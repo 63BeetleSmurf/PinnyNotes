@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Pinny_Notes.Properties" GeneratedClassName="ToolSettings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PinnyNotes.WpfUi.Properties" GeneratedClassName="ToolSettings">
   <Profiles />
   <Settings>
     <Setting Name="Base64ToolEnabled" Type="System.Boolean" Scope="User">

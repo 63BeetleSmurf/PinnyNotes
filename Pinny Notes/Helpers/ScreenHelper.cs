@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
-namespace Pinny_Notes.Helpers;
+namespace PinnyNotes.WpfUi.Helpers;
 
 public static class ScreenHelper
 {
