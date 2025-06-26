@@ -54,6 +54,8 @@ public partial class SettingsViewModel : ObservableRecipient
         _transparentNotes = Settings.Default.TransparentNotes;
         _opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
         _onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
+        _opaqueOpacity = Settings.Default.OpaqueOpacity;
+        _transparentOpacity = Settings.Default.TransparentOpacity;
         _colorMode = (ColorModes)Settings.Default.ColorMode;
         _useMonoFont = Settings.Default.UseMonoFont;
         _hideTitleBar = Settings.Default.HideTitleBar;
@@ -203,6 +205,16 @@ public partial class SettingsViewModel : ObservableRecipient
     private bool _onlyTransparentWhenPinned;
     partial void OnOnlyTransparentWhenPinnedChanged(bool oldValue, bool newValue) =>
         UpdateSetting(nameof(OnlyTransparentWhenPinned), oldValue, newValue);
+
+    [ObservableProperty]
+    private double _opaqueOpacity;
+    partial void OnOpaqueOpacityChanged(double oldValue, double newValue) =>
+        UpdateSetting(nameof(OpaqueOpacity), oldValue, newValue);
+
+    [ObservableProperty]
+    private double _transparentOpacity;
+    partial void OnTransparentOpacityChanged(double oldValue, double newValue) =>
+        UpdateSetting(nameof(TransparentOpacity), oldValue, newValue);
 
     [ObservableProperty]
     private ColorModes _colorMode;

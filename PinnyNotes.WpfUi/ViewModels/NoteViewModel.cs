@@ -19,9 +19,6 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
     public const double DefaultWidth = 300.0;
     public const double DefaultHeight = 300.0;
 
-    private const double _opaqueOpacity = 1.0;
-    private const double _transparentOpacity = 0.8;
-
     private const string _monoFontFamily = "Consolas";
 
     private static readonly Dictionary<ThemeColors, Color[]> _colors = new() {
@@ -131,6 +128,8 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
             case "TransparentNotes":
             case "OpaqueWhenFocused":
             case "OnlyTransparentWhenPinned":
+            case "OpaqueOpacity":
+            case "TransparentOpacity":
                 UpdateOpacity();
                 break;
             case "ColorMode":
@@ -308,12 +307,15 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
         bool opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
         bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
 
+        double opaqueOpacity = Settings.Default.OpaqueOpacity;
+        double transparentOpacity = Settings.Default.TransparentOpacity;
+
         if (IsFocused)
-            Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
+            Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? transparentOpacity : opaqueOpacity;
         else if (IsPinned)
-            Opacity = transparentNotes ? _transparentOpacity : _opaqueOpacity;
+            Opacity = transparentNotes ? transparentOpacity : opaqueOpacity;
         else
-            Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? _transparentOpacity : _opaqueOpacity;
+            Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? transparentOpacity : opaqueOpacity;
     }
 
     public nint WindowHandel { get; set; }

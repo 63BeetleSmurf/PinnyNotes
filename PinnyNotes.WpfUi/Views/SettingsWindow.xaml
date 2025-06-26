@@ -70,6 +70,32 @@
                     <CheckBox Margin="10,0,5,0" Content="Transparent Notes" IsChecked="{Binding TransparentNotes}" />
                     <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OpaqueWhenFocused}" />
                     <CheckBox Margin="30,5,5,5" Content="Only Transparent When Pinned" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OnlyTransparentWhenPinned}" />
+                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                        <Label Content="Opaque value" />
+                        <Slider Minimum="0.1"
+                            Maximum="1.0"
+                            TickFrequency="0.1"
+                            IsSnapToTickEnabled="True"
+                            SmallChange="0.1"
+                            LargeChange="0.1"
+                            TickPlacement="BottomRight"
+                            Width="150"
+                            IsEnabled="{Binding TransparentNotes}"
+                            Value="{Binding OpaqueOpacity}" />
+                    </StackPanel>
+                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                        <Label Content="Transparent value" />
+                        <Slider Minimum="0.1"
+                            Maximum="1.0"
+                            TickFrequency="0.1"
+                            IsSnapToTickEnabled="True"
+                            SmallChange="0.1"
+                            LargeChange="0.1"
+                            TickPlacement="BottomRight"
+                            Width="150"
+                            IsEnabled="{Binding TransparentNotes}"
+                            Value="{Binding TransparentOpacity}" />
+                    </StackPanel>
 
                 </StackPanel>
             </TabItem>
