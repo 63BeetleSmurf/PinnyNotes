@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class DateTimeTool : BaseTool, ITool
+public class DateTimeTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.DateTimeToolEnabled;
     public bool IsFavourite => ToolSettings.Default.DateTimeToolFavourite;
@@ -19,10 +19,9 @@ public partial class DateTimeTool : BaseTool, ITool
     public DateTimeTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Date Time";
-        _menuActions.Add(new("Sortable Date Time", MenuActionCommand, ToolActions.DateTimeSortableDateTime));
+        _menuActions.Add(new("Sortable Date Time", new RelayCommand(() => MenuAction(ToolActions.DateTimeSortableDateTime))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         switch (action)

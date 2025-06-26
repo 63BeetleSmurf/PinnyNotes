@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class BracketTool : BaseTool, ITool
+public class BracketTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.BracketToolEnabled;
     public bool IsFavourite => ToolSettings.Default.BracketToolFavourite;
@@ -27,15 +27,14 @@ public partial class BracketTool : BaseTool, ITool
     public BracketTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Bracket";
-        _menuActions.Add(new("Parentheses", MenuActionCommand, ToolActions.BracketParentheses));
-        _menuActions.Add(new("Curly", MenuActionCommand, ToolActions.BracketCurly));
-        _menuActions.Add(new("Square", MenuActionCommand, ToolActions.BracketSquare));
+        _menuActions.Add(new("Parentheses", new RelayCommand(() => MenuAction(ToolActions.BracketParentheses))));
+        _menuActions.Add(new("Curly", new RelayCommand(() => MenuAction(ToolActions.BracketCurly))));
+        _menuActions.Add(new("Square", new RelayCommand(() => MenuAction(ToolActions.BracketSquare))));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim Once", MenuActionCommand, ToolActions.BracketTrimOnce));
-        _menuActions.Add(new("Trim All", MenuActionCommand, ToolActions.BracketTrimAll));
+        _menuActions.Add(new("Trim Once", new RelayCommand(() => MenuAction(ToolActions.BracketTrimOnce))));
+        _menuActions.Add(new("Trim All", new RelayCommand(() => MenuAction(ToolActions.BracketTrimAll))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToEachLine(ModifyLineCallback, action);

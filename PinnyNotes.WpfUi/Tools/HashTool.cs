@@ -1,14 +1,14 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class HashTool : BaseTool, ITool
+public class HashTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.HashToolEnabled;
     public bool IsFavourite => ToolSettings.Default.HashToolFavourite;
@@ -25,14 +25,13 @@ public partial class HashTool : BaseTool, ITool
     public HashTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Hash";
-        _menuActions.Add(new("SHA512", MenuActionCommand, ToolActions.HashSHA512));
-        _menuActions.Add(new("SHA384", MenuActionCommand, ToolActions.HashSHA384));
-        _menuActions.Add(new("SHA256", MenuActionCommand, ToolActions.HashSHA256));
-        _menuActions.Add(new("SHA1", MenuActionCommand, ToolActions.HashSHA1));
-        _menuActions.Add(new("MD5", MenuActionCommand, ToolActions.HashMD5));
+        _menuActions.Add(new("SHA512", new RelayCommand(() => MenuAction(ToolActions.HashSHA512))));
+        _menuActions.Add(new("SHA384", new RelayCommand(() => MenuAction(ToolActions.HashSHA384))));
+        _menuActions.Add(new("SHA256", new RelayCommand(() => MenuAction(ToolActions.HashSHA256))));
+        _menuActions.Add(new("SHA1", new RelayCommand(() => MenuAction(ToolActions.HashSHA1))));
+        _menuActions.Add(new("MD5", new RelayCommand(() => MenuAction(ToolActions.HashMD5))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToNoteText(ModifyTextCallback, action);

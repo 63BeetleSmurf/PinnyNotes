@@ -1,18 +1,24 @@
-﻿using PinnyNotes.WpfUi.Views;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
+
+using PinnyNotes.WpfUi.Services;
+using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Components;
 
 public class NotifyIconComponent : IDisposable
 {
+    private readonly MessengerService _messenger;
+
     private NotifyIcon _notifyIcon;
     private App _app = (App)System.Windows.Application.Current;
 
-    public NotifyIconComponent()
+    public NotifyIconComponent(MessengerService messenger)
     {
+        _messenger = messenger;
+
         _notifyIcon = new()
         {
             Icon = new Icon(
@@ -55,7 +61,7 @@ public class NotifyIconComponent : IDisposable
 
     private void NewNote_Click(object? sender, EventArgs e)
     {
-        new NoteWindow().Show();
+        new NoteWindow(_messenger).Show();
     }
 
     private void Settings_Click(object? sender, EventArgs e)

@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class GibberishTool : BaseTool, ITool
+public class GibberishTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.GibberishToolEnabled;
     public bool IsFavourite => ToolSettings.Default.GibberishToolFavourite;
@@ -29,16 +29,15 @@ public partial class GibberishTool : BaseTool, ITool
     public GibberishTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Gibberish";
-        _menuActions.Add(new("Word", MenuActionCommand, ToolActions.GibberishWord));
-        _menuActions.Add(new("Title", MenuActionCommand, ToolActions.GibberishTitle));
-        _menuActions.Add(new("Sentence", MenuActionCommand, ToolActions.GibberishSentence));
-        _menuActions.Add(new("Paragraph", MenuActionCommand, ToolActions.GibberishParagraph));
-        _menuActions.Add(new("Article", MenuActionCommand, ToolActions.GibberishArticle));
+        _menuActions.Add(new("Word", new RelayCommand(() => MenuAction(ToolActions.GibberishWord))));
+        _menuActions.Add(new("Title", new RelayCommand(() => MenuAction(ToolActions.GibberishTitle))));
+        _menuActions.Add(new("Sentence", new RelayCommand(() => MenuAction(ToolActions.GibberishSentence))));
+        _menuActions.Add(new("Paragraph", new RelayCommand(() => MenuAction(ToolActions.GibberishParagraph))));
+        _menuActions.Add(new("Article", new RelayCommand(() => MenuAction(ToolActions.GibberishArticle))));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Name", MenuActionCommand, ToolActions.GibberishName));
+        _menuActions.Add(new("Name", new RelayCommand(() => MenuAction(ToolActions.GibberishName))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         switch (action)

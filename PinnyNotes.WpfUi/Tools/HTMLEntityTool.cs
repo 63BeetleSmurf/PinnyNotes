@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Net;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class HtmlEntityTool : BaseTool, ITool
+public class HtmlEntityTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.HtmlEntityToolEnabled;
     public bool IsFavourite => ToolSettings.Default.HtmlEntityToolFavourite;
@@ -21,11 +21,10 @@ public partial class HtmlEntityTool : BaseTool, ITool
     public HtmlEntityTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "HTML Entity";
-        _menuActions.Add(new("Encode", MenuActionCommand, ToolActions.EntityEncode));
-        _menuActions.Add(new("Decode", MenuActionCommand, ToolActions.EntityDecode));
+        _menuActions.Add(new("Encode", new RelayCommand(() => MenuAction(ToolActions.EntityEncode))));
+        _menuActions.Add(new("Decode", new RelayCommand(() => MenuAction(ToolActions.EntityDecode))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToNoteText(ModifyTextCallback, action);

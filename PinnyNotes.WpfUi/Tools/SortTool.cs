@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class SortTool : BaseTool, ITool
+public class SortTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.SortToolEnabled;
     public bool IsFavourite => ToolSettings.Default.SortToolFavourite;
@@ -20,11 +20,10 @@ public partial class SortTool : BaseTool, ITool
     public SortTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Sort";
-        _menuActions.Add(new("Ascending", MenuActionCommand, ToolActions.SortAscending));
-        _menuActions.Add(new("Descending", MenuActionCommand, ToolActions.SortDescending));
+        _menuActions.Add(new("Ascending", new RelayCommand(() => MenuAction(ToolActions.SortAscending))));
+        _menuActions.Add(new("Descending", new RelayCommand(() => MenuAction(ToolActions.SortDescending))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToNoteText(ModifyTextCallback, action);

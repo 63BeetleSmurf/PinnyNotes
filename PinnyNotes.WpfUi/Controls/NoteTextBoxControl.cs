@@ -1,10 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+
+using PinnyNotes.WpfUi.Commands;
 
 using PinnyNotes.WpfUi.Controls.ContextMenus;
 
@@ -12,6 +13,10 @@ namespace PinnyNotes.WpfUi.Controls;
 
 public partial class NoteTextBoxControl : TextBox
 {
+
+    public RelayCommand CopyCommand;
+    public RelayCommand CutCommand;
+    public RelayCommand PasteCommand;
     public RelayCommand ClearCommand;
 
     private NoteTextBoxContextMenu _contextMenu;
@@ -34,6 +39,9 @@ public partial class NoteTextBoxControl : TextBox
         PreviewKeyDown += OnPreviewKeyDown;
         ContextMenuOpening += OnContextMenuOpening;
 
+        CopyCommand = new(Copy);
+        CutCommand = new(Cut);
+        PasteCommand = new(Paste);
         ClearCommand = new(Clear);
 
         InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
@@ -113,7 +121,6 @@ public partial class NoteTextBoxControl : TextBox
         set => SetValue(TrimPastedTextProperty, value);
     }
 
-    [RelayCommand]
     public new void Copy()
     {
         if (SelectionLength == 0)
@@ -125,14 +132,12 @@ public partial class NoteTextBoxControl : TextBox
         Clipboard.SetDataObject(copiedText);
     }
 
-    [RelayCommand]
     public new void Cut()
     {
         Copy();
         SelectedText = string.Empty;
     }
 
-    [RelayCommand]
     public new void Paste()
     {
         // Do nothing if clipboard does not contain text.

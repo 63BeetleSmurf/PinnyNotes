@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class ListTool : BaseTool, ITool
+public class ListTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.ListToolEnabled;
     public bool IsFavourite => ToolSettings.Default.ListToolFavourite;
@@ -21,12 +21,11 @@ public partial class ListTool : BaseTool, ITool
     public ListTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "List";
-        _menuActions.Add(new("Enumerate", MenuActionCommand, ToolActions.ListEnumerate));
-        _menuActions.Add(new("Dash", MenuActionCommand, ToolActions.ListDash));
-        _menuActions.Add(new("Remove", MenuActionCommand, ToolActions.ListRemove));
+        _menuActions.Add(new("Enumerate", new RelayCommand(() => MenuAction(ToolActions.ListEnumerate))));
+        _menuActions.Add(new("Dash", new RelayCommand(() => MenuAction(ToolActions.ListDash))));
+        _menuActions.Add(new("Remove", new RelayCommand(() => MenuAction(ToolActions.ListRemove))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToEachLine(ModifyLineCallback, action);

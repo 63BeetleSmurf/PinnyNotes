@@ -1,16 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
-using System.Collections.Generic;
-using System.Windows.Controls;
+﻿using System.Collections.Generic;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Services;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public partial class SettingsViewModel : ObservableRecipient
+public class SettingsViewModel : BaseViewModel
 {
+    private readonly MessengerService _messenger;
+
     private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
         new(StartupPositions.TopLeft, "Top Left"),
         new(StartupPositions.TopCenter, "Top Center"),
@@ -35,8 +36,10 @@ public partial class SettingsViewModel : ObservableRecipient
         new(ColorModes.System, "System Default")
     ];
 
-    public SettingsViewModel()
+    public SettingsViewModel(MessengerService messenger)
     {
+        _messenger = messenger;
+
         _startupPosition = (StartupPositions)Settings.Default.StartupPosition;
         _cycleColors = Settings.Default.CycleColors;
         _trimCopiedText = Settings.Default.TrimCopiedText;
@@ -107,382 +110,279 @@ public partial class SettingsViewModel : ObservableRecipient
     public KeyValuePair<MinimizeModes, string>[] MinimizeModeList => _minimizeModeList;
     public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
 
-    private void UpdateSetting(string settingName, object oldValue, object newValue)
+    private bool SetPropertyAndSave<T>(ref T storage, T value, bool isToolSetting = false, [CallerMemberName] string? propertyName = null)
     {
-        Settings.Default[settingName] = newValue;
-        Settings.Default.Save();
+        if (!SetProperty(ref storage, value, propertyName))
+            return false;
 
-        Messenger.Send(new PropertyChangedMessage<object>(this, settingName, oldValue, newValue));
+        if (isToolSetting)
+        {
+            if (value is Enum)
+                ToolSettings.Default[propertyName] = Convert.ToInt32(value);
+            else
+                ToolSettings.Default[propertyName] = value;
+
+            ToolSettings.Default.Save();
+        }
+        else
+        {
+            if (value is Enum)
+                Settings.Default[propertyName] = Convert.ToInt32(value);
+            else
+                Settings.Default[propertyName] = value;
+
+            Settings.Default.Save();
+        }
+
+        _messenger.SendSettingChangedNotification(propertyName!, value!);
+
+        return true;
     }
 
-    private void UpdateToolSetting(string settingName, object oldValue, object newValue)
-    {
-        ToolSettings.Default[settingName] = newValue;
-        ToolSettings.Default.Save();
-    }
-
-    [ObservableProperty]
+    public StartupPositions StartupPosition { get => _startupPosition; set => SetPropertyAndSave(ref _startupPosition, value); }
     private StartupPositions _startupPosition;
-    partial void OnStartupPositionChanged(StartupPositions oldValue, StartupPositions newValue) =>
-        UpdateSetting(nameof(StartupPosition), (int)oldValue, (int)newValue);
 
-    [ObservableProperty]
+    public bool CycleColors { get => _cycleColors; set => SetPropertyAndSave(ref _cycleColors, value); }
     private bool _cycleColors;
-    partial void OnCycleColorsChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(CycleColors), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool TrimCopiedText { get => _trimCopiedText; set => SetPropertyAndSave(ref _trimCopiedText, value); }
     private bool _trimCopiedText;
-    partial void OnTrimCopiedTextChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(TrimCopiedText), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool TrimPastedText { get => _trimPastedText; set => SetPropertyAndSave(ref _trimPastedText, value); }
     private bool _trimPastedText;
-    partial void OnTrimPastedTextChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(TrimPastedText), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool MiddleClickPaste { get => _middleClickPaste; set => SetPropertyAndSave(ref _middleClickPaste, value); }
     private bool _middleClickPaste;
-    partial void OnMiddleClickPasteChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(MiddleClickPaste), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool AutoCopy { get => _autoCopy; set => SetPropertyAndSave(ref _autoCopy, value); }
     private bool _autoCopy;
-    partial void OnAutoCopyChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(AutoCopy), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool SpellChecker { get => _spellChecker; set => SetPropertyAndSave(ref _spellChecker, value); }
     private bool _spellChecker;
-    partial void OnSpellCheckerChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(SpellCheck), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool NewLineAtEnd { get => _newLineAtEnd; set => SetPropertyAndSave(ref _newLineAtEnd, value); }
     private bool _newLineAtEnd;
-    partial void OnNewLineAtEndChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(NewLineAtEnd), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool KeepNewLineAtEndVisible { get => _keepNewLineAtEndVisible; set => SetPropertyAndSave(ref _keepNewLineAtEndVisible, value); }
     private bool _keepNewLineAtEndVisible;
-    partial void OnKeepNewLineAtEndVisibleChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(KeepNewLineAtEndVisible), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool AutoIndent { get => _autoIndent; set => SetPropertyAndSave(ref _autoIndent, value); }
     private bool _autoIndent;
-    partial void OnAutoIndentChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(AutoIndent), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool TabSpaces { get => _tabSpaces; set => SetPropertyAndSave(ref _tabSpaces, value); }
     private bool _tabSpaces;
-    partial void OnTabSpacesChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(TabSpaces), oldValue, newValue);
 
-    [ObservableProperty]
+    public int TabWidth { get => _tabWidth; set => SetPropertyAndSave(ref _tabWidth, value); }
     private int _tabWidth;
-    partial void OnTabWidthChanged(int oldValue, int newValue) =>
-        UpdateSetting(nameof(TabWidth), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool ConvertIndentation { get => _convertIndentation; set => SetPropertyAndSave(ref _convertIndentation, value); }
     private bool _convertIndentation;
-    partial void OnConvertIndentationChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(ConvertIndentation), oldValue, newValue);
 
-    [ObservableProperty]
+    public MinimizeModes MinimizeMode { get => _minimizeMode; set => SetPropertyAndSave(ref _minimizeMode, value); }
     private MinimizeModes _minimizeMode;
-    partial void OnMinimizeModeChanged(MinimizeModes oldValue, MinimizeModes newValue) =>
-        UpdateSetting(nameof(MinimizeMode), (int)oldValue, (int)newValue);
 
-    [ObservableProperty]
+    public bool TransparentNotes { get => _transparentNotes; set => SetPropertyAndSave(ref _transparentNotes, value); }
     private bool _transparentNotes;
-    partial void OnTransparentNotesChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(TransparentNotes), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool OpaqueWhenFocused { get => _opaqueWhenFocused; set => SetPropertyAndSave(ref _opaqueWhenFocused, value); }
     private bool _opaqueWhenFocused;
-    partial void OnOpaqueWhenFocusedChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(OpaqueWhenFocused), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool OnlyTransparentWhenPinned { get => _onlyTransparentWhenPinned; set => SetPropertyAndSave(ref _onlyTransparentWhenPinned, value); }
     private bool _onlyTransparentWhenPinned;
-    partial void OnOnlyTransparentWhenPinnedChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(OnlyTransparentWhenPinned), oldValue, newValue);
 
-    [ObservableProperty]
+    public double OpaqueOpacity { get => _opaqueOpacity; set => SetPropertyAndSave(ref _opaqueOpacity, value); }
     private double _opaqueOpacity;
-    partial void OnOpaqueOpacityChanged(double oldValue, double newValue) =>
-        UpdateSetting(nameof(OpaqueOpacity), oldValue, newValue);
 
-    [ObservableProperty]
+    public double TransparentOpacity { get => _transparentOpacity; set => SetPropertyAndSave(ref _transparentOpacity, value); }
     private double _transparentOpacity;
-    partial void OnTransparentOpacityChanged(double oldValue, double newValue) =>
-        UpdateSetting(nameof(TransparentOpacity), oldValue, newValue);
 
-    [ObservableProperty]
+    public ColorModes ColorMode { get => _colorMode; set => SetPropertyAndSave(ref _colorMode, value); }
     private ColorModes _colorMode;
-    partial void OnColorModeChanged(ColorModes oldValue, ColorModes newValue) =>
-        UpdateSetting(nameof(ColorMode), (int)oldValue, (int)newValue);
 
-    [ObservableProperty]
+    public bool UseMonoFont { get => _useMonoFont; set => SetPropertyAndSave(ref _useMonoFont, value); }
     private bool _useMonoFont;
-    partial void OnUseMonoFontChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(UseMonoFont), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool HideTitleBar { get => _hideTitleBar; set => SetPropertyAndSave(ref _hideTitleBar, value); }
     private bool _hideTitleBar;
-    partial void OnHideTitleBarChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(HideTitleBar), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool ShowTrayIcon { get => _showTrayIcon; set => SetPropertyAndSave(ref _showTrayIcon, value); }
     private bool _showTrayIcon;
-    partial void OnShowTrayIconChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(ShowTrayIcon), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool ShowNotesInTaskbar { get => _showNotesInTaskbar; set => SetPropertyAndSave(ref _showNotesInTaskbar, value); }
     private bool _showNotesInTaskbar;
-    partial void OnShowNotesInTaskbarChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(ShowNotesInTaskbar), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool CheckForUpdates { get => _checkForUpdates; set => SetPropertyAndSave(ref _checkForUpdates, value); }
     private bool _checkForUpdates;
-    partial void OnCheckForUpdatesChanged(bool oldValue, bool newValue) =>
-        UpdateSetting(nameof(CheckForUpdates), oldValue, newValue);
 
     #region Tools
 
     #region Base64
 
-    [ObservableProperty]
+    public bool Base64ToolEnabled { get => _base64ToolEnabled; set => SetPropertyAndSave(ref _base64ToolEnabled, value, true); }
     private bool _base64ToolEnabled;
-    partial void OnBase64ToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(Base64ToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool Base64ToolFavourite { get => _base64ToolFavourite; set => SetPropertyAndSave(ref _base64ToolFavourite, value, true); }
     private bool _base64ToolFavourite;
-    partial void OnBase64ToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(Base64ToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Bracket
 
-    [ObservableProperty]
+    public bool BracketToolEnabled { get => _bracketToolEnabled; set => SetPropertyAndSave(ref _bracketToolEnabled, value, true); }
     private bool _bracketToolEnabled;
-    partial void OnBracketToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(BracketToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool BracketToolFavourite { get => _bracketToolFavourite; set => SetPropertyAndSave(ref _bracketToolFavourite, value, true); }
     private bool _bracketToolFavourite;
-    partial void OnBracketToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(BracketToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Case
 
-    [ObservableProperty]
+    public bool CaseToolEnabled { get => _caseToolEnabled; set => SetPropertyAndSave(ref _caseToolEnabled, value, true); }
     private bool _caseToolEnabled;
-    partial void OnCaseToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(CaseToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool CaseToolFavourite { get => _caseToolFavourite; set => SetPropertyAndSave(ref _caseToolFavourite, value, true); }
     private bool _caseToolFavourite;
-    partial void OnCaseToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(CaseToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region DateTime
 
-    [ObservableProperty]
+    public bool DateTimeToolEnabled { get => _dateTimeToolEnabled; set => SetPropertyAndSave(ref _dateTimeToolEnabled, value, true); }
     private bool _dateTimeToolEnabled;
-    partial void OnDateTimeToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(DateTimeToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool DateTimeToolFavourite { get => _dateTimeToolFavourite; set => SetPropertyAndSave(ref _dateTimeToolFavourite, value, true); }
     private bool _dateTimeToolFavourite;
-    partial void OnDateTimeToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(DateTimeToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Gibberish
 
-    [ObservableProperty]
+    public bool GibberishToolEnabled { get => _gibberishToolEnabled; set => SetPropertyAndSave(ref _gibberishToolEnabled, value, true); }
     private bool _gibberishToolEnabled;
-    partial void OnGibberishToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(GibberishToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool GibberishToolFavourite { get => _gibberishToolFavourite; set => SetPropertyAndSave(ref _gibberishToolFavourite, value, true); }
     private bool _gibberishToolFavourite;
-    partial void OnGibberishToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(GibberishToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Hash
 
-    [ObservableProperty]
+    public bool HashToolEnabled { get => _hashToolEnabled; set => SetPropertyAndSave(ref _hashToolEnabled, value, true); }
     private bool _hashToolEnabled;
-    partial void OnHashToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(HashToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool HashToolFavourite { get => _hashToolFavourite; set => SetPropertyAndSave(ref _hashToolFavourite, value, true); }
     private bool _hashToolFavourite;
-    partial void OnHashToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(HashToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region HTMLEntity
 
-    [ObservableProperty]
+    public bool HtmlEntityToolEnabled { get => _htmlEntityToolEnabled; set => SetPropertyAndSave(ref _htmlEntityToolEnabled, value, true); }
     private bool _htmlEntityToolEnabled;
-    partial void OnHtmlEntityToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(HtmlEntityToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool HtmlEntityToolFavourite { get => _htmlEntityToolFavourite; set => SetPropertyAndSave(ref _htmlEntityToolFavourite, value, true); }
     private bool _htmlEntityToolFavourite;
-    partial void OnHtmlEntityToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(HtmlEntityToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Indent
 
-    [ObservableProperty]
+    public bool IndentToolEnabled { get => _indentToolEnabled; set => SetPropertyAndSave(ref _indentToolEnabled, value, true); }
     private bool _indentToolEnabled;
-    partial void OnIndentToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(IndentToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool IndentToolFavourite { get => _indentToolFavourite; set => SetPropertyAndSave(ref _indentToolFavourite, value, true); }
     private bool _indentToolFavourite;
-    partial void OnIndentToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(IndentToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Join
 
-    [ObservableProperty]
+    public bool JoinToolEnabled { get => _joinToolEnabled; set => SetPropertyAndSave(ref _joinToolEnabled, value, true); }
     private bool _joinToolEnabled;
-    partial void OnJoinToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(JoinToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool JoinToolFavourite { get => _joinToolFavourite; set => SetPropertyAndSave(ref _joinToolFavourite, value, true); }
     private bool _joinToolFavourite;
-    partial void OnJoinToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(JoinToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region JSON
 
-    [ObservableProperty]
+    public bool JsonToolEnabled { get => _jsonToolEnabled; set => SetPropertyAndSave(ref _jsonToolEnabled, value, true); }
     private bool _jsonToolEnabled;
-    partial void OnJsonToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(JsonToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool JsonToolFavourite { get => _jsonToolFavourite; set => SetPropertyAndSave(ref _jsonToolFavourite, value, true); }
     private bool _jsonToolFavourite;
-    partial void OnJsonToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(JsonToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region List
 
-    [ObservableProperty]
+    public bool ListToolEnabled { get => _listToolEnabled; set => SetPropertyAndSave(ref _listToolEnabled, value, true); }
     private bool _listToolEnabled;
-    partial void OnListToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(ListToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool ListToolFavourite { get => _listToolFavourite; set => SetPropertyAndSave(ref _listToolFavourite, value, true); }
     private bool _listToolFavourite;
-    partial void OnListToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(ListToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Quote
 
-    [ObservableProperty]
+    public bool QuoteToolEnabled { get => _quoteToolEnabled; set => SetPropertyAndSave(ref _quoteToolEnabled, value, true); }
     private bool _quoteToolEnabled;
-    partial void OnQuoteToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(QuoteToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool QuoteToolFavourite { get => _quoteToolFavourite; set => SetPropertyAndSave(ref _quoteToolFavourite, value, true); }
     private bool _quoteToolFavourite;
-    partial void OnQuoteToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(QuoteToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Remove
 
-    [ObservableProperty]
+    public bool RemoveToolEnabled { get => _removeToolEnabled; set => SetPropertyAndSave(ref _removeToolEnabled, value, true); }
     private bool _removeToolEnabled;
-    partial void OnRemoveToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(RemoveToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool RemoveToolFavourite { get => _removeToolFavourite; set => SetPropertyAndSave(ref _removeToolFavourite, value, true); }
     private bool _removeToolFavourite;
-    partial void OnRemoveToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(RemoveToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Slash
 
-    [ObservableProperty]
+    public bool SlashToolEnabled { get => _slashToolEnabled; set => SetPropertyAndSave(ref _slashToolEnabled, value, true); }
     private bool _slashToolEnabled;
-    partial void OnSlashToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(SlashToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool SlashToolFavourite { get => _slashToolFavourite; set => SetPropertyAndSave(ref _slashToolFavourite, value, true); }
     private bool _slashToolFavourite;
-    partial void OnSlashToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(SlashToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Sort
 
-    [ObservableProperty]
+    public bool SortToolEnabled { get => _sortToolEnabled; set => SetPropertyAndSave(ref _sortToolEnabled, value, true); }
     private bool _sortToolEnabled;
-    partial void OnSortToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(SortToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool SortToolFavourite { get => _sortToolFavourite; set => SetPropertyAndSave(ref _sortToolFavourite, value, true); }
     private bool _sortToolFavourite;
-    partial void OnSortToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(SortToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Split
 
-    [ObservableProperty]
+    public bool SplitToolEnabled { get => _splitToolEnabled; set => SetPropertyAndSave(ref _splitToolEnabled, value, true); }
     private bool _splitToolEnabled;
-    partial void OnSplitToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(SplitToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool SplitToolFavourite { get => _splitToolFavourite; set => SetPropertyAndSave(ref _splitToolFavourite, value, true); }
     private bool _splitToolFavourite;
-    partial void OnSplitToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(SplitToolFavourite), oldValue, newValue);
 
     #endregion
 
     #region Trim
 
-    [ObservableProperty]
+    public bool TrimToolEnabled { get => _trimToolEnabled; set => SetPropertyAndSave(ref _trimToolEnabled, value, true); }
     private bool _trimToolEnabled;
-    partial void OnTrimToolEnabledChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(TrimToolEnabled), oldValue, newValue);
 
-    [ObservableProperty]
+    public bool TrimToolFavourite { get => _trimToolFavourite; set => SetPropertyAndSave(ref _trimToolFavourite, value, true); }
     private bool _trimToolFavourite;
-    partial void OnTrimToolFavouriteChanged(bool oldValue, bool newValue) =>
-        UpdateToolSetting(nameof(TrimToolFavourite), oldValue, newValue);
 
     #endregion
 

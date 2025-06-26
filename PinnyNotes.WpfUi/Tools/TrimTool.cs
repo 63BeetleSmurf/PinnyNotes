@@ -1,12 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class TrimTool : BaseTool, ITool
+public class TrimTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.TrimToolEnabled;
     public bool IsFavourite => ToolSettings.Default.TrimToolFavourite;
@@ -22,13 +22,12 @@ public partial class TrimTool : BaseTool, ITool
     public TrimTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Trim";
-        _menuActions.Add(new("Start", MenuActionCommand, ToolActions.TrimStart));
-        _menuActions.Add(new("End", MenuActionCommand, ToolActions.TrimEnd));
-        _menuActions.Add(new("Both", MenuActionCommand, ToolActions.TrimBoth));
-        _menuActions.Add(new("Empty Lines", MenuActionCommand, ToolActions.TrimLines));
+        _menuActions.Add(new("Start", new RelayCommand(() => MenuAction(ToolActions.TrimStart))));
+        _menuActions.Add(new("End", new RelayCommand(() => MenuAction(ToolActions.TrimEnd))));
+        _menuActions.Add(new("Both", new RelayCommand(() => MenuAction(ToolActions.TrimBoth))));
+        _menuActions.Add(new("Empty Lines", new RelayCommand(() => MenuAction(ToolActions.TrimLines))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToEachLine(ModifyLineCallback, action);

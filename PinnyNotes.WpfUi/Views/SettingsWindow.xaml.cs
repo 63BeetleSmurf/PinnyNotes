@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi.Views;
@@ -9,9 +10,9 @@ public partial class SettingsWindow : Window
 {
     private Window _lastOwner;
 
-    public SettingsWindow()
+    public SettingsWindow(MessengerService messenger)
     {
-        DataContext = new SettingsViewModel();
+        DataContext = new SettingsViewModel(messenger);
         InitializeComponent();
         _lastOwner = Owner;
     }

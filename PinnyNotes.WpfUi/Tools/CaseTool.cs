@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class CaseTool : BaseTool, ITool
+public class CaseTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.CaseToolEnabled;
     public bool IsFavourite => ToolSettings.Default.CaseToolFavourite;
@@ -22,12 +22,11 @@ public partial class CaseTool : BaseTool, ITool
     public CaseTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Case";
-        _menuActions.Add(new("Lower", MenuActionCommand, ToolActions.CaseLower));
-        _menuActions.Add(new("Upper", MenuActionCommand, ToolActions.CaseUpper));
-        _menuActions.Add(new("Title", MenuActionCommand, ToolActions.CaseTitle));
+        _menuActions.Add(new("Lower", new RelayCommand(() => MenuAction(ToolActions.CaseLower))));
+        _menuActions.Add(new("Upper", new RelayCommand(() => MenuAction(ToolActions.CaseUpper))));
+        _menuActions.Add(new("Title", new RelayCommand(() => MenuAction(ToolActions.CaseTitle))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToNoteText(ModifyTextCallback, action);

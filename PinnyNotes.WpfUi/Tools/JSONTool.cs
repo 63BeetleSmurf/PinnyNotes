@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Text.Json;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class JsonTool : BaseTool, ITool
+public class JsonTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.JsonToolEnabled;
     public bool IsFavourite => ToolSettings.Default.JsonToolFavourite;
@@ -25,10 +25,9 @@ public partial class JsonTool : BaseTool, ITool
     public JsonTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "JSON";
-        _menuActions.Add(new("Prettify", MenuActionCommand, ToolActions.JsonPrettify));
+        _menuActions.Add(new("Prettify", new RelayCommand(() => MenuAction(ToolActions.JsonPrettify))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToNoteText(ModifyTextCallback, action);

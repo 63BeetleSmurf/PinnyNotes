@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Tools;
 
 namespace PinnyNotes.WpfUi.Controls.ContextMenus;

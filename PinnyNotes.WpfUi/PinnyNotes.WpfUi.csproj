@@ -13,11 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="Images\icon.ico" />
+    <Compile Remove="NewFolder\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="NewFolder\**" />
+    <Page Remove="NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <Resource Include="Images\icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

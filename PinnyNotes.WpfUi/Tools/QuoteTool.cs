@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class QuoteTool : BaseTool, ITool
+public class QuoteTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.QuoteToolEnabled;
     public bool IsFavourite => ToolSettings.Default.QuoteToolFavourite;
@@ -26,14 +26,13 @@ public partial class QuoteTool : BaseTool, ITool
     public QuoteTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Quote";
-        _menuActions.Add(new("Double", MenuActionCommand, ToolActions.QuoteDouble));
-        _menuActions.Add(new("Single", MenuActionCommand, ToolActions.QuoteSingle));
-        _menuActions.Add(new("Backtick", MenuActionCommand, ToolActions.Backtick));
+        _menuActions.Add(new("Double", new RelayCommand(() => MenuAction(ToolActions.QuoteDouble))));
+        _menuActions.Add(new("Single", new RelayCommand(() => MenuAction(ToolActions.QuoteSingle))));
+        _menuActions.Add(new("Backtick", new RelayCommand(() => MenuAction(ToolActions.Backtick))));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim", MenuActionCommand, ToolActions.Trim));
+        _menuActions.Add(new("Trim", new RelayCommand(() => MenuAction(ToolActions.Trim))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToEachLine(ModifyLineCallback, action);

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,15 +8,19 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.ViewModels;
+using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
+    private readonly MessengerService _messenger;
+
     private NoteViewModel _viewModel { get; }
 
     private RelayCommand _saveCommand = null!;
@@ -26,10 +29,11 @@ public partial class NoteWindow : Window
 
     #region NoteWindow
 
-    public NoteWindow() : this(null) { }
-    public NoteWindow(NoteViewModel? parentViewModel = null)
+    public NoteWindow(MessengerService messenger) : this(messenger, null) { }
+    public NoteWindow(MessengerService messenger, NoteViewModel? parentViewModel = null)
     {
-        DataContext = _viewModel = new NoteViewModel(parentViewModel);
+        _messenger = messenger;
+        DataContext = _viewModel = new NoteViewModel(_messenger, parentViewModel);
 
         InitializeComponent();
 
@@ -193,7 +197,7 @@ public partial class NoteWindow : Window
 
     private void NewButton_Click(object sender, RoutedEventArgs e)
     {
-        new NoteWindow(_viewModel).Show();
+        new NoteWindow(_messenger, _viewModel).Show();
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)

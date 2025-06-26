@@ -1,14 +1,14 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class RemoveTool : BaseTool, ITool
+public class RemoveTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.RemoveToolEnabled;
     public bool IsFavourite => ToolSettings.Default.RemoveToolFavourite;
@@ -29,18 +29,17 @@ public partial class RemoveTool : BaseTool, ITool
     public RemoveTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Remove";
-        _menuActions.Add(new("Spaces", MenuActionCommand, ToolActions.RemoveSpaces));
-        _menuActions.Add(new("Tabs", MenuActionCommand, ToolActions.RemoveTabs));
-        _menuActions.Add(new("New Lines", MenuActionCommand, ToolActions.RemoveNewLines));
+        _menuActions.Add(new("Spaces", new RelayCommand(() => MenuAction(ToolActions.RemoveSpaces))));
+        _menuActions.Add(new("Tabs", new RelayCommand(() => MenuAction(ToolActions.RemoveTabs))));
+        _menuActions.Add(new("New Lines", new RelayCommand(() => MenuAction(ToolActions.RemoveNewLines))));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Forward Slashes (/)", MenuActionCommand, ToolActions.RemoveForwardSlashes));
-        _menuActions.Add(new("Back Slashes (\\)", MenuActionCommand, ToolActions.RemoveBackSlashes));
-        _menuActions.Add(new("All Slashes", MenuActionCommand, ToolActions.RemoveAllSlashes));
+        _menuActions.Add(new("Forward Slashes (/)", new RelayCommand(() => MenuAction(ToolActions.RemoveForwardSlashes))));
+        _menuActions.Add(new("Back Slashes (\\)", new RelayCommand(() => MenuAction(ToolActions.RemoveBackSlashes))));
+        _menuActions.Add(new("All Slashes", new RelayCommand(() => MenuAction(ToolActions.RemoveAllSlashes))));
         _menuActions.Add(new("-"));
-        _menuActions.Add(new("Selected", MenuActionCommand, ToolActions.RemoveSelected));
+        _menuActions.Add(new("Selected", new RelayCommand(() => MenuAction(ToolActions.RemoveSelected))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         if (action != ToolActions.RemoveSelected)

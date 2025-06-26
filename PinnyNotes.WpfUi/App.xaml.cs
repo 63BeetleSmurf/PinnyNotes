@@ -5,6 +5,7 @@ using System.Windows;
 using PinnyNotes.WpfUi.Components;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi;
@@ -22,6 +23,8 @@ public partial class App : Application
 
     private Mutex _mutex = null!;
     private EventWaitHandle _eventWaitHandle = null!;
+
+    private readonly MessengerService _messenger = new();
 
     private SettingsWindow? _settingsWindow;
     private NotifyIconComponent? NotifyIcon;
@@ -58,7 +61,7 @@ public partial class App : Application
 
         if (Settings.Default.ShowTrayIcon)
         {
-            NotifyIcon = new();
+            NotifyIcon = new(_messenger);
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
 
@@ -75,13 +78,13 @@ public partial class App : Application
 
     public void CreateNewNote()
     {
-        new NoteWindow().Show();
+        new NoteWindow(_messenger).Show();
     }
 
     public void ShowSettingsWindow(Window? owner = null)
     {
         if (_settingsWindow == null || !_settingsWindow.IsLoaded)
-            _settingsWindow = new SettingsWindow();
+            _settingsWindow = new SettingsWindow(_messenger);
 
         _settingsWindow.Owner = owner;
 

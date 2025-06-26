@@ -1,21 +1,22 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyChangedMessage<object>>
+
+public class NoteViewModel : BaseViewModel
 {
+    private readonly MessengerService _messenger;
+
     public const double DefaultWidth = 300.0;
     public const double DefaultHeight = 300.0;
 
@@ -88,42 +89,44 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
         }
     };
 
-    public void Receive(PropertyChangedMessage<object> message)
+    public RelayCommand<ThemeColors> ChangeThemeColorCommand;
+
+    public void OnSettingChanged(string settingName, object settingValue)
     {
-        switch (message.PropertyName)
+        switch (settingName)
         {
             case "AutoCopy":
-                AutoCopy = (bool)message.NewValue;
+                AutoCopy = (bool)settingValue;
                 break;
             case "AutoIndent":
-                AutoIndent = (bool)message.NewValue;
+                AutoIndent = (bool)settingValue;
                 break;
             case "ConvertIndentation":
-                ConvertIndentation = (bool)message.NewValue;
+                ConvertIndentation = (bool)settingValue;
                 break;
             case "KeepNewLineAtEndVisible":
-                KeepNewLineAtEndVisible = (bool)message.NewValue;
+                KeepNewLineAtEndVisible = (bool)settingValue;
                 break;
             case "MiddleClickPaste":
-                MiddleClickPaste = (bool)message.NewValue;
+                MiddleClickPaste = (bool)settingValue;
                 break;
             case "NewLineAtEnd":
-                NewLineAtEnd = (bool)message.NewValue;
+                NewLineAtEnd = (bool)settingValue;
                 break;
             case "SpellCheck":
-                SpellCheck = (bool)message.NewValue;
+                SpellCheck = (bool)settingValue;
                 break;
             case "TabSpaces":
-                TabSpaces = (bool)message.NewValue;
+                TabSpaces = (bool)settingValue;
                 break;
             case "TabWidth":
-                TabWidth = (int)message.NewValue;
+                TabWidth = (int)settingValue;
                 break;
             case "TrimCopiedText":
-                TrimCopiedText = (bool)message.NewValue;
+                TrimCopiedText = (bool)settingValue;
                 break;
             case "TrimPastedText":
-                TrimPastedText = (bool)message.NewValue;
+                TrimPastedText = (bool)settingValue;
                 break;
             case "TransparentNotes":
             case "OpaqueWhenFocused":
@@ -136,17 +139,20 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
                 UpdateBrushes(CurrentThemeColor);
                 break;
             case "UseMonoFont":
-                FontFamily = ((bool)message.NewValue) ? _monoFontFamily : "";
+                FontFamily = ((bool)settingValue) ? _monoFontFamily : "";
                 break;
             case "ShowNotesInTaskbar":
-                ShowNotesInTaskbar = (bool)message.NewValue;
+                ShowNotesInTaskbar = (bool)settingValue;
                 break;
         }
     }
 
-    public NoteViewModel(NoteViewModel? parent = null)
+    public NoteViewModel(MessengerService messenger, NoteViewModel? parent = null)
     {
-        Messenger.Register(this);
+        _messenger = messenger;
+        _messenger.NotifySettingChanged += OnSettingChanged;
+
+        ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
 
         InitNoteColor(parent);
         InitNotePosition(parent);
@@ -301,6 +307,11 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
         }
     }
 
+    private void ChangeThemeColor(ThemeColors themeColor)
+    {
+        CurrentThemeColor = themeColor;
+    }
+
     public void UpdateOpacity()
     {
         bool transparentNotes = Settings.Default.TransparentNotes;
@@ -320,81 +331,107 @@ public partial class NoteViewModel : ObservableRecipient, IRecipient<PropertyCha
 
     public nint WindowHandel { get; set; }
 
-    [ObservableProperty]
     private ThemeColors _currentThemeColor;
-    partial void OnCurrentThemeColorChanged(ThemeColors value)
+    public ThemeColors CurrentThemeColor
     {
-        Settings.Default.Color = (int)value;
-        Settings.Default.Save();
-        UpdateBrushes(value);
+        get => _currentThemeColor;
+        set
+        {
+            SetProperty(ref _currentThemeColor, value);
+            Settings.Default.Color = (int)value;
+            Settings.Default.Save();
+            UpdateBrushes(value);
+        }
     }
 
-    [ObservableProperty]
+    public SolidColorBrush TitleBarColorBrush { get => _titleBarColorBrush; set => SetProperty(ref _titleBarColorBrush, value); }
     private SolidColorBrush _titleBarColorBrush = null!;
-    [ObservableProperty]
+
+    public SolidColorBrush TitleButtonColorBrush { get => _titleButtonColorBrush; set => SetProperty(ref _titleButtonColorBrush, value); }
     private SolidColorBrush _titleButtonColorBrush = null!;
-    [ObservableProperty]
+
+    public SolidColorBrush BackgroundColorBrush { get => _backgroundColorBrush; set => SetProperty(ref _backgroundColorBrush, value); }
     private SolidColorBrush _backgroundColorBrush = null!;
-    [ObservableProperty]
+
+    public SolidColorBrush BorderColorBrush { get => _borderColorBrush; set => SetProperty(ref _borderColorBrush, value); }
     private SolidColorBrush _borderColorBrush = null!;
-    [ObservableProperty]
+
+    public SolidColorBrush TextColorBrush { get => _textColorBrush; set => SetProperty(ref _textColorBrush, value); }
     private SolidColorBrush _textColorBrush = null!;
 
     public int GravityX;
     public int GravityY;
 
-    [ObservableProperty]
+    public double X { get => _x; set => SetProperty(ref _x, value); }
     private double _x;
-    [ObservableProperty]
+
+    public double Y { get => _y; set => SetProperty(ref _y, value); }
     private double _y;
 
-    [ObservableProperty]
+
+    public double Width { get => _width; set => SetProperty(ref _width, value); }
     private double _width = DefaultWidth;
-    [ObservableProperty]
+
+    public double Height { get => _height; set => SetProperty(ref _height, value); }
     private double _height = DefaultHeight;
 
-    [ObservableProperty]
-    private double _opacity = (Settings.Default.TransparentNotes && !Settings.Default.OnlyTransparentWhenPinned) ? 0.8 : 1.0;
 
-    [ObservableProperty]
+    public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
+    private double _opacity = (Settings.Default.TransparentNotes && !Settings.Default.OnlyTransparentWhenPinned) ? Settings.Default.TransparentOpacity : Settings.Default.OpaqueOpacity;
+
+
+    public bool AutoCopy { get => _autoCopy; set => SetProperty(ref _autoCopy, value); }
     private bool _autoCopy = Settings.Default.AutoCopy;
-    [ObservableProperty]
+
+    public bool AutoIndent { get => _autoIndent; set => SetProperty(ref _autoIndent, value); }
     private bool _autoIndent = Settings.Default.AutoIndent;
-    [ObservableProperty]
+
+    public bool ConvertIndentation { get => _convertIndentation; set => SetProperty(ref _convertIndentation, value); }
     private bool _convertIndentation = Settings.Default.ConvertIndentation;
-    [ObservableProperty]
+
+    public bool KeepNewLineAtEndVisible { get => _keepNewLineAtEndVisible; set => SetProperty(ref _keepNewLineAtEndVisible, value); }
     private bool _keepNewLineAtEndVisible = Settings.Default.KeepNewLineAtEndVisible;
-    [ObservableProperty]
+
+    public bool MiddleClickPaste { get => _middleClickPaste; set => SetProperty(ref _middleClickPaste, value); }
     private bool _middleClickPaste = Settings.Default.MiddleClickPaste;
-    [ObservableProperty]
+
+    public bool NewLineAtEnd { get => _newLineAtEnd; set => SetProperty(ref _newLineAtEnd, value); }
     private bool _newLineAtEnd = Settings.Default.NewLineAtEnd;
-    [ObservableProperty]
+
+    public bool SpellCheck { get => _spellCheck; set => SetProperty(ref _spellCheck, value); }
     private bool _spellCheck = Settings.Default.SpellCheck;
-    [ObservableProperty]
+
+    public bool TabSpaces { get => _tabSpaces; set => SetProperty(ref _tabSpaces, value); }
     private bool _tabSpaces = Settings.Default.TabSpaces;
-    [ObservableProperty]
+
+    public int TabWidth { get => _tabWidth; set => SetProperty(ref _tabWidth, value); }
     private int _tabWidth = Settings.Default.TabWidth;
-    [ObservableProperty]
+
+    public bool TrimCopiedText { get => _trimCopiedText; set => SetProperty(ref _trimCopiedText, value); }
     private bool _trimCopiedText = Settings.Default.TrimCopiedText;
-    [ObservableProperty]
+
+    public bool TrimPastedText { get => _trimPastedText; set => SetProperty(ref _trimPastedText, value); }
     private bool _trimPastedText = Settings.Default.TrimPastedText;
 
-    [ObservableProperty]
+
+    public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }
     private bool _isPinned = false;
-    [ObservableProperty]
+
+    public bool IsFocused { get => _isFocused; set => SetProperty(ref _isFocused, value); }
     private bool _isFocused;
-    [ObservableProperty]
+
+    public bool IsSaved { get => _isSaved; set => SetProperty(ref _isSaved, value); }
     private bool _isSaved = false;
 
-    [ObservableProperty]
+
+    public string Content { get => _content; set => SetProperty(ref _content, value); }
     private string _content = "";
 
-    [ObservableProperty]
+
+    public string FontFamily { get => _fontFamily; set => SetProperty(ref _fontFamily, value); }
     private string _fontFamily = (Settings.Default.UseMonoFont) ? _monoFontFamily : "";
 
-    [ObservableProperty]
-    private bool _showNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
 
-    [RelayCommand]
-    private void ChangeThemeColor(ThemeColors themeColor) => CurrentThemeColor = themeColor;
+    public bool ShowNotesInTaskbar { get => _showNotesInTaskbar; set => SetProperty(ref _showNotesInTaskbar, value); }
+    private bool _showNotesInTaskbar = Settings.Default.ShowNotesInTaskbar;
 }

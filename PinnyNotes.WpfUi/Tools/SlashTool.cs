@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Text;
 using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public partial class SlashTool : BaseTool, ITool
+public class SlashTool : BaseTool, ITool
 {
     public bool IsEnabled => ToolSettings.Default.SlashToolEnabled;
     public bool IsFavourite => ToolSettings.Default.SlashToolFavourite;
@@ -22,12 +22,11 @@ public partial class SlashTool : BaseTool, ITool
     public SlashTool(TextBox noteTextBox) : base(noteTextBox)
     {
         _name = "Slash";
-        _menuActions.Add(new("All Forward (/)", MenuActionCommand, ToolActions.SlashAllForward));
-        _menuActions.Add(new("All Back (\\)", MenuActionCommand, ToolActions.SlashAllBack));
-        _menuActions.Add(new("Swap", MenuActionCommand, ToolActions.SlashSwap));
+        _menuActions.Add(new("All Forward (/)", new RelayCommand(() => MenuAction(ToolActions.SlashAllForward))));
+        _menuActions.Add(new("All Back (\\)", new RelayCommand(() => MenuAction(ToolActions.SlashAllBack))));
+        _menuActions.Add(new("Swap", new RelayCommand(() => MenuAction(ToolActions.SlashSwap))));
     }
 
-    [RelayCommand]
     private void MenuAction(ToolActions action)
     {
         ApplyFunctionToNoteText(ModifyTextCallback, action);
