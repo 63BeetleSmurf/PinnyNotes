@@ -1,6 +1,21 @@
 # Change Log
 
 
+## v1.13.0 - Pending
+
+### Added
+- Settings to change transparency values.
+- 
+
+### Changed
+- Updated to .NET 9.
+- General code refactoring.
+- 
+
+### Fixed
+- 
+
+
 ## v1.12.1 - 21/11/2024
 
 ### Fixed
