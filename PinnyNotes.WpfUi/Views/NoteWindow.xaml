@@ -7,33 +7,49 @@
         xmlns:enums="clr-namespace:PinnyNotes.WpfUi.Enums"
         xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Controls"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=vm:NoteViewModel}"
+
+        AllowsTransparency="True"
+        BorderThickness="1"
+        Icon="/Images/icon.ico"
+        MinHeight="75"
+        MinWidth="150"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+
+        FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
+
         Background="{Binding BackgroundColorBrush}"
         BorderBrush="{Binding BorderColorBrush}"
+        Height="{Binding Height}"
         Left="{Binding X}"
+        Opacity="{Binding Opacity}"
+        ShowInTaskbar="{Binding ShowNotesInTaskbar}"
         Top="{Binding Y}"
         Width="{Binding Width}"
-        Height="{Binding Height}"
-        MinHeight="75" MinWidth="150"
-        WindowStyle="None"
+
+        Activated="Window_Activated"
+        Closing="Window_Closing"
+        Deactivated="Window_Deactivated"
         MouseDown="NoteWindow_MouseDown"
-        ResizeMode="CanResizeWithGrip"
-        AllowsTransparency="True"
-        FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
-        BorderThickness="1"
-        ShowInTaskbar="{Binding ShowNotesInTaskbar}"
-        Loaded="Window_Loaded"
-        StateChanged="NoteWindow_StateChanged"
         MouseEnter="Window_MouseEnter"
         MouseLeave="Window_MouseLeave"
-        Activated="Window_Activated"
-        Deactivated="Window_Deactivated"
-        Closing="Window_Closing"
-        Opacity="{Binding Opacity}"
-        Icon="/Images/icon.ico"
-        >
+        Loaded="Window_Loaded"
+        StateChanged="NoteWindow_StateChanged"
+
+        d:DataContext="{d:DesignInstance Type=vm:NoteViewModel}"
+        d:Height="300"
+        d:Width="300"
+        d:Background="#fffcdd"
+        d:BorderBrush="#feea00">
+
     <Window.Resources>
-        <Style x:Key="FadeOutButton" TargetType="{x:Type Button}">
+        <!-- Title Bar Buttons -->
+        <Style x:Key="TitleBarButtonStyle" TargetType="Control">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Opacity" Value="0.6"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -41,14 +57,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="FadeOutToggleButton" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Opacity" Value="0.6"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Opacity" Value="1.0"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+
+        <!-- Show/Hide Title Bar -->
         <Storyboard x:Key="HideTitleBarAnimation">
             <DoubleAnimation Storyboard.TargetName="TitleBarGrid"
                              Storyboard.TargetProperty="Height" 
@@ -60,6 +70,7 @@
                              To="40" Duration="0:0:0.2" />
         </Storyboard>
     </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -68,23 +79,46 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" Background="{Binding TitleBarColorBrush}">
-            <Button Name="NewButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" Click="NewButton_Click" ToolTip="New Note" Padding="0,0,0,0"  Style="{StaticResource FadeOutButton}" Focusable="False">
+
+        <!-- Title Bar -->
+        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" Background="{Binding TitleBarColorBrush}" d:Background="#fef7b1">
+
+            <!-- New Note Button -->
+            <Button Name="NewButton"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0"
+                    ToolTip="New Note"
+                    Style="{StaticResource TitleBarButtonStyle}"
+                    Click="NewButton_Click">
                 <Button.Template>
                     <ControlTemplate>
-                        <Grid>
+                        <Canvas>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 10,2 v 16 M 2,10 h 16" Stroke="{Binding TitleButtonColorBrush}" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"></Path>
-                        </Grid>
+                            <Path Data="M 10,2 v 16 M 2,10 h 16"
+                                  Stroke="{Binding TitleButtonColorBrush}"
+                                  StrokeThickness="3"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  d:Stroke="#464646">
+                            </Path>
+                        </Canvas>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <ToggleButton Name="TopButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Center" ToolTip="Toggle On Top" Padding="0,0,0,0"  Style="{StaticResource FadeOutToggleButton}" Focusable="False" IsChecked="{Binding IsPinned}">
+
+            <!-- Pin Button -->
+            <ToggleButton Name="PinButton"
+                          HorizontalAlignment="Center"
+                          ToolTip="Toggle On Top"
+                          Style="{StaticResource TitleBarButtonStyle}"
+                          IsChecked="{Binding IsPinned}">
                 <ToggleButton.Template>
                     <ControlTemplate TargetType="ToggleButton">
-                        <Grid>
+                        <Canvas>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z" Fill="{Binding TitleButtonColorBrush}" RenderTransformOrigin="0.5,0.5">
+                            <Path Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z"
+                                  Fill="{Binding TitleButtonColorBrush}"
+                                  RenderTransformOrigin="0.5,0.5"
+                                  d:Fill="#464646">
                                 <Path.Style>
                                     <Style TargetType="Path">
                                         <Style.Triggers>
@@ -99,20 +133,34 @@
                                     </Style>
                                 </Path.Style>
                             </Path>
-                        </Grid>
+                        </Canvas>
                     </ControlTemplate>
                 </ToggleButton.Template>
             </ToggleButton>
-            <Button Name="CloseButton" Background="Transparent" Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0" Click="CloseButton_Click" ToolTip="Close" Padding="0,0,0,0" Style="{StaticResource FadeOutButton}" Focusable="False">
+
+            <!-- Close Button -->
+            <Button Name="CloseButton"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,10,0"
+                    ToolTip="Close"
+                    Style="{StaticResource TitleBarButtonStyle}"
+                    Click="CloseButton_Click">
                 <Button.Template>
                     <ControlTemplate>
-                        <Grid>
+                        <Canvas>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 3,3 L 17,17 M 3,17 L 17,3" Stroke="{Binding TitleButtonColorBrush}" StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"></Path>
-                        </Grid>
+                            <Path Data="M 3,3 L 17,17 M 3,17 L 17,3"
+                                  Stroke="{Binding TitleButtonColorBrush}"
+                                  StrokeThickness="3"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  d:Stroke="#464646">
+                            </Path>
+                        </Canvas>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
+            <!-- Context Menu -->
             <Grid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="ClearMenuItem" Header="Clear"/>
@@ -236,29 +284,32 @@
                     <MenuItem Name="SettingsMenuItem" Header="Settings" Click="SettingsMenuItem_Click" />
                 </ContextMenu>
             </Grid.ContextMenu>
+
         </Grid>
+
+        <!-- Text Box -->
         <Grid Grid.Column="0" Grid.Row="1">
             <controls:NoteTextBoxControl BorderThickness="0"
-                Background="Transparent"
-                Foreground="{Binding TextColorBrush}"
-                CaretBrush="{Binding TextColorBrush}"
-                FontSize="16"
-                x:Name="NoteTextBox"
-                Padding="5,5,5,5"
-                TextChanged="NoteTextBox_TextChanged"
-                Text="{Binding Content}"
-                FontFamily="{Binding FontFamily}"
-                AutoCopy="{Binding AutoCopy}"
-                AutoIndent="{Binding AutoIndent}"
-                ConvertIndentation="{Binding ConvertIndentation}"
-                KeepNewLineAtEndVisible="{Binding KeepNewLineAtEndVisible}"
-                MiddleClickPaste="{Binding MiddleClickPaste}"
-                NewLineAtEnd="{Binding NewLineAtEnd}"
-                SpellCheck.IsEnabled="{Binding SpellCheck}"
-                TabSpaces="{Binding TabSpaces}"
-                TabWidth="{Binding TabWidth}"
-                TrimCopiedText="{Binding TrimCopiedText}"
-                TrimPastedText="{Binding TrimPastedText}"
+                                         Background="Transparent"
+                                         Foreground="{Binding TextColorBrush}"
+                                         CaretBrush="{Binding TextColorBrush}"
+                                         FontSize="16"
+                                         x:Name="NoteTextBox"
+                                         Padding="5,5,5,5"
+                                         TextChanged="NoteTextBox_TextChanged"
+                                         Text="{Binding Content}"
+                                         FontFamily="{Binding FontFamily}"
+                                         AutoCopy="{Binding AutoCopy}"
+                                         AutoIndent="{Binding AutoIndent}"
+                                         ConvertIndentation="{Binding ConvertIndentation}"
+                                         KeepNewLineAtEndVisible="{Binding KeepNewLineAtEndVisible}"
+                                         MiddleClickPaste="{Binding MiddleClickPaste}"
+                                         NewLineAtEnd="{Binding NewLineAtEnd}"
+                                         SpellCheck.IsEnabled="{Binding SpellCheck}"
+                                         TabSpaces="{Binding TabSpaces}"
+                                         TabWidth="{Binding TabWidth}"
+                                         TrimCopiedText="{Binding TrimCopiedText}"
+                                         TrimPastedText="{Binding TrimPastedText}"
                 />
         </Grid>
     </Grid>
