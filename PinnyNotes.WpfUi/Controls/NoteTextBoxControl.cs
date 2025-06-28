@@ -144,10 +144,20 @@ public partial class NoteTextBoxControl : TextBox
         if (!Clipboard.ContainsText())
             return;
 
-        // Get text from clipboard and trim if specified
-        string clipboardString = Clipboard.GetText();
-        if (TrimPastedText)
-            clipboardString = clipboardString.Trim();
+        string? clipboardString = null;
+        try {
+            // Get text from clipboard and trim if specified
+            clipboardString = Clipboard.GetText();
+            if (TrimPastedText)
+                clipboardString = clipboardString.Trim();
+        }
+        catch
+        {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(clipboardString))
+            return;
 
         // Replace tabs/spaces if specified
         if (ConvertIndentation)

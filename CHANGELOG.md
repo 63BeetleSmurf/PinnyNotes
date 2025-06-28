@@ -13,6 +13,7 @@
 - 
 
 ### Fixed
+- Occasional crash when pasting from clipboard.
 - 
 
 
