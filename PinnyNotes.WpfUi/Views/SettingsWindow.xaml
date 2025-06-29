@@ -67,9 +67,17 @@
                     </StackPanel>
 
                     <Label Content="Transparency" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Transparent Notes" IsChecked="{Binding TransparentNotes}" />
-                    <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OpaqueWhenFocused}" />
-                    <CheckBox Margin="30,5,5,5" Content="Only Transparent When Pinned" IsEnabled="{Binding TransparentNotes}" IsChecked="{Binding OnlyTransparentWhenPinned}" />
+                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                        <Label Content="Mode"/>
+                        <ComboBox
+                            Width="120"
+                            ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding TransparencyMode, Mode=TwoWay}"
+                        />
+                    </StackPanel>
+                    <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding OpaqueWhenFocused}" />
                     <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
                         <Label Content="Opaque value" />
                         <Slider Minimum="0.1"
@@ -80,7 +88,7 @@
                             LargeChange="0.1"
                             TickPlacement="BottomRight"
                             Width="150"
-                            IsEnabled="{Binding TransparentNotes}"
+                            IsEnabled="{Binding IsTransparencyEnabled}"
                             Value="{Binding OpaqueOpacity}" />
                     </StackPanel>
                     <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
@@ -93,7 +101,7 @@
                             LargeChange="0.1"
                             TickPlacement="BottomRight"
                             Width="150"
-                            IsEnabled="{Binding TransparentNotes}"
+                            IsEnabled="{Binding IsTransparencyEnabled}"
                             Value="{Binding TransparentOpacity}" />
                     </StackPanel>
 

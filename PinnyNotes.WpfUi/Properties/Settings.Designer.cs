@@ -169,13 +169,13 @@ namespace PinnyNotes.WpfUi.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool TransparentNotes {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int TransparencyMode {
             get {
-                return ((bool)(this["TransparentNotes"]));
+                return ((int)(this["TransparencyMode"]));
             }
             set {
-                this["TransparentNotes"] = value;
+                this["TransparencyMode"] = value;
             }
         }
         
@@ -188,18 +188,6 @@ namespace PinnyNotes.WpfUi.Properties {
             }
             set {
                 this["OpaqueWhenFocused"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OnlyTransparentWhenPinned {
-            get {
-                return ((bool)(this["OnlyTransparentWhenPinned"]));
-            }
-            set {
-                this["OnlyTransparentWhenPinned"] = value;
             }
         }
         

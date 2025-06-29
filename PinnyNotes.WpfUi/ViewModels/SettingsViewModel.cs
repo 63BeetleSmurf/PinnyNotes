@@ -5,6 +5,7 @@ using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using System.Runtime.CompilerServices;
 using System;
+using System.ComponentModel;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -36,6 +37,12 @@ public class SettingsViewModel : BaseViewModel
         new(ColorModes.System, "System Default")
     ];
 
+    private static readonly KeyValuePair<TransparencyModes, string>[] _transparencyModeList = [
+        new(TransparencyModes.Disabled, "Disabled"),
+        new(TransparencyModes.Enabled, "Enabled"),
+        new(TransparencyModes.WhenPinned, "Only when pinned"),
+    ];
+
     public SettingsViewModel(MessengerService messenger)
     {
         _messenger = messenger;
@@ -54,9 +61,9 @@ public class SettingsViewModel : BaseViewModel
         _tabWidth = Settings.Default.TabWidth;
         _convertIndentation = Settings.Default.ConvertIndentation;
         _minimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
-        _transparentNotes = Settings.Default.TransparentNotes;
+        _transparencyMode = (TransparencyModes)Settings.Default.TransparencyMode;
+        _isTransparencyEnabled = (_transparencyMode != TransparencyModes.Disabled);
         _opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        _onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
         _opaqueOpacity = Settings.Default.OpaqueOpacity;
         _transparentOpacity = Settings.Default.TransparentOpacity;
         _colorMode = (ColorModes)Settings.Default.ColorMode;
@@ -109,6 +116,7 @@ public class SettingsViewModel : BaseViewModel
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
     public KeyValuePair<MinimizeModes, string>[] MinimizeModeList => _minimizeModeList;
     public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
+    public KeyValuePair<TransparencyModes, string>[] TransparencyModeList => _transparencyModeList;
 
     private bool SetPropertyAndSave<T>(ref T storage, T value, bool isToolSetting = false, [CallerMemberName] string? propertyName = null)
     {
@@ -181,14 +189,22 @@ public class SettingsViewModel : BaseViewModel
     public MinimizeModes MinimizeMode { get => _minimizeMode; set => SetPropertyAndSave(ref _minimizeMode, value); }
     private MinimizeModes _minimizeMode;
 
-    public bool TransparentNotes { get => _transparentNotes; set => SetPropertyAndSave(ref _transparentNotes, value); }
-    private bool _transparentNotes;
+    public TransparencyModes TransparencyMode
+    {
+        get => _transparencyMode;
+        set
+        {
+            SetPropertyAndSave(ref _transparencyMode, value);
+            IsTransparencyEnabled = (TransparencyMode != TransparencyModes.Disabled);
+        }
+    }
+    private TransparencyModes _transparencyMode;
+
+    public bool IsTransparencyEnabled { get => _isTransparencyEnabled; set => SetProperty(ref _isTransparencyEnabled, value); }
+    private bool _isTransparencyEnabled;
 
     public bool OpaqueWhenFocused { get => _opaqueWhenFocused; set => SetPropertyAndSave(ref _opaqueWhenFocused, value); }
     private bool _opaqueWhenFocused;
-
-    public bool OnlyTransparentWhenPinned { get => _onlyTransparentWhenPinned; set => SetPropertyAndSave(ref _onlyTransparentWhenPinned, value); }
-    private bool _onlyTransparentWhenPinned;
 
     public double OpaqueOpacity { get => _opaqueOpacity; set => SetPropertyAndSave(ref _opaqueOpacity, value); }
     private double _opaqueOpacity;

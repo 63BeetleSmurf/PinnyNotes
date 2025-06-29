@@ -128,7 +128,7 @@ public class NoteViewModel : BaseViewModel
             case "TrimPastedText":
                 TrimPastedText = (bool)settingValue;
                 break;
-            case "TransparentNotes":
+            case "TransparencyMode":
             case "OpaqueWhenFocused":
             case "OnlyTransparentWhenPinned":
             case "OpaqueOpacity":
@@ -156,6 +156,7 @@ public class NoteViewModel : BaseViewModel
 
         InitNoteColor(parent);
         InitNotePosition(parent);
+        UpdateOpacity();
     }
 
     private void InitNoteColor(NoteViewModel? parent = null)
@@ -314,19 +315,22 @@ public class NoteViewModel : BaseViewModel
 
     public void UpdateOpacity()
     {
-        bool transparentNotes = Settings.Default.TransparentNotes;
+        TransparencyModes transparentMode = (TransparencyModes)Settings.Default.TransparencyMode;
+        if (transparentMode == TransparencyModes.Disabled)
+        {
+            Opacity = 1.0;
+            return;
+        }
+
         bool opaqueWhenFocused = Settings.Default.OpaqueWhenFocused;
-        bool onlyTransparentWhenPinned = Settings.Default.OnlyTransparentWhenPinned;
 
         double opaqueOpacity = Settings.Default.OpaqueOpacity;
         double transparentOpacity = Settings.Default.TransparentOpacity;
 
-        if (IsFocused)
-            Opacity = (transparentNotes && !opaqueWhenFocused && !onlyTransparentWhenPinned) ? transparentOpacity : opaqueOpacity;
-        else if (IsPinned)
-            Opacity = transparentNotes ? transparentOpacity : opaqueOpacity;
+        if ((opaqueWhenFocused && IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !IsPinned))
+            Opacity = opaqueOpacity;
         else
-            Opacity = (transparentNotes && !onlyTransparentWhenPinned) ? transparentOpacity : opaqueOpacity;
+            Opacity = transparentOpacity;
     }
 
     public nint WindowHandel { get; set; }
@@ -377,7 +381,7 @@ public class NoteViewModel : BaseViewModel
 
 
     public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
-    private double _opacity = (Settings.Default.TransparentNotes && !Settings.Default.OnlyTransparentWhenPinned) ? Settings.Default.TransparentOpacity : Settings.Default.OpaqueOpacity;
+    private double _opacity;
 
 
     public bool AutoCopy { get => _autoCopy; set => SetProperty(ref _autoCopy, value); }
