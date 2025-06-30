@@ -8,10 +8,11 @@
         d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
         Title="Pinny Notes Settings"
         ResizeMode="NoResize"
-        SizeToContent="WidthAndHeight"
+        Width="340"
+        Height="445"
         Activated="Window_Activated"
         >
-    <Grid Margin="5,5,5,5" Width="310" Height="420">
+    <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -20,16 +21,22 @@
         <TabControl Grid.Row="0">
 
             <TabItem Header="Application">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
+
                     <Label Content="General" FontWeight="Bold" />
                     <CheckBox Margin="10,0,5,0" Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
                     <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
                     <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
+
                 </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Notes">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
+
                     <Label Content="General" FontWeight="Bold" />
                     <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
                         <Label Content="Startup Position"/>
@@ -106,10 +113,13 @@
                     </StackPanel>
 
                 </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Editor">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
+
                     <Label Content="General" FontWeight="Bold" />
                     <CheckBox Margin="10,0,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
                     <CheckBox Margin="10,5,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
@@ -132,10 +142,13 @@
                     <CheckBox Margin="10,5,5,5" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
 
                 </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Tools">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
+
                     <Label Content="Active / Favourite" FontWeight="Bold" />
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Margin="10,0,5,0" Content="Base64" IsChecked="{Binding Base64ToolEnabled}" />
@@ -205,7 +218,9 @@
                         <CheckBox Margin="10,5,5,0" Content="Trim" IsChecked="{Binding TrimToolEnabled}" />
                         <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding TimeToolFavourite}" IsEnabled="{Binding TrimToolEnabled}" />
                     </StackPanel>
+
                 </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
         </TabControl>
