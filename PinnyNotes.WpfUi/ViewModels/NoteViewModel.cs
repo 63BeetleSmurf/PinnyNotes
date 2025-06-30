@@ -16,8 +16,6 @@ public class NoteViewModel : BaseViewModel
 {
     private readonly MessengerService _messenger;
 
-    private const string _monoFontFamily = "Consolas";
-
     public RelayCommand<ThemeColors> ChangeThemeColorCommand;
 
     public void OnSettingChanged(string settingName, object settingValue)
@@ -67,8 +65,16 @@ public class NoteViewModel : BaseViewModel
             case "ColorMode":
                 UpdateBrushes(CurrentThemeColor);
                 break;
+            case "StandardFontFamily":
+                if (!Settings.Default.UseMonoFont)
+                    FontFamily = (string)settingValue;
+                break;
+            case "MonoFontFamily":
+                if (Settings.Default.UseMonoFont)
+                    FontFamily = (string)settingValue;
+                break;
             case "UseMonoFont":
-                FontFamily = ((bool)settingValue) ? _monoFontFamily : "";
+                FontFamily = ((bool)settingValue) ? Settings.Default.MonoFontFamily : Settings.Default.StandardFontFamily;
                 break;
             case "ShowNotesInTaskbar":
                 ShowNotesInTaskbar = (bool)settingValue;
@@ -361,7 +367,7 @@ public class NoteViewModel : BaseViewModel
 
 
     public string FontFamily { get => _fontFamily; set => SetProperty(ref _fontFamily, value); }
-    private string _fontFamily = (Settings.Default.UseMonoFont) ? _monoFontFamily : "";
+    private string _fontFamily = (Settings.Default.UseMonoFont) ? Settings.Default.MonoFontFamily : Settings.Default.StandardFontFamily;
 
 
     public bool ShowNotesInTaskbar { get => _showNotesInTaskbar; set => SetProperty(ref _showNotesInTaskbar, value); }

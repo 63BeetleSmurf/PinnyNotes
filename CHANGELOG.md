@@ -6,6 +6,7 @@
 ### Added
 - Settings to change transparency values.
 - Settings to change default note size.
+- Settings to change fonts.
 - 
 
 ### Changed

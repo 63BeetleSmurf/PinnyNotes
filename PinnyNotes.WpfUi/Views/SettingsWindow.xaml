@@ -127,11 +127,33 @@
                     <StackPanel>
 
                         <Label Content="General" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
-                        <CheckBox Margin="10,5,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
+                        <CheckBox Margin="10,0,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
                         <CheckBox Margin="10,5,5,0" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
                         <CheckBox Margin="10,5,5,0" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
                         <CheckBox Margin="30,5,5,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
+
+                        <Label Content="Fonts" FontWeight="Bold" />
+                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
+                            <Label Content="Standard"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding StandardFontFamily, Mode=TwoWay}"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Mono"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding MonoFontFamily, Mode=TwoWay}"
+                            />
+                        </StackPanel>
+                        <CheckBox Margin="10,5,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
 
                         <Label Content="Indentation" FontWeight="Bold" />
                         <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />

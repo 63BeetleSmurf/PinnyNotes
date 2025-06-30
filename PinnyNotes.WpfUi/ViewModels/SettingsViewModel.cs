@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
+using System.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Windows.Media;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
@@ -42,6 +44,11 @@ public class SettingsViewModel : BaseViewModel
         new(TransparencyModes.WhenPinned, "Only when pinned"),
     ];
 
+    private static readonly KeyValuePair<string, string>[] _fontFamilyList
+        = new InstalledFontCollection().Families
+                                       .Select(f => new KeyValuePair<string, string>(f.Name, f.Name))
+                                       .ToArray();
+
     public SettingsViewModel(MessengerService messenger)
     {
         _messenger = messenger;
@@ -68,6 +75,8 @@ public class SettingsViewModel : BaseViewModel
         _opaqueOpacity = Settings.Default.OpaqueOpacity;
         _transparentOpacity = Settings.Default.TransparentOpacity;
         _colorMode = (ColorModes)Settings.Default.ColorMode;
+        _standardFontFamily = Settings.Default.StandardFontFamily;
+        _monoFontFamily = Settings.Default.MonoFontFamily;
         _useMonoFont = Settings.Default.UseMonoFont;
         _hideTitleBar = Settings.Default.HideTitleBar;
         _showTrayIcon = Settings.Default.ShowTrayIcon;
@@ -118,6 +127,7 @@ public class SettingsViewModel : BaseViewModel
     public KeyValuePair<MinimizeModes, string>[] MinimizeModeList => _minimizeModeList;
     public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
     public KeyValuePair<TransparencyModes, string>[] TransparencyModeList => _transparencyModeList;
+    public KeyValuePair<string, string>[] FontFamilyList => _fontFamilyList;
 
     private bool SetPropertyAndSave<T>(ref T storage, T value, bool isToolSetting = false, [CallerMemberName] string? propertyName = null)
     {
@@ -220,6 +230,12 @@ public class SettingsViewModel : BaseViewModel
 
     public ColorModes ColorMode { get => _colorMode; set => SetPropertyAndSave(ref _colorMode, value); }
     private ColorModes _colorMode;
+
+    public string StandardFontFamily { get => _standardFontFamily; set => SetPropertyAndSave(ref _standardFontFamily, value); }
+    private string _standardFontFamily;
+
+    public string MonoFontFamily { get => _monoFontFamily; set => SetPropertyAndSave(ref _monoFontFamily, value); }
+    private string _monoFontFamily;
 
     public bool UseMonoFont { get => _useMonoFont; set => SetPropertyAndSave(ref _useMonoFont, value); }
     private bool _useMonoFont;

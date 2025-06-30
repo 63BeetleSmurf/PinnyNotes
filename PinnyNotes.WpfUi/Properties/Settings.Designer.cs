@@ -358,5 +358,29 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["DefaultNoteWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI")]
+        public string StandardFontFamily {
+            get {
+                return ((string)(this["StandardFontFamily"]));
+            }
+            set {
+                this["StandardFontFamily"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Consolas")]
+        public string MonoFontFamily {
+            get {
+                return ((string)(this["MonoFontFamily"]));
+            }
+            set {
+                this["MonoFontFamily"] = value;
+            }
+        }
     }
 }
