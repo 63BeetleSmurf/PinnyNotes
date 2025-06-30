@@ -26,8 +26,8 @@ public partial class NoteTextBoxControl : TextBox
         AcceptsReturn = true;
         AcceptsTab = true;
         AllowDrop = true;
-        TextWrapping = TextWrapping.Wrap;
         VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+        HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
 
         TextChanged += OnTextChanged;
         SelectionChanged += OnSelectionChanged;

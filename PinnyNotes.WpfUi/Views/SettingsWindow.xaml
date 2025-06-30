@@ -131,6 +131,7 @@
                         <CheckBox Margin="10,5,5,0" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
                         <CheckBox Margin="10,5,5,0" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
                         <CheckBox Margin="30,5,5,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
+                        <CheckBox Margin="10,5,5,0" Content="Wrap text" IsChecked="{Binding WrapText}" />
 
                         <Label Content="Fonts" FontWeight="Bold" />
                         <StackPanel Margin="10,0,5,0" Orientation="Horizontal">

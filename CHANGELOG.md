@@ -7,6 +7,7 @@
 - Settings to change transparency values.
 - Settings to change default note size.
 - Settings to change fonts.
+- Setting to toggle text wrapping.
 - 
 
 ### Changed

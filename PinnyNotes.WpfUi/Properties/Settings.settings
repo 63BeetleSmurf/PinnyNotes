@@ -92,5 +92,8 @@
     <Setting Name="MonoFontFamily" Type="System.String" Scope="User">
       <Value Profile="(Default)">Consolas</Value>
     </Setting>
+    <Setting Name="WrapText" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

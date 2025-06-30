@@ -79,6 +79,9 @@ public class NoteViewModel : BaseViewModel
             case "ShowNotesInTaskbar":
                 ShowNotesInTaskbar = (bool)settingValue;
                 break;
+            case "WrapText":
+                WrapText = (TextWrapping)settingValue;
+                break;
         }
     }
 
@@ -350,6 +353,9 @@ public class NoteViewModel : BaseViewModel
 
     public bool TrimPastedText { get => _trimPastedText; set => SetProperty(ref _trimPastedText, value); }
     private bool _trimPastedText = Settings.Default.TrimPastedText;
+
+    public TextWrapping WrapText { get => _wrapText; set => SetProperty(ref _wrapText, value); }
+    private TextWrapping _wrapText = (TextWrapping)Settings.Default.WrapText;
 
 
     public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }

@@ -183,6 +183,7 @@
                                          SpellCheck.IsEnabled="{Binding SpellCheck}"
                                          TabSpaces="{Binding TabSpaces}"
                                          TabWidth="{Binding TabWidth}"
+                                         TextWrapping="{Binding WrapText}"
                                          TrimCopiedText="{Binding TrimCopiedText}"
                                          TrimPastedText="{Binding TrimPastedText}"
                 />

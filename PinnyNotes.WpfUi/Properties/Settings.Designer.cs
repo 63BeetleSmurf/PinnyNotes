@@ -382,5 +382,17 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["MonoFontFamily"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int WrapText {
+            get {
+                return ((int)(this["WrapText"]));
+            }
+            set {
+                this["WrapText"] = value;
+            }
+        }
     }
 }

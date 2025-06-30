@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Media;
+using System.Windows;
+
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
@@ -64,6 +65,7 @@ public class SettingsViewModel : BaseViewModel
         _spellChecker = Settings.Default.SpellCheck;
         _newLineAtEnd = Settings.Default.NewLineAtEnd;
         _keepNewLineAtEndVisible = Settings.Default.KeepNewLineAtEndVisible;
+        _wrapText = (TextWrapping)Settings.Default.WrapText;
         _autoIndent = Settings.Default.AutoIndent;
         _tabSpaces = Settings.Default.TabSpaces;
         _tabWidth = Settings.Default.TabWidth;
@@ -189,6 +191,9 @@ public class SettingsViewModel : BaseViewModel
 
     public bool KeepNewLineAtEndVisible { get => _keepNewLineAtEndVisible; set => SetPropertyAndSave(ref _keepNewLineAtEndVisible, value); }
     private bool _keepNewLineAtEndVisible;
+
+    public bool WrapText { get => (_wrapText == TextWrapping.Wrap); set => SetPropertyAndSave(ref _wrapText, (value) ? TextWrapping.Wrap : TextWrapping.NoWrap); }
+    private TextWrapping _wrapText;
 
     public bool AutoIndent { get => _autoIndent; set => SetPropertyAndSave(ref _autoIndent, value); }
     private bool _autoIndent;
