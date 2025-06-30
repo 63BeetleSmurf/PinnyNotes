@@ -22,210 +22,210 @@
 
             <TabItem Header="Application">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+                    <StackPanel>
 
-                    <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
-                    <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
-                    <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
+                        <Label Content="General" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
+                        <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
+                        <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
 
-                </StackPanel>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Notes">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+                    <StackPanel>
 
-                    <Label Content="General" FontWeight="Bold" />
-                    <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
+                        <Label Content="General" FontWeight="Bold" />
+                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
                             <Label Content="Default size (W x H)"/>
                             <TextBox Width="50" Text="{Binding DefaultNoteWidth}" />
                             <Label Content="x"/>
                             <TextBox Width="50" Text="{Binding DefaultNoteHeight}" />
                         </StackPanel>
                         <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Startup Position"/>
-                        <ComboBox
-                            Width="120"
-                            ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding StartupPosition, Mode=TwoWay}"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Allow notes to be minimized"/>
-                        <ComboBox
-                            Width="120"
-                            ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding MinimizeMode, Mode=TwoWay}"
-                        />
-                    </StackPanel>
-                    <CheckBox Margin="10,5,5,0" Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
+                            <Label Content="Startup Position"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding StartupPosition, Mode=TwoWay}"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Allow notes to be minimized"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding MinimizeMode, Mode=TwoWay}"
+                            />
+                        </StackPanel>
+                        <CheckBox Margin="10,5,5,0" Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
 
-                    <Label Content="Theme" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Color mode"/>
-                        <ComboBox
-                            Width="120"
-                            ItemsSource="{Binding ColorModeList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ColorMode, Mode=TwoWay}"
-                        />
-                    </StackPanel>
+                        <Label Content="Theme" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Color mode"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ColorModeList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding ColorMode, Mode=TwoWay}"
+                            />
+                        </StackPanel>
 
-                    <Label Content="Transparency" FontWeight="Bold" />
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Mode"/>
-                        <ComboBox
-                            Width="120"
-                            ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding TransparencyMode, Mode=TwoWay}"
-                        />
-                    </StackPanel>
-                    <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding OpaqueWhenFocused}" />
-                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                        <Label Content="Opaque value" />
-                        <Slider Minimum="0.1"
-                            Maximum="1.0"
-                            TickFrequency="0.1"
-                            IsSnapToTickEnabled="True"
-                            SmallChange="0.1"
-                            LargeChange="0.1"
-                            TickPlacement="BottomRight"
-                            Width="150"
-                            IsEnabled="{Binding IsTransparencyEnabled}"
-                            Value="{Binding OpaqueOpacity}" />
-                    </StackPanel>
-                    <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                        <Label Content="Transparent value" />
-                        <Slider Minimum="0.1"
-                            Maximum="1.0"
-                            TickFrequency="0.1"
-                            IsSnapToTickEnabled="True"
-                            SmallChange="0.1"
-                            LargeChange="0.1"
-                            TickPlacement="BottomRight"
-                            Width="150"
-                            IsEnabled="{Binding IsTransparencyEnabled}"
-                            Value="{Binding TransparentOpacity}" />
-                    </StackPanel>
+                        <Label Content="Transparency" FontWeight="Bold" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Mode"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding TransparencyMode, Mode=TwoWay}"
+                            />
+                        </StackPanel>
+                        <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding OpaqueWhenFocused}" />
+                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                            <Label Content="Opaque value" />
+                            <Slider Minimum="0.1"
+                                Maximum="1.0"
+                                TickFrequency="0.1"
+                                IsSnapToTickEnabled="True"
+                                SmallChange="0.1"
+                                LargeChange="0.1"
+                                TickPlacement="BottomRight"
+                                Width="150"
+                                IsEnabled="{Binding IsTransparencyEnabled}"
+                                Value="{Binding OpaqueOpacity}" />
+                        </StackPanel>
+                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
+                            <Label Content="Transparent value" />
+                            <Slider Minimum="0.1"
+                                Maximum="1.0"
+                                TickFrequency="0.1"
+                                IsSnapToTickEnabled="True"
+                                SmallChange="0.1"
+                                LargeChange="0.1"
+                                TickPlacement="BottomRight"
+                                Width="150"
+                                IsEnabled="{Binding IsTransparencyEnabled}"
+                                Value="{Binding TransparentOpacity}" />
+                        </StackPanel>
 
-                </StackPanel>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Editor">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+                    <StackPanel>
 
-                    <Label Content="General" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
-                    <CheckBox Margin="10,5,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
-                    <CheckBox Margin="10,5,5,0" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
-                    <CheckBox Margin="10,5,5,0" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
-                    <CheckBox Margin="30,5,5,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
+                        <Label Content="General" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
+                        <CheckBox Margin="10,5,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
+                        <CheckBox Margin="10,5,5,0" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
+                        <CheckBox Margin="10,5,5,0" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
+                        <CheckBox Margin="30,5,5,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
 
-                    <Label Content="Indentation" FontWeight="Bold" />
-                    <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
-                    <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
-                    <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                        <Label Content="Tab width"/>
-                        <TextBox Width="50" Text="{Binding TabWidth}" />
+                        <Label Content="Indentation" FontWeight="Bold" />
+                        <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
+                        <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Tab width"/>
+                            <TextBox Width="50" Text="{Binding TabWidth}" />
+                        </StackPanel>
+
+                        <Label Content="Copy and Paste" FontWeight="Bold" />
+                        <CheckBox Margin="10,5,5,0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
+                        <CheckBox Margin="10,5,5,0" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
+                        <CheckBox Margin="10,5,5,0" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
+                        <CheckBox Margin="10,5,5,5" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
+
                     </StackPanel>
-
-                    <Label Content="Copy and Paste" FontWeight="Bold" />
-                    <CheckBox Margin="10,5,5,0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
-                    <CheckBox Margin="10,5,5,0" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
-                    <CheckBox Margin="10,5,5,0" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
-                    <CheckBox Margin="10,5,5,5" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
-
-                </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
             <TabItem Header="Tools">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+                    <StackPanel>
 
-                    <Label Content="Active / Favourite" FontWeight="Bold" />
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,0,5,0" Content="Base64" IsChecked="{Binding Base64ToolEnabled}" />
-                        <CheckBox Margin="10,0,5,0" Content="Favourite" IsChecked="{Binding Base64ToolFavourite}" IsEnabled="{Binding Base64ToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Bracket" IsChecked="{Binding BracketToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding BracketToolFavourite}" IsEnabled="{Binding BracketToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Case" IsChecked="{Binding CaseToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding CaseToolFavourite}" IsEnabled="{Binding CaseToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="DateTime" IsChecked="{Binding DateTimeToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding DateTimeToolFavourite}" IsEnabled="{Binding DateTimeToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Gibberish" IsChecked="{Binding GibberishToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding GibberishToolFavourite}" IsEnabled="{Binding GibberishToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Hash" IsChecked="{Binding HashToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding HashToolFavourite}" IsEnabled="{Binding HashToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="HTMLEntity" IsChecked="{Binding HtmlEntityToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding HtmlEntityToolFavourite}" IsEnabled="{Binding HtmlEntityToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Indent" IsChecked="{Binding IndentToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding IndentToolFavourite}" IsEnabled="{Binding IndentToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Join" IsChecked="{Binding JoinToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding JoinToolFavourite}" IsEnabled="{Binding JoinToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="JSON" IsChecked="{Binding JsonToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding JsonToolFavourite}" IsEnabled="{Binding JsonToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="List" IsChecked="{Binding ListToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding ListToolFavourite}" IsEnabled="{Binding ListToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Quote" IsChecked="{Binding QuoteToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding QuoteToolFavourite}" IsEnabled="{Binding QuoteToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Remove" IsChecked="{Binding RemoveToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding RemoveToolFavourite}" IsEnabled="{Binding RemoveToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Slash" IsChecked="{Binding SlashToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SlashToolFavourite}" IsEnabled="{Binding SlashToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Sort" IsChecked="{Binding SortToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SortToolFavourite}" IsEnabled="{Binding SortToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Split" IsChecked="{Binding SplitToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SplitToolFavourite}" IsEnabled="{Binding SplitToolEnabled}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10,5,5,0" Content="Trim" IsChecked="{Binding TrimToolEnabled}" />
-                        <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding TimeToolFavourite}" IsEnabled="{Binding TrimToolEnabled}" />
-                    </StackPanel>
+                        <Label Content="Active / Favourite" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,0,5,0" Content="Base64" IsChecked="{Binding Base64ToolEnabled}" />
+                            <CheckBox Margin="10,0,5,0" Content="Favourite" IsChecked="{Binding Base64ToolFavourite}" IsEnabled="{Binding Base64ToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Bracket" IsChecked="{Binding BracketToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding BracketToolFavourite}" IsEnabled="{Binding BracketToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Case" IsChecked="{Binding CaseToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding CaseToolFavourite}" IsEnabled="{Binding CaseToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="DateTime" IsChecked="{Binding DateTimeToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding DateTimeToolFavourite}" IsEnabled="{Binding DateTimeToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Gibberish" IsChecked="{Binding GibberishToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding GibberishToolFavourite}" IsEnabled="{Binding GibberishToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Hash" IsChecked="{Binding HashToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding HashToolFavourite}" IsEnabled="{Binding HashToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="HTMLEntity" IsChecked="{Binding HtmlEntityToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding HtmlEntityToolFavourite}" IsEnabled="{Binding HtmlEntityToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Indent" IsChecked="{Binding IndentToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding IndentToolFavourite}" IsEnabled="{Binding IndentToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Join" IsChecked="{Binding JoinToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding JoinToolFavourite}" IsEnabled="{Binding JoinToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="JSON" IsChecked="{Binding JsonToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding JsonToolFavourite}" IsEnabled="{Binding JsonToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="List" IsChecked="{Binding ListToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding ListToolFavourite}" IsEnabled="{Binding ListToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Quote" IsChecked="{Binding QuoteToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding QuoteToolFavourite}" IsEnabled="{Binding QuoteToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Remove" IsChecked="{Binding RemoveToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding RemoveToolFavourite}" IsEnabled="{Binding RemoveToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Slash" IsChecked="{Binding SlashToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SlashToolFavourite}" IsEnabled="{Binding SlashToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Sort" IsChecked="{Binding SortToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SortToolFavourite}" IsEnabled="{Binding SortToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Split" IsChecked="{Binding SplitToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SplitToolFavourite}" IsEnabled="{Binding SplitToolEnabled}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="10,5,5,0" Content="Trim" IsChecked="{Binding TrimToolEnabled}" />
+                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding TimeToolFavourite}" IsEnabled="{Binding TrimToolEnabled}" />
+                        </StackPanel>
 
-                </StackPanel>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
 

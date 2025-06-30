@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Controls.ContextMenus;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
@@ -23,10 +23,6 @@ public partial class NoteWindow : Window
 
     private NoteViewModel _viewModel { get; }
 
-    private RelayCommand _saveCommand = null!;
-
-    private RelayCommand _resetSizeCommand = null!;
-
     #region NoteWindow
 
     public NoteWindow(MessengerService messenger) : this(messenger, null) { }
@@ -37,10 +33,12 @@ public partial class NoteWindow : Window
 
         InitializeComponent();
 
-        _saveCommand = new(SaveCommandExecute);
-        SaveMenuItem.Command = _saveCommand;
-        _resetSizeCommand = new(ResetSizeCommandExecute);
-        ResetSizeMenuItem.Command = _resetSizeCommand;
+        TitleBarGrid.ContextMenu = new NoteTitleBarContextMenu(
+            new(SaveCommandExecute),
+            new(ResetSizeCommandExecute),
+            _viewModel.ChangeThemeColorCommand,
+            new(() => ((App)Application.Current).ShowSettingsWindow(this))
+        );
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -203,11 +201,6 @@ public partial class NoteWindow : Window
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
-    }
-
-    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ((App)Application.Current).ShowSettingsWindow(this);
     }
 
     #endregion

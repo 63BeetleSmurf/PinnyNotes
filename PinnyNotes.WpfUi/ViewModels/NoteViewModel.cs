@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -18,73 +17,6 @@ public class NoteViewModel : BaseViewModel
     private readonly MessengerService _messenger;
 
     private const string _monoFontFamily = "Consolas";
-
-    private static readonly Dictionary<ThemeColors, Color[]> _colors = new() {
-        {
-            ThemeColors.Yellow,
-            new[] {
-                Color.FromRgb(254, 247, 177),   // #fef7b1
-                Color.FromRgb(255, 252, 221),   // #fffcdd
-                Color.FromRgb(254, 234, 0),     // #feea00
-            }
-        },
-        {
-            ThemeColors.Orange,
-            new[] {
-                Color.FromRgb(255, 209, 121),   // #ffd179
-                Color.FromRgb(254, 232, 185),   // #fee8b9
-                Color.FromRgb(255, 171, 0),     // #ffab00
-            }
-        },
-        {
-            ThemeColors.Red,
-            new[] {
-                Color.FromRgb(255, 124, 129),   // #ff7c81
-                Color.FromRgb(255, 196, 198),   // #ffc4c6
-                Color.FromRgb(227, 48, 54),     // #e33036
-            }
-        },
-        {
-            ThemeColors.Pink,
-            new[] {
-                Color.FromRgb(217, 134, 204),   // #d986cc
-                Color.FromRgb(235, 191, 227),   // #ebbfe3
-                Color.FromRgb(167, 41, 149),    // #a72995
-            }
-        },
-        {
-            ThemeColors.Purple,
-            new[] {
-                Color.FromRgb(157, 154, 221),   // #9d9add
-                Color.FromRgb(208, 206, 243),   // #d0cef3
-                Color.FromRgb(98, 91, 184),     // #625bb8
-            }
-        },
-        {
-            ThemeColors.Blue,
-            new[] {
-                Color.FromRgb(122, 195, 230),   // #7ac3e6
-                Color.FromRgb(179, 217, 236),   // #b3d9ec
-                Color.FromRgb(17, 149, 221),    // #1195dd
-            }
-        },
-        {
-            ThemeColors.Aqua,
-            new[] {
-                Color.FromRgb(151, 207, 198),   // #97cfc6
-                Color.FromRgb(192, 226, 225),   // #c0e2e1
-                Color.FromRgb(22, 176, 152),    // #16b098
-           }
-        },
-        {
-            ThemeColors.Green,
-            new[] {
-                Color.FromRgb(198, 214, 125),   // #c6d67d
-                Color.FromRgb(227, 235, 198),   // #e3ebc6
-                Color.FromRgb(170, 204, 4),     // #aacc04
-            }
-        }
-    };
 
     public RelayCommand<ThemeColors> ChangeThemeColorCommand;
 
@@ -286,22 +218,21 @@ public class NoteViewModel : BaseViewModel
     {
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
-        // 0 = Title, 1 = Background, 2 = Border
-        BorderColorBrush = new(_colors[themeColor][2]);         // #feea00
+        BorderColorBrush.Color = ThemeHelper.Themes[themeColor].BorderColor;
 
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
         {
-            TitleBarColorBrush = new(Color.FromRgb(70, 70, 70));    // #464646
-            TitleButtonColorBrush = new(_colors[themeColor][2]);
-            BackgroundColorBrush = new(Color.FromRgb(50, 50, 50));  // #323232
-            TextColorBrush = new(Colors.White);
+            TitleBarColorBrush.Color = Color.FromRgb(70, 70, 70);       // #464646
+            TitleButtonColorBrush.Color = ThemeHelper.Themes[themeColor].BorderColor;
+            BackgroundColorBrush.Color = Color.FromRgb(50, 50, 50);     // #323232
+            TextColorBrush.Color = Colors.White;
         }
         else
         {
-            TitleBarColorBrush = new(_colors[themeColor][0]);        // #464646
-            TitleButtonColorBrush = new(Color.FromRgb(70, 70, 70));
-            BackgroundColorBrush = new(_colors[themeColor][1]);      // #323232
-            TextColorBrush = new(Colors.Black);
+            TitleBarColorBrush.Color = ThemeHelper.Themes[themeColor].TitleBarColor;
+            TitleButtonColorBrush.Color = Color.FromRgb(70, 70, 70);    // #464646
+            BackgroundColorBrush.Color = ThemeHelper.Themes[themeColor].BackgroundColor;
+            TextColorBrush.Color = Colors.Black;
         }
     }
 
@@ -346,19 +277,19 @@ public class NoteViewModel : BaseViewModel
     }
 
     public SolidColorBrush TitleBarColorBrush { get => _titleBarColorBrush; set => SetProperty(ref _titleBarColorBrush, value); }
-    private SolidColorBrush _titleBarColorBrush = null!;
+    private SolidColorBrush _titleBarColorBrush = new();
 
     public SolidColorBrush TitleButtonColorBrush { get => _titleButtonColorBrush; set => SetProperty(ref _titleButtonColorBrush, value); }
-    private SolidColorBrush _titleButtonColorBrush = null!;
+    private SolidColorBrush _titleButtonColorBrush = new();
 
     public SolidColorBrush BackgroundColorBrush { get => _backgroundColorBrush; set => SetProperty(ref _backgroundColorBrush, value); }
-    private SolidColorBrush _backgroundColorBrush = null!;
+    private SolidColorBrush _backgroundColorBrush = new();
 
     public SolidColorBrush BorderColorBrush { get => _borderColorBrush; set => SetProperty(ref _borderColorBrush, value); }
-    private SolidColorBrush _borderColorBrush = null!;
+    private SolidColorBrush _borderColorBrush = new();
 
     public SolidColorBrush TextColorBrush { get => _textColorBrush; set => SetProperty(ref _textColorBrush, value); }
-    private SolidColorBrush _textColorBrush = null!;
+    private SolidColorBrush _textColorBrush = new();
 
     public int GravityX;
     public int GravityY;
