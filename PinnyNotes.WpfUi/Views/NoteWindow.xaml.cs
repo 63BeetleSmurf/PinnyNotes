@@ -140,8 +140,8 @@ public partial class NoteWindow : Window
 
     public void ResetSizeCommandExecute()
     {
-        Width = NoteViewModel.DefaultWidth;
-        Height = NoteViewModel.DefaultHeight;
+        Width = Settings.Default.DefaultNoteWidth;
+        Height = Settings.Default.DefaultNoteHeight;
     }
 
     #endregion

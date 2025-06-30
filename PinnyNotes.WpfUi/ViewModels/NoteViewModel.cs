@@ -17,9 +17,6 @@ public class NoteViewModel : BaseViewModel
 {
     private readonly MessengerService _messenger;
 
-    public const double DefaultWidth = 300.0;
-    public const double DefaultHeight = 300.0;
-
     private const string _monoFontFamily = "Consolas";
 
     private static readonly Dictionary<ThemeColors, Color[]> _colors = new() {
@@ -374,10 +371,10 @@ public class NoteViewModel : BaseViewModel
 
 
     public double Width { get => _width; set => SetProperty(ref _width, value); }
-    private double _width = DefaultWidth;
+    private double _width = Settings.Default.DefaultNoteWidth;
 
     public double Height { get => _height; set => SetProperty(ref _height, value); }
-    private double _height = DefaultHeight;
+    private double _height = Settings.Default.DefaultNoteHeight;
 
 
     public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }

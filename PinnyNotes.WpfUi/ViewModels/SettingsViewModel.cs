@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
-using System.Runtime.CompilerServices;
-using System;
-using System.ComponentModel;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -47,6 +46,8 @@ public class SettingsViewModel : BaseViewModel
     {
         _messenger = messenger;
 
+        _defaultNoteHeight = Settings.Default.DefaultNoteHeight;
+        _defaultNoteWidth = Settings.Default.DefaultNoteWidth;
         _startupPosition = (StartupPositions)Settings.Default.StartupPosition;
         _cycleColors = Settings.Default.CycleColors;
         _trimCopiedText = Settings.Default.TrimCopiedText;
@@ -146,6 +147,11 @@ public class SettingsViewModel : BaseViewModel
 
         return true;
     }
+    public int DefaultNoteHeight { get => _defaultNoteHeight; set => SetPropertyAndSave(ref _defaultNoteHeight, value); }
+    private int _defaultNoteHeight;
+
+    public int DefaultNoteWidth { get => _defaultNoteWidth; set => SetPropertyAndSave(ref _defaultNoteWidth, value); }
+    private int _defaultNoteWidth;
 
     public StartupPositions StartupPosition { get => _startupPosition; set => SetPropertyAndSave(ref _startupPosition, value); }
     private StartupPositions _startupPosition;

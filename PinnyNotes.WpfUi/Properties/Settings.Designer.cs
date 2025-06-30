@@ -334,5 +334,29 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["TransparentOpacity"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int DefaultNoteHeight {
+            get {
+                return ((int)(this["DefaultNoteHeight"]));
+            }
+            set {
+                this["DefaultNoteHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int DefaultNoteWidth {
+            get {
+                return ((int)(this["DefaultNoteWidth"]));
+            }
+            set {
+                this["DefaultNoteWidth"] = value;
+            }
+        }
     }
 }

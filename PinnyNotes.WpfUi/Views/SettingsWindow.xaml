@@ -39,6 +39,12 @@
 
                     <Label Content="General" FontWeight="Bold" />
                     <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
+                            <Label Content="Default size (W x H)"/>
+                            <TextBox Width="50" Text="{Binding DefaultNoteWidth}" />
+                            <Label Content="x"/>
+                            <TextBox Width="50" Text="{Binding DefaultNoteHeight}" />
+                        </StackPanel>
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
                         <Label Content="Startup Position"/>
                         <ComboBox
                             Width="120"
