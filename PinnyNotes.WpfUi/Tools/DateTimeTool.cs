@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class DateTimeTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.DateTimeToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.DateTimeToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.DateTimeToolState;
 
     public enum ToolActions
     {

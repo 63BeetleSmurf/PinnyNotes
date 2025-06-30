@@ -4,14 +4,14 @@ using System.Text;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class HashTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.HashToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.HashToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.HashToolState;
 
     public enum ToolActions
     {

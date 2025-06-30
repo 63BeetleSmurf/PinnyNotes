@@ -3,14 +3,14 @@ using System.Text.Json;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class JsonTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.JsonToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.JsonToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.JsonToolState;
 
     public enum ToolActions
     {

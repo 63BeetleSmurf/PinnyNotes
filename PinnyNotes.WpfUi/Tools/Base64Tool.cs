@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class Base64Tool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.Base64ToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.Base64ToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.Base64ToolState;
 
     public enum ToolActions
     {

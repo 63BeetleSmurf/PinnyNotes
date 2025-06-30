@@ -394,5 +394,209 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["WrapText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Base64ToolState {
+            get {
+                return ((int)(this["Base64ToolState"]));
+            }
+            set {
+                this["Base64ToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int BracketToolState {
+            get {
+                return ((int)(this["BracketToolState"]));
+            }
+            set {
+                this["BracketToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int CaseToolState {
+            get {
+                return ((int)(this["CaseToolState"]));
+            }
+            set {
+                this["CaseToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int DateTimeToolState {
+            get {
+                return ((int)(this["DateTimeToolState"]));
+            }
+            set {
+                this["DateTimeToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int GibberishToolState {
+            get {
+                return ((int)(this["GibberishToolState"]));
+            }
+            set {
+                this["GibberishToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int HashToolState {
+            get {
+                return ((int)(this["HashToolState"]));
+            }
+            set {
+                this["HashToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int HtmlEntityToolState {
+            get {
+                return ((int)(this["HtmlEntityToolState"]));
+            }
+            set {
+                this["HtmlEntityToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int IndentToolState {
+            get {
+                return ((int)(this["IndentToolState"]));
+            }
+            set {
+                this["IndentToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int JoinToolState {
+            get {
+                return ((int)(this["JoinToolState"]));
+            }
+            set {
+                this["JoinToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int JsonToolState {
+            get {
+                return ((int)(this["JsonToolState"]));
+            }
+            set {
+                this["JsonToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ListToolState {
+            get {
+                return ((int)(this["ListToolState"]));
+            }
+            set {
+                this["ListToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int QuoteToolState {
+            get {
+                return ((int)(this["QuoteToolState"]));
+            }
+            set {
+                this["QuoteToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int RemoveToolState {
+            get {
+                return ((int)(this["RemoveToolState"]));
+            }
+            set {
+                this["RemoveToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SlashToolState {
+            get {
+                return ((int)(this["SlashToolState"]));
+            }
+            set {
+                this["SlashToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SortToolState {
+            get {
+                return ((int)(this["SortToolState"]));
+            }
+            set {
+                this["SortToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int SplitToolState {
+            get {
+                return ((int)(this["SplitToolState"]));
+            }
+            set {
+                this["SplitToolState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int TrimToolState {
+            get {
+                return ((int)(this["TrimToolState"]));
+            }
+            set {
+                this["TrimToolState"] = value;
+            }
+        }
     }
 }

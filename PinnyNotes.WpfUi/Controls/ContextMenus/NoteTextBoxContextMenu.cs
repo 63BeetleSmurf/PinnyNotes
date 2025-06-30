@@ -5,12 +5,15 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Tools;
 
 namespace PinnyNotes.WpfUi.Controls.ContextMenus;
 
 public class NoteTextBoxContextMenu : ContextMenu
 {
+    private const string _toolTag = "Tool";
+
     private NoteTextBoxControl _noteTextBox;
 
     private ITool[] _tools;
@@ -182,20 +185,24 @@ public class NoteTextBoxContextMenu : ContextMenu
 
     private void AddToolContextMenus()
     {
-        IEnumerable<ITool> favouriteTools = _tools.Where(t => t.IsEnabled && t.IsFavourite);
+        IEnumerable<ITool> favouriteTools = _tools.Where(t => t.State == ToolStates.Favourite);
         bool hasFavouriteTools = favouriteTools.Any();
-        IEnumerable<ITool> standardTools = _tools.Where(t => t.IsEnabled && !t.IsFavourite);
+        IEnumerable<ITool> standardTools = _tools.Where(t => t.State == ToolStates.Enabled);
         bool hasStandardTools = standardTools.Any();
 
         if (hasFavouriteTools || hasStandardTools)
-            Items.Add(new Separator());
+            Items.Add(
+                new Separator()
+                {
+                    Tag = _toolTag
+                }
+            );
 
         foreach (ITool tool in favouriteTools)
         {
-            if (tool.IsEnabled)
-                Items.Add(
-                    tool.GetMenuItem()
-                );
+            MenuItem toolMenuItem = tool.GetMenuItem();
+            toolMenuItem.Tag = _toolTag;
+            Items.Add(toolMenuItem);
         }
 
         if (hasStandardTools)
@@ -206,9 +213,9 @@ public class NoteTextBoxContextMenu : ContextMenu
             };
             foreach (ITool tool in standardTools)
             {
-                toolsMenu.Items.Add(
-                    tool.GetMenuItem()
-                );
+                MenuItem toolMenuItem = tool.GetMenuItem();
+                toolMenuItem.Tag = _toolTag;
+                toolsMenu.Items.Add(toolMenuItem);
             }
             Items.Add(toolsMenu);
         }

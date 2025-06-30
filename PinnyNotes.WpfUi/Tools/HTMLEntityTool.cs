@@ -3,14 +3,14 @@ using System.Net;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class HtmlEntityTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.HtmlEntityToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.HtmlEntityToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.HtmlEntityToolState;
 
     public enum ToolActions
     {

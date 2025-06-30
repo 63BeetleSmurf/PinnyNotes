@@ -3,14 +3,14 @@ using System.Globalization;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class CaseTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.CaseToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.CaseToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.CaseToolState;
 
     public enum ToolActions
     {

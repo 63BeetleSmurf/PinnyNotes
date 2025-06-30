@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class SortTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.SortToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.SortToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.SortToolState;
 
     public enum ToolActions
     {

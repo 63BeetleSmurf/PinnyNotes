@@ -14,6 +14,7 @@
 - Updated to .NET 9.
 - General code refactoring.
 - Simplified transparency settings.
+- Simplified tool settings.
 - 
 
 ### Fixed

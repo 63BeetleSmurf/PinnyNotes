@@ -50,6 +50,12 @@ public class SettingsViewModel : BaseViewModel
                                        .Select(f => new KeyValuePair<string, string>(f.Name, f.Name))
                                        .ToArray();
 
+    private static readonly KeyValuePair<ToolStates, string>[] _toolStateList = [
+        new(ToolStates.Disabled, "Disabled"),
+        new(ToolStates.Enabled, "Enabled"),
+        new(ToolStates.Favourite, "Favourite"),
+    ];
+
     public SettingsViewModel(MessengerService messenger)
     {
         _messenger = messenger;
@@ -87,40 +93,23 @@ public class SettingsViewModel : BaseViewModel
 
         #region Tools
 
-        _base64ToolEnabled = ToolSettings.Default.Base64ToolEnabled;
-        _base64ToolFavourite = ToolSettings.Default.Base64ToolFavourite;
-        _bracketToolEnabled = ToolSettings.Default.BracketToolEnabled;
-        _bracketToolFavourite = ToolSettings.Default.BracketToolFavourite;
-        _caseToolEnabled = ToolSettings.Default.CaseToolEnabled;
-        _caseToolFavourite = ToolSettings.Default.CaseToolFavourite;
-        _dateTimeToolEnabled = ToolSettings.Default.DateTimeToolEnabled;
-        _dateTimeToolFavourite = ToolSettings.Default.DateTimeToolFavourite;
-        _gibberishToolEnabled = ToolSettings.Default.GibberishToolEnabled;
-        _gibberishToolFavourite = ToolSettings.Default.GibberishToolFavourite;
-        _hashToolEnabled = ToolSettings.Default.HashToolEnabled;
-        _hashToolFavourite = ToolSettings.Default.HashToolFavourite;
-        _htmlEntityToolEnabled = ToolSettings.Default.HtmlEntityToolEnabled;
-        _htmlEntityToolFavourite = ToolSettings.Default.HtmlEntityToolFavourite;
-        _indentToolEnabled = ToolSettings.Default.IndentToolEnabled;
-        _indentToolFavourite = ToolSettings.Default.IndentToolFavourite;
-        _joinToolEnabled = ToolSettings.Default.JoinToolEnabled;
-        _joinToolFavourite = ToolSettings.Default.JoinToolFavourite;
-        _jsonToolEnabled = ToolSettings.Default.JsonToolEnabled;
-        _jsonToolFavourite = ToolSettings.Default.JsonToolFavourite;
-        _listToolEnabled = ToolSettings.Default.ListToolEnabled;
-        _listToolFavourite = ToolSettings.Default.ListToolFavourite;
-        _quoteToolEnabled = ToolSettings.Default.QuoteToolEnabled;
-        _quoteToolFavourite = ToolSettings.Default.QuoteToolFavourite;
-        _removeToolEnabled = ToolSettings.Default.RemoveToolEnabled;
-        _removeToolFavourite = ToolSettings.Default.RemoveToolFavourite;
-        _slashToolEnabled = ToolSettings.Default.SlashToolEnabled;
-        _slashToolFavourite = ToolSettings.Default.SlashToolFavourite;
-        _sortToolEnabled = ToolSettings.Default.SortToolEnabled;
-        _sortToolFavourite = ToolSettings.Default.SortToolFavourite;
-        _splitToolEnabled = ToolSettings.Default.SplitToolEnabled;
-        _splitToolFavourite = ToolSettings.Default.SplitToolFavourite;
-        _trimToolEnabled = ToolSettings.Default.TrimToolEnabled;
-        _trimToolFavourite = ToolSettings.Default.TrimToolFavourite;
+        _base64ToolState = (ToolStates)Settings.Default.Base64ToolState;
+        _bracketToolState = (ToolStates)Settings.Default.BracketToolState;
+        _caseToolState = (ToolStates)Settings.Default.CaseToolState;
+        _dateTimeToolState = (ToolStates)Settings.Default.DateTimeToolState;
+        _gibberishToolState = (ToolStates)Settings.Default.GibberishToolState;
+        _hashToolState = (ToolStates)Settings.Default.HashToolState;
+        _htmlEntityToolState = (ToolStates)Settings.Default.HtmlEntityToolState;
+        _indentToolState = (ToolStates)Settings.Default.IndentToolState;
+        _joinToolState = (ToolStates)Settings.Default.JoinToolState;
+        _jsonToolState = (ToolStates)Settings.Default.JsonToolState;
+        _listToolState = (ToolStates)Settings.Default.ListToolState;
+        _quoteToolState = (ToolStates)Settings.Default.QuoteToolState;
+        _removeToolState = (ToolStates)Settings.Default.RemoveToolState;
+        _slashToolState = (ToolStates)Settings.Default.SlashToolState;
+        _sortToolState = (ToolStates)Settings.Default.SortToolState;
+        _splitToolState = (ToolStates)Settings.Default.SplitToolState;
+        _trimToolState = (ToolStates)Settings.Default.TrimToolState;
 
         #endregion
     }
@@ -130,30 +119,19 @@ public class SettingsViewModel : BaseViewModel
     public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
     public KeyValuePair<TransparencyModes, string>[] TransparencyModeList => _transparencyModeList;
     public KeyValuePair<string, string>[] FontFamilyList => _fontFamilyList;
+    public KeyValuePair<ToolStates, string>[] ToolStateList => _toolStateList;
 
-    private bool SetPropertyAndSave<T>(ref T storage, T value, bool isToolSetting = false, [CallerMemberName] string? propertyName = null)
+    private bool SetPropertyAndSave<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
     {
         if (!SetProperty(ref storage, value, propertyName))
             return false;
 
-        if (isToolSetting)
-        {
-            if (value is Enum)
-                ToolSettings.Default[propertyName] = Convert.ToInt32(value);
-            else
-                ToolSettings.Default[propertyName] = value;
-
-            ToolSettings.Default.Save();
-        }
+        if (value is Enum)
+            Settings.Default[propertyName] = Convert.ToInt32(value);
         else
-        {
-            if (value is Enum)
-                Settings.Default[propertyName] = Convert.ToInt32(value);
-            else
-                Settings.Default[propertyName] = value;
+            Settings.Default[propertyName] = value;
 
-            Settings.Default.Save();
-        }
+        Settings.Default.Save();
 
         _messenger.SendSettingChangedNotification(propertyName!, value!);
 
@@ -259,175 +237,56 @@ public class SettingsViewModel : BaseViewModel
 
     #region Tools
 
-    #region Base64
+    public ToolStates Base64ToolState { get => _base64ToolState; set => SetPropertyAndSave(ref _base64ToolState, value); }
+    private ToolStates _base64ToolState;
 
-    public bool Base64ToolEnabled { get => _base64ToolEnabled; set => SetPropertyAndSave(ref _base64ToolEnabled, value, true); }
-    private bool _base64ToolEnabled;
+    public ToolStates BracketToolState { get => _bracketToolState; set => SetPropertyAndSave(ref _bracketToolState, value); }
+    private ToolStates _bracketToolState;
 
-    public bool Base64ToolFavourite { get => _base64ToolFavourite; set => SetPropertyAndSave(ref _base64ToolFavourite, value, true); }
-    private bool _base64ToolFavourite;
+    public ToolStates CaseToolState { get => _caseToolState; set => SetPropertyAndSave(ref _caseToolState, value); }
+    private ToolStates _caseToolState;
 
-    #endregion
+    public ToolStates DateTimeToolState { get => _dateTimeToolState; set => SetPropertyAndSave(ref _dateTimeToolState, value); }
+    private ToolStates _dateTimeToolState;
 
-    #region Bracket
+    public ToolStates GibberishToolState { get => _gibberishToolState; set => SetPropertyAndSave(ref _gibberishToolState, value); }
+    private ToolStates _gibberishToolState;
 
-    public bool BracketToolEnabled { get => _bracketToolEnabled; set => SetPropertyAndSave(ref _bracketToolEnabled, value, true); }
-    private bool _bracketToolEnabled;
+    public ToolStates HashToolState { get => _hashToolState; set => SetPropertyAndSave(ref _hashToolState, value); }
+    private ToolStates _hashToolState;
 
-    public bool BracketToolFavourite { get => _bracketToolFavourite; set => SetPropertyAndSave(ref _bracketToolFavourite, value, true); }
-    private bool _bracketToolFavourite;
+    public ToolStates HtmlEntityToolState { get => _htmlEntityToolState; set => SetPropertyAndSave(ref _htmlEntityToolState, value); }
+    private ToolStates _htmlEntityToolState;
 
-    #endregion
+    public ToolStates IndentToolState { get => _indentToolState; set => SetPropertyAndSave(ref _indentToolState, value); }
+    private ToolStates _indentToolState;
 
-    #region Case
+    public ToolStates JoinToolState { get => _joinToolState; set => SetPropertyAndSave(ref _joinToolState, value); }
+    private ToolStates _joinToolState;
 
-    public bool CaseToolEnabled { get => _caseToolEnabled; set => SetPropertyAndSave(ref _caseToolEnabled, value, true); }
-    private bool _caseToolEnabled;
+    public ToolStates JsonToolState { get => _jsonToolState; set => SetPropertyAndSave(ref _jsonToolState, value); }
+    private ToolStates _jsonToolState;
 
-    public bool CaseToolFavourite { get => _caseToolFavourite; set => SetPropertyAndSave(ref _caseToolFavourite, value, true); }
-    private bool _caseToolFavourite;
+    public ToolStates ListToolState { get => _listToolState; set => SetPropertyAndSave(ref _listToolState, value); }
+    private ToolStates _listToolState;
 
-    #endregion
+    public ToolStates QuoteToolState { get => _quoteToolState; set => SetPropertyAndSave(ref _quoteToolState, value); }
+    private ToolStates _quoteToolState;
 
-    #region DateTime
+    public ToolStates RemoveToolState { get => _removeToolState; set => SetPropertyAndSave(ref _removeToolState, value); }
+    private ToolStates _removeToolState;
 
-    public bool DateTimeToolEnabled { get => _dateTimeToolEnabled; set => SetPropertyAndSave(ref _dateTimeToolEnabled, value, true); }
-    private bool _dateTimeToolEnabled;
+    public ToolStates SlashToolState { get => _slashToolState; set => SetPropertyAndSave(ref _slashToolState, value); }
+    private ToolStates _slashToolState;
 
-    public bool DateTimeToolFavourite { get => _dateTimeToolFavourite; set => SetPropertyAndSave(ref _dateTimeToolFavourite, value, true); }
-    private bool _dateTimeToolFavourite;
+    public ToolStates SortToolState { get => _sortToolState; set => SetPropertyAndSave(ref _sortToolState, value); }
+    private ToolStates _sortToolState;
 
-    #endregion
+    public ToolStates SplitToolState { get => _splitToolState; set => SetPropertyAndSave(ref _splitToolState, value); }
+    private ToolStates _splitToolState;
 
-    #region Gibberish
-
-    public bool GibberishToolEnabled { get => _gibberishToolEnabled; set => SetPropertyAndSave(ref _gibberishToolEnabled, value, true); }
-    private bool _gibberishToolEnabled;
-
-    public bool GibberishToolFavourite { get => _gibberishToolFavourite; set => SetPropertyAndSave(ref _gibberishToolFavourite, value, true); }
-    private bool _gibberishToolFavourite;
-
-    #endregion
-
-    #region Hash
-
-    public bool HashToolEnabled { get => _hashToolEnabled; set => SetPropertyAndSave(ref _hashToolEnabled, value, true); }
-    private bool _hashToolEnabled;
-
-    public bool HashToolFavourite { get => _hashToolFavourite; set => SetPropertyAndSave(ref _hashToolFavourite, value, true); }
-    private bool _hashToolFavourite;
-
-    #endregion
-
-    #region HTMLEntity
-
-    public bool HtmlEntityToolEnabled { get => _htmlEntityToolEnabled; set => SetPropertyAndSave(ref _htmlEntityToolEnabled, value, true); }
-    private bool _htmlEntityToolEnabled;
-
-    public bool HtmlEntityToolFavourite { get => _htmlEntityToolFavourite; set => SetPropertyAndSave(ref _htmlEntityToolFavourite, value, true); }
-    private bool _htmlEntityToolFavourite;
-
-    #endregion
-
-    #region Indent
-
-    public bool IndentToolEnabled { get => _indentToolEnabled; set => SetPropertyAndSave(ref _indentToolEnabled, value, true); }
-    private bool _indentToolEnabled;
-
-    public bool IndentToolFavourite { get => _indentToolFavourite; set => SetPropertyAndSave(ref _indentToolFavourite, value, true); }
-    private bool _indentToolFavourite;
-
-    #endregion
-
-    #region Join
-
-    public bool JoinToolEnabled { get => _joinToolEnabled; set => SetPropertyAndSave(ref _joinToolEnabled, value, true); }
-    private bool _joinToolEnabled;
-
-    public bool JoinToolFavourite { get => _joinToolFavourite; set => SetPropertyAndSave(ref _joinToolFavourite, value, true); }
-    private bool _joinToolFavourite;
-
-    #endregion
-
-    #region JSON
-
-    public bool JsonToolEnabled { get => _jsonToolEnabled; set => SetPropertyAndSave(ref _jsonToolEnabled, value, true); }
-    private bool _jsonToolEnabled;
-
-    public bool JsonToolFavourite { get => _jsonToolFavourite; set => SetPropertyAndSave(ref _jsonToolFavourite, value, true); }
-    private bool _jsonToolFavourite;
-
-    #endregion
-
-    #region List
-
-    public bool ListToolEnabled { get => _listToolEnabled; set => SetPropertyAndSave(ref _listToolEnabled, value, true); }
-    private bool _listToolEnabled;
-
-    public bool ListToolFavourite { get => _listToolFavourite; set => SetPropertyAndSave(ref _listToolFavourite, value, true); }
-    private bool _listToolFavourite;
-
-    #endregion
-
-    #region Quote
-
-    public bool QuoteToolEnabled { get => _quoteToolEnabled; set => SetPropertyAndSave(ref _quoteToolEnabled, value, true); }
-    private bool _quoteToolEnabled;
-
-    public bool QuoteToolFavourite { get => _quoteToolFavourite; set => SetPropertyAndSave(ref _quoteToolFavourite, value, true); }
-    private bool _quoteToolFavourite;
-
-    #endregion
-
-    #region Remove
-
-    public bool RemoveToolEnabled { get => _removeToolEnabled; set => SetPropertyAndSave(ref _removeToolEnabled, value, true); }
-    private bool _removeToolEnabled;
-
-    public bool RemoveToolFavourite { get => _removeToolFavourite; set => SetPropertyAndSave(ref _removeToolFavourite, value, true); }
-    private bool _removeToolFavourite;
-
-    #endregion
-
-    #region Slash
-
-    public bool SlashToolEnabled { get => _slashToolEnabled; set => SetPropertyAndSave(ref _slashToolEnabled, value, true); }
-    private bool _slashToolEnabled;
-
-    public bool SlashToolFavourite { get => _slashToolFavourite; set => SetPropertyAndSave(ref _slashToolFavourite, value, true); }
-    private bool _slashToolFavourite;
-
-    #endregion
-
-    #region Sort
-
-    public bool SortToolEnabled { get => _sortToolEnabled; set => SetPropertyAndSave(ref _sortToolEnabled, value, true); }
-    private bool _sortToolEnabled;
-
-    public bool SortToolFavourite { get => _sortToolFavourite; set => SetPropertyAndSave(ref _sortToolFavourite, value, true); }
-    private bool _sortToolFavourite;
-
-    #endregion
-
-    #region Split
-
-    public bool SplitToolEnabled { get => _splitToolEnabled; set => SetPropertyAndSave(ref _splitToolEnabled, value, true); }
-    private bool _splitToolEnabled;
-
-    public bool SplitToolFavourite { get => _splitToolFavourite; set => SetPropertyAndSave(ref _splitToolFavourite, value, true); }
-    private bool _splitToolFavourite;
-
-    #endregion
-
-    #region Trim
-
-    public bool TrimToolEnabled { get => _trimToolEnabled; set => SetPropertyAndSave(ref _trimToolEnabled, value, true); }
-    private bool _trimToolEnabled;
-
-    public bool TrimToolFavourite { get => _trimToolFavourite; set => SetPropertyAndSave(ref _trimToolFavourite, value, true); }
-    private bool _trimToolFavourite;
-
-    #endregion
+    public ToolStates TrimToolState { get => _trimToolState; set => SetPropertyAndSave(ref _trimToolState, value); }
+    private ToolStates _trimToolState;
 
     #endregion
 }

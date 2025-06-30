@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class IndentTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.IndentToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.IndentToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.IndentToolState;
 
     public enum ToolActions
     {

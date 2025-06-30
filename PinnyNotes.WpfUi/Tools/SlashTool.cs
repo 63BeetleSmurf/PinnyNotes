@@ -3,14 +3,14 @@ using System.Text;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class SlashTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.SlashToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.SlashToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.SlashToolState;
 
     public enum ToolActions
     {

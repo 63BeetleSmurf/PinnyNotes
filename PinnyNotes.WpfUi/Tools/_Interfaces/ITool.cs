@@ -1,11 +1,12 @@
 ﻿using System.Windows.Controls;
 
+using PinnyNotes.WpfUi.Enums;
+
 namespace PinnyNotes.WpfUi.Tools;
 
 public interface ITool
 {
-    bool IsEnabled { get; }
-    bool IsFavourite { get; }
+    ToolStates State { get; }
 
     MenuItem GetMenuItem();
 }

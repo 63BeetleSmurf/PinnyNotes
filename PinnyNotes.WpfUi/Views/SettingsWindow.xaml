@@ -80,7 +80,7 @@
                         </StackPanel>
 
                         <Label Content="Transparency" FontWeight="Bold" />
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
                             <Label Content="Mode"/>
                             <ComboBox
                                 Width="120"
@@ -178,74 +178,177 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
-                        <Label Content="Active / Favourite" FontWeight="Bold" />
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,0,5,0" Content="Base64" IsChecked="{Binding Base64ToolEnabled}" />
-                            <CheckBox Margin="10,0,5,0" Content="Favourite" IsChecked="{Binding Base64ToolFavourite}" IsEnabled="{Binding Base64ToolEnabled}" />
+                        <Label Content="Changes require restart" />
+
+                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
+                            <Label Content="Base 64"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding Base64ToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Bracket" IsChecked="{Binding BracketToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding BracketToolFavourite}" IsEnabled="{Binding BracketToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Bracket"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding BracketToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Case" IsChecked="{Binding CaseToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding CaseToolFavourite}" IsEnabled="{Binding CaseToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Case"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding CaseToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="DateTime" IsChecked="{Binding DateTimeToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding DateTimeToolFavourite}" IsEnabled="{Binding DateTimeToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Date\Time"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding DateTimeToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Gibberish" IsChecked="{Binding GibberishToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding GibberishToolFavourite}" IsEnabled="{Binding GibberishToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Gibberish"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding GibberishToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Hash" IsChecked="{Binding HashToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding HashToolFavourite}" IsEnabled="{Binding HashToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Hash"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding HashToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="HTMLEntity" IsChecked="{Binding HtmlEntityToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding HtmlEntityToolFavourite}" IsEnabled="{Binding HtmlEntityToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="HTML Entity"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding HtmlEntityToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Indent" IsChecked="{Binding IndentToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding IndentToolFavourite}" IsEnabled="{Binding IndentToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Indent"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding IndentToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Join" IsChecked="{Binding JoinToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding JoinToolFavourite}" IsEnabled="{Binding JoinToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Join"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding JoinToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="JSON" IsChecked="{Binding JsonToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding JsonToolFavourite}" IsEnabled="{Binding JsonToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="JSON"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding JsonToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="List" IsChecked="{Binding ListToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding ListToolFavourite}" IsEnabled="{Binding ListToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="List"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding ListToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Quote" IsChecked="{Binding QuoteToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding QuoteToolFavourite}" IsEnabled="{Binding QuoteToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Quote"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding QuoteToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Remove" IsChecked="{Binding RemoveToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding RemoveToolFavourite}" IsEnabled="{Binding RemoveToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Remove"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding RemoveToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Slash" IsChecked="{Binding SlashToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SlashToolFavourite}" IsEnabled="{Binding SlashToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Slash"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding SlashToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Sort" IsChecked="{Binding SortToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SortToolFavourite}" IsEnabled="{Binding SortToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Sort"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding SortToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Split" IsChecked="{Binding SplitToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding SplitToolFavourite}" IsEnabled="{Binding SplitToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Split"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding SplitToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox Margin="10,5,5,0" Content="Trim" IsChecked="{Binding TrimToolEnabled}" />
-                            <CheckBox Margin="10,5,5,0" Content="Favourite" IsChecked="{Binding TimeToolFavourite}" IsEnabled="{Binding TrimToolEnabled}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Trim"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding TrimToolState, Mode=TwoWay}"
+                            />
                         </StackPanel>
 
                     </StackPanel>

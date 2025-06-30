@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class ListTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.ListToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.ListToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.ListToolState;
 
     public enum ToolActions
     {

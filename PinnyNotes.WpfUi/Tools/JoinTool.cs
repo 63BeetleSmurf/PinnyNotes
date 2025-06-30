@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class JoinTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.JoinToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.JoinToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.JoinToolState;
 
     public enum ToolActions
     {

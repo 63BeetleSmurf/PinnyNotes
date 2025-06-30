@@ -3,14 +3,14 @@ using System.Linq;
 using System.Windows.Controls;
 
 using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
 public class QuoteTool : BaseTool, ITool
 {
-    public bool IsEnabled => ToolSettings.Default.QuoteToolEnabled;
-    public bool IsFavourite => ToolSettings.Default.QuoteToolFavourite;
+    public ToolStates State => (ToolStates)Settings.Default.QuoteToolState;
 
     private static char[] _openingQuotes = { '\'', '"', '`', '‘', '“' };
     private static char[] _closingQuotes = { '\'', '"', '`', '’', '”' };
