@@ -13,6 +13,22 @@
         Activated="Window_Activated"
         >
     <Grid Margin="5,5,5,5">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" >
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="4,4,4,0" />
+            </Style>
+            <Style TargetType="CheckBox" >
+                <Setter Property="Margin" Value="4,4,0,0" />
+            </Style>
+            <Style TargetType="ComboBox" >
+                <Setter Property="Margin" Value="0,4,0,0" />
+            </Style>
+            <Style TargetType="Slider" >
+                <Setter Property="Margin" Value="0,4,0,0" />
+            </Style>
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -20,165 +36,269 @@
 
         <TabControl Grid.Row="0">
 
+            <!-- Application Tab -->
             <TabItem Header="Application">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
-                        <Label Content="General" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
-                        <CheckBox Margin="10,5,5,0" Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
-                        <CheckBox Margin="10,5,5,5" Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
+                        <!-- Application General Group -->
+                        <GroupBox Header="General">
+                            <StackPanel>
+
+                                <CheckBox Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
+
+                                <CheckBox Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
+
+                                <CheckBox Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
+
+                            </StackPanel>
+                        </GroupBox>
 
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
+            <!-- Notes Tab -->
             <TabItem Header="Notes">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
-                        <Label Content="General" FontWeight="Bold" />
-                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
-                            <Label Content="Default size (W x H)"/>
-                            <TextBox Width="50" Text="{Binding DefaultNoteWidth}" />
-                            <Label Content="x"/>
-                            <TextBox Width="50" Text="{Binding DefaultNoteHeight}" />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Startup Position"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding StartupPosition, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Allow notes to be minimized"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding MinimizeMode, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <CheckBox Margin="10,5,5,0" Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
+                        <!-- Notes General Group -->
+                        <GroupBox Header="General">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
 
-                        <Label Content="Theme" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Color mode"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ColorModeList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding ColorMode, Mode=TwoWay}"
-                            />
-                        </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Default size (W x H)"/>
+                                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                                    <TextBox Width="50" Text="{Binding DefaultNoteWidth}" />
+                                    <TextBlock Text="x" />
+                                    <TextBox Width="50" Text="{Binding DefaultNoteHeight}" />
+                                </StackPanel>
 
-                        <Label Content="Transparency" FontWeight="Bold" />
-                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
-                            <Label Content="Mode"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding TransparencyMode, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <CheckBox Margin="30,5,5,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding OpaqueWhenFocused}" />
-                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                            <Label Content="Opaque value" />
-                            <Slider Minimum="0.1"
-                                Maximum="1.0"
-                                TickFrequency="0.1"
-                                IsSnapToTickEnabled="True"
-                                SmallChange="0.1"
-                                LargeChange="0.1"
-                                TickPlacement="BottomRight"
-                                Width="150"
-                                IsEnabled="{Binding IsTransparencyEnabled}"
-                                Value="{Binding OpaqueOpacity}" />
-                        </StackPanel>
-                        <StackPanel Margin="30,5,5,0" Orientation="Horizontal">
-                            <Label Content="Transparent value" />
-                            <Slider Minimum="0.1"
-                                Maximum="1.0"
-                                TickFrequency="0.1"
-                                IsSnapToTickEnabled="True"
-                                SmallChange="0.1"
-                                LargeChange="0.1"
-                                TickPlacement="BottomRight"
-                                Width="150"
-                                IsEnabled="{Binding IsTransparencyEnabled}"
-                                Value="{Binding TransparentOpacity}" />
-                        </StackPanel>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Startup Position"/>
+                                <ComboBox Grid.Column="1" Grid.Row="1"
+                                          Width="120"
+                                          ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding StartupPosition, Mode=TwoWay}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Allow notes to be minimized"/>
+                                <ComboBox Grid.Column="1" Grid.Row="2"
+                                          Width="120"
+                                          ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding MinimizeMode, Mode=TwoWay}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
+                                
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Notes Theme Group -->
+                        <GroupBox Header="Theme">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Color mode"/>
+                                <ComboBox Grid.Column="1" Grid.Row="1"
+                                          Width="120"
+                                          ItemsSource="{Binding ColorModeList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ColorMode, Mode=TwoWay}" />
+
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Notes Transparency Group -->
+                        <GroupBox Header="Transparency">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Mode"/>
+                                <ComboBox Grid.Column="1" Grid.Row="0"
+                                          Width="120"
+                                          ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding TransparencyMode, Mode=TwoWay}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="1" Margin="15,4,0,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding OpaqueWhenFocused}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Opaque value" />
+                                <Slider Grid.Column="1" Grid.Row="2" Minimum="0.1"
+                                        Maximum="1.0"
+                                        TickFrequency="0.1"
+                                        IsSnapToTickEnabled="True"
+                                        SmallChange="0.1"
+                                        LargeChange="0.1"
+                                        TickPlacement="BottomRight"
+                                        Width="120"
+                                        IsEnabled="{Binding IsTransparencyEnabled}"
+                                        Value="{Binding OpaqueOpacity}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Transparent value" />
+                                <Slider Grid.Column="1" Grid.Row="3"
+                                        Minimum="0.1"
+                                        Maximum="1.0"
+                                        TickFrequency="0.1"
+                                        IsSnapToTickEnabled="True"
+                                        SmallChange="0.1"
+                                        LargeChange="0.1"
+                                        TickPlacement="BottomRight"
+                                    Width="120"
+                                        IsEnabled="{Binding IsTransparencyEnabled}"
+                                        Value="{Binding TransparentOpacity}" />
+
+                            </Grid>
+                        </GroupBox>
 
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
+            <!-- Editor Tab -->
             <TabItem Header="Editor">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
-                        <Label Content="General" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
-                        <CheckBox Margin="10,5,5,0" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
-                        <CheckBox Margin="10,5,5,0" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
-                        <CheckBox Margin="30,5,5,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
-                        <CheckBox Margin="10,5,5,0" Content="Wrap text" IsChecked="{Binding WrapText}" />
+                        <!-- Editor General Group -->
+                        <GroupBox Header="General">
+                            <StackPanel>
 
-                        <Label Content="Fonts" FontWeight="Bold" />
-                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
-                            <Label Content="Standard"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding StandardFontFamily, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Mono"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding MonoFontFamily, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <CheckBox Margin="10,5,5,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
 
-                        <Label Content="Indentation" FontWeight="Bold" />
-                        <CheckBox Margin="10,0,5,0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
-                        <CheckBox Margin="10,5,5,0" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Tab width"/>
-                            <TextBox Width="50" Text="{Binding TabWidth}" />
-                        </StackPanel>
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
 
-                        <Label Content="Copy and Paste" FontWeight="Bold" />
-                        <CheckBox Margin="10,5,5,0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
-                        <CheckBox Margin="10,5,5,0" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
-                        <CheckBox Margin="10,5,5,0" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
-                        <CheckBox Margin="10,5,5,5" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Copy fallback action"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding CopyFallbackAction, Mode=TwoWay}"
-                            />
-                        </StackPanel>
+                                <CheckBox Grid.Column="0" Grid.Row="2" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="3" Margin="15,4,0,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Wrap text" IsChecked="{Binding WrapText}" />
+
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!-- Editor Fonts Group -->
+                        <GroupBox Header="Fonts">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Standard"/>
+                                <ComboBox Grid.Column="1" Grid.Row="0"
+                                          Width="120"
+                                          ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding StandardFontFamily, Mode=TwoWay}" />
+
+
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Mono"/>
+                                <ComboBox Grid.Column="1" Grid.Row="1"
+                                          Width="120"
+                                          ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding MonoFontFamily, Mode=TwoWay}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="2" Margin="15,4,0,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
+
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Editor Indentation Group -->
+                        <GroupBox Header="Indentation">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Tab width"/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Width="50" Text="{Binding TabWidth}" />
+
+                            </Grid>
+                        </GroupBox>
+
+                        <!-- Editor Copy and Paste Group -->
+                        <GroupBox Header="Copy and Paste">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="2" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Copy fallback action"/>
+                                <ComboBox Grid.Column="1" Grid.Row="4"
+                                          Width="120"
+                                          ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding CopyFallbackAction, Mode=TwoWay}" />
+
+                            </Grid>
+                        </GroupBox>
 
                     </StackPanel>
                 </ScrollViewer>
@@ -187,17 +307,6 @@
             <TabItem Header="Tools">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid Margin="5,5,5,5">
-                        <Grid.Resources>
-                            <Style TargetType="TextBlock" >
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                                <Setter Property="Margin" Value="0,0,5,0" />
-                            </Style>
-                            <Style TargetType="ComboBox" >
-                                <Setter Property="HorizontalAlignment" Value="Left" />
-                                <Setter Property="Margin" Value="0,5,0,0" />
-                            </Style>
-                        </Grid.Resources>
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />

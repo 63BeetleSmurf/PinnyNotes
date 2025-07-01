@@ -1,7 +1,7 @@
 # Change Log
 
 
-## v1.13.0 - Pending
+## v1.13.0 - 01/07/2025
 
 ### Added
 - Settings to change transparency values.
@@ -9,18 +9,16 @@
 - Settings to change fonts.
 - Setting to toggle text wrapping.
 - Setting to choose copy behaviour when no text selected.
-- 
 
 ### Changed
 - Updated to .NET 9.
 - General code refactoring.
 - Simplified transparency settings.
 - Simplified tool settings.
-- 
+- Rearranged settings window.
 
 ### Fixed
 - Occasional crash when pasting from clipboard.
-- 
 
 
 ## v1.12.1 - 21/11/2024
