@@ -124,7 +124,7 @@
         {
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1EE56608B0534F68AEAFC5EA4B77F147"
             {
-            "SourcePath" = "8:..\\Pinny Notes\\Images\\icon.ico"
+            "SourcePath" = "8:..\\PinnyNotes.WpfUi\\Images\\icon.ico"
             "TargetName" = "8:icon.ico"
             "Tag" = "8:"
             "Folder" = "8:_7785C5DEE194483AA2B024842491A9A3"
