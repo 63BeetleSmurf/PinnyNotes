@@ -31,6 +31,9 @@ public class NoteViewModel : BaseViewModel
             case "ConvertIndentation":
                 ConvertIndentation = (bool)settingValue;
                 break;
+            case "CopyFallbackAction":
+                CopyFallbackAction = (CopyFallbackActions)settingValue;
+                break;
             case "KeepNewLineAtEndVisible":
                 KeepNewLineAtEndVisible = (bool)settingValue;
                 break;
@@ -329,6 +332,9 @@ public class NoteViewModel : BaseViewModel
 
     public bool ConvertIndentation { get => _convertIndentation; set => SetProperty(ref _convertIndentation, value); }
     private bool _convertIndentation = Settings.Default.ConvertIndentation;
+
+    public CopyFallbackActions CopyFallbackAction { get => _copyFallbackAction; set => SetProperty(ref _copyFallbackAction, value); }
+    private CopyFallbackActions _copyFallbackAction = (CopyFallbackActions)Settings.Default.CopyFallbackAction;
 
     public bool KeepNewLineAtEndVisible { get => _keepNewLineAtEndVisible; set => SetProperty(ref _keepNewLineAtEndVisible, value); }
     private bool _keepNewLineAtEndVisible = Settings.Default.KeepNewLineAtEndVisible;

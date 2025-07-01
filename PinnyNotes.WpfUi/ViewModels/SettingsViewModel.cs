@@ -42,7 +42,7 @@ public class SettingsViewModel : BaseViewModel
     private static readonly KeyValuePair<TransparencyModes, string>[] _transparencyModeList = [
         new(TransparencyModes.Disabled, "Disabled"),
         new(TransparencyModes.Enabled, "Enabled"),
-        new(TransparencyModes.WhenPinned, "Only when pinned"),
+        new(TransparencyModes.WhenPinned, "Only when pinned")
     ];
 
     private static readonly KeyValuePair<string, string>[] _fontFamilyList
@@ -50,10 +50,16 @@ public class SettingsViewModel : BaseViewModel
                                        .Select(f => new KeyValuePair<string, string>(f.Name, f.Name))
                                        .ToArray();
 
+    private static readonly KeyValuePair<CopyFallbackActions, string>[] _copyFallbackActionList = [
+        new(CopyFallbackActions.None, "None"),
+        new(CopyFallbackActions.CopyLine, "Copy line"),
+        new(CopyFallbackActions.CopyNote, "Copy note")
+    ];
+
     private static readonly KeyValuePair<ToolStates, string>[] _toolStateList = [
         new(ToolStates.Disabled, "Disabled"),
         new(ToolStates.Enabled, "Enabled"),
-        new(ToolStates.Favourite, "Favourite"),
+        new(ToolStates.Favourite, "Favourite")
     ];
 
     public SettingsViewModel(MessengerService messenger)
@@ -68,6 +74,7 @@ public class SettingsViewModel : BaseViewModel
         _trimPastedText = Settings.Default.TrimPastedText;
         _middleClickPaste = Settings.Default.MiddleClickPaste;
         _autoCopy = Settings.Default.AutoCopy;
+        _copyFallbackAction = (CopyFallbackActions)Settings.Default.CopyFallbackAction;
         _spellChecker = Settings.Default.SpellCheck;
         _newLineAtEnd = Settings.Default.NewLineAtEnd;
         _keepNewLineAtEndVisible = Settings.Default.KeepNewLineAtEndVisible;
@@ -119,6 +126,7 @@ public class SettingsViewModel : BaseViewModel
     public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
     public KeyValuePair<TransparencyModes, string>[] TransparencyModeList => _transparencyModeList;
     public KeyValuePair<string, string>[] FontFamilyList => _fontFamilyList;
+    public KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList => _copyFallbackActionList;
     public KeyValuePair<ToolStates, string>[] ToolStateList => _toolStateList;
 
     private bool SetPropertyAndSave<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
@@ -160,6 +168,9 @@ public class SettingsViewModel : BaseViewModel
 
     public bool AutoCopy { get => _autoCopy; set => SetPropertyAndSave(ref _autoCopy, value); }
     private bool _autoCopy;
+
+    public CopyFallbackActions CopyFallbackAction { get => _copyFallbackAction; set => SetPropertyAndSave(ref _copyFallbackAction, value); }
+    private CopyFallbackActions _copyFallbackAction;
 
     public bool SpellChecker { get => _spellChecker; set => SetPropertyAndSave(ref _spellChecker, value); }
     private bool _spellChecker;

@@ -8,6 +8,7 @@
 - Settings to change default note size.
 - Settings to change fonts.
 - Setting to toggle text wrapping.
+- Setting to choose copy behaviour when no text selected.
 - 
 
 ### Changed

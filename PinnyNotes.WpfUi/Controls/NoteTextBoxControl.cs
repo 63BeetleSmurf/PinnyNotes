@@ -8,6 +8,7 @@ using System.Windows.Input;
 using PinnyNotes.WpfUi.Commands;
 
 using PinnyNotes.WpfUi.Controls.ContextMenus;
+using PinnyNotes.WpfUi.Enums;
 
 namespace PinnyNotes.WpfUi.Controls;
 
@@ -72,6 +73,13 @@ public partial class NoteTextBoxControl : TextBox
         set => SetValue(ConvertIndentationProperty, value);
     }
 
+    public static readonly DependencyProperty CopyFallbackActionProperty = DependencyProperty.Register(nameof(CopyFallbackAction), typeof(CopyFallbackActions), typeof(NoteTextBoxControl));
+    public CopyFallbackActions CopyFallbackAction
+    {
+        get => (CopyFallbackActions)GetValue(CopyFallbackActionProperty);
+        set => SetValue(CopyFallbackActionProperty, value);
+    }
+
     public static readonly DependencyProperty KeepNewLineAtEndVisibleProperty = DependencyProperty.Register(nameof(KeepNewLineAtEndVisible), typeof(bool), typeof(NoteTextBoxControl));
     public bool KeepNewLineAtEndVisible
     {
@@ -123,10 +131,27 @@ public partial class NoteTextBoxControl : TextBox
 
     public new void Copy()
     {
-        if (SelectionLength == 0)
-            return;
+        string copiedText;
 
-        string copiedText = SelectedText;
+        if (SelectionLength == 0)
+        {
+            switch (CopyFallbackAction)
+            {
+                case CopyFallbackActions.CopyLine:
+                    copiedText = GetLineText(GetLineIndexFromCharacterIndex(CaretIndex));
+                    break;
+                case CopyFallbackActions.CopyNote:
+                    copiedText = Text;
+                    break;
+                default:
+                    return;
+            }
+        }
+        else
+        {
+            copiedText = SelectedText;
+        }
+
         if (TrimCopiedText)
             copiedText = copiedText.Trim();
         Clipboard.SetDataObject(copiedText);

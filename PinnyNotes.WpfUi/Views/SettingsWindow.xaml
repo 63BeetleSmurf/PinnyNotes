@@ -169,6 +169,16 @@
                         <CheckBox Margin="10,5,5,0" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
                         <CheckBox Margin="10,5,5,0" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
                         <CheckBox Margin="10,5,5,5" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
+                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
+                            <Label Content="Copy fallback action"/>
+                            <ComboBox
+                                Width="120"
+                                ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
+                                SelectedValuePath="Key"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding CopyFallbackAction, Mode=TwoWay}"
+                            />
+                        </StackPanel>
 
                     </StackPanel>
                 </ScrollViewer>

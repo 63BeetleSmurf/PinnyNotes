@@ -598,5 +598,17 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["TrimToolState"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CopyFallbackAction {
+            get {
+                return ((int)(this["CopyFallbackAction"]));
+            }
+            set {
+                this["CopyFallbackAction"] = value;
+            }
+        }
     }
 }

@@ -177,6 +177,7 @@
                                          AutoCopy="{Binding AutoCopy}"
                                          AutoIndent="{Binding AutoIndent}"
                                          ConvertIndentation="{Binding ConvertIndentation}"
+                                         CopyFallbackAction="{Binding CopyFallbackAction}"
                                          KeepNewLineAtEndVisible="{Binding KeepNewLineAtEndVisible}"
                                          MiddleClickPaste="{Binding MiddleClickPaste}"
                                          NewLineAtEnd="{Binding NewLineAtEnd}"
