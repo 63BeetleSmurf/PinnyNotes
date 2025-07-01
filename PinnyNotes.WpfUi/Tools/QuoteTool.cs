@@ -10,12 +10,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class QuoteTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.QuoteToolState;
-
-    private static char[] _openingQuotes = { '\'', '"', '`', '‘', '“' };
-    private static char[] _closingQuotes = { '\'', '"', '`', '’', '”' };
-
-    public enum ToolActions
+    private enum ToolActions
     {
         QuoteDouble,
         QuoteSingle,
@@ -23,14 +18,23 @@ public class QuoteTool : BaseTool, ITool
         Trim
     }
 
+    private readonly char[] _openingQuotes = ['\'', '"', '`', '‘', '“'];
+    private readonly char[] _closingQuotes = ['\'', '"', '`', '’', '”'];
+
+    public ToolStates State => (ToolStates)Settings.Default.QuoteToolState;
+
     public QuoteTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Quote";
-        _menuActions.Add(new("Double", new RelayCommand(() => MenuAction(ToolActions.QuoteDouble))));
-        _menuActions.Add(new("Single", new RelayCommand(() => MenuAction(ToolActions.QuoteSingle))));
-        _menuActions.Add(new("Backtick", new RelayCommand(() => MenuAction(ToolActions.Backtick))));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim", new RelayCommand(() => MenuAction(ToolActions.Trim))));
+        InitializeMenuItem(
+            "Quote",
+            [
+                new ToolMenuAction("Double", new RelayCommand(() => MenuAction(ToolActions.QuoteDouble))),
+                new ToolMenuAction("Single", new RelayCommand(() => MenuAction(ToolActions.QuoteSingle))),
+                new ToolMenuAction("Backtick", new RelayCommand(() => MenuAction(ToolActions.Backtick))),
+                new ToolMenuAction("-"),
+                new ToolMenuAction("Trim", new RelayCommand(() => MenuAction(ToolActions.Trim)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

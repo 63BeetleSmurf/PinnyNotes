@@ -9,9 +9,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class GibberishTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.GibberishToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         GibberishWord,
         GibberishTitle,
@@ -24,18 +22,24 @@ public class GibberishTool : BaseTool, ITool
     private const string _characters = "zqxjkvbbppyyggffwwmmuuccllldddrrrhhhsssnnniiiiooooaaaaattttteeeeeeeeee";
     private const string _doubleNewLine = "\r\n\r\n";
 
-    private Random random = new();
+    private readonly Random _random = new();
+
+    public ToolStates State => (ToolStates)Settings.Default.GibberishToolState;
 
     public GibberishTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Gibberish";
-        _menuActions.Add(new("Word", new RelayCommand(() => MenuAction(ToolActions.GibberishWord))));
-        _menuActions.Add(new("Title", new RelayCommand(() => MenuAction(ToolActions.GibberishTitle))));
-        _menuActions.Add(new("Sentence", new RelayCommand(() => MenuAction(ToolActions.GibberishSentence))));
-        _menuActions.Add(new("Paragraph", new RelayCommand(() => MenuAction(ToolActions.GibberishParagraph))));
-        _menuActions.Add(new("Article", new RelayCommand(() => MenuAction(ToolActions.GibberishArticle))));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Name", new RelayCommand(() => MenuAction(ToolActions.GibberishName))));
+        InitializeMenuItem(
+            "Gibberish",
+            [
+                new ToolMenuAction("Word", new RelayCommand(() => MenuAction(ToolActions.GibberishWord))),
+                new ToolMenuAction("Title", new RelayCommand(() => MenuAction(ToolActions.GibberishTitle))),
+                new ToolMenuAction("Sentence", new RelayCommand(() => MenuAction(ToolActions.GibberishSentence))),
+                new ToolMenuAction("Paragraph", new RelayCommand(() => MenuAction(ToolActions.GibberishParagraph))),
+                new ToolMenuAction("Article", new RelayCommand(() => MenuAction(ToolActions.GibberishArticle))),
+                new ToolMenuAction("-"),
+                new ToolMenuAction("Name", new RelayCommand(() => MenuAction(ToolActions.GibberishName)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)
@@ -65,12 +69,12 @@ public class GibberishTool : BaseTool, ITool
 
     private string GenerateGibberishWord(bool titleCase = false)
     {
-        int length = random.Next(2, 11);
+        int length = _random.Next(2, 11);
         char[] chars = new char[length];
 
         for (int i = 0; i < length; i++)
         {
-            chars[i] = _characters[random.Next(_characters.Length)];
+            chars[i] = _characters[_random.Next(_characters.Length)];
             if (i == 0 && titleCase)
                 chars[i] = char.ToUpper(chars[i]);
         }
@@ -84,7 +88,7 @@ public class GibberishTool : BaseTool, ITool
         if (wordCount != null)
             length = (int)wordCount;
         else
-            length = random.Next(2, 6);
+            length = _random.Next(2, 6);
 
         string[] words = new string[length];
 
@@ -96,13 +100,13 @@ public class GibberishTool : BaseTool, ITool
 
     private string GenerateGibberishSentence()
     {
-        int length = random.Next(15, 20);
+        int length = _random.Next(15, 20);
         string[] words = new string[length];
 
         for (int i = 0; i < length; i++)
         {
             words[i] = GenerateGibberishWord((i == 0));
-            if (i >= 2 && i < length - 2 && random.Next(1, 100) <= 10)
+            if (i >= 2 && i < length - 2 && _random.Next(1, 100) <= 10)
                 words[i] = $"{words[i]},";
         }
 
@@ -111,7 +115,7 @@ public class GibberishTool : BaseTool, ITool
 
     private string GenerateGibberishParagraph()
     {
-        int length = random.Next(2, 6);
+        int length = _random.Next(2, 6);
         string[] sentences = new string[length];
 
         for (int i = 0; i < length; i++)
@@ -122,12 +126,12 @@ public class GibberishTool : BaseTool, ITool
 
     private string GenerateGibberishArticle()
     {
-        int length = random.Next(5, 10);
+        int length = _random.Next(5, 10);
         string[] paragraphs = new string[length];
 
         for (int i = 0; i < length; i++)
         {
-            if (random.Next(1, 100) <= 40)
+            if (_random.Next(1, 100) <= 40)
                 paragraphs[i] = $"{GenerateGibberishTitle()}{_doubleNewLine}{GenerateGibberishParagraph()}";
             else
                 paragraphs[i] = GenerateGibberishParagraph();

@@ -7,15 +7,9 @@ using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-// TO DO: Need to fix split by selected text. Possibly TextAction needs to get both text and selected text.
-
 public class SplitTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.SplitToolState;
-
-    private string? _selectedText = null;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         SplitComma,
         SplitSpace,
@@ -23,14 +17,22 @@ public class SplitTool : BaseTool, ITool
         SplitSelected
     }
 
+    private string? _selectedText = null;
+
+    public ToolStates State => (ToolStates)Settings.Default.SplitToolState;
+
     public SplitTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Split";
-        _menuActions.Add(new("Comma", new RelayCommand(() => MenuAction(ToolActions.SplitComma))));
-        _menuActions.Add(new("Space", new RelayCommand(() => MenuAction(ToolActions.SplitSpace))));
-        _menuActions.Add(new("Tab", new RelayCommand(() => MenuAction(ToolActions.SplitTab))));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Selected", new RelayCommand(() => MenuAction(ToolActions.SplitSelected))));
+        InitializeMenuItem(
+            "Split",
+            [
+                new ToolMenuAction("Comma", new RelayCommand(() => MenuAction(ToolActions.SplitComma))),
+                new ToolMenuAction("Space", new RelayCommand(() => MenuAction(ToolActions.SplitSpace))),
+                new ToolMenuAction("Tab", new RelayCommand(() => MenuAction(ToolActions.SplitTab))),
+                new ToolMenuAction("-"),
+                new ToolMenuAction("Selected", new RelayCommand(() => MenuAction(ToolActions.SplitSelected)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

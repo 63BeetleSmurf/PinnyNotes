@@ -10,19 +10,23 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class HtmlEntityTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.HtmlEntityToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         EntityEncode,
         EntityDecode
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.HtmlEntityToolState;
+
     public HtmlEntityTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "HTML Entity";
-        _menuActions.Add(new("Encode", new RelayCommand(() => MenuAction(ToolActions.EntityEncode))));
-        _menuActions.Add(new("Decode", new RelayCommand(() => MenuAction(ToolActions.EntityDecode))));
+        InitializeMenuItem(
+            "HTML Entity",
+            [
+                new ToolMenuAction("Encode", new RelayCommand(() => MenuAction(ToolActions.EntityEncode))),
+                new ToolMenuAction("Decode", new RelayCommand(() => MenuAction(ToolActions.EntityDecode)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

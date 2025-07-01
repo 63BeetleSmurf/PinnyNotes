@@ -9,21 +9,25 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class ListTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.ListToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         ListEnumerate,
         ListDash,
         ListRemove
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.ListToolState;
+
     public ListTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "List";
-        _menuActions.Add(new("Enumerate", new RelayCommand(() => MenuAction(ToolActions.ListEnumerate))));
-        _menuActions.Add(new("Dash", new RelayCommand(() => MenuAction(ToolActions.ListDash))));
-        _menuActions.Add(new("Remove", new RelayCommand(() => MenuAction(ToolActions.ListRemove))));
+        InitializeMenuItem(
+            "List",
+            [
+                new ToolMenuAction("Enumerate", new RelayCommand(() => MenuAction(ToolActions.ListEnumerate))),
+                new ToolMenuAction("Dash", new RelayCommand(() => MenuAction(ToolActions.ListDash))),
+                new ToolMenuAction("Remove", new RelayCommand(() => MenuAction(ToolActions.ListRemove)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

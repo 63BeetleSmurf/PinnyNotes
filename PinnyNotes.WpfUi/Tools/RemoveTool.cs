@@ -11,11 +11,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class RemoveTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.RemoveToolState;
-
-    private string? _selectedText = null;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         RemoveSpaces,
         RemoveTabs,
@@ -26,18 +22,26 @@ public class RemoveTool : BaseTool, ITool
         RemoveSelected
     }
 
+    private string? _selectedText = null;
+
+    public ToolStates State => (ToolStates)Settings.Default.RemoveToolState;
+
     public RemoveTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Remove";
-        _menuActions.Add(new("Spaces", new RelayCommand(() => MenuAction(ToolActions.RemoveSpaces))));
-        _menuActions.Add(new("Tabs", new RelayCommand(() => MenuAction(ToolActions.RemoveTabs))));
-        _menuActions.Add(new("New Lines", new RelayCommand(() => MenuAction(ToolActions.RemoveNewLines))));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Forward Slashes (/)", new RelayCommand(() => MenuAction(ToolActions.RemoveForwardSlashes))));
-        _menuActions.Add(new("Back Slashes (\\)", new RelayCommand(() => MenuAction(ToolActions.RemoveBackSlashes))));
-        _menuActions.Add(new("All Slashes", new RelayCommand(() => MenuAction(ToolActions.RemoveAllSlashes))));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Selected", new RelayCommand(() => MenuAction(ToolActions.RemoveSelected))));
+        InitializeMenuItem(
+            "Remove",
+            [
+                new ToolMenuAction("Spaces", new RelayCommand(() => MenuAction(ToolActions.RemoveSpaces))),
+                new ToolMenuAction("Tabs", new RelayCommand(() => MenuAction(ToolActions.RemoveTabs))),
+                new ToolMenuAction("New Lines", new RelayCommand(() => MenuAction(ToolActions.RemoveNewLines))),
+                new ToolMenuAction("-"),
+                new ToolMenuAction("Forward Slashes (/)", new RelayCommand(() => MenuAction(ToolActions.RemoveForwardSlashes))),
+                new ToolMenuAction("Back Slashes (\\)", new RelayCommand(() => MenuAction(ToolActions.RemoveBackSlashes))),
+                new ToolMenuAction("All Slashes", new RelayCommand(() => MenuAction(ToolActions.RemoveAllSlashes))),
+                new ToolMenuAction("-"),
+                new ToolMenuAction("Selected", new RelayCommand(() => MenuAction(ToolActions.RemoveSelected)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

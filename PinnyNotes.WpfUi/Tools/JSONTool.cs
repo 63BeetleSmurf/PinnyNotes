@@ -10,9 +10,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class JsonTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.JsonToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         JsonPrettify
     }
@@ -22,10 +20,16 @@ public class JsonTool : BaseTool, ITool
         WriteIndented = true
     };
 
+    public ToolStates State => (ToolStates)Settings.Default.JsonToolState;
+
     public JsonTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "JSON";
-        _menuActions.Add(new("Prettify", new RelayCommand(() => MenuAction(ToolActions.JsonPrettify))));
+        InitializeMenuItem(
+            "JSON",
+            [
+                new ToolMenuAction("Prettify", new RelayCommand(() => MenuAction(ToolActions.JsonPrettify)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

@@ -9,19 +9,23 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class Base64Tool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.Base64ToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         Base64Encode,
         Base64Decode
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.Base64ToolState;
+
     public Base64Tool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Base64";
-        _menuActions.Add(new("Encode", new RelayCommand(() => MenuAction(ToolActions.Base64Encode))));
-        _menuActions.Add(new("Decode", new RelayCommand(() => MenuAction(ToolActions.Base64Decode))));
+        InitializeMenuItem(
+            "Base64",
+            [
+                new ToolMenuAction("Encode", new RelayCommand(() => MenuAction(ToolActions.Base64Encode))),
+                new ToolMenuAction("Decode", new RelayCommand(() => MenuAction(ToolActions.Base64Decode)))
+            ]
+        );
     }
 
     private void MenuAction(Enum action)

@@ -8,5 +8,5 @@ public interface ITool
 {
     ToolStates State { get; }
 
-    MenuItem GetMenuItem();
+    MenuItem MenuItem { get; }
 }

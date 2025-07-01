@@ -9,19 +9,23 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class SortTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.SortToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         SortAscending,
         SortDescending
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.SortToolState;
+
     public SortTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Sort";
-        _menuActions.Add(new("Ascending", new RelayCommand(() => MenuAction(ToolActions.SortAscending))));
-        _menuActions.Add(new("Descending", new RelayCommand(() => MenuAction(ToolActions.SortDescending))));
+        InitializeMenuItem(
+            "Sort",
+            [
+                new ToolMenuAction("Ascending", new RelayCommand(() => MenuAction(ToolActions.SortAscending))),
+                new ToolMenuAction("Descending", new RelayCommand(() => MenuAction(ToolActions.SortDescending)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

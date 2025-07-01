@@ -10,12 +10,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class BracketTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.BracketToolState;
-
-    private static char[] _openingBrackets = {'(', '{', '['};
-    private static char[] _closingBrackets = { ')', '}', ']' };
-
-    public enum ToolActions
+    private enum ToolActions
     {
         BracketParentheses,
         BracketCurly,
@@ -24,15 +19,24 @@ public class BracketTool : BaseTool, ITool
         BracketTrimAll,
     }
 
+    private readonly char[] _openingBrackets = ['(', '{', '['];
+    private readonly char[] _closingBrackets = [')', '}', ']'];
+
+    public ToolStates State => (ToolStates)Settings.Default.BracketToolState;
+
     public BracketTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Bracket";
-        _menuActions.Add(new("Parentheses", new RelayCommand(() => MenuAction(ToolActions.BracketParentheses))));
-        _menuActions.Add(new("Curly", new RelayCommand(() => MenuAction(ToolActions.BracketCurly))));
-        _menuActions.Add(new("Square", new RelayCommand(() => MenuAction(ToolActions.BracketSquare))));
-        _menuActions.Add(new("-"));
-        _menuActions.Add(new("Trim Once", new RelayCommand(() => MenuAction(ToolActions.BracketTrimOnce))));
-        _menuActions.Add(new("Trim All", new RelayCommand(() => MenuAction(ToolActions.BracketTrimAll))));
+        InitializeMenuItem(
+            "Bracket",
+            [
+                new ToolMenuAction("Parentheses", new RelayCommand(() => MenuAction(ToolActions.BracketParentheses))),
+                new ToolMenuAction("Curly", new RelayCommand(() => MenuAction(ToolActions.BracketCurly))),
+                new ToolMenuAction("Square", new RelayCommand(() => MenuAction(ToolActions.BracketSquare))),
+                new ToolMenuAction("-"),
+                new ToolMenuAction("Trim Once", new RelayCommand(() => MenuAction(ToolActions.BracketTrimOnce))),
+                new ToolMenuAction("Trim All", new RelayCommand(() => MenuAction(ToolActions.BracketTrimAll)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

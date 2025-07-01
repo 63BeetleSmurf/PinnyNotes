@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+
 using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
@@ -8,21 +9,23 @@ namespace PinnyNotes.WpfUi.Tools;
 public abstract class BaseTool(TextBox noteTextBox)
 {
     protected TextBox _noteTextBox = noteTextBox;
-    protected string _name = null!;
-    protected List<ToolMenuAction> _menuActions = [];
 
-    public MenuItem GetMenuItem()
+    private MenuItem? _menuItem;
+    public MenuItem MenuItem => _menuItem
+        ?? throw new Exception("Tools menu has not been initialised.");
+
+    protected void InitializeMenuItem(string header, ToolMenuAction[] menuActions)
     {
-        MenuItem menuItem = new()
+        _menuItem = new()
         {
-            Header = _name,
+            Header = header,
         };
 
-        foreach (ToolMenuAction menuAction in _menuActions)
+        foreach (ToolMenuAction menuAction in menuActions)
         {
             if (menuAction.Name == "-" && menuAction.Command == null && menuAction.Action == null)
             {
-                menuItem.Items.Add(new Separator());
+                _menuItem.Items.Add(new Separator());
                 continue;
             }
 
@@ -35,10 +38,8 @@ public abstract class BaseTool(TextBox noteTextBox)
             if (menuAction.Action != null)
                 actionMenuItem.CommandParameter = menuAction.Action;
 
-            menuItem.Items.Add(actionMenuItem);
+            _menuItem.Items.Add(actionMenuItem);
         }
-
-        return menuItem;
     }
 
     protected void ApplyFunctionToNoteText(Func<string, Enum, string> function, Enum action)

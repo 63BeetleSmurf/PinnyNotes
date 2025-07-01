@@ -10,21 +10,25 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class CaseTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.CaseToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         CaseLower,
         CaseUpper,
         CaseTitle
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.CaseToolState;
+
     public CaseTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Case";
-        _menuActions.Add(new("Lower", new RelayCommand(() => MenuAction(ToolActions.CaseLower))));
-        _menuActions.Add(new("Upper", new RelayCommand(() => MenuAction(ToolActions.CaseUpper))));
-        _menuActions.Add(new("Title", new RelayCommand(() => MenuAction(ToolActions.CaseTitle))));
+        InitializeMenuItem(
+            "Case",
+            [
+                new ToolMenuAction("Lower", new RelayCommand(() => MenuAction(ToolActions.CaseLower))),
+                new ToolMenuAction("Upper", new RelayCommand(() => MenuAction(ToolActions.CaseUpper))),
+                new ToolMenuAction("Title", new RelayCommand(() => MenuAction(ToolActions.CaseTitle)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

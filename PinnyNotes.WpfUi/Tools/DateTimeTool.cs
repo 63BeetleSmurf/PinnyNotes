@@ -9,17 +9,21 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class DateTimeTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.DateTimeToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         DateTimeSortableDateTime
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.DateTimeToolState;
+
     public DateTimeTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Date Time";
-        _menuActions.Add(new("Sortable Date Time", new RelayCommand(() => MenuAction(ToolActions.DateTimeSortableDateTime))));
+        InitializeMenuItem(
+            "Date Time",
+            [
+                new ToolMenuAction("Sortable Date Time", new RelayCommand(() => MenuAction(ToolActions.DateTimeSortableDateTime)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

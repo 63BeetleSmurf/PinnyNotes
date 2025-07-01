@@ -9,21 +9,25 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class IndentTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.IndentToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         Indent2Spaces,
         Indent4Spaces,
         IndentTab
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.IndentToolState;
+
     public IndentTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Indent";
-        _menuActions.Add(new("2 Spaces", new RelayCommand(() => MenuAction(ToolActions.Indent2Spaces))));
-        _menuActions.Add(new("4 Spaces", new RelayCommand(() => MenuAction(ToolActions.Indent4Spaces))));
-        _menuActions.Add(new("Tab", new RelayCommand(() => MenuAction(ToolActions.IndentTab))));
+        InitializeMenuItem(
+            "Indent",
+            [
+                new ToolMenuAction("2 Spaces", new RelayCommand(() => MenuAction(ToolActions.Indent2Spaces))),
+                new ToolMenuAction("4 Spaces", new RelayCommand(() => MenuAction(ToolActions.Indent4Spaces))),
+                new ToolMenuAction("Tab", new RelayCommand(() => MenuAction(ToolActions.IndentTab)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

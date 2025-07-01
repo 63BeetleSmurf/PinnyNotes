@@ -12,21 +12,24 @@ namespace PinnyNotes.WpfUi.Controls.ContextMenus;
 
 public class NoteTextBoxContextMenu : ContextMenu
 {
-    private const string _toolTag = "Tool";
+    private readonly NoteTextBoxControl _noteTextBox;
 
-    private NoteTextBoxControl _noteTextBox;
+    private readonly ITool[] _tools;
 
-    private ITool[] _tools;
+    private readonly MenuItem _copyMenuItem;
+    private readonly MenuItem _cutMenuItem;
+    private readonly MenuItem _pasteMenuItem;
+    private readonly MenuItem _selectAllMenuItem;
+    private readonly MenuItem _clearMenuItem;
+    private readonly MenuItem _countsMenuItem;
+    private readonly MenuItem _lineCountMenuItem;
+    private readonly MenuItem _wordCountMenuItem;
+    private readonly MenuItem _charCountMenuItem;
+    private readonly Separator _toolsSeparator = new();
+    private readonly MenuItem _toolsMenuItem;
 
-    private List<Control> _spellingErrorMenuItems = [];
-    private MenuItem _copyMenuItem;
-    private MenuItem _cutMenuItem;
-    private MenuItem _pasteMenuItem;
-    private MenuItem _selectAllMenuItem;
-    private MenuItem _clearMenuItem;
-    private MenuItem _lineCountMenuItem;
-    private MenuItem _wordCountMenuItem;
-    private MenuItem _charCountMenuItem;
+    private readonly List<Control> _spellingErrorMenuItems = [];
+    private readonly List<Control> _toolMenuItems = [];
 
     public NoteTextBoxContextMenu(NoteTextBoxControl noteTextBox)
     {
@@ -82,6 +85,10 @@ public class NoteTextBoxContextMenu : ContextMenu
             Command = _noteTextBox.ClearCommand
         };
 
+        _countsMenuItem = new()
+        {
+            Header = "Counts"
+        };
         _lineCountMenuItem = new()
         {
             IsEnabled = false
@@ -93,6 +100,11 @@ public class NoteTextBoxContextMenu : ContextMenu
         _charCountMenuItem = new()
         {
             IsEnabled = false
+        };
+
+        _toolsMenuItem = new()
+        {
+            Header = "Tools"
         };
 
         Populate();
@@ -115,6 +127,8 @@ public class NoteTextBoxContextMenu : ContextMenu
         _lineCountMenuItem.Header = $"Lines: {_noteTextBox.LineCount()}";
         _wordCountMenuItem.Header = $"Words: {_noteTextBox.WordCount()}";
         _charCountMenuItem.Header = $"Chars: {_noteTextBox.CharCount()}";
+
+        UpdateToolContextMenus();
     }
 
     private void Populate()
@@ -130,16 +144,10 @@ public class NoteTextBoxContextMenu : ContextMenu
 
         Items.Add(new Separator());
 
-        MenuItem countsMenuItem = new()
-        {
-            Header = "Counts"
-        };
-        countsMenuItem.Items.Add(_lineCountMenuItem);
-        countsMenuItem.Items.Add(_wordCountMenuItem);
-        countsMenuItem.Items.Add(_charCountMenuItem);
-        Items.Add(countsMenuItem);
-
-        AddToolContextMenus();
+        _countsMenuItem.Items.Add(_lineCountMenuItem);
+        _countsMenuItem.Items.Add(_wordCountMenuItem);
+        _countsMenuItem.Items.Add(_charCountMenuItem);
+        Items.Add(_countsMenuItem);
     }
 
     private void UpdateSpellingErrorMenuItems()
@@ -183,42 +191,39 @@ public class NoteTextBoxContextMenu : ContextMenu
             Items.Insert(0, spellingErrorMenuItem);
     }
 
-    private void AddToolContextMenus()
+    private void UpdateToolContextMenus()
     {
-        IEnumerable<ITool> favouriteTools = _tools.Where(t => t.State == ToolStates.Favourite);
-        bool hasFavouriteTools = favouriteTools.Any();
-        IEnumerable<ITool> standardTools = _tools.Where(t => t.State == ToolStates.Enabled);
-        bool hasStandardTools = standardTools.Any();
+        foreach (Control toolMenuItem in _toolMenuItems)
+            Items.Remove(toolMenuItem);
+        _toolsMenuItem.Items.Clear();
 
-        if (hasFavouriteTools || hasStandardTools)
-            Items.Add(
-                new Separator()
-                {
-                    Tag = _toolTag
-                }
-            );
+        _toolMenuItems.Clear();
 
-        foreach (ITool tool in favouriteTools)
+        IEnumerable<ITool> activeTools = _tools.Where(t => t.State != ToolStates.Disabled);
+        if (!activeTools.Any())
+            return;
+
+        _toolMenuItems.Add(_toolsSeparator);
+
+        bool hasEnabledTools = false;
+        foreach (ITool tool in activeTools)
         {
-            MenuItem toolMenuItem = tool.GetMenuItem();
-            toolMenuItem.Tag = _toolTag;
-            Items.Add(toolMenuItem);
-        }
-
-        if (hasStandardTools)
-        {
-            MenuItem toolsMenu = new()
+            switch (tool.State)
             {
-                Header = "Tools"
-            };
-            foreach (ITool tool in standardTools)
-            {
-                MenuItem toolMenuItem = tool.GetMenuItem();
-                toolMenuItem.Tag = _toolTag;
-                toolsMenu.Items.Add(toolMenuItem);
+                case ToolStates.Favourite:
+                    _toolMenuItems.Add(tool.MenuItem);
+                    break;
+                case ToolStates.Enabled:
+                    _toolsMenuItem.Items.Add(tool.MenuItem);
+                    hasEnabledTools = true;
+                    break;
             }
-            Items.Add(toolsMenu);
         }
-    }
 
+        if (hasEnabledTools)
+            _toolMenuItems.Add(_toolsMenuItem);
+
+        foreach (Control toolMenuItem in _toolMenuItems)
+            Items.Add(toolMenuItem);
+    }
 }

@@ -11,9 +11,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class HashTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.HashToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         HashSHA512,
         HashSHA384,
@@ -22,14 +20,20 @@ public class HashTool : BaseTool, ITool
         HashMD5
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.HashToolState;
+
     public HashTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Hash";
-        _menuActions.Add(new("SHA512", new RelayCommand(() => MenuAction(ToolActions.HashSHA512))));
-        _menuActions.Add(new("SHA384", new RelayCommand(() => MenuAction(ToolActions.HashSHA384))));
-        _menuActions.Add(new("SHA256", new RelayCommand(() => MenuAction(ToolActions.HashSHA256))));
-        _menuActions.Add(new("SHA1", new RelayCommand(() => MenuAction(ToolActions.HashSHA1))));
-        _menuActions.Add(new("MD5", new RelayCommand(() => MenuAction(ToolActions.HashMD5))));
+        InitializeMenuItem(
+            "Hash",
+            [
+                new ToolMenuAction("SHA512", new RelayCommand(() => MenuAction(ToolActions.HashSHA512))),
+                new ToolMenuAction("SHA384", new RelayCommand(() => MenuAction(ToolActions.HashSHA384))),
+                new ToolMenuAction("SHA256", new RelayCommand(() => MenuAction(ToolActions.HashSHA256))),
+                new ToolMenuAction("SHA1", new RelayCommand(() => MenuAction(ToolActions.HashSHA1))),
+                new ToolMenuAction("MD5", new RelayCommand(() => MenuAction(ToolActions.HashMD5)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

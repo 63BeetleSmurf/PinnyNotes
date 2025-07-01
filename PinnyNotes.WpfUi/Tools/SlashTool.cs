@@ -10,21 +10,25 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class SlashTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.SlashToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         SlashAllForward,
         SlashAllBack,
         SlashSwap
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.SlashToolState;
+
     public SlashTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Slash";
-        _menuActions.Add(new("All Forward (/)", new RelayCommand(() => MenuAction(ToolActions.SlashAllForward))));
-        _menuActions.Add(new("All Back (\\)", new RelayCommand(() => MenuAction(ToolActions.SlashAllBack))));
-        _menuActions.Add(new("Swap", new RelayCommand(() => MenuAction(ToolActions.SlashSwap))));
+        InitializeMenuItem(
+            "Slash",
+            [
+                new ToolMenuAction("All Forward (/)", new RelayCommand(() => MenuAction(ToolActions.SlashAllForward))),
+                new ToolMenuAction("All Back (\\)", new RelayCommand(() => MenuAction(ToolActions.SlashAllBack))),
+                new ToolMenuAction("Swap", new RelayCommand(() => MenuAction(ToolActions.SlashSwap)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

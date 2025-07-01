@@ -9,21 +9,25 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class JoinTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.JoinToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         JoinComma,
         JoinSpace,
         JoinTab
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.JoinToolState;
+
     public JoinTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Join";
-        _menuActions.Add(new("Comma", new RelayCommand(() => MenuAction(ToolActions.JoinComma))));
-        _menuActions.Add(new("Space", new RelayCommand(() => MenuAction(ToolActions.JoinSpace))));
-        _menuActions.Add(new("Tab", new RelayCommand(() => MenuAction(ToolActions.JoinTab))));
+        InitializeMenuItem(
+            "Join",
+            [
+                new ToolMenuAction("Comma", new RelayCommand(() => MenuAction(ToolActions.JoinComma))),
+                new ToolMenuAction("Space", new RelayCommand(() => MenuAction(ToolActions.JoinSpace))),
+                new ToolMenuAction("Tab", new RelayCommand(() => MenuAction(ToolActions.JoinTab)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)

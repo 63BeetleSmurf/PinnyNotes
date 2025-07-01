@@ -9,9 +9,7 @@ namespace PinnyNotes.WpfUi.Tools;
 
 public class TrimTool : BaseTool, ITool
 {
-    public ToolStates State => (ToolStates)Settings.Default.TrimToolState;
-
-    public enum ToolActions
+    private enum ToolActions
     {
         TrimStart,
         TrimEnd,
@@ -19,13 +17,19 @@ public class TrimTool : BaseTool, ITool
         TrimLines
     }
 
+    public ToolStates State => (ToolStates)Settings.Default.TrimToolState;
+
     public TrimTool(TextBox noteTextBox) : base(noteTextBox)
     {
-        _name = "Trim";
-        _menuActions.Add(new("Start", new RelayCommand(() => MenuAction(ToolActions.TrimStart))));
-        _menuActions.Add(new("End", new RelayCommand(() => MenuAction(ToolActions.TrimEnd))));
-        _menuActions.Add(new("Both", new RelayCommand(() => MenuAction(ToolActions.TrimBoth))));
-        _menuActions.Add(new("Empty Lines", new RelayCommand(() => MenuAction(ToolActions.TrimLines))));
+        InitializeMenuItem(
+            "Trim",
+            [
+                new ToolMenuAction("Start", new RelayCommand(() => MenuAction(ToolActions.TrimStart))),
+                new ToolMenuAction("End", new RelayCommand(() => MenuAction(ToolActions.TrimEnd))),
+                new ToolMenuAction("Both", new RelayCommand(() => MenuAction(ToolActions.TrimBoth))),
+                new ToolMenuAction("Empty Lines", new RelayCommand(() => MenuAction(ToolActions.TrimLines)))
+            ]
+        );
     }
 
     private void MenuAction(ToolActions action)
