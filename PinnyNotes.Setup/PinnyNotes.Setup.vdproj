@@ -209,15 +209,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Pinny Notes"
-        "ProductCode" = "8:{2C3C2778-23B7-4BC1-99D1-1E420021C0E2}"
-        "PackageCode" = "8:{6B54CDD7-CFCD-4259-9D0F-7565F8B7F422}"
+        "ProductCode" = "8:{36631F05-9F19-4747-A989-90C109ECAF5A}"
+        "PackageCode" = "8:{CE046AE5-BCC9-4B2A-B68C-DA75D072DD67}"
         "UpgradeCode" = "8:{00EE94A1-B733-4C39-90EF-4F9348EFD074}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.12.1"
+        "ProductVersion" = "8:1.13.0"
         "Manufacturer" = "8:63BeetleSmurf"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/63BeetleSmurf/pinny_notes/issues"
@@ -759,7 +759,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_986FCBA950114798AC8BD4B2D210DD8A"
             {
-            "SourcePath" = "8:..\\Pinny Notes\\obj\\Debug\\net9.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\PinnyNotes.WpfUi\\obj\\Debug\\net9.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7785C5DEE194483AA2B024842491A9A3"
