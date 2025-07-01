@@ -186,182 +186,214 @@
 
             <TabItem Header="Tools">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
+                    <Grid Margin="5,5,5,5">
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock" >
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="0,0,5,0" />
+                            </Style>
+                            <Style TargetType="ComboBox" >
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Margin" Value="0,5,0,0" />
+                            </Style>
+                        </Grid.Resources>
 
-                        <Label Content="Changes require restart" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
 
-                        <StackPanel Margin="10,0,5,0" Orientation="Horizontal">
-                            <Label Content="Base 64"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding Base64ToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Bracket"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding BracketToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Case"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding CaseToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Date\Time"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding DateTimeToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Gibberish"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding GibberishToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Hash"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding HashToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="HTML Entity"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding HtmlEntityToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Indent"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding IndentToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Join"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding JoinToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="JSON"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding JsonToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="List"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding ListToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Quote"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding QuoteToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Remove"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding RemoveToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Slash"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding SlashToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Sort"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding SortToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Split"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding SplitToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
-                        <StackPanel Margin="10,5,5,0" Orientation="Horizontal">
-                            <Label Content="Trim"/>
-                            <ComboBox
-                                Width="120"
-                                ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                                SelectedValuePath="Key"
-                                DisplayMemberPath="Value"
-                                SelectedValue="{Binding TrimToolState, Mode=TwoWay}"
-                            />
-                        </StackPanel>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
-                    </StackPanel>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Base 64"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="0"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding Base64ToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Bracket"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="1"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding BracketToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Case"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="2"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding CaseToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Date\Time"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="3"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding DateTimeToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="4" Text="Gibberish"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="4"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding GibberishToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="5" Text="Hash"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="5"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding HashToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="6" Text="HTML Entity"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="6"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding HtmlEntityToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="7" Text="Indent"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="7"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding IndentToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="8" Text="Join"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="8"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding JoinToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="9" Text="JSON"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="9"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding JsonToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="10" Text="List"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="10"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding ListToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="11" Text="Quote"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="11"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding QuoteToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="12" Text="Remove"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="12"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding RemoveToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="13" Text="Slash"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="13"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding SlashToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="14" Text="Sort"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="14"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding SortToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="15" Text="Split"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="15"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding SplitToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="16" Text="Trim"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="16"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding TrimToolState, Mode=TwoWay}"
+                        />
+
+                    </Grid>
                 </ScrollViewer>
             </TabItem>
 
