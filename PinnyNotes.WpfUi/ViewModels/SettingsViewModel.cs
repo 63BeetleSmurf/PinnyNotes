@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 
@@ -132,6 +133,9 @@ public class SettingsViewModel : BaseViewModel
 
     private bool SetPropertyAndSave<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
     {
+        if (propertyName == null || value == null)
+            throw new ArgumentNullException();
+
         if (!SetProperty(ref storage, value, propertyName))
             return false;
 
@@ -142,10 +146,11 @@ public class SettingsViewModel : BaseViewModel
 
         Settings.Default.Save();
 
-        _messenger.SendSettingChangedNotification(propertyName!, value!);
+        _messenger.Publish(new SettingChangedMessage(propertyName, value));
 
         return true;
     }
+
     public int DefaultNoteHeight { get => _defaultNoteHeight; set => SetPropertyAndSave(ref _defaultNoteHeight, value); }
     private int _defaultNoteHeight;
 

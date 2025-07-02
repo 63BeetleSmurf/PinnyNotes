@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -6,93 +7,52 @@ using System.Windows.Media;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-
 public class NoteViewModel : BaseViewModel
 {
     private readonly MessengerService _messenger;
 
-    public RelayCommand<ThemeColors> ChangeThemeColorCommand;
+    private readonly Dictionary<string, Action<object>> _settingChangeHandlers;
 
-    public void OnSettingChanged(string settingName, object settingValue)
-    {
-        switch (settingName)
-        {
-            case "AutoCopy":
-                AutoCopy = (bool)settingValue;
-                break;
-            case "AutoIndent":
-                AutoIndent = (bool)settingValue;
-                break;
-            case "ConvertIndentation":
-                ConvertIndentation = (bool)settingValue;
-                break;
-            case "CopyFallbackAction":
-                CopyFallbackAction = (CopyFallbackActions)settingValue;
-                break;
-            case "KeepNewLineAtEndVisible":
-                KeepNewLineAtEndVisible = (bool)settingValue;
-                break;
-            case "MiddleClickPaste":
-                MiddleClickPaste = (bool)settingValue;
-                break;
-            case "NewLineAtEnd":
-                NewLineAtEnd = (bool)settingValue;
-                break;
-            case "SpellCheck":
-                SpellCheck = (bool)settingValue;
-                break;
-            case "TabSpaces":
-                TabSpaces = (bool)settingValue;
-                break;
-            case "TabWidth":
-                TabWidth = (int)settingValue;
-                break;
-            case "TrimCopiedText":
-                TrimCopiedText = (bool)settingValue;
-                break;
-            case "TrimPastedText":
-                TrimPastedText = (bool)settingValue;
-                break;
-            case "TransparencyMode":
-            case "OpaqueWhenFocused":
-            case "OnlyTransparentWhenPinned":
-            case "OpaqueOpacity":
-            case "TransparentOpacity":
-                UpdateOpacity();
-                break;
-            case "ColorMode":
-                UpdateBrushes(CurrentThemeColor);
-                break;
-            case "StandardFontFamily":
-                if (!Settings.Default.UseMonoFont)
-                    FontFamily = (string)settingValue;
-                break;
-            case "MonoFontFamily":
-                if (Settings.Default.UseMonoFont)
-                    FontFamily = (string)settingValue;
-                break;
-            case "UseMonoFont":
-                FontFamily = ((bool)settingValue) ? Settings.Default.MonoFontFamily : Settings.Default.StandardFontFamily;
-                break;
-            case "ShowNotesInTaskbar":
-                ShowNotesInTaskbar = (bool)settingValue;
-                break;
-            case "WrapText":
-                WrapText = (TextWrapping)settingValue;
-                break;
-        }
-    }
+    public RelayCommand<ThemeColors> ChangeThemeColorCommand;
 
     public NoteViewModel(MessengerService messenger, NoteViewModel? parent = null)
     {
+        _settingChangeHandlers = new()
+        {
+            { nameof(AutoCopy), value => AutoCopy = (bool)value },
+            { nameof(AutoIndent), value => AutoIndent = (bool)value },
+            { nameof(ConvertIndentation), value => ConvertIndentation = (bool)value },
+            { nameof(CopyFallbackAction), value => CopyFallbackAction = (CopyFallbackActions)value },
+            { nameof(KeepNewLineAtEndVisible), value => KeepNewLineAtEndVisible = (bool)value },
+            { nameof(MiddleClickPaste), value => MiddleClickPaste = (bool)value },
+            { nameof(NewLineAtEnd), value => NewLineAtEnd = (bool)value },
+            { nameof(SpellCheck), value => SpellCheck = (bool)value },
+            { nameof(TabSpaces), value => TabSpaces = (bool)value },
+            { nameof(TabWidth), value => TabWidth = (int)value },
+            { nameof(TrimCopiedText), value => TrimCopiedText = (bool)value },
+            { nameof(TrimPastedText), value => TrimPastedText = (bool)value },
+            { nameof(ShowNotesInTaskbar), value => ShowNotesInTaskbar = (bool)value },
+            { nameof(WrapText), value => WrapText = (TextWrapping)value },
+            { "TransparencyMode", _ => UpdateOpacity() },
+            { "OpaqueWhenFocused", _ => UpdateOpacity() },
+            { "OnlyTransparentWhenPinned", _ => UpdateOpacity() },
+            { "OpaqueOpacity", _ => UpdateOpacity() },
+            { "TransparentOpacity", _ => UpdateOpacity() },
+            { "ColorMode", _ => UpdateBrushes() },
+            { "StandardFontFamily", _ => UpdateFontFamily() },
+            { "MonoFontFamily", _ => UpdateFontFamily() },
+            { "UseMonoFont", _ => UpdateFontFamily() }
+        };
+
         _messenger = messenger;
-        _messenger.NotifySettingChanged += OnSettingChanged;
+        _messenger.Subscribe<SettingChangedMessage>(OnSettingChanged);
 
         ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
 
@@ -117,7 +77,7 @@ public class NoteViewModel : BaseViewModel
             // Need to update brushes if color isn't changing.
             // If color is changed/cycled UpdateBrushes is called in OnCurrentThemeColorChanged.
             // Would probably work fine if enums were started at 1 rather than 0.
-            UpdateBrushes(CurrentThemeColor);
+            UpdateBrushes();
         }
     }
 
@@ -227,15 +187,15 @@ public class NoteViewModel : BaseViewModel
         Y = position.Y;
     }
 
-    private void UpdateBrushes(ThemeColors themeColor)
+    private void UpdateBrushes()
     {
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
         NotePalette notePalette;
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
-            notePalette = ThemeHelper.Themes[themeColor].NoteDarkPalette;
+            notePalette = ThemeHelper.Themes[CurrentThemeColor].NoteDarkPalette;
         else
-            notePalette = ThemeHelper.Themes[themeColor].NoteLightPalette;
+            notePalette = ThemeHelper.Themes[CurrentThemeColor].NoteLightPalette;
 
         TitleBarColorBrush.Color = notePalette.TitleBar.Color;
         TitleButtonColorBrush.Color = notePalette.TitleButton.Color;
@@ -269,6 +229,17 @@ public class NoteViewModel : BaseViewModel
             Opacity = transparentOpacity;
     }
 
+    public void UpdateFontFamily()
+    {
+        FontFamily = (Settings.Default.UseMonoFont) ? Settings.Default.MonoFontFamily : Settings.Default.StandardFontFamily;
+    }
+
+    private void OnSettingChanged(SettingChangedMessage message)
+    {
+        if (_settingChangeHandlers.TryGetValue(message.SettingName, out Action<object>? handler))
+            handler(message.NewValue);
+    }
+
     public nint WindowHandel { get; set; }
 
     private ThemeColors _currentThemeColor;
@@ -280,7 +251,7 @@ public class NoteViewModel : BaseViewModel
             SetProperty(ref _currentThemeColor, value);
             Settings.Default.Color = (int)value;
             Settings.Default.Save();
-            UpdateBrushes(value);
+            UpdateBrushes();
         }
     }
 
