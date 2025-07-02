@@ -1,6 +1,19 @@
 # Change Log
 
 
+## v1.14.0 - Pending
+
+### Added
+- Color tool.
+- 
+
+### Changed
+- 
+
+### Fixed
+- 
+
+
 ## v1.13.0 - 01/07/2025
 
 ### Added

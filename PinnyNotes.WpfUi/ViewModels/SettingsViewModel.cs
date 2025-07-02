@@ -103,6 +103,7 @@ public class SettingsViewModel : BaseViewModel
         _base64ToolState = (ToolStates)Settings.Default.Base64ToolState;
         _bracketToolState = (ToolStates)Settings.Default.BracketToolState;
         _caseToolState = (ToolStates)Settings.Default.CaseToolState;
+        _colorToolState = (ToolStates)Settings.Default.ColorToolState;
         _dateTimeToolState = (ToolStates)Settings.Default.DateTimeToolState;
         _gibberishToolState = (ToolStates)Settings.Default.GibberishToolState;
         _hashToolState = (ToolStates)Settings.Default.HashToolState;
@@ -256,6 +257,9 @@ public class SettingsViewModel : BaseViewModel
 
     public ToolStates CaseToolState { get => _caseToolState; set => SetPropertyAndSave(ref _caseToolState, value); }
     private ToolStates _caseToolState;
+
+    public ToolStates ColorToolState { get => _colorToolState; set => SetPropertyAndSave(ref _colorToolState, value); }
+    private ToolStates _colorToolState;
 
     public ToolStates DateTimeToolState { get => _dateTimeToolState; set => SetPropertyAndSave(ref _dateTimeToolState, value); }
     private ToolStates _dateTimeToolState;

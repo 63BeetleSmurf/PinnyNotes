@@ -30,6 +30,7 @@ Pinny Notes is a versatile sticky note application that allows you to “pin” 
 - Base64: Encode and decode to and from Base64.
 - Bracket: Wrap text in parentheses, square or curly bracket, or remove brackets from text.
 - Case: Change text case to lower, upper, or proper.
+- Color: Convert color values such as RGB to Hex notation and vise versa.
 - DateTime: Get the current date in a sortable format (e.g., 2024-07-11T12:00:00).
 - Gibberish: Generate gibberish words, sentences, paragraphs, articles, and names.
 - Hash: Generate SHA512/384/256, SHA1, and MD5 hashes.

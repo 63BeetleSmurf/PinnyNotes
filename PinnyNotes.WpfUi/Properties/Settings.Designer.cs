@@ -610,5 +610,17 @@ namespace PinnyNotes.WpfUi.Properties {
                 this["CopyFallbackAction"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ColorToolState {
+            get {
+                return ((int)(this["ColorToolState"]));
+            }
+            set {
+                this["ColorToolState"] = value;
+            }
+        }
     }
 }

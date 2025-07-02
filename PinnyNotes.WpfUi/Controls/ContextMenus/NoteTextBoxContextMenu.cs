@@ -39,6 +39,7 @@ public class NoteTextBoxContextMenu : ContextMenu
             new Base64Tool(_noteTextBox),
             new BracketTool(_noteTextBox),
             new CaseTool(_noteTextBox),
+            new ColorTool(_noteTextBox),
             new DateTimeTool(_noteTextBox),
             new GibberishTool(_noteTextBox),
             new HashTool(_noteTextBox),
