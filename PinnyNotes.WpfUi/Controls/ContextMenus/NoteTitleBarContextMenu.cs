@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.Controls.ContextMenus;
 
@@ -67,7 +67,7 @@ public class NoteTitleBarContextMenu : ContextMenu
         );
 
         Items.Add(new Separator());
-        foreach (ThemeModel theme in ThemeHelper.Themes.Values)
+        foreach (Theme theme in ThemeHelper.Themes.Values)
         {
             Items.Add(
                 new MenuItem()
@@ -77,7 +77,7 @@ public class NoteTitleBarContextMenu : ContextMenu
                     Header = theme.Name,
                     Icon = new Rectangle()
                     {
-                        Fill = new SolidColorBrush(theme.TitleBarColor),
+                        Fill = new SolidColorBrush(theme.MenuIcon.Color),
                         Height = 16,
                         Width = 16
                     },

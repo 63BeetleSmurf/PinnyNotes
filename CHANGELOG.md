@@ -8,6 +8,7 @@
 - 
 
 ### Changed
+- Code refactoring.
 - 
 
 ### Fixed

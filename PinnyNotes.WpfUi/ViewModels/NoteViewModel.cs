@@ -8,6 +8,7 @@ using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
+using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -230,22 +231,17 @@ public class NoteViewModel : BaseViewModel
     {
         ColorModes colorMode = (ColorModes)Settings.Default.ColorMode;
 
-        BorderColorBrush.Color = ThemeHelper.Themes[themeColor].BorderColor;
-
+        NotePalette notePalette;
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
-        {
-            TitleBarColorBrush.Color = Color.FromRgb(70, 70, 70);       // #464646
-            TitleButtonColorBrush.Color = ThemeHelper.Themes[themeColor].BorderColor;
-            BackgroundColorBrush.Color = Color.FromRgb(50, 50, 50);     // #323232
-            TextColorBrush.Color = Colors.White;
-        }
+            notePalette = ThemeHelper.Themes[themeColor].NoteDarkPalette;
         else
-        {
-            TitleBarColorBrush.Color = ThemeHelper.Themes[themeColor].TitleBarColor;
-            TitleButtonColorBrush.Color = Color.FromRgb(70, 70, 70);    // #464646
-            BackgroundColorBrush.Color = ThemeHelper.Themes[themeColor].BackgroundColor;
-            TextColorBrush.Color = Colors.Black;
-        }
+            notePalette = ThemeHelper.Themes[themeColor].NoteLightPalette;
+
+        TitleBarColorBrush.Color = notePalette.TitleBar.Color;
+        TitleButtonColorBrush.Color = notePalette.TitleButton.Color;
+        BackgroundColorBrush.Color = notePalette.Background.Color;
+        BorderColorBrush.Color = notePalette.Border.Color;
+        TextColorBrush.Color = notePalette.Text.Color;
     }
 
     private void ChangeThemeColor(ThemeColors themeColor)

@@ -1,101 +1,77 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
 
 using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Models;
+using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.Helpers;
 
 public  static class ThemeHelper
 {
-    public static readonly Dictionary<ThemeColors, ThemeModel> Themes = new()
+    // TitleBarHex, TitleButtonHex, BackgroundHex, BorderHex, TextHex
+    public static readonly Dictionary<ThemeColors, Theme> Themes = new()
     {
         {
             ThemeColors.Yellow,
-            new ()
+            new Theme("Yellow", ThemeColors.Yellow, "#FEF7B1")
             {
-                Name = "Yellow",
-                ThemeColor = ThemeColors.Yellow,
-                TitleBarColor = Color.FromRgb(254, 247, 177),   // #fef7b1
-                BackgroundColor = Color.FromRgb(255, 252, 221), // #fffcdd
-                BorderColor = Color.FromRgb(254, 234, 0),       // #feea00
+                NoteLightPalette = new NotePalette("#FEF7B1", "#464646", "#FFFCDD", "#FEEA00", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#FEEA00", "#323232", "#FEEA00", "#FFFFFF")
             }
         },
         {
             ThemeColors.Orange,
-            new ()
+            new Theme("Orange", ThemeColors.Orange, "#FFD179")
             {
-                Name = "Orange",
-                ThemeColor = ThemeColors.Orange,
-                TitleBarColor = Color.FromRgb(255, 209, 121),   // #ffd179
-                BackgroundColor = Color.FromRgb(254, 232, 185), // #fee8b9
-                BorderColor = Color.FromRgb(255, 171, 0),       // #ffab00
+                NoteLightPalette = new NotePalette("#FFD179", "#464646", "#FEE8B9", "#FFAB00", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#FFAB00", "#323232", "#FFAB00", "#FFFFFF")
             }
         },
         {
             ThemeColors.Red,
-            new()
+            new Theme("Red", ThemeColors.Red, "#FF7C81")
             {
-                Name = "Red",
-                ThemeColor = ThemeColors.Red,
-                TitleBarColor = Color.FromRgb(255, 124, 129),   // #ff7c81
-                BackgroundColor = Color.FromRgb(255, 196, 198), // #ffc4c6
-                BorderColor = Color.FromRgb(227, 48, 54),       // #e33036
+                NoteLightPalette = new NotePalette("#FF7C81", "#464646", "#FFC4C6", "#E33036", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#E33036", "#323232", "#E33036", "#FFFFFF")
             }
         },
         {
             ThemeColors.Pink,
-            new()
+            new Theme("Pink", ThemeColors.Pink, "#D986CC")
             {
-                Name = "Pink",
-                ThemeColor = ThemeColors.Pink,
-                TitleBarColor = Color.FromRgb(217, 134, 204),   // #d986cc
-                BackgroundColor = Color.FromRgb(235, 191, 227), // #ebbfe3
-                BorderColor = Color.FromRgb(167, 41, 149),      // #a72995
+                NoteLightPalette = new NotePalette("#D986CC", "#464646", "#EBBFE3", "#A72995", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#A72995", "#323232", "#A72995", "#FFFFFF")
             }
         },
         {
             ThemeColors.Purple,
-            new()
+            new Theme("Purple", ThemeColors.Purple, "#9D9ADD")
             {
-                Name = "Purple",
-                ThemeColor = ThemeColors.Purple,
-                TitleBarColor = Color.FromRgb(157, 154, 221),   // #9d9add
-                BackgroundColor = Color.FromRgb(208, 206, 243), // #d0cef3
-                BorderColor = Color.FromRgb(98, 91, 184),       // #625bb8
+                NoteLightPalette = new NotePalette("#9D9ADD", "#464646", "#D0CEF3", "#625BB8", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#625BB8", "#323232", "#625BB8", "#FFFFFF")
             }
         },
         {
             ThemeColors.Blue,
-            new()
+            new Theme("Blue", ThemeColors.Blue, "#7AC3E6")
             {
-                Name = "Blue",
-                ThemeColor = ThemeColors.Blue,
-                TitleBarColor = Color.FromRgb(122, 195, 230),   // #7ac3e6
-                BackgroundColor = Color.FromRgb(179, 217, 236), // #b3d9ec
-                BorderColor = Color.FromRgb(17, 149, 221),      // #1195dd
+                NoteLightPalette = new NotePalette("#7AC3E6", "#464646", "#B3D9EC", "#1195DD", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#1195DD", "#323232", "#1195DD", "#FFFFFF")
             }
         },
         {
             ThemeColors.Aqua,
-            new()
+            new Theme("Aqua", ThemeColors.Aqua, "#97CFC6")
             {
-                Name = "Aqua",
-                ThemeColor = ThemeColors.Aqua,
-                TitleBarColor = Color.FromRgb(151, 207, 198),   // #97cfc6
-                BackgroundColor = Color.FromRgb(192, 226, 225), // #c0e2e1
-                BorderColor = Color.FromRgb(22, 176, 152),      // #16b098
+                NoteLightPalette = new NotePalette("#97CFC6", "#464646", "#C0E2E1", "#16B098", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#16B098", "#323232", "#16B098", "#FFFFFF")
             }
         },
         {
             ThemeColors.Green,
-            new()
+            new Theme("Green", ThemeColors.Green, "#C6D67D")
             {
-                Name = "Green",
-                ThemeColor = ThemeColors.Green,
-                TitleBarColor = Color.FromRgb(198, 214, 125),   // #c6d67d
-                BackgroundColor = Color.FromRgb(227, 235, 198), // #e3ebc6
-                BorderColor = Color.FromRgb(170, 204, 4),       // #aacc04
+                NoteLightPalette = new NotePalette("#C6D67D", "#464646", "#E3EBC6", "#AACC04", "#000000"),
+                NoteDarkPalette = new NotePalette("#464646", "#AACC04", "#323232", "#AACC04", "#FFFFFF")
             }
         }
     };
