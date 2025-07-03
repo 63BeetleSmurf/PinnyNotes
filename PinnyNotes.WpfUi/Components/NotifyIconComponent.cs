@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Services;
-using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Components;
 
@@ -14,7 +13,6 @@ public class NotifyIconComponent : IDisposable
     private readonly MessengerService _messenger;
 
     private NotifyIcon _notifyIcon;
-    private App _app = (App)System.Windows.Application.Current;
 
     public NotifyIconComponent(MessengerService messenger)
     {
@@ -23,8 +21,8 @@ public class NotifyIconComponent : IDisposable
         _notifyIcon = new()
         {
             Icon = new Icon(
-                    App.GetResourceStream(new Uri("pack://application:,,,/Images/icon.ico")).Stream
-                    ),
+                App.GetResourceStream(new Uri("pack://application:,,,/Images/icon.ico")).Stream
+            ),
             Text = "Pinny Notes",
             Visible = true
         };
@@ -56,17 +54,17 @@ public class NotifyIconComponent : IDisposable
 
     private void NewNote_Click(object? sender, EventArgs e)
     {
-        new NoteWindow(_messenger).Show();
+        _messenger.Publish(new CreateNewNoteMessage());
     }
 
     private void Settings_Click(object? sender, EventArgs e)
     {
-        _app.ShowSettingsWindow();
+        _messenger.Publish(new OpenSettingsWindowMessage());
     }
 
     private void Exit_Click(object? sender, EventArgs e)
     {
-        _app.Shutdown();
+        _messenger.Publish(new ApplicationActionMessage(ApplicationActions.Close));
     }
 
     public void Dispose()

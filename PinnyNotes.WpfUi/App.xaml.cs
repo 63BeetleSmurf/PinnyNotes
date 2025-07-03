@@ -3,7 +3,9 @@ using System.Threading;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
@@ -21,7 +23,6 @@ public partial class App : Application
     private const string UniqueEventName = (IsDebugMode) ? "176fc692-28c2-4ed0-ba64-60fbd7165018" : "b1bc1a95-e142-4031-a239-dd0e14568a3c";
     private const string UniqueMutexName = (IsDebugMode) ? "e21c6456-5a11-4f37-a08d-83661b642abe" : "a46c6290-525a-40d8-9880-c95d35a49057";
 
-    private Mutex _mutex = null!;
     private EventWaitHandle _eventWaitHandle = null!;
 
     private readonly MessengerService _messenger = new();
@@ -31,7 +32,7 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        _mutex = new(true, UniqueMutexName, out bool createdNew);
+        _ = new Mutex(true, UniqueMutexName, out bool createdNew);
         _eventWaitHandle = new(false, EventResetMode.AutoReset, UniqueEventName);
 
         if (!createdNew)
@@ -43,12 +44,16 @@ public partial class App : Application
 
         base.OnStartup(e);
 
+        _messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
+        _messenger.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
+        _messenger.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
+
         // Spawn a thread which will be waiting for our event
         Thread thread = new(
             () => {
                 while (_eventWaitHandle.WaitOne())
                     Current.Dispatcher.BeginInvoke(
-                        () => CreateNewNote()
+                        () => _messenger.Publish(new CreateNewNoteMessage())
                     );
             }
         )
@@ -65,7 +70,7 @@ public partial class App : Application
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
 
-        CreateNewNote();
+        _messenger.Publish(new CreateNewNoteMessage());
 
         CheckForNewRelease();
     }
@@ -76,17 +81,23 @@ public partial class App : Application
         base.OnExit(e);
     }
 
-    public void CreateNewNote()
+    private void OnApplicationActionMessage(ApplicationActionMessage message)
     {
-        new NoteWindow(_messenger).Show();
+        if (message.Action == ApplicationActions.Close)
+            Shutdown();
     }
 
-    public void ShowSettingsWindow(Window? owner = null)
+    private void OnCreateNewNoteMessage(CreateNewNoteMessage message)
+    {
+        new NoteWindow(_messenger, message.ParentViewModel).Show();
+    }
+
+    private void OnOpenSettingsWindowMessage(OpenSettingsWindowMessage message)
     {
         if (_settingsWindow == null || !_settingsWindow.IsLoaded)
             _settingsWindow = new SettingsWindow(_messenger);
 
-        _settingsWindow.Owner = owner;
+        _settingsWindow.Owner = message.Owner;
 
         if (_settingsWindow.IsVisible)
             _settingsWindow.Activate();
@@ -94,7 +105,7 @@ public partial class App : Application
             _settingsWindow.Show();
     }
 
-    private async void CheckForNewRelease()
+    private static async void CheckForNewRelease()
     {
         DateTimeOffset date = DateTimeOffset.UtcNow;
 

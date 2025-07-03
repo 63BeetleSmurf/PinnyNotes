@@ -40,7 +40,7 @@ public partial class NoteWindow : Window
             new(SaveCommandExecute),
             new(ResetSizeCommandExecute),
             _viewModel.ChangeThemeColorCommand,
-            new(() => ((App)Application.Current).ShowSettingsWindow(this))
+            new(() => _messenger.Publish(new OpenSettingsWindowMessage(this)))
         );
     }
 
@@ -207,7 +207,7 @@ public partial class NoteWindow : Window
 
     private void NewButton_Click(object sender, RoutedEventArgs e)
     {
-        new NoteWindow(_messenger, _viewModel).Show();
+        _messenger.Publish(new CreateNewNoteMessage(_viewModel));
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
