@@ -4,19 +4,39 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
+
+using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Helpers;
 
 public static class VersionHelper
 {
-    public static async Task<bool> IsNewVersionAvailable() => (GetCurrentVersion() < await GetLatestGitHubReleaseVersion());
+    private static Version CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version ?? new();
 
-    public static Version GetCurrentVersion() => Assembly.GetExecutingAssembly().GetName().Version ?? new();
+    public static async void CheckForNewRelease()
+    {
+        DateTimeOffset date = DateTimeOffset.UtcNow;
 
-    public static async Task<Version?> GetLatestGitHubReleaseVersion()
+        if (Settings.Default.CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        {
+            Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
+            Settings.Default.Save();
+
+            if (CurrentVersion < await GetLatestGitHubReleaseVersion())
+                MessageBox.Show(
+                    $"A new version of Pinny Notes is available;{Environment.NewLine}https://github.com/63BeetleSmurf/PinnyNotes/releases/latest",
+                    "Update available",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+        }
+    }
+
+    private static async Task<Version?> GetLatestGitHubReleaseVersion()
     {
         using HttpClient client = new HttpClient();
-        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("PinnyNotes", GetCurrentVersion().ToString()));
+        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("PinnyNotes", CurrentVersion.ToString()));
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
         try

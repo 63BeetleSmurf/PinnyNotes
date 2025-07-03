@@ -76,7 +76,7 @@ public partial class App : Application
 
         messenger.Publish(new CreateNewNoteMessage());
 
-        CheckForNewRelease();
+        VersionHelper.CheckForNewRelease();
     }
 
     private void ConfigureServices(IServiceCollection services)
@@ -137,24 +137,5 @@ public partial class App : Application
 
         _notifyIcon.Dispose();
         _notifyIcon = null;
-    }
-
-    private static async void CheckForNewRelease()
-    {
-        DateTimeOffset date = DateTimeOffset.UtcNow;
-
-        if (Settings.Default.CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
-        {
-            Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
-            Settings.Default.Save();
-
-            if (await VersionHelper.IsNewVersionAvailable())
-                MessageBox.Show(
-                    $"A new version of Pinny Notes is available;{Environment.NewLine}https://github.com/63BeetleSmurf/PinnyNotes/releases/latest",
-                    "Update available",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information
-                );
-        }
     }
 }
