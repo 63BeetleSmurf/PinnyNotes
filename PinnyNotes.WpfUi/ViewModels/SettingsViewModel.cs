@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class SettingsViewModel : BaseViewModel
 {
-    private readonly MessengerService _messenger = App.Services.GetRequiredService<MessengerService>();
+    private readonly MessengerService _messenger;
 
     private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
         new(StartupPositions.TopLeft, "Top Left"),
@@ -64,8 +63,10 @@ public class SettingsViewModel : BaseViewModel
         new(ToolStates.Favourite, "Favourite")
     ];
 
-    public SettingsViewModel()
+    public SettingsViewModel(MessengerService messenger)
     {
+        _messenger = messenger;
+
         _defaultNoteHeight = Settings.Default.DefaultNoteHeight;
         _defaultNoteWidth = Settings.Default.DefaultNoteWidth;
         _startupPosition = (StartupPositions)Settings.Default.StartupPosition;

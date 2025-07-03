@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -17,14 +16,16 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class NoteViewModel : BaseViewModel
 {
-    private readonly MessengerService _messenger = App.Services.GetRequiredService<MessengerService>();
+    private readonly MessengerService _messenger;
 
     private readonly Dictionary<string, Action<object>> _settingChangeHandlers;
 
     public RelayCommand<ThemeColors> ChangeThemeColorCommand;
 
-    public NoteViewModel(NoteViewModel? parent = null)
+    public NoteViewModel(MessengerService messenger, NoteViewModel? parent = null)
     {
+        _messenger = messenger;
+
         _settingChangeHandlers = new()
         {
             { nameof(AutoCopy), value => AutoCopy = (bool)value },

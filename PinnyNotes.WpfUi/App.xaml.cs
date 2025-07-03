@@ -5,11 +5,13 @@ using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
 using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Factories;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
+using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi;
 
@@ -30,7 +32,6 @@ public partial class App : Application
 
     private MessengerService _messenger = null!;
 
-    private SettingsWindow _settingsWindow = null!;
     private NotifyIconComponent? NotifyIcon;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -53,8 +54,7 @@ public partial class App : Application
 
         _messenger = Services.GetRequiredService<MessengerService>();
         _messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
-        _messenger.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
-        _messenger.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
+        _ = Services.GetRequiredService<WindowService>();
 
         // Spawn a thread which will be waiting for our event
         Thread thread = new(
@@ -86,6 +86,13 @@ public partial class App : Application
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<MessengerService>();
+        services.AddSingleton<WindowService>();
+
+        services.AddTransient<SettingsWindow>();
+        services.AddTransient<SettingsViewModel>();
+
+        services.AddSingleton<NoteViewModelFactory>();
+        services.AddSingleton<NoteWindowFactory>();
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -98,24 +105,6 @@ public partial class App : Application
     {
         if (message.Action == ApplicationActions.Close)
             Shutdown();
-    }
-
-    private void OnCreateNewNoteMessage(CreateNewNoteMessage message)
-    {
-        new NoteWindow(message.ParentViewModel).Show();
-    }
-
-    private void OnOpenSettingsWindowMessage(OpenSettingsWindowMessage message)
-    {
-        if (_settingsWindow == null || !_settingsWindow.IsLoaded)
-            _settingsWindow = new SettingsWindow();
-
-        _settingsWindow.Owner = message.Owner;
-
-        if (_settingsWindow.IsVisible)
-            _settingsWindow.Activate();
-        else
-            _settingsWindow.Show();
     }
 
     private static async void CheckForNewRelease()

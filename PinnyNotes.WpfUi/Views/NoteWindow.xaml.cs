@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -21,17 +20,19 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
-    private readonly MessengerService _messenger = App.Services.GetRequiredService<MessengerService>();
+    private readonly MessengerService _messenger;
 
-    private NoteViewModel _viewModel { get; }
+    private readonly NoteViewModel _viewModel;
 
     #region NoteWindow
 
-    public NoteWindow(NoteViewModel? parentViewModel = null)
+    public NoteWindow(MessengerService messenger, NoteViewModel viewModel)
     {
+        _messenger = messenger;
         _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
+        _viewModel = viewModel;
 
-        DataContext = _viewModel = new NoteViewModel(parentViewModel);
+        DataContext = _viewModel;
 
         InitializeComponent();
 
