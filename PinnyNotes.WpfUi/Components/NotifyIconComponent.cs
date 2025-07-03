@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,14 +11,12 @@ namespace PinnyNotes.WpfUi.Components;
 
 public class NotifyIconComponent : IDisposable
 {
-    private readonly MessengerService _messenger;
+    private readonly MessengerService _messenger = App.Services.GetRequiredService<MessengerService>();
 
     private NotifyIcon _notifyIcon;
 
-    public NotifyIconComponent(MessengerService messenger)
+    public NotifyIconComponent()
     {
-        _messenger = messenger;
-
         _notifyIcon = new()
         {
             Icon = new Icon(

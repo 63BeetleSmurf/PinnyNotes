@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
@@ -10,16 +11,15 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class SettingsWindow : Window
 {
-    private readonly MessengerService _messenger;
+    private readonly MessengerService _messenger = App.Services.GetRequiredService<MessengerService>();
 
     private Window _lastOwner;
 
-    public SettingsWindow(MessengerService messenger)
+    public SettingsWindow()
     {
-        _messenger = messenger;
         _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
 
-        DataContext = new SettingsViewModel(_messenger);
+        DataContext = new SettingsViewModel();
 
         InitializeComponent();
 

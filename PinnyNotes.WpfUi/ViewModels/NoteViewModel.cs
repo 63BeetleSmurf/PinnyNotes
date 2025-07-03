@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -16,13 +17,13 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class NoteViewModel : BaseViewModel
 {
-    private readonly MessengerService _messenger;
+    private readonly MessengerService _messenger = App.Services.GetRequiredService<MessengerService>();
 
     private readonly Dictionary<string, Action<object>> _settingChangeHandlers;
 
     public RelayCommand<ThemeColors> ChangeThemeColorCommand;
 
-    public NoteViewModel(MessengerService messenger, NoteViewModel? parent = null)
+    public NoteViewModel(NoteViewModel? parent = null)
     {
         _settingChangeHandlers = new()
         {
@@ -51,7 +52,6 @@ public class NoteViewModel : BaseViewModel
             { "UseMonoFont", _ => UpdateFontFamily() }
         };
 
-        _messenger = messenger;
         _messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
 
         ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);

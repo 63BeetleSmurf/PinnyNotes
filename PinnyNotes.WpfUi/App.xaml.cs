@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading;
 using System.Windows;
 
@@ -23,11 +24,13 @@ public partial class App : Application
     private const string UniqueEventName = (IsDebugMode) ? "176fc692-28c2-4ed0-ba64-60fbd7165018" : "b1bc1a95-e142-4031-a239-dd0e14568a3c";
     private const string UniqueMutexName = (IsDebugMode) ? "e21c6456-5a11-4f37-a08d-83661b642abe" : "a46c6290-525a-40d8-9880-c95d35a49057";
 
+    public static IServiceProvider Services { get; private set; } = null!;
+
     private EventWaitHandle _eventWaitHandle = null!;
 
-    private readonly MessengerService _messenger = new();
+    private MessengerService _messenger = null!;
 
-    private SettingsWindow? _settingsWindow;
+    private SettingsWindow _settingsWindow = null!;
     private NotifyIconComponent? NotifyIcon;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -44,6 +47,11 @@ public partial class App : Application
 
         base.OnStartup(e);
 
+        ServiceCollection services = new();
+        ConfigureServices(services);
+        Services = services.BuildServiceProvider();
+
+        _messenger = Services.GetRequiredService<MessengerService>();
         _messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
         _messenger.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
         _messenger.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
@@ -66,13 +74,18 @@ public partial class App : Application
 
         if (Settings.Default.ShowTrayIcon)
         {
-            NotifyIcon = new(_messenger);
+            NotifyIcon = new();
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
 
         _messenger.Publish(new CreateNewNoteMessage());
 
         CheckForNewRelease();
+    }
+
+    private void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton<MessengerService>();
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -89,13 +102,13 @@ public partial class App : Application
 
     private void OnCreateNewNoteMessage(CreateNewNoteMessage message)
     {
-        new NoteWindow(_messenger, message.ParentViewModel).Show();
+        new NoteWindow(message.ParentViewModel).Show();
     }
 
     private void OnOpenSettingsWindowMessage(OpenSettingsWindowMessage message)
     {
         if (_settingsWindow == null || !_settingsWindow.IsLoaded)
-            _settingsWindow = new SettingsWindow(_messenger);
+            _settingsWindow = new SettingsWindow();
 
         _settingsWindow.Owner = message.Owner;
 
