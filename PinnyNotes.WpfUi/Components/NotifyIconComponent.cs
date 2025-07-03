@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows;
 using System.Windows.Forms;
 
+using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 
@@ -44,13 +45,7 @@ public class NotifyIconComponent : IDisposable
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
     {
         if (e.Button == MouseButtons.Left)
-        {
-            foreach (Window window in _app.Windows)
-            {
-                window.WindowState = WindowState.Normal;
-                window.Activate();
-            }
-        }
+            _messenger.Publish(new WindowActionMessage(WindowActions.Activate));
     }
 
     private void NotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)

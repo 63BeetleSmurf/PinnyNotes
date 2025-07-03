@@ -52,7 +52,7 @@ public class NoteViewModel : BaseViewModel
         };
 
         _messenger = messenger;
-        _messenger.Subscribe<SettingChangedMessage>(OnSettingChanged);
+        _messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
 
         ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
 
@@ -234,7 +234,7 @@ public class NoteViewModel : BaseViewModel
         FontFamily = (Settings.Default.UseMonoFont) ? Settings.Default.MonoFontFamily : Settings.Default.StandardFontFamily;
     }
 
-    private void OnSettingChanged(SettingChangedMessage message)
+    private void OnSettingChangedMessage(SettingChangedMessage message)
     {
         if (_settingChangeHandlers.TryGetValue(message.SettingName, out Action<object>? handler))
             handler(message.NewValue);

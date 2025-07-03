@@ -11,9 +11,10 @@ using System.Windows.Media.Animation;
 using PinnyNotes.WpfUi.Controls.ContextMenus;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Properties;
-using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Services;
+using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -29,6 +30,8 @@ public partial class NoteWindow : Window
     public NoteWindow(MessengerService messenger, NoteViewModel? parentViewModel = null)
     {
         _messenger = messenger;
+        _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
+
         DataContext = _viewModel = new NoteViewModel(_messenger, parentViewModel);
 
         InitializeComponent();
@@ -124,6 +127,15 @@ public partial class NoteWindow : Window
                 || messageBoxResult == MessageBoxResult.Cancel
             )
                 e.Cancel = true;
+        }
+    }
+
+    private void OnWindowActionMessage(WindowActionMessage message)
+    {
+        if (message.Action == WindowActions.Activate)
+        {
+            WindowState = WindowState.Normal;
+            Activate();
         }
     }
 

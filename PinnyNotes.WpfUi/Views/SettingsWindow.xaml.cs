@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 
+using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.ViewModels;
 
@@ -8,12 +10,19 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class SettingsWindow : Window
 {
+    private readonly MessengerService _messenger;
+
     private Window _lastOwner;
 
     public SettingsWindow(MessengerService messenger)
     {
-        DataContext = new SettingsViewModel(messenger);
+        _messenger = messenger;
+        _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
+
+        DataContext = new SettingsViewModel(_messenger);
+
         InitializeComponent();
+
         _lastOwner = Owner;
     }
 
@@ -55,6 +64,15 @@ public partial class SettingsWindow : Window
 
             Left = position.X;
             Top = position.Y;
+        }
+    }
+
+    private void OnWindowActionMessage(WindowActionMessage message)
+    {
+        if (message.Action == WindowActions.Activate)
+        {
+            WindowState = WindowState.Normal;
+            Activate();
         }
     }
 }
