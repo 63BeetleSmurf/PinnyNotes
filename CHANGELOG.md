@@ -12,6 +12,7 @@
 - 
 
 ### Fixed
+- Additional copy, cut and paste actions being skipped in some situations, e.g. triggered by mapped mouse button.
 - 
 
 

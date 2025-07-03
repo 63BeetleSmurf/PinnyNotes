@@ -45,6 +45,10 @@ public partial class NoteTextBoxControl : TextBox
         PasteCommand = new(Paste);
         ClearCommand = new(Clear);
 
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopyExecuted));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, OnCutExecuted));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPasteExecuted));
+
         InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
         InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
         InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
@@ -129,7 +133,42 @@ public partial class NoteTextBoxControl : TextBox
         set => SetValue(TrimPastedTextProperty, value);
     }
 
-    public new void Copy()
+    public new int LineCount()
+    {
+        int count;
+        if (SelectionLength > 0)
+            count = GetLineIndexFromCharacterIndex(SelectionStart + SelectionLength)
+                - GetLineIndexFromCharacterIndex(SelectionStart)
+                + 1;
+        else
+            count = GetLineIndexFromCharacterIndex(Text.Length) + ((NewLineAtEnd) ? 0 : 1);
+        return count;
+    }
+
+    public int WordCount()
+    {
+        string text = (SelectionLength > 0) ? SelectedText : Text;
+        if (text.Length == 0)
+            return 0;
+        return text.Split((char[])[' ', '\t', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+
+    public int CharCount()
+    {
+        string text = (SelectionLength > 0) ? SelectedText : Text;
+        if (text.Length == 0)
+            return 0;
+        return text.Length - text.Count(c => c == '\n' || c == '\r'); // Substract new lines from count.
+    }
+
+    private void OnCopyExecuted(object sender, ExecutedRoutedEventArgs e)
+        => Copy();
+    private void OnCutExecuted(object sender, ExecutedRoutedEventArgs e)
+        => Cut();
+    private void OnPasteExecuted(object sender, ExecutedRoutedEventArgs e)
+        => Paste();
+
+    private new void Copy()
     {
         string copiedText;
 
@@ -157,20 +196,21 @@ public partial class NoteTextBoxControl : TextBox
         Clipboard.SetDataObject(copiedText);
     }
 
-    public new void Cut()
+    private new void Cut()
     {
         Copy();
         SelectedText = string.Empty;
     }
 
-    public new void Paste()
+    private new void Paste()
     {
         // Do nothing if clipboard does not contain text.
         if (!Clipboard.ContainsText())
             return;
 
         string? clipboardString = null;
-        try {
+        try
+        {
             // Get text from clipboard and trim if specified
             clipboardString = Clipboard.GetText();
             if (TrimPastedText)
@@ -205,35 +245,6 @@ public partial class NoteTextBoxControl : TextBox
         if (!hasSelectedText && KeepNewLineAtEndVisible && caretAtEnd)
             ScrollToEnd();
     }
-
-    public new int LineCount()
-    {
-        int count;
-        if (SelectionLength > 0)
-            count = GetLineIndexFromCharacterIndex(SelectionStart + SelectionLength)
-                - GetLineIndexFromCharacterIndex(SelectionStart)
-                + 1;
-        else
-            count = GetLineIndexFromCharacterIndex(Text.Length) + ((NewLineAtEnd) ? 0 : 1);
-        return count;
-    }
-
-    public int WordCount()
-    {
-        string text = (SelectionLength > 0) ? SelectedText : Text;
-        if (text.Length == 0)
-            return 0;
-        return text.Split((char[])[' ', '\t', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Length;
-    }
-
-    public int CharCount()
-    {
-        string text = (SelectionLength > 0) ? SelectedText : Text;
-        if (text.Length == 0)
-            return 0;
-        return text.Length - text.Count(c => c == '\n' || c == '\r'); // Substract new lines from count.
-    }
-
 
     private void OnTextChanged(object sender, TextChangedEventArgs e)
     {
