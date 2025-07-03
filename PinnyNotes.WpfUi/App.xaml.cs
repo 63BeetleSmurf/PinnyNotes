@@ -30,9 +30,7 @@ public partial class App : Application
 
     private EventWaitHandle _eventWaitHandle = null!;
 
-    private MessengerService _messenger = null!;
-
-    private NotifyIconComponent? NotifyIcon;
+    private NotifyIconComponent? _notifyIcon;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -52,8 +50,9 @@ public partial class App : Application
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
 
-        _messenger = Services.GetRequiredService<MessengerService>();
-        _messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
+        MessengerService messenger = Services.GetRequiredService<MessengerService>();
+        messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
+        messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
         _ = Services.GetRequiredService<WindowService>();
 
         // Spawn a thread which will be waiting for our event
@@ -61,7 +60,7 @@ public partial class App : Application
             () => {
                 while (_eventWaitHandle.WaitOne())
                     Current.Dispatcher.BeginInvoke(
-                        () => _messenger.Publish(new CreateNewNoteMessage())
+                        () => messenger.Publish(new CreateNewNoteMessage())
                     );
             }
         )
@@ -73,12 +72,9 @@ public partial class App : Application
         thread.Start();
 
         if (Settings.Default.ShowTrayIcon)
-        {
-            NotifyIcon = new();
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        }
+            ShowNotifyIcon();
 
-        _messenger.Publish(new CreateNewNoteMessage());
+        messenger.Publish(new CreateNewNoteMessage());
 
         CheckForNewRelease();
     }
@@ -87,6 +83,8 @@ public partial class App : Application
     {
         services.AddSingleton<MessengerService>();
         services.AddSingleton<WindowService>();
+
+        services.AddTransient<NotifyIconComponent>();
 
         services.AddTransient<SettingsWindow>();
         services.AddTransient<SettingsViewModel>();
@@ -97,7 +95,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        NotifyIcon?.Dispose();
+        RemoveNotifyIcon();
         base.OnExit(e);
     }
 
@@ -105,6 +103,40 @@ public partial class App : Application
     {
         if (message.Action == ApplicationActions.Close)
             Shutdown();
+    }
+
+    private void OnSettingChangedMessage(SettingChangedMessage message)
+    {
+        if (message.SettingName == "ShowTrayIcon")
+        {
+            if ((bool)message.NewValue)
+            {
+                ShowNotifyIcon();
+            }
+            else
+            {
+                RemoveNotifyIcon();
+                ShutdownMode = ShutdownMode.OnLastWindowClose;
+            }
+        }
+    }
+
+    private void ShowNotifyIcon()
+    {
+        if (_notifyIcon != null)
+            return;
+
+        _notifyIcon = Services.GetRequiredService<NotifyIconComponent>();
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
+    }
+
+    private void RemoveNotifyIcon()
+    {
+        if (_notifyIcon == null)
+            return;
+
+        _notifyIcon.Dispose();
+        _notifyIcon = null;
     }
 
     private static async void CheckForNewRelease()

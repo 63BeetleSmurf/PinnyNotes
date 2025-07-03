@@ -45,7 +45,7 @@
                         <GroupBox Header="General">
                             <StackPanel>
 
-                                <CheckBox Content="Show tray icon (restart required)" IsChecked="{Binding ShowTrayIcon}" />
+                                <CheckBox Content="Show tray icon" IsChecked="{Binding ShowTrayIcon}" />
 
                                 <CheckBox Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
 
