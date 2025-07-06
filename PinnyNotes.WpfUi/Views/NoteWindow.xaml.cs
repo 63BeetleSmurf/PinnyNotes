@@ -1,20 +1,20 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
-using PinnyNotes.WpfUi.Controls.ContextMenus;
 using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.ViewModels;
+using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -36,12 +36,31 @@ public partial class NoteWindow : Window
 
         InitializeComponent();
 
-        TitleBarGrid.ContextMenu = new NoteTitleBarContextMenu(
-            new(SaveCommandExecute),
-            new(ResetSizeCommandExecute),
-            _viewModel.ChangeThemeColorCommand,
-            new(() => _messenger.Publish(new OpenSettingsWindowMessage(this)))
-        );
+        PopulateTitleBarContextMenu();
+    }
+
+    private void PopulateTitleBarContextMenu()
+    {
+        int insertIndex = TitleBarContextMenu.Items.IndexOf(ThemeMenuSeparator);
+        foreach (Theme theme in _viewModel.AvailableThemes)
+        {
+            TitleBarContextMenu.Items.Insert(
+                insertIndex,
+                new MenuItem()
+                {
+                    Header = theme.Name,
+                    Command = _viewModel.ChangeThemeColorCommand,
+                    CommandParameter = theme.ThemeColor,
+                    Icon = new Rectangle()
+                    {
+                        Width = 16,
+                        Height = 16,
+                        Fill = theme.MenuIcon.Brush
+                    }
+                }
+            );
+            insertIndex++;
+        }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -63,7 +82,7 @@ public partial class NoteWindow : Window
             _viewModel.X = Left;
             _viewModel.Y = Top;
 
-            Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandel);
+            System.Drawing.Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandel);
             _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
             _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
         }
@@ -141,21 +160,6 @@ public partial class NoteWindow : Window
 
     #endregion
 
-    #region Commands
-
-    public void SaveCommandExecute()
-    {
-        SaveNote();
-    }
-
-    public void ResetSizeCommandExecute()
-    {
-        Width = Settings.Default.DefaultNoteWidth;
-        Height = Settings.Default.DefaultNoteHeight;
-    }
-
-    #endregion
-
     #region MiscFunctions
 
     private MessageBoxResult SaveNote()
@@ -171,23 +175,6 @@ public partial class NoteWindow : Window
             return MessageBoxResult.OK;
         }
         return MessageBoxResult.Cancel;
-    }
-
-    private void HideTitleBar()
-    {
-        if (Settings.Default.HideTitleBar)
-            BeginStoryboard("HideTitleBarAnimation");
-    }
-
-    private void ShowTitleBar()
-    {
-        BeginStoryboard("ShowTitleBarAnimation");
-    }
-
-    private void BeginStoryboard(string resourceKey)
-    {
-        Storyboard hideTitleBar = (Storyboard)FindResource(resourceKey);
-        hideTitleBar.Begin();
     }
 
     #endregion
@@ -213,6 +200,39 @@ public partial class NoteWindow : Window
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
+    }
+
+    private void HideTitleBar()
+    {
+        if (Settings.Default.HideTitleBar)
+            BeginStoryboard("HideTitleBarAnimation");
+    }
+
+    private void ShowTitleBar()
+    {
+        BeginStoryboard("ShowTitleBarAnimation");
+    }
+
+    private void BeginStoryboard(string resourceKey)
+    {
+        Storyboard hideTitleBar = (Storyboard)FindResource(resourceKey);
+        hideTitleBar.Begin();
+    }
+
+    private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        SaveNote();
+    }
+
+    private void ResetMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        Width = Settings.Default.DefaultNoteWidth;
+        Height = Settings.Default.DefaultNoteHeight;
+    }
+
+    private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        _messenger.Publish(new OpenSettingsWindowMessage(this));
     }
 
     #endregion

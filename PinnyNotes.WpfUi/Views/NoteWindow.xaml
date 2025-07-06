@@ -160,6 +160,19 @@
                 </Button.Template>
             </Button>
 
+            <!-- Context Menu -->
+            <Grid.ContextMenu>
+                <ContextMenu Name="TitleBarContextMenu">
+                    <MenuItem Header="Save" Click="SaveMenuItem_Click" />
+                    <Separator />
+                    <MenuItem Header="Reset size" Click="ResetMenuItem_Click" />
+                    <Separator />
+                    <!-- Theme options are added dynamically in code behind -->
+                    <Separator Name="ThemeMenuSeparator" />
+                    <MenuItem Header="Settings" Click="SettingsMenuItem_Click" />
+                </ContextMenu>
+            </Grid.ContextMenu>
+
         </Grid>
 
         <!-- Text Box -->

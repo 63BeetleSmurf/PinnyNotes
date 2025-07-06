@@ -20,7 +20,9 @@ public class NoteViewModel : BaseViewModel
 
     private readonly Dictionary<string, Action<object>> _settingChangeHandlers;
 
-    public RelayCommand<ThemeColors> ChangeThemeColorCommand;
+    public RelayCommand<ThemeColors> ChangeThemeColorCommand { get; }
+
+    public Theme[] AvailableThemes { get; }
 
     public NoteViewModel(MessengerService messenger, NoteViewModel? parent = null)
     {
@@ -56,6 +58,8 @@ public class NoteViewModel : BaseViewModel
         _messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
 
         ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
+
+        AvailableThemes = ThemeHelper.Themes.Values.ToArray();
 
         InitNoteColor(parent);
         InitNotePosition(parent);
