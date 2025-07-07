@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Net;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -15,10 +14,9 @@ public class HtmlEntityTool : BaseTool, ITool
         EntityEncode,
         EntityDecode
     }
+    public ToolStates State => _settings.AppSettings.HTMLEntityState;
 
-    public ToolStates State => (ToolStates)Settings.Default.HtmlEntityToolState;
-
-    public HtmlEntityTool(TextBox noteTextBox) : base(noteTextBox)
+    public HtmlEntityTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "HTML Entity",

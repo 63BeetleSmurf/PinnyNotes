@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -24,9 +23,9 @@ public class RemoveTool : BaseTool, ITool
 
     private string? _selectedText = null;
 
-    public ToolStates State => (ToolStates)Settings.Default.RemoveToolState;
+    public ToolStates State => _settings.AppSettings.RemoveState;
 
-    public RemoveTool(TextBox noteTextBox) : base(noteTextBox)
+    public RemoveTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Remove",

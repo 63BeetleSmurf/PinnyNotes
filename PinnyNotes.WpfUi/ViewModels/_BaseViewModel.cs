@@ -1,11 +1,22 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+using PinnyNotes.WpfUi.Services;
+
 namespace PinnyNotes.WpfUi.ViewModels;
 
 public abstract class BaseViewModel : INotifyPropertyChanged
 {
+    protected SettingsService Settings;
+    protected readonly MessengerService Messenger;
+
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public BaseViewModel(SettingsService settings, MessengerService messenger)
+    {
+        Settings = settings;
+        Messenger = messenger;
+    }
 
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
@@ -21,5 +32,10 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         OnPropertyChanged(propertyName);
 
         return true;
+    }
+
+    protected void SaveSettings()
+    {
+        Settings.SaveSettings();
     }
 }

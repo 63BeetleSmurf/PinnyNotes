@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -22,9 +21,9 @@ public class BracketTool : BaseTool, ITool
     private readonly char[] _openingBrackets = ['(', '{', '['];
     private readonly char[] _closingBrackets = [')', '}', ']'];
 
-    public ToolStates State => (ToolStates)Settings.Default.BracketToolState;
+    public ToolStates State => _settings.AppSettings.BracketState;
 
-    public BracketTool(TextBox noteTextBox) : base(noteTextBox)
+    public BracketTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Bracket",

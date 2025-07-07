@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.Helpers;

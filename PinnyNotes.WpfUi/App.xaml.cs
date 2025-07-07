@@ -4,11 +4,10 @@ using System.Threading;
 using System.Windows;
 
 using PinnyNotes.WpfUi.Components;
-using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Factories;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
-using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Views;
 using PinnyNotes.WpfUi.ViewModels;
@@ -27,6 +26,8 @@ public partial class App : Application
     private const string UniqueMutexName = (IsDebugMode) ? "e21c6456-5a11-4f37-a08d-83661b642abe" : "a46c6290-525a-40d8-9880-c95d35a49057";
 
     public static IServiceProvider Services { get; private set; } = null!;
+
+    private SettingsService _settingsService = null!;
 
     private EventWaitHandle _eventWaitHandle = null!;
 
@@ -50,6 +51,7 @@ public partial class App : Application
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
 
+        _settingsService = Services.GetRequiredService<SettingsService>();
         MessengerService messenger = Services.GetRequiredService<MessengerService>();
         messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
         messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
@@ -71,16 +73,20 @@ public partial class App : Application
 
         thread.Start();
 
-        if (Settings.Default.ShowTrayIcon)
+        if (_settingsService.AppSettings.ShowTrayIcon)
             ShowNotifyIcon();
 
         messenger.Publish(new CreateNewNoteMessage());
 
-        VersionHelper.CheckForNewRelease();
+        if (_settingsService.AppSettings.CheckForUpdates)
+            VersionHelper.CheckForNewRelease();
     }
 
     private void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton<DatabaseService>();
+        services.AddSingleton<SettingsService>();
+
         services.AddSingleton<MessengerService>();
         services.AddSingleton<WindowService>();
 
@@ -95,6 +101,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        _settingsService.SaveSettings();
         RemoveNotifyIcon();
         base.OnExit(e);
     }

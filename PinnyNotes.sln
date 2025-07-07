@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinnyNotes.DataAccess", "PinnyNotes.DataAccess\PinnyNotes.DataAccess.csproj", "{826DB3BC-0FC7-4160-97CA-7108C13743BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinnyNotes.Core", "PinnyNotes.Core\PinnyNotes.Core.csproj", "{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +30,14 @@ Global
 		{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB322717-9351-4B06-B1C1-915EE8189ADE}.Debug|Any CPU.ActiveCfg = Debug
 		{EB322717-9351-4B06-B1C1-915EE8189ADE}.Release|Any CPU.ActiveCfg = Release
+		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

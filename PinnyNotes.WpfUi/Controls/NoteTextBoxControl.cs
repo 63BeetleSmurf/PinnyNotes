@@ -5,16 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-
 using PinnyNotes.WpfUi.Controls.ContextMenus;
-using PinnyNotes.WpfUi.Enums;
 
 namespace PinnyNotes.WpfUi.Controls;
 
 public partial class NoteTextBoxControl : TextBox
 {
-
     public RelayCommand CopyCommand;
     public RelayCommand CutCommand;
     public RelayCommand PasteCommand;

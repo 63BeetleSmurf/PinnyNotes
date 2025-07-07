@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -24,9 +23,9 @@ public class GibberishTool : BaseTool, ITool
 
     private readonly Random _random = new();
 
-    public ToolStates State => (ToolStates)Settings.Default.GibberishToolState;
+    public ToolStates State => _settings.AppSettings.GibberishState;
 
-    public GibberishTool(TextBox noteTextBox) : base(noteTextBox)
+    public GibberishTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Gibberish",

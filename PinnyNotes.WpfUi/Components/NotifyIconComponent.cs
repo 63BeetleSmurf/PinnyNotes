@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Services;
 

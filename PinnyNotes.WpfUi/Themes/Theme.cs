@@ -1,4 +1,4 @@
-﻿using PinnyNotes.WpfUi.Enums;
+﻿using PinnyNotes.Core.Enums;
 
 namespace PinnyNotes.WpfUi.Themes;
 

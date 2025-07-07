@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -19,10 +18,9 @@ public class HashTool : BaseTool, ITool
         HashSHA1,
         HashMD5
     }
+    public ToolStates State => _settings.AppSettings.HashState;
 
-    public ToolStates State => (ToolStates)Settings.Default.HashToolState;
-
-    public HashTool(TextBox noteTextBox) : base(noteTextBox)
+    public HashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Hash",

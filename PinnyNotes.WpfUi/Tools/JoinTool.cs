@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
+using PinnyNotes.WpfUi.Controls;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -16,9 +15,9 @@ public class JoinTool : BaseTool, ITool
         JoinTab
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.JoinToolState;
+    public ToolStates State => _settings.AppSettings.JoinState;
 
-    public JoinTool(TextBox noteTextBox) : base(noteTextBox)
+    public JoinTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Join",

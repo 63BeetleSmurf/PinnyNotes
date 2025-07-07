@@ -4,8 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
 using PinnyNotes.WpfUi.Tools;
 
 namespace PinnyNotes.WpfUi.Controls.ContextMenus;

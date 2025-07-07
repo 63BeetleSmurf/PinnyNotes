@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text.Json;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -20,9 +19,9 @@ public class JsonTool : BaseTool, ITool
         WriteIndented = true
     };
 
-    public ToolStates State => (ToolStates)Settings.Default.JsonToolState;
+    public ToolStates State => _settings.AppSettings.JSONState;
 
-    public JsonTool(TextBox noteTextBox) : base(noteTextBox)
+    public JsonTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "JSON",

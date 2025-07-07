@@ -3,12 +3,13 @@ using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi.Factories;
 
-public class NoteViewModelFactory(MessengerService messenger)
+public class NoteViewModelFactory(SettingsService settings, MessengerService messenger)
 {
+    private readonly SettingsService _settings = settings;
     private readonly MessengerService _messenger = messenger;
 
     public NoteViewModel Create(NoteViewModel? parentViewModel = null)
     {
-        return new NoteViewModel(_messenger, parentViewModel);
+        return new NoteViewModel(_settings, _messenger, parentViewModel);
     }
 }

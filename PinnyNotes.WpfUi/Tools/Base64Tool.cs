@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -15,9 +14,9 @@ public class Base64Tool : BaseTool, ITool
         Base64Decode
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.Base64ToolState;
+    public ToolStates State => _settings.AppSettings.Base64State;
 
-    public Base64Tool(TextBox noteTextBox) : base(noteTextBox)
+    public Base64Tool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Base64",

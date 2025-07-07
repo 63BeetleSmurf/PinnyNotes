@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.Core.Enums;
 
 namespace PinnyNotes.WpfUi.Tools;
 

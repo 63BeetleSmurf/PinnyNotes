@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -17,9 +16,9 @@ public class CaseTool : BaseTool, ITool
         CaseTitle
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.CaseToolState;
+    public ToolStates State => _settings.AppSettings.CaseState;
 
-    public CaseTool(TextBox noteTextBox) : base(noteTextBox)
+    public CaseTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Case",

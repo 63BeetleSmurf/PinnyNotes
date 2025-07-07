@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Services;

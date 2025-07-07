@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -16,9 +15,9 @@ public partial class ColorTool : BaseTool, ITool
         HexToRgb
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.ColorToolState;
+    public ToolStates State => _settings.AppSettings.ColorState;
 
-    public ColorTool(TextBox noteTextBox) : base(noteTextBox)
+    public ColorTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Color",

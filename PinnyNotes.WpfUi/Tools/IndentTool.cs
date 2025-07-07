@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -16,9 +15,9 @@ public class IndentTool : BaseTool, ITool
         IndentTab
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.IndentToolState;
+    public ToolStates State => _settings.AppSettings.IndentState;
 
-    public IndentTool(TextBox noteTextBox) : base(noteTextBox)
+    public IndentTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Indent",

@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PinnyNotes.Core\PinnyNotes.Core.csproj" />
+    <ProjectReference Include="..\PinnyNotes.DataAccess\PinnyNotes.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\icon.ico" />
   </ItemGroup>
 

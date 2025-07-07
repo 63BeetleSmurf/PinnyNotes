@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -15,9 +14,9 @@ public class SortTool : BaseTool, ITool
         SortDescending
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.SortToolState;
+    public ToolStates State => _settings.AppSettings.SortState;
 
-    public SortTool(TextBox noteTextBox) : base(noteTextBox)
+    public SortTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Sort",

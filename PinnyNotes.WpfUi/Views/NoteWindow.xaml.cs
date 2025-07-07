@@ -8,10 +8,9 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-using PinnyNotes.WpfUi.Enums;
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
-using PinnyNotes.WpfUi.Properties;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Themes;
@@ -20,14 +19,16 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
+    private readonly SettingsService _settings;
     private readonly MessengerService _messenger;
 
     private readonly NoteViewModel _viewModel;
 
     #region NoteWindow
 
-    public NoteWindow(MessengerService messenger, NoteViewModel viewModel)
+    public NoteWindow(SettingsService settingsService, MessengerService messenger, NoteViewModel viewModel)
     {
+        _settings = settingsService;
         _messenger = messenger;
         _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
         _viewModel = viewModel;
@@ -90,7 +91,7 @@ public partial class NoteWindow : Window
 
     private void NoteWindow_StateChanged(object sender, EventArgs e)
     {
-        MinimizeModes minimizeMode = (MinimizeModes)Settings.Default.MinimizeMode;
+        MinimizeModes minimizeMode = _settings.AppSettings.MinimizeMode;
 
         if (WindowState == WindowState.Minimized
             && (
@@ -204,7 +205,7 @@ public partial class NoteWindow : Window
 
     private void HideTitleBar()
     {
-        if (Settings.Default.HideTitleBar)
+        if (_settings.AppSettings.HideTitleBar)
             BeginStoryboard("HideTitleBarAnimation");
     }
 
@@ -226,8 +227,8 @@ public partial class NoteWindow : Window
 
     private void ResetMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        Width = Settings.Default.DefaultNoteWidth;
-        Height = Settings.Default.DefaultNoteHeight;
+        Width = _settings.AppSettings.DefaultNoteWidth;
+        Height = _settings.AppSettings.DefaultNoteHeight;
     }
 
     private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)

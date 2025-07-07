@@ -1,18 +1,28 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
+using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.Tools;
 
-public abstract class BaseTool(TextBox noteTextBox)
+public abstract class BaseTool
 {
-    protected TextBox _noteTextBox = noteTextBox;
+    protected SettingsService _settings;
+
+    protected NoteTextBoxControl _noteTextBox;
 
     private MenuItem? _menuItem;
     public MenuItem MenuItem => _menuItem
         ?? throw new Exception("Tools menu has not been initialised.");
+
+    public BaseTool(NoteTextBoxControl noteTextBox)
+    {
+        _settings = App.Services.GetRequiredService<SettingsService>();
+        _noteTextBox = noteTextBox;
+    }
 
     protected void InitializeMenuItem(string header, ToolMenuAction[] menuActions)
     {
@@ -52,7 +62,7 @@ public abstract class BaseTool(TextBox noteTextBox)
         {
             string noteText = _noteTextBox.Text;
             // Ignore trailing new line if it was automatically added
-            if (Settings.Default.NewLineAtEnd && _noteTextBox.Text.EndsWith(Environment.NewLine))
+            if (_noteTextBox.NewLineAtEnd && _noteTextBox.Text.EndsWith(Environment.NewLine))
                 noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
             _noteTextBox.Text = function(noteText, action);
             if (_noteTextBox.Text.Length > 0)
@@ -67,7 +77,7 @@ public abstract class BaseTool(TextBox noteTextBox)
 
         string[] lines = noteText.Split(Environment.NewLine);
         // Ignore trailing new line if it was automatically added
-        if (Settings.Default.NewLineAtEnd && lines[^1] == "")
+        if (_noteTextBox.NewLineAtEnd && lines[^1] == "")
             lines = lines[..^1];
 
         List<string> newLines = [];
@@ -99,7 +109,7 @@ public abstract class BaseTool(TextBox noteTextBox)
         _noteTextBox.SelectedText = text;
 
         _noteTextBox.CaretIndex = caretIndex + text.Length;
-        if (!hasSelectedText && Settings.Default.KeepNewLineAtEndVisible && caretAtEnd)
+        if (!hasSelectedText && _noteTextBox.KeepNewLineAtEndVisible && caretAtEnd)
             _noteTextBox.ScrollToEnd();
     }
 }

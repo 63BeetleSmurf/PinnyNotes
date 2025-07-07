@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -16,9 +15,9 @@ public class ListTool : BaseTool, ITool
         ListRemove
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.ListToolState;
+    public ToolStates State => _settings.AppSettings.ListState;
 
-    public ListTool(TextBox noteTextBox) : base(noteTextBox)
+    public ListTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "List",

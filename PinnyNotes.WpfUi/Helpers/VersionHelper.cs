@@ -18,7 +18,7 @@ public static class VersionHelper
     {
         DateTimeOffset date = DateTimeOffset.UtcNow;
 
-        if (Settings.Default.CheckForUpdates && Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        if (Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
         {
             Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
             Settings.Default.Save();

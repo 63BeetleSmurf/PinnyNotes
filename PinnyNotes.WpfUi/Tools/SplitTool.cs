@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -19,9 +18,9 @@ public class SplitTool : BaseTool, ITool
 
     private string? _selectedText = null;
 
-    public ToolStates State => (ToolStates)Settings.Default.SplitToolState;
+    public ToolStates State => _settings.AppSettings.SplitState;
 
-    public SplitTool(TextBox noteTextBox) : base(noteTextBox)
+    public SplitTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Split",

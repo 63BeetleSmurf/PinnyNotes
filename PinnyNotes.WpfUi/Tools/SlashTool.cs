@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -17,9 +16,9 @@ public class SlashTool : BaseTool, ITool
         SlashSwap
     }
 
-    public ToolStates State => (ToolStates)Settings.Default.SlashToolState;
+    public ToolStates State => _settings.AppSettings.SlashState;
 
-    public SlashTool(TextBox noteTextBox) : base(noteTextBox)
+    public SlashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Slash",

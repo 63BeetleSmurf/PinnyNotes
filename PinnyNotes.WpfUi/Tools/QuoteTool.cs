@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Controls;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Enums;
-using PinnyNotes.WpfUi.Properties;
+using PinnyNotes.WpfUi.Controls;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -21,9 +20,9 @@ public class QuoteTool : BaseTool, ITool
     private readonly char[] _openingQuotes = ['\'', '"', '`', '‘', '“'];
     private readonly char[] _closingQuotes = ['\'', '"', '`', '’', '”'];
 
-    public ToolStates State => (ToolStates)Settings.Default.QuoteToolState;
+    public ToolStates State => _settings.AppSettings.QuoteState;
 
-    public QuoteTool(TextBox noteTextBox) : base(noteTextBox)
+    public QuoteTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
         InitializeMenuItem(
             "Quote",

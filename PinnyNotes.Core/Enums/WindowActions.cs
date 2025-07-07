@@ -1,4 +1,4 @@
-﻿namespace PinnyNotes.WpfUi.Enums;
+﻿namespace PinnyNotes.Core.Enums;
 
 public enum WindowActions
 {
