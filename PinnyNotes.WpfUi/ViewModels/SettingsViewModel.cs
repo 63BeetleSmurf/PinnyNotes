@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Messages;
@@ -67,29 +64,6 @@ public class SettingsViewModel(SettingsService settingsService, MessengerService
     public KeyValuePair<string, string>[] FontFamilyList => _fontFamilyList;
     public KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList => _copyFallbackActionList;
     public KeyValuePair<ToolStates, string>[] ToolStateList => _toolStateList;
-
-    private bool SetPropertyAndSave<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
-    {
-        if (propertyName == null || value == null)
-            throw new ArgumentNullException();
-
-        if (!SetProperty(ref storage, value, propertyName))
-            return false;
-
-        if (Properties.Settings.Default.Properties.Cast<SettingsProperty>().Any(prop => prop.Name == propertyName))
-        {
-            if (value is Enum)
-                Properties.Settings.Default[propertyName] = Convert.ToInt32(value);
-            else
-                Properties.Settings.Default[propertyName] = value;
-
-            Properties.Settings.Default.Save();
-        }
-
-        Messenger.Publish(new SettingChangedMessage(propertyName, value));
-
-        return true;
-    }
 
     public double DefaultNoteHeight
     {
