@@ -25,6 +25,8 @@ public partial class App : Application
     private const string UniqueEventName = (IsDebugMode) ? "176fc692-28c2-4ed0-ba64-60fbd7165018" : "b1bc1a95-e142-4031-a239-dd0e14568a3c";
     private const string UniqueMutexName = (IsDebugMode) ? "e21c6456-5a11-4f37-a08d-83661b642abe" : "a46c6290-525a-40d8-9880-c95d35a49057";
 
+    private Mutex _mutex = null!;
+
     public static IServiceProvider Services { get; private set; } = null!;
 
     private SettingsService _settingsService = null!;
@@ -35,7 +37,8 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        _ = new Mutex(true, UniqueMutexName, out bool createdNew);
+        // _mutex is required to keep it in memory, using _ = new Mutex() will not work as garbage collector will dispose of it eventually.
+        _mutex = new Mutex(true, UniqueMutexName, out bool createdNew);
         _eventWaitHandle = new(false, EventResetMode.AutoReset, UniqueEventName);
 
         if (!createdNew)
@@ -102,7 +105,13 @@ public partial class App : Application
     protected override void OnExit(ExitEventArgs e)
     {
         _settingsService.SaveSettings();
+
         RemoveNotifyIcon();
+
+        _mutex?.ReleaseMutex();
+        _mutex?.Dispose();
+        _eventWaitHandle?.Dispose();
+
         base.OnExit(e);
     }
 
