@@ -265,10 +265,9 @@ public partial class NoteTextBoxControl : TextBox
 
     private void OnSelectionChanged(object sender, RoutedEventArgs e)
     {
-        if (AutoCopy)
+        if (AutoCopy && SelectionLength > 0)
             Copy();
     }
-
 
     private void OnDragOver(object sender, DragEventArgs e)
     {
