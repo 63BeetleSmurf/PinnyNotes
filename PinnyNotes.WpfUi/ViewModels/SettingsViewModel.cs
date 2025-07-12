@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing.Text;
 using System.Linq;
 
@@ -8,7 +9,7 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class SettingsViewModel(ApplicationDataService applicationData, SettingsService settingsService, MessengerService messenger) : BaseViewModel(applicationData, settingsService, messenger)
+public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
 {
     private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
         new(StartupPositions.TopLeft, "Top Left"),
@@ -56,6 +57,14 @@ public class SettingsViewModel(ApplicationDataService applicationData, SettingsS
         new(ToolStates.Enabled, "Enabled"),
         new(ToolStates.Favourite, "Favourite")
     ];
+
+    public SettingsViewModel(
+        ApplicationDataService applicationData, SettingsService settingsService, MessengerService messenger
+        ) : base(applicationData, settingsService, messenger)
+    {
+        _isTransparencyEnabled = (TransparencyMode != TransparencyModes.Disabled);
+        _newLineAtEnd = Settings.AppSettings.NewLineAtEnd;
+    }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
     public KeyValuePair<MinimizeModes, string>[] MinimizeModeList => _minimizeModeList;
@@ -167,13 +176,15 @@ public class SettingsViewModel(ApplicationDataService applicationData, SettingsS
 
     public bool NewLineAtEnd
     {
-        get => Settings.AppSettings.NewLineAtEnd;
+        get => _newLineAtEnd;
         set
         {
+            SetProperty(ref _newLineAtEnd, value);
             Settings.AppSettings.NewLineAtEnd = value;
             Messenger.Publish(new SettingChangedMessage(nameof(NewLineAtEnd), value));
         }
     }
+    private bool _newLineAtEnd;
 
     public bool KeepNewLineAtEndVisible
     {
@@ -256,7 +267,11 @@ public class SettingsViewModel(ApplicationDataService applicationData, SettingsS
         }
     }
 
-    public bool IsTransparencyEnabled { get => _isTransparencyEnabled; set => SetProperty(ref _isTransparencyEnabled, value); }
+    public bool IsTransparencyEnabled
+    {
+        get => _isTransparencyEnabled;
+        set => SetProperty(ref _isTransparencyEnabled, value);
+    }
     private bool _isTransparencyEnabled;
 
     public bool OpaqueWhenFocused
