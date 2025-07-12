@@ -64,7 +64,9 @@ public abstract class BaseTool
             // Ignore trailing new line if it was automatically added
             if (_noteTextBox.NewLineAtEnd && _noteTextBox.Text.EndsWith(Environment.NewLine))
                 noteText = noteText.Remove(noteText.Length - Environment.NewLine.Length);
-            _noteTextBox.Text = function(noteText, action);
+            _noteTextBox.SelectAll();
+            _noteTextBox.SelectedText = function(noteText, action);
+            _noteTextBox.SelectionLength = 0;
             if (_noteTextBox.Text.Length > 0)
                 _noteTextBox.CaretIndex = _noteTextBox.Text.Length - 1;
         }
@@ -94,7 +96,9 @@ public abstract class BaseTool
             _noteTextBox.SelectedText = noteText;
         else
         {
-            _noteTextBox.Text = noteText;
+            _noteTextBox.SelectAll();
+            _noteTextBox.SelectedText = noteText;
+            _noteTextBox.SelectionLength = 0;
             if (_noteTextBox.Text.Length > 0)
                 _noteTextBox.CaretIndex = _noteTextBox.Text.Length - 1;
         }

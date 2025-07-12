@@ -16,6 +16,7 @@
 - Additional copy, cut and paste actions being skipped in some situations, e.g. triggered by mapped mouse button.
 - Clipboard being cleared when note if activated and AutoCopy is enabled.
 - Child settings not enabling/disabling when parent value changed.
+- Undo (Ctrl+Z) not working after applying tool actions.
 - 
 
 
