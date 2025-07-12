@@ -5,6 +5,7 @@
 
 ### Added
 - Color tool.
+- Backend database.
 - 
 
 ### Changed

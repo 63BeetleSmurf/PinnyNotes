@@ -5,18 +5,13 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public abstract class BaseViewModel : INotifyPropertyChanged
+public abstract class BaseViewModel(ApplicationDataService applicationData, SettingsService settings, MessengerService messenger) : INotifyPropertyChanged
 {
-    protected SettingsService Settings;
-    protected readonly MessengerService Messenger;
+    protected ApplicationDataService ApplicationData = applicationData;
+    protected SettingsService Settings = settings;
+    protected readonly MessengerService Messenger = messenger;
 
     public event PropertyChangedEventHandler? PropertyChanged;
-
-    public BaseViewModel(SettingsService settings, MessengerService messenger)
-    {
-        Settings = settings;
-        Messenger = messenger;
-    }
 
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

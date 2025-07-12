@@ -8,7 +8,7 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class SettingsViewModel(SettingsService settingsService, MessengerService messenger) : BaseViewModel(settingsService, messenger)
+public class SettingsViewModel(ApplicationDataService applicationData, SettingsService settingsService, MessengerService messenger) : BaseViewModel(applicationData, settingsService, messenger)
 {
     private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
         new(StartupPositions.TopLeft, "Top Left"),

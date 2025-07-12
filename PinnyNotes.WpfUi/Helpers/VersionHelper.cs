@@ -6,23 +6,16 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
-using PinnyNotes.WpfUi.Properties;
-
 namespace PinnyNotes.WpfUi.Helpers;
 
 public static class VersionHelper
 {
     private static Version CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version ?? new();
 
-    public static async void CheckForNewRelease()
+    public static async Task<bool> CheckForNewRelease(long? lastUpdateCheck, DateTimeOffset date)
     {
-        DateTimeOffset date = DateTimeOffset.UtcNow;
-
-        if (Settings.Default.LastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        if (lastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
         {
-            Settings.Default.LastUpdateCheck = date.ToUnixTimeSeconds();
-            Settings.Default.Save();
-
             if (CurrentVersion < await GetLatestGitHubReleaseVersion())
                 MessageBox.Show(
                     $"A new version of Pinny Notes is available;{Environment.NewLine}https://github.com/63BeetleSmurf/PinnyNotes/releases/latest",
@@ -30,7 +23,11 @@ public static class VersionHelper
                     MessageBoxButton.OK,
                     MessageBoxImage.Information
                 );
+
+            return true;
         }
+
+        return false;
     }
 
     private static async Task<Version?> GetLatestGitHubReleaseVersion()

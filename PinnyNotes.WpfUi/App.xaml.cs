@@ -29,13 +29,14 @@ public partial class App : Application
 
     public static IServiceProvider Services { get; private set; } = null!;
 
+    private ApplicationDataService _applicationDataService = null!;
     private SettingsService _settingsService = null!;
 
     private EventWaitHandle _eventWaitHandle = null!;
 
     private NotifyIconComponent? _notifyIcon;
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         // _mutex is required to keep it in memory, using _ = new Mutex() will not work as garbage collector will dispose of it eventually.
         _mutex = new Mutex(true, UniqueMutexName, out bool createdNew);
@@ -54,7 +55,9 @@ public partial class App : Application
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
 
+
         _settingsService = Services.GetRequiredService<SettingsService>();
+        _applicationDataService = Services.GetRequiredService<ApplicationDataService>();
         MessengerService messenger = Services.GetRequiredService<MessengerService>();
         messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
         messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
@@ -82,12 +85,17 @@ public partial class App : Application
         messenger.Publish(new CreateNewNoteMessage());
 
         if (_settingsService.AppSettings.CheckForUpdates)
-            VersionHelper.CheckForNewRelease();
+        {
+            DateTimeOffset date = DateTimeOffset.UtcNow;
+            if (await VersionHelper.CheckForNewRelease(_applicationDataService.AppData.LastUpdateCheck, date))
+                _applicationDataService.AppData.LastUpdateCheck = date.ToUnixTimeSeconds();
+        }
     }
 
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<DatabaseService>();
+        services.AddSingleton<ApplicationDataService>();
         services.AddSingleton<SettingsService>();
 
         services.AddSingleton<MessengerService>();
@@ -104,6 +112,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        _applicationDataService.SaveData();
         _settingsService.SaveSettings();
 
         RemoveNotifyIcon();
