@@ -2,7 +2,7 @@
 
 namespace PinnyNotes.DataAccess.Models;
 
-public class ApplicationDataModel
+public class AppMetadataDataModel
 {
     public int Id { get; init; }
 

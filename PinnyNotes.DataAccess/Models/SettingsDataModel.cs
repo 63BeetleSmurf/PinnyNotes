@@ -2,7 +2,7 @@
 
 namespace PinnyNotes.DataAccess.Models;
 
-public class SettingsModel
+public class SettingsDataModel
 {
     public int Id { get; init; }
 

@@ -21,7 +21,7 @@ public class NoteViewModel : BaseViewModel
 
     public Theme[] AvailableThemes { get; }
 
-    public NoteViewModel(ApplicationDataService applicationData, SettingsService settings, MessengerService messenger, NoteViewModel? parent = null) : base(applicationData, settings, messenger)
+    public NoteViewModel(AppMetadataService appMetadata, SettingsService settings, MessengerService messenger, NoteViewModel? parent = null) : base(appMetadata, settings, messenger)
     {
         _settingChangeHandlers = new()
         {
@@ -82,7 +82,7 @@ public class NoteViewModel : BaseViewModel
     private void InitNoteColor(NoteViewModel? parent = null)
     {
         // Set this first as cycle colors wont trigger a change if the next color if the default for ThemeColors
-        CurrentThemeColor = ApplicationData.AppData.ThemeColor;
+        CurrentThemeColor = AppMetadata.AppData.ThemeColor;
         if (Settings.AppSettings.CycleColors)
         {
             int themeColorIndex = GetNextThemeColorIndex((int)CurrentThemeColor);
@@ -267,7 +267,7 @@ public class NoteViewModel : BaseViewModel
         set
         {
             SetProperty(ref _currentThemeColor, value);
-            ApplicationData.AppData.ThemeColor = value;
+            AppMetadata.AppData.ThemeColor = value;
             UpdateBrushes();
         }
     }

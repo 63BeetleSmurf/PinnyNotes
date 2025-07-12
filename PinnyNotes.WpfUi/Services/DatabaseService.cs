@@ -10,7 +10,7 @@ public class DatabaseService
 {
     private string _connectionString { get; }
 
-    public ApplicationDataRepository ApplicationDataRepository { get; }
+    public AppMetadataRepository AppMetadataRepository { get; }
     public SettingsRepository SettingsRepository { get; }
 
     public DatabaseService()
@@ -25,7 +25,7 @@ public class DatabaseService
         _connectionString = $"Data Source={Path.Combine(dataPath, "pinny_notes.sqlite")}";
 
         DatabaseInitialiser.Initialise(_connectionString);
-        ApplicationDataRepository = new(_connectionString);
+        AppMetadataRepository = new(_connectionString);
         SettingsRepository = new(_connectionString);
     }
 }

@@ -5,7 +5,7 @@ using PinnyNotes.DataAccess.Models;
 
 namespace PinnyNotes.DataAccess.Repositories;
 
-public class ApplicationDataRepository(string connectionString) : BaseRepository(connectionString)
+public class AppMetadataRepository(string connectionString) : BaseRepository(connectionString)
 {
     public static readonly string TableName = "ApplicationData";
 
@@ -18,7 +18,7 @@ public class ApplicationDataRepository(string connectionString) : BaseRepository
         );
     ";
 
-    public ApplicationDataModel Get()
+    public AppMetadataDataModel Get()
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
@@ -43,7 +43,7 @@ public class ApplicationDataRepository(string connectionString) : BaseRepository
         };
     }
 
-    public void Update(ApplicationDataModel applicationData)
+    public void Update(AppMetadataDataModel applicationData)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();

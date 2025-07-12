@@ -26,9 +26,9 @@ public class DatabaseInitialiser
                 INSERT INTO SchemaInfo (Id, Version) VALUES
                     (0, @schemaVersion);
 
-                CREATE TABLE IF NOT EXISTS {ApplicationDataRepository.TableName}
-                    {ApplicationDataRepository.TableSchema};
-                INSERT INTO {ApplicationDataRepository.TableName} DEFAULT VALUES;
+                CREATE TABLE IF NOT EXISTS {AppMetadataRepository.TableName}
+                    {AppMetadataRepository.TableSchema};
+                INSERT INTO {AppMetadataRepository.TableName} DEFAULT VALUES;
 
                 CREATE TABLE IF NOT EXISTS {SettingsRepository.TableName}
                     {SettingsRepository.TableSchema};

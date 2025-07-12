@@ -29,7 +29,7 @@ public partial class App : Application
 
     public static IServiceProvider Services { get; private set; } = null!;
 
-    private ApplicationDataService _applicationDataService = null!;
+    private AppMetadataService _appMetadataService = null!;
     private SettingsService _settingsService = null!;
 
     private EventWaitHandle _eventWaitHandle = null!;
@@ -57,7 +57,7 @@ public partial class App : Application
 
 
         _settingsService = Services.GetRequiredService<SettingsService>();
-        _applicationDataService = Services.GetRequiredService<ApplicationDataService>();
+        _appMetadataService = Services.GetRequiredService<AppMetadataService>();
         MessengerService messenger = Services.GetRequiredService<MessengerService>();
         messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
         messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
@@ -87,15 +87,15 @@ public partial class App : Application
         if (_settingsService.AppSettings.CheckForUpdates)
         {
             DateTimeOffset date = DateTimeOffset.UtcNow;
-            if (await VersionHelper.CheckForNewRelease(_applicationDataService.AppData.LastUpdateCheck, date))
-                _applicationDataService.AppData.LastUpdateCheck = date.ToUnixTimeSeconds();
+            if (await VersionHelper.CheckForNewRelease(_appMetadataService.AppData.LastUpdateCheck, date))
+                _appMetadataService.AppData.LastUpdateCheck = date.ToUnixTimeSeconds();
         }
     }
 
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<DatabaseService>();
-        services.AddSingleton<ApplicationDataService>();
+        services.AddSingleton<AppMetadataService>();
         services.AddSingleton<SettingsService>();
 
         services.AddSingleton<MessengerService>();
@@ -112,8 +112,8 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        _applicationDataService.SaveData();
-        _settingsService.SaveSettings();
+        _appMetadataService.Save();
+        _settingsService.Save();
 
         RemoveNotifyIcon();
 

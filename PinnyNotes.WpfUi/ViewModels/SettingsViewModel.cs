@@ -59,8 +59,8 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     ];
 
     public SettingsViewModel(
-        ApplicationDataService applicationData, SettingsService settingsService, MessengerService messenger
-        ) : base(applicationData, settingsService, messenger)
+        AppMetadataService appMetadata, SettingsService settingsService, MessengerService messenger
+        ) : base(appMetadata, settingsService, messenger)
     {
         _isTransparencyEnabled = (TransparencyMode != TransparencyModes.Disabled);
         _newLineAtEnd = Settings.AppSettings.NewLineAtEnd;

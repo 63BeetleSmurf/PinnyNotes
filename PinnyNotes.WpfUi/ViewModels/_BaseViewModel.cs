@@ -5,9 +5,9 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public abstract class BaseViewModel(ApplicationDataService applicationData, SettingsService settings, MessengerService messenger) : INotifyPropertyChanged
+public abstract class BaseViewModel(AppMetadataService appMetadata, SettingsService settings, MessengerService messenger) : INotifyPropertyChanged
 {
-    protected ApplicationDataService ApplicationData = applicationData;
+    protected AppMetadataService AppMetadata = appMetadata;
     protected SettingsService Settings = settings;
     protected readonly MessengerService Messenger = messenger;
 
@@ -27,10 +27,5 @@ public abstract class BaseViewModel(ApplicationDataService applicationData, Sett
         OnPropertyChanged(propertyName);
 
         return true;
-    }
-
-    protected void SaveSettings()
-    {
-        Settings.SaveSettings();
     }
 }

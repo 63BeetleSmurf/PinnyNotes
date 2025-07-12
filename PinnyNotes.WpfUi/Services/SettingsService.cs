@@ -6,7 +6,7 @@ public class SettingsService
 {
     private readonly DatabaseService _databaseService;
 
-    public SettingsModel AppSettings { get; }
+    public SettingsDataModel AppSettings { get; }
 
     public SettingsService(DatabaseService databaseService)
     {
@@ -15,7 +15,7 @@ public class SettingsService
         AppSettings = _databaseService.SettingsRepository.GetById(1);
     }
 
-    public void SaveSettings()
+    public void Save()
     {
         _databaseService.SettingsRepository.Update(AppSettings);
     }

@@ -67,7 +67,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         )
     ";
 
-    public SettingsModel GetById(int id)
+    public SettingsDataModel GetById(int id)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
@@ -86,7 +86,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         if (!reader.Read())
             throw new Exception($"Could not find settings with id: {id}.");
 
-        return new SettingsModel()
+        return new SettingsDataModel()
         {
             Id = GetInt(reader, "Id"),
 
@@ -144,7 +144,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         };
     }
 
-    public void Update(SettingsModel settings)
+    public void Update(SettingsDataModel settings)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
