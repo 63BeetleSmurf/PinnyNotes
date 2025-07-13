@@ -1,31 +1,18 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
+﻿using PinnyNotes.WpfUi.Base;
 using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public abstract class BaseViewModel(AppMetadataService appMetadata, SettingsService settings, MessengerService messenger) : INotifyPropertyChanged
+public abstract class BaseViewModel : NotifyPropertyChangedBase
 {
-    protected AppMetadataService AppMetadata = appMetadata;
-    protected SettingsService Settings = settings;
-    protected readonly MessengerService Messenger = messenger;
+    protected AppMetadataService AppMetadata { get; }
+    protected SettingsService Settings { get; }
+    protected MessengerService Messenger { get; }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    protected BaseViewModel(AppMetadataService appMetadata, SettingsService settings, MessengerService messenger)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
-    {
-        if (Equals(storage, value))
-            return false;
-
-        storage = value;
-        OnPropertyChanged(propertyName);
-
-        return true;
+        AppMetadata = appMetadata;
+        Settings = settings;
+        Messenger = messenger;
     }
 }

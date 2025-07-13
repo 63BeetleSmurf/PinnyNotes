@@ -63,7 +63,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         ) : base(appMetadata, settingsService, messenger)
     {
         _isTransparencyEnabled = (TransparencyMode != TransparencyModes.Disabled);
-        _newLineAtEnd = Settings.AppSettings.NewLineAtEnd;
+        _newLineAtEnd = Settings.EditorSettings.NewLineAtEnd;
     }
 
     public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
@@ -74,194 +74,122 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     public KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList => _copyFallbackActionList;
     public KeyValuePair<ToolStates, string>[] ToolStateList => _toolStateList;
 
-    public double DefaultNoteHeight
+    #region Application
+
+    // General
+    public bool CheckForUpdates
     {
-        get => Settings.AppSettings.DefaultNoteHeight;
+        get => Settings.ApplicationSettings.CheckForUpdates;
         set
         {
-            Settings.AppSettings.DefaultNoteHeight = value;
+            Settings.ApplicationSettings.CheckForUpdates = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(CheckForUpdates), value));
+        }
+    }
+
+    public bool ShowTrayIcon
+    {
+        get => Settings.ApplicationSettings.ShowNotifiyIcon;
+        set
+        {
+            Settings.ApplicationSettings.ShowNotifiyIcon = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(ShowTrayIcon), value));
+        }
+    }
+
+    #endregion
+
+    #region Notes
+
+    // General
+    public double DefaultNoteHeight
+    {
+        get => Settings.NoteSettings.DefaultHeight;
+        set
+        {
+            Settings.NoteSettings.DefaultHeight = value;
             Messenger.Publish(new SettingChangedMessage(nameof(DefaultNoteHeight), value));
         }
     }
 
     public double DefaultNoteWidth
     {
-        get => Settings.AppSettings.DefaultNoteWidth;
+        get => Settings.NoteSettings.DefaultWidth;
         set
         {
-            Settings.AppSettings.DefaultNoteWidth = value;
+            Settings.NoteSettings.DefaultWidth = value;
             Messenger.Publish(new SettingChangedMessage(nameof(DefaultNoteWidth), value));
         }
     }
 
     public StartupPositions StartupPosition
     {
-        get => Settings.AppSettings.StartupPosition;
+        get => Settings.NoteSettings.StartupPosition;
         set
         {
-            Settings.AppSettings.StartupPosition = value;
+            Settings.NoteSettings.StartupPosition = value;
             Messenger.Publish(new SettingChangedMessage(nameof(StartupPosition), value));
-        }
-    }
-
-    public bool CycleColors
-    {
-        get => Settings.AppSettings.CycleColors;
-        set
-        {
-            Settings.AppSettings.CycleColors = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(CycleColors), value));
-        }
-    }
-
-    public bool TrimCopiedText
-    {
-        get => Settings.AppSettings.TrimCopiedText;
-        set
-        {
-            Settings.AppSettings.TrimCopiedText = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(TrimCopiedText), value));
-        }
-    }
-
-    public bool TrimPastedText
-    {
-        get => Settings.AppSettings.TrimPastedText;
-        set
-        {
-            Settings.AppSettings.TrimPastedText = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(TrimPastedText), value));
-        }
-    }
-
-    public bool MiddleClickPaste
-    {
-        get => Settings.AppSettings.MiddleClickPaste;
-        set
-        {
-            Settings.AppSettings.MiddleClickPaste = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(MiddleClickPaste), value));
-        }
-    }
-
-    public bool AutoCopy
-    {
-        get => Settings.AppSettings.CopyTextOnHighlight;
-        set
-        {
-            Settings.AppSettings.CopyTextOnHighlight = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(AutoCopy), value));
-        }
-    }
-
-    public CopyFallbackActions CopyFallbackAction
-    {
-        get => Settings.AppSettings.NoSelectionCopyAction;
-        set
-        {
-            Settings.AppSettings.NoSelectionCopyAction = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(CopyFallbackAction), value));
-        }
-    }
-
-    public bool SpellChecker
-    {
-        get => Settings.AppSettings.SpellCheck;
-        set
-        {
-            Settings.AppSettings.SpellCheck = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(SpellChecker), value));
-        }
-    }
-
-    public bool NewLineAtEnd
-    {
-        get => _newLineAtEnd;
-        set
-        {
-            SetProperty(ref _newLineAtEnd, value);
-            Settings.AppSettings.NewLineAtEnd = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(NewLineAtEnd), value));
-        }
-    }
-    private bool _newLineAtEnd;
-
-    public bool KeepNewLineAtEndVisible
-    {
-        get => Settings.AppSettings.KeepNewLineVisible;
-        set
-        {
-            Settings.AppSettings.KeepNewLineVisible = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(KeepNewLineAtEndVisible), value));
-        }
-    }
-
-    public bool WrapText
-    {
-        get => Settings.AppSettings.WrapText;
-        set
-        {
-            Settings.AppSettings.WrapText = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(WrapText), value));
-        }
-    }
-
-    public bool AutoIndent
-    {
-        get => Settings.AppSettings.AutoIndent;
-        set
-        {
-            Settings.AppSettings.AutoIndent = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(AutoIndent), value));
-        }
-    }
-
-    public bool TabSpaces
-    {
-        get => Settings.AppSettings.TabUsesSpaces;
-        set
-        {
-            Settings.AppSettings.TabUsesSpaces = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(TabSpaces), value));
-        }
-    }
-
-    public int TabWidth
-    {
-        get => Settings.AppSettings.TabWidth;
-        set
-        {
-            Settings.AppSettings.TabWidth = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(TabWidth), value));
-        }
-    }
-
-    public bool ConvertIndentation
-    {
-        get => Settings.AppSettings.ConvertIndentationOnPaste;
-        set
-        {
-            Settings.AppSettings.ConvertIndentationOnPaste = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(ConvertIndentation), value));
         }
     }
 
     public MinimizeModes MinimizeMode
     {
-        get => Settings.AppSettings.MinimizeMode;
+        get => Settings.NoteSettings.MinimizeMode;
         set
         {
-            Settings.AppSettings.MinimizeMode = value;
+            Settings.NoteSettings.MinimizeMode = value;
             Messenger.Publish(new SettingChangedMessage(nameof(MinimizeMode), value));
         }
     }
 
-    public TransparencyModes TransparencyMode
+    public bool HideTitleBar
     {
-        get => Settings.AppSettings.TransparencyMode;
+        get => Settings.NoteSettings.HideTitleBar;
         set
         {
-            Settings.AppSettings.TransparencyMode = value;
+            Settings.NoteSettings.HideTitleBar = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(HideTitleBar), value));
+        }
+    }
+
+    public bool ShowNotesInTaskbar
+    {
+        get => Settings.NoteSettings.ShowInTaskBar;
+        set
+        {
+            Settings.NoteSettings.ShowInTaskBar = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(ShowNotesInTaskbar), value));
+        }
+    }
+
+    // Theme
+    public bool CycleColors
+    {
+        get => Settings.NoteSettings.CycleColors;
+        set
+        {
+            Settings.NoteSettings.CycleColors = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(CycleColors), value));
+        }
+    }
+
+    public ColorModes ColorMode
+    {
+        get => Settings.NoteSettings.ColorMode;
+        set
+        {
+            Settings.NoteSettings.ColorMode = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(ColorMode), value));
+        }
+    }
+
+    // Transparency
+    public TransparencyModes TransparencyMode
+    {
+        get => Settings.NoteSettings.TransparencyMode;
+        set
+        {
+            Settings.NoteSettings.TransparencyMode = value;
             IsTransparencyEnabled = (TransparencyMode != TransparencyModes.Disabled);
             Messenger.Publish(new SettingChangedMessage(nameof(TransparencyMode), value));
         }
@@ -276,292 +204,384 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
 
     public bool OpaqueWhenFocused
     {
-        get => Settings.AppSettings.OpaqueWhenFocused;
+        get => Settings.NoteSettings.OpaqueWhenFocused;
         set
         {
-            Settings.AppSettings.OpaqueWhenFocused = value;
+            Settings.NoteSettings.OpaqueWhenFocused = value;
             Messenger.Publish(new SettingChangedMessage(nameof(OpaqueWhenFocused), value));
         }
     }
 
     public double OpaqueOpacity
     {
-        get => Settings.AppSettings.OpaqueOpacity;
+        get => Settings.NoteSettings.OpaqueValue;
         set
         {
-            Settings.AppSettings.OpaqueOpacity = value;
+            Settings.NoteSettings.OpaqueValue = value;
             Messenger.Publish(new SettingChangedMessage(nameof(OpaqueOpacity), value));
         }
     }
 
     public double TransparentOpacity
     {
-        get => Settings.AppSettings.TransparentOpacity;
+        get => Settings.NoteSettings.TransparentValue;
         set
         {
-            Settings.AppSettings.TransparentOpacity = value;
+            Settings.NoteSettings.TransparentValue = value;
             Messenger.Publish(new SettingChangedMessage(nameof(TransparentOpacity), value));
         }
     }
 
-    public ColorModes ColorMode
+    #endregion
+
+    #region Editor
+
+    // General
+    public bool SpellChecker
     {
-        get => Settings.AppSettings.ColorMode;
+        get => Settings.EditorSettings.CheckSpelling;
         set
         {
-            Settings.AppSettings.ColorMode = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(ColorMode), value));
+            Settings.EditorSettings.CheckSpelling = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(SpellChecker), value));
         }
     }
 
-    public string StandardFontFamily
+    public bool NewLineAtEnd
     {
-        get => Settings.AppSettings.StandardFontFamily;
+        get => _newLineAtEnd;
         set
         {
-            Settings.AppSettings.StandardFontFamily = value;
+            SetProperty(ref _newLineAtEnd, value);
+            Settings.EditorSettings.NewLineAtEnd = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(NewLineAtEnd), value));
+        }
+    }
+    private bool _newLineAtEnd;
+
+    public bool KeepNewLineAtEndVisible
+    {
+        get => Settings.EditorSettings.KeepNewLineVisible;
+        set
+        {
+            Settings.EditorSettings.KeepNewLineVisible = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(KeepNewLineAtEndVisible), value));
+        }
+    }
+
+    public bool WrapText
+    {
+        get => Settings.EditorSettings.WrapText;
+        set
+        {
+            Settings.EditorSettings.WrapText = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(WrapText), value));
+        }
+    }
+
+    // Fonts
+    public string StandardFontFamily
+    {
+        get => Settings.EditorSettings.StandardFontFamily;
+        set
+        {
+            Settings.EditorSettings.StandardFontFamily = value;
             Messenger.Publish(new SettingChangedMessage(nameof(StandardFontFamily), value));
         }
     }
 
     public string MonoFontFamily
     {
-        get => Settings.AppSettings.MonoFontFamily;
+        get => Settings.EditorSettings.MonoFontFamily;
         set
         {
-            Settings.AppSettings.MonoFontFamily = value;
+            Settings.EditorSettings.MonoFontFamily = value;
             Messenger.Publish(new SettingChangedMessage(nameof(MonoFontFamily), value));
         }
     }
 
     public bool UseMonoFont
     {
-        get => Settings.AppSettings.UseMonoFont;
+        get => Settings.EditorSettings.UseMonoFont;
         set
         {
-            Settings.AppSettings.UseMonoFont = value;
+            Settings.EditorSettings.UseMonoFont = value;
             Messenger.Publish(new SettingChangedMessage(nameof(UseMonoFont), value));
         }
     }
 
-    public bool HideTitleBar
+    // Indentation
+    public bool AutoIndent
     {
-        get => Settings.AppSettings.HideTitleBar;
+        get => Settings.EditorSettings.AutoIndent;
         set
         {
-            Settings.AppSettings.HideTitleBar = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(HideTitleBar), value));
+            Settings.EditorSettings.AutoIndent = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(AutoIndent), value));
         }
     }
 
-    public bool ShowTrayIcon
+    public bool TabSpaces
     {
-        get => Settings.AppSettings.ShowTrayIcon;
+        get => Settings.EditorSettings.UseSpacesForTab;
         set
         {
-            Settings.AppSettings.ShowTrayIcon = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(ShowTrayIcon), value));
+            Settings.EditorSettings.UseSpacesForTab = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(TabSpaces), value));
         }
     }
 
-    public bool ShowNotesInTaskbar
+    public int TabWidth
     {
-        get => Settings.AppSettings.ShowNotesInTaskbar;
+        get => Settings.EditorSettings.TabSpacesWidth;
         set
         {
-            Settings.AppSettings.ShowNotesInTaskbar = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(ShowNotesInTaskbar), value));
+            Settings.EditorSettings.TabSpacesWidth = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(TabWidth), value));
         }
     }
 
-    public bool CheckForUpdates
+    public bool ConvertIndentation
     {
-        get => Settings.AppSettings.CheckForUpdates;
+        get => Settings.EditorSettings.ConvertIndentationOnPaste;
         set
         {
-            Settings.AppSettings.CheckForUpdates = value;
-            Messenger.Publish(new SettingChangedMessage(nameof(CheckForUpdates), value));
+            Settings.EditorSettings.ConvertIndentationOnPaste = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(ConvertIndentation), value));
         }
     }
+
+    // Copy and Paste
+    public bool MiddleClickPaste
+    {
+        get => Settings.EditorSettings.MiddleClickPaste;
+        set
+        {
+            Settings.EditorSettings.MiddleClickPaste = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(MiddleClickPaste), value));
+        }
+    }
+
+    public bool TrimPastedText
+    {
+        get => Settings.EditorSettings.TrimPastedText;
+        set
+        {
+            Settings.EditorSettings.TrimPastedText = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(TrimPastedText), value));
+        }
+    }
+
+    public bool TrimCopiedText
+    {
+        get => Settings.EditorSettings.TrimCopiedText;
+        set
+        {
+            Settings.EditorSettings.TrimCopiedText = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(TrimCopiedText), value));
+        }
+    }
+
+    public bool AutoCopy
+    {
+        get => Settings.EditorSettings.CopyOnSelect;
+        set
+        {
+            Settings.EditorSettings.CopyOnSelect = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(AutoCopy), value));
+        }
+    }
+
+    public CopyFallbackActions CopyFallbackAction
+    {
+        get => Settings.EditorSettings.CopyFallbackAction;
+        set
+        {
+            Settings.EditorSettings.CopyFallbackAction = value;
+            Messenger.Publish(new SettingChangedMessage(nameof(CopyFallbackAction), value));
+        }
+    }
+
+    #endregion
 
     #region Tools
 
     public ToolStates Base64ToolState
     {
-        get => Settings.AppSettings.Base64State;
+        get => Settings.ToolSettings.Base64ToolState;
         set
         {
-            Settings.AppSettings.Base64State = value;
+            Settings.ToolSettings.Base64ToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(Base64ToolState), value));
         }
     }
 
     public ToolStates BracketToolState
     {
-        get => Settings.AppSettings.BracketState;
+        get => Settings.ToolSettings.BracketToolState;
         set
         {
-            Settings.AppSettings.BracketState = value;
+            Settings.ToolSettings.BracketToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(BracketToolState), value));
         }
     }
 
     public ToolStates CaseToolState
     {
-        get => Settings.AppSettings.CaseState;
+        get => Settings.ToolSettings.CaseToolState;
         set
         {
-            Settings.AppSettings.CaseState = value;
+            Settings.ToolSettings.CaseToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(CaseToolState), value));
         }
     }
 
     public ToolStates ColorToolState
     {
-        get => Settings.AppSettings.ColorState;
+        get => Settings.ToolSettings.ColorToolState;
         set
         {
-            Settings.AppSettings.ColorState = value;
+            Settings.ToolSettings.ColorToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(ColorToolState), value));
         }
     }
 
     public ToolStates DateTimeToolState
     {
-        get => Settings.AppSettings.DateTimeState;
+        get => Settings.ToolSettings.DateTimeToolState;
         set
         {
-            Settings.AppSettings.DateTimeState = value;
+            Settings.ToolSettings.DateTimeToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(DateTimeToolState), value));
         }
     }
 
     public ToolStates GibberishToolState
     {
-        get => Settings.AppSettings.GibberishState;
+        get => Settings.ToolSettings.GibberishToolState;
         set
         {
-            Settings.AppSettings.GibberishState = value;
+            Settings.ToolSettings.GibberishToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(GibberishToolState), value));
         }
     }
 
     public ToolStates HashToolState
     {
-        get => Settings.AppSettings.HashState;
+        get => Settings.ToolSettings.HashToolState;
         set
         {
-            Settings.AppSettings.HashState = value;
+            Settings.ToolSettings.HashToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(HashToolState), value));
         }
     }
 
     public ToolStates HtmlEntityToolState
     {
-        get => Settings.AppSettings.HTMLEntityState;
+        get => Settings.ToolSettings.HtmlEntityToolState;
         set
         {
-            Settings.AppSettings.HTMLEntityState = value;
+            Settings.ToolSettings.HtmlEntityToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(HtmlEntityToolState), value));
         }
     }
 
     public ToolStates IndentToolState
     {
-        get => Settings.AppSettings.IndentState;
+        get => Settings.ToolSettings.IndentToolState;
         set
         {
-            Settings.AppSettings.IndentState = value;
+            Settings.ToolSettings.IndentToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(IndentToolState), value));
         }
     }
 
     public ToolStates JoinToolState
     {
-        get => Settings.AppSettings.JoinState;
+        get => Settings.ToolSettings.JoinToolState;
         set
         {
-            Settings.AppSettings.JoinState = value;
+            Settings.ToolSettings.JoinToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(JoinToolState), value));
         }
     }
 
     public ToolStates JsonToolState
     {
-        get => Settings.AppSettings.JSONState;
+        get => Settings.ToolSettings.JsonToolState;
         set
         {
-            Settings.AppSettings.JSONState = value;
+            Settings.ToolSettings.JsonToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(JsonToolState), value));
         }
     }
 
     public ToolStates ListToolState
     {
-        get => Settings.AppSettings.ListState;
+        get => Settings.ToolSettings.ListToolState;
         set
         {
-            Settings.AppSettings.ListState = value;
+            Settings.ToolSettings.ListToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(ListToolState), value));
         }
     }
 
     public ToolStates QuoteToolState
     {
-        get => Settings.AppSettings.QuoteState;
+        get => Settings.ToolSettings.QuoteToolState;
         set
         {
-            Settings.AppSettings.QuoteState = value;
+            Settings.ToolSettings.QuoteToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(QuoteToolState), value));
         }
     }
 
     public ToolStates RemoveToolState
     {
-        get => Settings.AppSettings.RemoveState;
+        get => Settings.ToolSettings.RemoveToolState;
         set
         {
-            Settings.AppSettings.RemoveState = value;
+            Settings.ToolSettings.RemoveToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(RemoveToolState), value));
         }
     }
 
     public ToolStates SlashToolState
     {
-        get => Settings.AppSettings.SlashState;
+        get => Settings.ToolSettings.SlashToolState;
         set
         {
-            Settings.AppSettings.SlashState = value;
+            Settings.ToolSettings.SlashToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(SlashToolState), value));
         }
     }
 
     public ToolStates SortToolState
     {
-        get => Settings.AppSettings.SortState;
+        get => Settings.ToolSettings.SortToolState;
         set
         {
-            Settings.AppSettings.SortState = value;
+            Settings.ToolSettings.SortToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(SortToolState), value));
         }
     }
 
     public ToolStates SplitToolState
     {
-        get => Settings.AppSettings.SplitState;
+        get => Settings.ToolSettings.SplitToolState;
         set
         {
-            Settings.AppSettings.SplitState = value;
+            Settings.ToolSettings.SplitToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(SplitToolState), value));
         }
     }
 
     public ToolStates TrimToolState
     {
-        get => Settings.AppSettings.TrimState;
+        get => Settings.ToolSettings.TrimToolState;
         set
         {
-            Settings.AppSettings.TrimState = value;
+            Settings.ToolSettings.TrimToolState = value;
             Messenger.Publish(new SettingChangedMessage(nameof(TrimToolState), value));
         }
     }

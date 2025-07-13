@@ -23,7 +23,7 @@ public class RemoveTool : BaseTool, ITool
 
     private string? _selectedText = null;
 
-    public ToolStates State => _settings.AppSettings.RemoveState;
+    public ToolStates State => _settings.ToolSettings.RemoveToolState;
 
     public RemoveTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

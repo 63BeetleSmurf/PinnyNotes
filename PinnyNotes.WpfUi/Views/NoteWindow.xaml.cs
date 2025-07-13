@@ -91,7 +91,7 @@ public partial class NoteWindow : Window
 
     private void NoteWindow_StateChanged(object sender, EventArgs e)
     {
-        MinimizeModes minimizeMode = _settings.AppSettings.MinimizeMode;
+        MinimizeModes minimizeMode = _settings.NoteSettings.MinimizeMode;
 
         if (WindowState == WindowState.Minimized
             && (
@@ -205,7 +205,7 @@ public partial class NoteWindow : Window
 
     private void HideTitleBar()
     {
-        if (_settings.AppSettings.HideTitleBar)
+        if (_settings.NoteSettings.HideTitleBar)
             BeginStoryboard("HideTitleBarAnimation");
     }
 
@@ -227,8 +227,8 @@ public partial class NoteWindow : Window
 
     private void ResetMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        Width = _settings.AppSettings.DefaultNoteWidth;
-        Height = _settings.AppSettings.DefaultNoteHeight;
+        Width = _settings.NoteSettings.DefaultWidth;
+        Height = _settings.NoteSettings.DefaultHeight;
     }
 
     private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)

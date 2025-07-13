@@ -20,7 +20,7 @@ public class QuoteTool : BaseTool, ITool
     private readonly char[] _openingQuotes = ['\'', '"', '`', '‘', '“'];
     private readonly char[] _closingQuotes = ['\'', '"', '`', '’', '”'];
 
-    public ToolStates State => _settings.AppSettings.QuoteState;
+    public ToolStates State => _settings.ToolSettings.QuoteToolState;
 
     public QuoteTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

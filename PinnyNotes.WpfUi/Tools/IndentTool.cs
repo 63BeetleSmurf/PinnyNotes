@@ -15,7 +15,7 @@ public class IndentTool : BaseTool, ITool
         IndentTab
     }
 
-    public ToolStates State => _settings.AppSettings.IndentState;
+    public ToolStates State => _settings.ToolSettings.IndentToolState;
 
     public IndentTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

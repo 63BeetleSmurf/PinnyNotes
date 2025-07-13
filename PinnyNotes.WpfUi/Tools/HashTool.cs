@@ -18,7 +18,7 @@ public class HashTool : BaseTool, ITool
         HashSHA1,
         HashMD5
     }
-    public ToolStates State => _settings.AppSettings.HashState;
+    public ToolStates State => _settings.ToolSettings.HashToolState;
 
     public HashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

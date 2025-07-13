@@ -14,7 +14,7 @@ public class SortTool : BaseTool, ITool
         SortDescending
     }
 
-    public ToolStates State => _settings.AppSettings.SortState;
+    public ToolStates State => _settings.ToolSettings.SortToolState;
 
     public SortTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

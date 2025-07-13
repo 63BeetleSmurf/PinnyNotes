@@ -15,7 +15,7 @@ public class ListTool : BaseTool, ITool
         ListRemove
     }
 
-    public ToolStates State => _settings.AppSettings.ListState;
+    public ToolStates State => _settings.ToolSettings.ListToolState;
 
     public ListTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

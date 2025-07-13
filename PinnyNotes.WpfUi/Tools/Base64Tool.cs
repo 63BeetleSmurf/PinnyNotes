@@ -14,7 +14,7 @@ public class Base64Tool : BaseTool, ITool
         Base64Decode
     }
 
-    public ToolStates State => _settings.AppSettings.Base64State;
+    public ToolStates State => _settings.ToolSettings.Base64ToolState;
 
     public Base64Tool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

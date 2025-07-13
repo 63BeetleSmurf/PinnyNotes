@@ -16,7 +16,7 @@ public class SlashTool : BaseTool, ITool
         SlashSwap
     }
 
-    public ToolStates State => _settings.AppSettings.SlashState;
+    public ToolStates State => _settings.ToolSettings.SlashToolState;
 
     public SlashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

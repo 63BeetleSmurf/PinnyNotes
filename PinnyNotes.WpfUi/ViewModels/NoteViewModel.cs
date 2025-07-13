@@ -10,6 +10,7 @@ using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
+using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -25,29 +26,13 @@ public class NoteViewModel : BaseViewModel
     {
         _settingChangeHandlers = new()
         {
-            { nameof(AutoCopy), value => AutoCopy = (bool)value },
-            { nameof(AutoIndent), value => AutoIndent = (bool)value },
-            { nameof(ConvertIndentation), value => ConvertIndentation = (bool)value },
-            { nameof(CopyFallbackAction), value => CopyFallbackAction = (CopyFallbackActions)value },
-            { nameof(KeepNewLineAtEndVisible), value => KeepNewLineAtEndVisible = (bool)value },
-            { nameof(MiddleClickPaste), value => MiddleClickPaste = (bool)value },
-            { nameof(NewLineAtEnd), value => NewLineAtEnd = (bool)value },
-            { nameof(SpellCheck), value => SpellCheck = (bool)value },
-            { nameof(TabSpaces), value => TabSpaces = (bool)value },
-            { nameof(TabWidth), value => TabWidth = (int)value },
-            { nameof(TrimCopiedText), value => TrimCopiedText = (bool)value },
-            { nameof(TrimPastedText), value => TrimPastedText = (bool)value },
             { nameof(ShowNotesInTaskbar), value => ShowNotesInTaskbar = (bool)value },
-            { nameof(WrapText), value => WrapText = (TextWrapping)value },
             { "TransparencyMode", _ => UpdateOpacity() },
             { "OpaqueWhenFocused", _ => UpdateOpacity() },
             { "OnlyTransparentWhenPinned", _ => UpdateOpacity() },
             { "OpaqueOpacity", _ => UpdateOpacity() },
             { "TransparentOpacity", _ => UpdateOpacity() },
-            { "ColorMode", _ => UpdateBrushes() },
-            { "StandardFontFamily", _ => UpdateFontFamily() },
-            { "MonoFontFamily", _ => UpdateFontFamily() },
-            { "UseMonoFont", _ => UpdateFontFamily() }
+            { "ColorMode", _ => UpdateBrushes() }
         };
 
         Messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
@@ -56,23 +41,11 @@ public class NoteViewModel : BaseViewModel
 
         AvailableThemes = ThemeHelper.Themes.Values.ToArray();
 
-        _width = Settings.AppSettings.DefaultNoteWidth;
-        _height = Settings.AppSettings.DefaultNoteHeight;
-        _autoCopy = Settings.AppSettings.CopyTextOnHighlight;
-        _autoIndent = Settings.AppSettings.AutoIndent;
-        _convertIndentation = Settings.AppSettings.ConvertIndentationOnPaste;
-        _copyFallbackAction = Settings.AppSettings.NoSelectionCopyAction;
-        _keepNewLineAtEndVisible = Settings.AppSettings.KeepNewLineVisible;
-        _middleClickPaste = Settings.AppSettings.MiddleClickPaste;
-        _newLineAtEnd = Settings.AppSettings.NewLineAtEnd;
-        _spellCheck = Settings.AppSettings.SpellCheck;
-        _tabSpaces = Settings.AppSettings.TabUsesSpaces;
-        _tabWidth = Settings.AppSettings.TabWidth;
-        _trimCopiedText = Settings.AppSettings.TrimCopiedText;
-        _trimPastedText = Settings.AppSettings.TrimPastedText;
-        _wrapText = (Settings.AppSettings.WrapText) ? TextWrapping.Wrap : TextWrapping.NoWrap;
-        _fontFamily = (Settings.AppSettings.UseMonoFont) ? Settings.AppSettings.MonoFontFamily : Settings.AppSettings.StandardFontFamily;
-        _showNotesInTaskbar = Settings.AppSettings.ShowNotesInTaskbar;
+        _width = Settings.NoteSettings.DefaultWidth;
+        _height = Settings.NoteSettings.DefaultHeight;
+        _showNotesInTaskbar = Settings.NoteSettings.ShowInTaskBar;
+
+        EditorSettings = settings.EditorSettings;
 
         InitNoteColor(parent);
         InitNotePosition(parent);
@@ -83,7 +56,7 @@ public class NoteViewModel : BaseViewModel
     {
         // Set this first as cycle colors wont trigger a change if the next color if the default for ThemeColors
         CurrentThemeColor = AppMetadata.AppData.ThemeColor;
-        if (Settings.AppSettings.CycleColors)
+        if (Settings.NoteSettings.CycleColors)
         {
             int themeColorIndex = GetNextThemeColorIndex((int)CurrentThemeColor);
             if (parent != null && themeColorIndex == (int)parent.CurrentThemeColor)
@@ -129,7 +102,7 @@ public class NoteViewModel : BaseViewModel
             int screenMargin = 78;
             screenBounds = ScreenHelper.GetPrimaryScreenBounds();
 
-            switch (Settings.AppSettings.StartupPosition)
+            switch (Settings.NoteSettings.StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.MiddleLeft:
@@ -151,7 +124,7 @@ public class NoteViewModel : BaseViewModel
                     break;
             }
 
-            switch (Settings.AppSettings.StartupPosition)
+            switch (Settings.NoteSettings.StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.TopCenter:
@@ -207,7 +180,7 @@ public class NoteViewModel : BaseViewModel
 
     private void UpdateBrushes()
     {
-        ColorModes colorMode = Settings.AppSettings.ColorMode;
+        ColorModes colorMode = Settings.NoteSettings.ColorMode;
 
         NotePalette notePalette;
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
@@ -229,27 +202,22 @@ public class NoteViewModel : BaseViewModel
 
     public void UpdateOpacity()
     {
-        TransparencyModes transparentMode = Settings.AppSettings.TransparencyMode;
+        TransparencyModes transparentMode = Settings.NoteSettings.TransparencyMode;
         if (transparentMode == TransparencyModes.Disabled)
         {
             Opacity = 1.0;
             return;
         }
 
-        bool opaqueWhenFocused = Settings.AppSettings.OpaqueWhenFocused;
+        bool opaqueWhenFocused = Settings.NoteSettings.OpaqueWhenFocused;
 
-        double opaqueOpacity = Settings.AppSettings.OpaqueOpacity;
-        double transparentOpacity = Settings.AppSettings.TransparentOpacity;
+        double opaqueOpacity = Settings.NoteSettings.OpaqueValue;
+        double transparentOpacity = Settings.NoteSettings.TransparentValue;
 
         if ((opaqueWhenFocused && IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !IsPinned))
             Opacity = opaqueOpacity;
         else
             Opacity = transparentOpacity;
-    }
-
-    public void UpdateFontFamily()
-    {
-        FontFamily = (Settings.AppSettings.UseMonoFont) ? Settings.AppSettings.MonoFontFamily : Settings.AppSettings.StandardFontFamily;
     }
 
     private void OnSettingChangedMessage(SettingChangedMessage message)
@@ -308,44 +276,7 @@ public class NoteViewModel : BaseViewModel
     private double _opacity;
 
 
-    public bool AutoCopy { get => _autoCopy; set => SetProperty(ref _autoCopy, value); }
-    private bool _autoCopy;
-
-    public bool AutoIndent { get => _autoIndent; set => SetProperty(ref _autoIndent, value); }
-    private bool _autoIndent;
-
-    public bool ConvertIndentation { get => _convertIndentation; set => SetProperty(ref _convertIndentation, value); }
-    private bool _convertIndentation;
-
-    public CopyFallbackActions CopyFallbackAction { get => _copyFallbackAction; set => SetProperty(ref _copyFallbackAction, value); }
-    private CopyFallbackActions _copyFallbackAction;
-
-    public bool KeepNewLineAtEndVisible { get => _keepNewLineAtEndVisible; set => SetProperty(ref _keepNewLineAtEndVisible, value); }
-    private bool _keepNewLineAtEndVisible;
-
-    public bool MiddleClickPaste { get => _middleClickPaste; set => SetProperty(ref _middleClickPaste, value); }
-    private bool _middleClickPaste;
-
-    public bool NewLineAtEnd { get => _newLineAtEnd; set => SetProperty(ref _newLineAtEnd, value); }
-    private bool _newLineAtEnd;
-
-    public bool SpellCheck { get => _spellCheck; set => SetProperty(ref _spellCheck, value); }
-    private bool _spellCheck;
-
-    public bool TabSpaces { get => _tabSpaces; set => SetProperty(ref _tabSpaces, value); }
-    private bool _tabSpaces;
-
-    public int TabWidth { get => _tabWidth; set => SetProperty(ref _tabWidth, value); }
-    private int _tabWidth;
-
-    public bool TrimCopiedText { get => _trimCopiedText; set => SetProperty(ref _trimCopiedText, value); }
-    private bool _trimCopiedText;
-
-    public bool TrimPastedText { get => _trimPastedText; set => SetProperty(ref _trimPastedText, value); }
-    private bool _trimPastedText;
-
-    public TextWrapping WrapText { get => _wrapText; set => SetProperty(ref _wrapText, value); }
-    private TextWrapping _wrapText;
+    public EditorSettingsModel EditorSettings { get; set; }
 
 
     public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }
@@ -360,10 +291,6 @@ public class NoteViewModel : BaseViewModel
 
     public string Content { get => _content; set => SetProperty(ref _content, value); }
     private string _content = "";
-
-
-    public string FontFamily { get => _fontFamily; set => SetProperty(ref _fontFamily, value); }
-    private string _fontFamily;
 
 
     public bool ShowNotesInTaskbar { get => _showNotesInTaskbar; set => SetProperty(ref _showNotesInTaskbar, value); }

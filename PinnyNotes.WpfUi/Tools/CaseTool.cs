@@ -16,7 +16,7 @@ public class CaseTool : BaseTool, ITool
         CaseTitle
     }
 
-    public ToolStates State => _settings.AppSettings.CaseState;
+    public ToolStates State => _settings.ToolSettings.CaseToolState;
 
     public CaseTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

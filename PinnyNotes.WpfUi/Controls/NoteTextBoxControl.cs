@@ -131,6 +131,34 @@ public partial class NoteTextBoxControl : TextBox
         set => SetValue(TrimPastedTextProperty, value);
     }
 
+    public static readonly DependencyProperty StandardFontFamilyProperty = DependencyProperty.Register(nameof(StandardFontFamily), typeof(string), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
+    public string StandardFontFamily
+    {
+        get => (string)GetValue(StandardFontFamilyProperty);
+        set => SetValue(StandardFontFamilyProperty, value);
+    }
+
+    public static readonly DependencyProperty MonoFontFamilyProperty = DependencyProperty.Register(nameof(MonoFontFamily), typeof(string), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
+    public string MonoFontFamily
+    {
+        get => (string)GetValue(MonoFontFamilyProperty);
+        set => SetValue(MonoFontFamilyProperty, value);
+    }
+
+    public static readonly DependencyProperty UseMonoFontProperty = DependencyProperty.Register(nameof(UseMonoFont), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
+    public bool UseMonoFont
+    {
+        get => (bool)GetValue(UseMonoFontProperty);
+        set => SetValue(UseMonoFontProperty, value);
+    }
+
+    public static readonly DependencyProperty WrapTextProperty = DependencyProperty.Register(nameof(WrapText), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(OnWrapTextChanged));
+    public bool WrapText
+    {
+        get => (bool)GetValue(WrapTextProperty);
+        set => SetValue(WrapTextProperty, value);
+    }
+
     public new int LineCount()
     {
         int count;
@@ -502,5 +530,29 @@ public partial class NoteTextBoxControl : TextBox
         }
 
         return false;
+    }
+
+    private static void OnFontPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is NoteTextBoxControl control)
+            control.UpdateFont();
+    }
+
+    private void UpdateFont()
+    {
+        this.FontFamily = new(
+            (UseMonoFont) ? MonoFontFamily : StandardFontFamily
+        );
+    }
+
+    private static void OnWrapTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is NoteTextBoxControl control)
+            control.UpdateTextWrapping();
+    }
+
+    private void UpdateTextWrapping()
+    {
+        TextWrapping = (WrapText) ? TextWrapping.Wrap : TextWrapping.NoWrap;
     }
 }

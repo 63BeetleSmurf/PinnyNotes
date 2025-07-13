@@ -14,7 +14,7 @@ public class HtmlEntityTool : BaseTool, ITool
         EntityEncode,
         EntityDecode
     }
-    public ToolStates State => _settings.AppSettings.HTMLEntityState;
+    public ToolStates State => _settings.ToolSettings.HtmlEntityToolState;
 
     public HtmlEntityTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

@@ -19,7 +19,7 @@ public class JsonTool : BaseTool, ITool
         WriteIndented = true
     };
 
-    public ToolStates State => _settings.AppSettings.JSONState;
+    public ToolStates State => _settings.ToolSettings.JsonToolState;
 
     public JsonTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

@@ -18,7 +18,7 @@ public class SplitTool : BaseTool, ITool
 
     private string? _selectedText = null;
 
-    public ToolStates State => _settings.AppSettings.SplitState;
+    public ToolStates State => _settings.ToolSettings.SplitToolState;
 
     public SplitTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

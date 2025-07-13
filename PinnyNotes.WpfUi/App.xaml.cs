@@ -79,12 +79,12 @@ public partial class App : Application
 
         thread.Start();
 
-        if (_settingsService.AppSettings.ShowTrayIcon)
+        if (_settingsService.ApplicationSettings.ShowNotifiyIcon)
             ShowNotifyIcon();
 
         messenger.Publish(new CreateNewNoteMessage());
 
-        if (_settingsService.AppSettings.CheckForUpdates)
+        if (_settingsService.ApplicationSettings.CheckForUpdates)
         {
             DateTimeOffset date = DateTimeOffset.UtcNow;
             if (await VersionHelper.CheckForNewRelease(_appMetadataService.AppData.LastUpdateCheck, date))

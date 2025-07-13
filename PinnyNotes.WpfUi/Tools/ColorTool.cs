@@ -15,7 +15,7 @@ public partial class ColorTool : BaseTool, ITool
         HexToRgb
     }
 
-    public ToolStates State => _settings.AppSettings.ColorState;
+    public ToolStates State => _settings.ToolSettings.ColorToolState;
 
     public ColorTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

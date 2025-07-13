@@ -13,7 +13,7 @@ public class DateTimeTool : BaseTool, ITool
         DateTimeSortableDateTime
     }
 
-    public ToolStates State => _settings.AppSettings.DateTimeState;
+    public ToolStates State => _settings.ToolSettings.DateTimeToolState;
 
     public DateTimeTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
