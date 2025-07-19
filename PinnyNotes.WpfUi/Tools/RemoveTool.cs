@@ -23,7 +23,7 @@ public class RemoveTool : BaseTool, ITool
 
     private string? _selectedText = null;
 
-    public ToolStates State => _settings.ToolSettings.RemoveToolState;
+    public ToolStates State => ToolSettings.RemoveToolState;
 
     public RemoveTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
@@ -51,8 +51,8 @@ public class RemoveTool : BaseTool, ITool
         }
         else
         {
-            _selectedText = _noteTextBox.SelectedText;
-            _noteTextBox.SelectionLength = 0;
+            _selectedText = NoteTextBox.SelectedText;
+            NoteTextBox.SelectionLength = 0;
         }
 
         ApplyFunctionToNoteText(ModifyTextCallback, action);

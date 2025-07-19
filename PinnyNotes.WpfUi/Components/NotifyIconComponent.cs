@@ -10,13 +10,13 @@ namespace PinnyNotes.WpfUi.Components;
 
 public class NotifyIconComponent : IDisposable
 {
-    private readonly MessengerService _messenger;
+    private readonly MessengerService _messengerService;
 
     private NotifyIcon _notifyIcon;
 
-    public NotifyIconComponent(MessengerService messenger)
+    public NotifyIconComponent(MessengerService messengerService)
     {
-        _messenger = messenger;
+        _messengerService = messengerService;
 
         _notifyIcon = new()
         {
@@ -43,7 +43,7 @@ public class NotifyIconComponent : IDisposable
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
     {
         if (e.Button == MouseButtons.Left)
-            _messenger.Publish(new WindowActionMessage(WindowActions.Activate));
+            _messengerService.Publish(new WindowActionMessage(WindowActions.Activate));
     }
 
     private void NotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
@@ -54,17 +54,17 @@ public class NotifyIconComponent : IDisposable
 
     private void NewNote_Click(object? sender, EventArgs e)
     {
-        _messenger.Publish(new CreateNewNoteMessage());
+        _messengerService.Publish(new CreateNewNoteMessage());
     }
 
     private void Settings_Click(object? sender, EventArgs e)
     {
-        _messenger.Publish(new OpenSettingsWindowMessage());
+        _messengerService.Publish(new OpenSettingsWindowMessage());
     }
 
     private void Exit_Click(object? sender, EventArgs e)
     {
-        _messenger.Publish(new ApplicationActionMessage(ApplicationActions.Close));
+        _messengerService.Publish(new ApplicationActionMessage(ApplicationActions.Close));
     }
 
     public void Dispose()

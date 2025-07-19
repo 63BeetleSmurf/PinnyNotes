@@ -23,7 +23,7 @@ public class GibberishTool : BaseTool, ITool
 
     private readonly Random _random = new();
 
-    public ToolStates State => _settings.ToolSettings.GibberishToolState;
+    public ToolStates State => ToolSettings.GibberishToolState;
 
     public GibberishTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

@@ -5,14 +5,14 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public abstract class BaseViewModel : NotifyPropertyChangedBase
 {
-    protected AppMetadataService AppMetadata { get; }
-    protected SettingsService Settings { get; }
-    protected MessengerService Messenger { get; }
+    protected AppMetadataService AppMetadataService { get; }
+    protected SettingsService SettingsService { get; }
+    protected MessengerService MessengerService { get; }
 
-    protected BaseViewModel(AppMetadataService appMetadata, SettingsService settings, MessengerService messenger)
+    protected BaseViewModel(AppMetadataService appMetadataService, SettingsService settingsService, MessengerService messengerService)
     {
-        AppMetadata = appMetadata;
-        Settings = settings;
-        Messenger = messenger;
+        AppMetadataService = appMetadataService;
+        SettingsService = settingsService;
+        MessengerService = messengerService;
     }
 }

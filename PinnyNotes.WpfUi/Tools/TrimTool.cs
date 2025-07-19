@@ -16,7 +16,7 @@ public class TrimTool : BaseTool, ITool
         TrimLines
     }
 
-    public ToolStates State => _settings.ToolSettings.TrimToolState;
+    public ToolStates State => ToolSettings.TrimToolState;
 
     public TrimTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

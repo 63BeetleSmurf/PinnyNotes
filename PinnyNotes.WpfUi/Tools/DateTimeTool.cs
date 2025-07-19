@@ -13,7 +13,7 @@ public class DateTimeTool : BaseTool, ITool
         DateTimeSortableDateTime
     }
 
-    public ToolStates State => _settings.ToolSettings.DateTimeToolState;
+    public ToolStates State => ToolSettings.DateTimeToolState;
 
     public DateTimeTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
@@ -37,7 +37,7 @@ public class DateTimeTool : BaseTool, ITool
 
     private string GetSortableDateTime()
     {
-        string selectedText = _noteTextBox.SelectedText;
+        string selectedText = NoteTextBox.SelectedText;
         return GetDateTime("s", selectedText);
     }
 

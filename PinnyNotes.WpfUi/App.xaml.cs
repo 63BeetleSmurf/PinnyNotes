@@ -58,9 +58,9 @@ public partial class App : Application
 
         _settingsService = Services.GetRequiredService<SettingsService>();
         _appMetadataService = Services.GetRequiredService<AppMetadataService>();
-        MessengerService messenger = Services.GetRequiredService<MessengerService>();
-        messenger.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
-        messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
+        MessengerService messengerService = Services.GetRequiredService<MessengerService>();
+        messengerService.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
+        messengerService.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
         _ = Services.GetRequiredService<WindowService>();
 
         // Spawn a thread which will be waiting for our event
@@ -68,7 +68,7 @@ public partial class App : Application
             () => {
                 while (_eventWaitHandle.WaitOne())
                     Current.Dispatcher.BeginInvoke(
-                        () => messenger.Publish(new CreateNewNoteMessage())
+                        () => messengerService.Publish(new CreateNewNoteMessage())
                     );
             }
         )
@@ -82,7 +82,7 @@ public partial class App : Application
         if (_settingsService.ApplicationSettings.ShowNotifiyIcon)
             ShowNotifyIcon();
 
-        messenger.Publish(new CreateNewNoteMessage());
+        messengerService.Publish(new CreateNewNoteMessage());
 
         if (_settingsService.ApplicationSettings.CheckForUpdates)
         {

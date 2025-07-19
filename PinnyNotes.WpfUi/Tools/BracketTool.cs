@@ -21,7 +21,7 @@ public class BracketTool : BaseTool, ITool
     private readonly char[] _openingBrackets = ['(', '{', '['];
     private readonly char[] _closingBrackets = [')', '}', ']'];
 
-    public ToolStates State => _settings.ToolSettings.BracketToolState;
+    public ToolStates State => ToolSettings.BracketToolState;
 
     public BracketTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {

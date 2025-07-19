@@ -18,7 +18,7 @@ public class SplitTool : BaseTool, ITool
 
     private string? _selectedText = null;
 
-    public ToolStates State => _settings.ToolSettings.SplitToolState;
+    public ToolStates State => ToolSettings.SplitToolState;
 
     public SplitTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
@@ -42,8 +42,8 @@ public class SplitTool : BaseTool, ITool
         }
         else
         {
-            _selectedText = _noteTextBox.SelectedText;
-            _noteTextBox.SelectionLength = 0;
+            _selectedText = NoteTextBox.SelectedText;
+            NoteTextBox.SelectionLength = 0;
         }
 
         ApplyFunctionToNoteText(ModifyTextCallback, action);

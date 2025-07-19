@@ -45,11 +45,9 @@
                         <GroupBox Header="General">
                             <StackPanel>
 
-                                <CheckBox Content="Show tray icon" IsChecked="{Binding ShowTrayIcon}" />
+                                <CheckBox Content="Show tray icon" IsChecked="{Binding Settings.ApplicationSettings.ShowNotifiyIcon}" />
 
-                                <CheckBox Content="Show notes in Taskbar" IsChecked="{Binding ShowNotesInTaskbar}" />
-
-                                <CheckBox Content="Check for updates on startup" IsChecked="{Binding CheckForUpdates}" />
+                                <CheckBox Content="Check for updates on startup" IsChecked="{Binding Settings.ApplicationSettings.CheckForUpdates}" />
 
                             </StackPanel>
                         </GroupBox>
@@ -75,13 +73,14 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Default size (W x H)"/>
                                 <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                                    <TextBox Width="50" Text="{Binding DefaultNoteWidth}" />
+                                    <TextBox Width="50" Text="{Binding Settings.NoteSettings.DefaultWidth}" />
                                     <TextBlock Text="x" />
-                                    <TextBox Width="50" Text="{Binding DefaultNoteHeight}" />
+                                    <TextBox Width="50" Text="{Binding Settings.NoteSettings.DefaultHeight}" />
                                 </StackPanel>
 
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Startup Position"/>
@@ -90,7 +89,7 @@
                                           ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding StartupPosition, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.NoteSettings.StartupPosition, Mode=TwoWay}" />
 
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Allow notes to be minimized"/>
                                 <ComboBox Grid.Column="1" Grid.Row="2"
@@ -98,9 +97,11 @@
                                           ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding MinimizeMode, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.NoteSettings.MinimizeMode, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Hide title bar" IsChecked="{Binding HideTitleBar}" />
+                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Hide title bar" IsChecked="{Binding Settings.NoteSettings.HideTitleBar}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Show notes in Taskbar" IsChecked="{Binding Settings.NoteSettings.ShowInTaskBar}" />
 
                             </Grid>
                         </GroupBox>
@@ -117,7 +118,7 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Cycle Colors" IsChecked="{Binding CycleColors}" />
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Cycle Colors" IsChecked="{Binding Settings.NoteSettings.CycleColors}" />
 
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Color mode"/>
                                 <ComboBox Grid.Column="1" Grid.Row="1"
@@ -125,7 +126,7 @@
                                           ItemsSource="{Binding ColorModeList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding ColorMode, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.NoteSettings.ColorMode, Mode=TwoWay}" />
 
                             </Grid>
                         </GroupBox>
@@ -150,9 +151,9 @@
                                           ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding TransparencyMode, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.NoteSettings.TransparencyMode, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Margin="15,4,0,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding OpaqueWhenFocused}" />
+                                <CheckBox Grid.Column="0" Grid.Row="1" Margin="15,4,0,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding Settings.NoteSettings.OpaqueWhenFocused}" />
 
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Opaque value" />
                                 <Slider Grid.Column="1" Grid.Row="2" Minimum="0.1"
@@ -164,7 +165,7 @@
                                         TickPlacement="BottomRight"
                                         Width="120"
                                         IsEnabled="{Binding IsTransparencyEnabled}"
-                                        Value="{Binding OpaqueOpacity}" />
+                                        Value="{Binding Settings.NoteSettings.OpaqueValue}" />
 
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Transparent value" />
                                 <Slider Grid.Column="1" Grid.Row="3"
@@ -177,7 +178,7 @@
                                         TickPlacement="BottomRight"
                                     Width="120"
                                         IsEnabled="{Binding IsTransparencyEnabled}"
-                                        Value="{Binding TransparentOpacity}" />
+                                        Value="{Binding Settings.NoteSettings.TransparentValue}" />
 
                             </Grid>
                         </GroupBox>
@@ -195,15 +196,15 @@
                         <GroupBox Header="General">
                             <StackPanel>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Spell Checker" IsChecked="{Binding SpellChecker}" />
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Spell Checker" IsChecked="{Binding Settings.EditorSettings.CheckSpelling}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Auto Indent" IsChecked="{Binding AutoIndent}" />
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Auto Indent" IsChecked="{Binding Settings.EditorSettings.AutoIndent}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Content="New Line At End" IsChecked="{Binding NewLineAtEnd}" />
+                                <CheckBox Grid.Column="0" Grid.Row="2" Content="New Line At End" IsChecked="{Binding Settings.EditorSettings.NewLineAtEnd}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="3" Margin="15,4,0,0" Content="Keep New Line At End Visible" IsEnabled="{Binding NewLineAtEnd}" IsChecked="{Binding KeepNewLineAtEndVisible}" />
+                                <CheckBox Grid.Column="0" Grid.Row="3" Margin="15,4,0,0" Content="Keep New Line At End Visible" IsEnabled="{Binding Settings.EditorSettings.NewLineAtEnd}" IsChecked="{Binding Settings.EditorSettings.KeepNewLineVisible}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Wrap text" IsChecked="{Binding WrapText}" />
+                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Wrap text" IsChecked="{Binding Settings.EditorSettings.WrapText}" />
 
                             </StackPanel>
                         </GroupBox>
@@ -227,7 +228,7 @@
                                           ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding StandardFontFamily, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.EditorSettings.StandardFontFamily, Mode=TwoWay}" />
 
 
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Mono"/>
@@ -236,9 +237,9 @@
                                           ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding MonoFontFamily, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.EditorSettings.MonoFontFamily, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Margin="15,4,0,0" Content="Use mono font" IsChecked="{Binding UseMonoFont}" />
+                                <CheckBox Grid.Column="0" Grid.Row="2" Margin="15,4,0,0" Content="Use mono font" IsChecked="{Binding Settings.EditorSettings.UseMonoFont}" />
 
                             </Grid>
                         </GroupBox>
@@ -256,12 +257,12 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Use spaces instead of tabs" IsChecked="{Binding TabSpaces}" />
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Use spaces instead of tabs" IsChecked="{Binding Settings.EditorSettings.UseSpacesForTab}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Convert indentation in pasted text" IsChecked="{Binding ConvertIndentation}" />
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Convert indentation in pasted text" IsChecked="{Binding Settings.EditorSettings.ConvertIndentationOnPaste}" />
 
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Tab width"/>
-                                <TextBox Grid.Column="1" Grid.Row="2" Width="50" Text="{Binding TabWidth}" />
+                                <TextBox Grid.Column="1" Grid.Row="2" Width="50" Text="{Binding Settings.EditorSettings.TabSpacesWidth}" />
 
                             </Grid>
                         </GroupBox>
@@ -281,13 +282,13 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Middle Click Paste" IsChecked="{Binding MiddleClickPaste}" />
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Middle Click Paste" IsChecked="{Binding Settings.EditorSettings.MiddleClickPaste}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Trim Pasted Text" IsChecked="{Binding TrimPastedText}" />
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Trim Pasted Text" IsChecked="{Binding Settings.EditorSettings.TrimPastedText}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Content="Trim Copied Text" IsChecked="{Binding TrimCopiedText}" />
+                                <CheckBox Grid.Column="0" Grid.Row="2" Content="Trim Copied Text" IsChecked="{Binding Settings.EditorSettings.TrimCopiedText}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Auto Copy" IsChecked="{Binding AutoCopy}" />
+                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Auto Copy" IsChecked="{Binding Settings.EditorSettings.CopyOnSelect}" />
 
                                 <TextBlock Grid.Column="0" Grid.Row="4" Text="Copy fallback action"/>
                                 <ComboBox Grid.Column="1" Grid.Row="4"
@@ -295,7 +296,7 @@
                                           ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
-                                          SelectedValue="{Binding CopyFallbackAction, Mode=TwoWay}" />
+                                          SelectedValue="{Binding Settings.EditorSettings.CopyFallbackAction, Mode=TwoWay}" />
 
                             </Grid>
                         </GroupBox>
@@ -340,7 +341,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding Base64ToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.Base64ToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="Bracket"/>
@@ -350,7 +351,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding BracketToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.BracketToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="2" Text="Case"/>
@@ -360,7 +361,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding CaseToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.CaseToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="3" Text="Color"/>
@@ -370,7 +371,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding ColorToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.ColorToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="4" Text="Date\Time"/>
@@ -380,7 +381,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding DateTimeToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.DateTimeToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="5" Text="Gibberish"/>
@@ -390,7 +391,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding GibberishToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.GibberishToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="6" Text="Hash"/>
@@ -400,7 +401,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding HashToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.HashToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="7" Text="HTML Entity"/>
@@ -410,7 +411,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding HtmlEntityToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.HtmlEntityToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="8" Text="Indent"/>
@@ -420,7 +421,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding IndentToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.IndentToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="9" Text="Join"/>
@@ -430,7 +431,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding JoinToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.JoinToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="10" Text="JSON"/>
@@ -440,7 +441,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding JsonToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.JsonToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="11" Text="List"/>
@@ -450,7 +451,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding ListToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.ListToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="12" Text="Quote"/>
@@ -460,7 +461,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding QuoteToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.QuoteToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="13" Text="Remove"/>
@@ -470,7 +471,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding RemoveToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.RemoveToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="14" Text="Slash"/>
@@ -480,7 +481,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding SlashToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.SlashToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="15" Text="Sort"/>
@@ -490,7 +491,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding SortToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.SortToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="16" Text="Split"/>
@@ -500,7 +501,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding SplitToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.SplitToolState, Mode=TwoWay}"
                         />
 
                         <TextBlock Grid.Column="0" Grid.Row="17" Text="Trim"/>
@@ -510,7 +511,7 @@
                             ItemsSource="{Binding ToolStateList, Mode=OneTime}"
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
-                            SelectedValue="{Binding TrimToolState, Mode=TwoWay}"
+                            SelectedValue="{Binding Settings.ToolSettings.TrimToolState, Mode=TwoWay}"
                         />
 
                     </Grid>

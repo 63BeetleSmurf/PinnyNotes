@@ -22,11 +22,13 @@ public class NoteViewModel : BaseViewModel
 
     public Theme[] AvailableThemes { get; }
 
-    public NoteViewModel(AppMetadataService appMetadata, SettingsService settings, MessengerService messenger, NoteViewModel? parent = null) : base(appMetadata, settings, messenger)
+    public NoteViewModel(
+        AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService,
+        NoteViewModel? parent = null
+    ) : base(appMetadata, settingsService, messengerService)
     {
         _settingChangeHandlers = new()
         {
-            { nameof(ShowNotesInTaskbar), value => ShowNotesInTaskbar = (bool)value },
             { "TransparencyMode", _ => UpdateOpacity() },
             { "OpaqueWhenFocused", _ => UpdateOpacity() },
             { "OnlyTransparentWhenPinned", _ => UpdateOpacity() },
@@ -35,17 +37,17 @@ public class NoteViewModel : BaseViewModel
             { "ColorMode", _ => UpdateBrushes() }
         };
 
-        Messenger.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
+        MessengerService.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
 
         ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
 
         AvailableThemes = ThemeHelper.Themes.Values.ToArray();
 
-        _width = Settings.NoteSettings.DefaultWidth;
-        _height = Settings.NoteSettings.DefaultHeight;
-        _showNotesInTaskbar = Settings.NoteSettings.ShowInTaskBar;
+        NoteSettings = SettingsService.NoteSettings;
+        EditorSettings = SettingsService.EditorSettings;
 
-        EditorSettings = settings.EditorSettings;
+        _width = NoteSettings.DefaultWidth;
+        _height = NoteSettings.DefaultHeight;
 
         InitNoteColor(parent);
         InitNotePosition(parent);
@@ -55,8 +57,8 @@ public class NoteViewModel : BaseViewModel
     private void InitNoteColor(NoteViewModel? parent = null)
     {
         // Set this first as cycle colors wont trigger a change if the next color if the default for ThemeColors
-        CurrentThemeColor = AppMetadata.AppData.ThemeColor;
-        if (Settings.NoteSettings.CycleColors)
+        CurrentThemeColor = AppMetadataService.AppData.ThemeColor;
+        if (NoteSettings.CycleColors)
         {
             int themeColorIndex = GetNextThemeColorIndex((int)CurrentThemeColor);
             if (parent != null && themeColorIndex == (int)parent.CurrentThemeColor)
@@ -102,7 +104,7 @@ public class NoteViewModel : BaseViewModel
             int screenMargin = 78;
             screenBounds = ScreenHelper.GetPrimaryScreenBounds();
 
-            switch (Settings.NoteSettings.StartupPosition)
+            switch (NoteSettings.StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.MiddleLeft:
@@ -124,7 +126,7 @@ public class NoteViewModel : BaseViewModel
                     break;
             }
 
-            switch (Settings.NoteSettings.StartupPosition)
+            switch (NoteSettings.StartupPosition)
             {
                 case StartupPositions.TopLeft:
                 case StartupPositions.TopCenter:
@@ -180,7 +182,7 @@ public class NoteViewModel : BaseViewModel
 
     private void UpdateBrushes()
     {
-        ColorModes colorMode = Settings.NoteSettings.ColorMode;
+        ColorModes colorMode = NoteSettings.ColorMode;
 
         NotePalette notePalette;
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
@@ -202,17 +204,17 @@ public class NoteViewModel : BaseViewModel
 
     public void UpdateOpacity()
     {
-        TransparencyModes transparentMode = Settings.NoteSettings.TransparencyMode;
+        TransparencyModes transparentMode = NoteSettings.TransparencyMode;
         if (transparentMode == TransparencyModes.Disabled)
         {
             Opacity = 1.0;
             return;
         }
 
-        bool opaqueWhenFocused = Settings.NoteSettings.OpaqueWhenFocused;
+        bool opaqueWhenFocused = NoteSettings.OpaqueWhenFocused;
 
-        double opaqueOpacity = Settings.NoteSettings.OpaqueValue;
-        double transparentOpacity = Settings.NoteSettings.TransparentValue;
+        double opaqueOpacity = NoteSettings.OpaqueValue;
+        double transparentOpacity = NoteSettings.TransparentValue;
 
         if ((opaqueWhenFocused && IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !IsPinned))
             Opacity = opaqueOpacity;
@@ -235,7 +237,7 @@ public class NoteViewModel : BaseViewModel
         set
         {
             SetProperty(ref _currentThemeColor, value);
-            AppMetadata.AppData.ThemeColor = value;
+            AppMetadataService.AppData.ThemeColor = value;
             UpdateBrushes();
         }
     }
@@ -275,7 +277,7 @@ public class NoteViewModel : BaseViewModel
     public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
     private double _opacity;
 
-
+    public NoteSettingsModel NoteSettings { get; set; }
     public EditorSettingsModel EditorSettings { get; set; }
 
 
@@ -291,8 +293,4 @@ public class NoteViewModel : BaseViewModel
 
     public string Content { get => _content; set => SetProperty(ref _content, value); }
     private string _content = "";
-
-
-    public bool ShowNotesInTaskbar { get => _showNotesInTaskbar; set => SetProperty(ref _showNotesInTaskbar, value); }
-    private bool _showNotesInTaskbar;
 }

@@ -18,7 +18,7 @@ public class HashTool : BaseTool, ITool
         HashSHA1,
         HashMD5
     }
-    public ToolStates State => _settings.ToolSettings.HashToolState;
+    public ToolStates State => ToolSettings.HashToolState;
 
     public HashTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
@@ -64,7 +64,7 @@ public class HashTool : BaseTool, ITool
         }
 
         return BitConverter.ToString(
-            hasher.ComputeHash(Encoding.UTF8.GetBytes(_noteTextBox.Text))
+            hasher.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
         ).Replace("-", "");
     }
 }

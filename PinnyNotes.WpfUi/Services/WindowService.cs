@@ -10,18 +10,18 @@ namespace PinnyNotes.WpfUi.Services;
 public class WindowService
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly MessengerService _messenger;
+    private readonly MessengerService _messengerService;
     private readonly NoteWindowFactory _noteWindowFactory;
     private SettingsWindow? _settingsWindow;
 
-    public WindowService(IServiceProvider serviceProvider, MessengerService messenger, NoteWindowFactory noteWindowFactory)
+    public WindowService(IServiceProvider serviceProvider, MessengerService messengerService, NoteWindowFactory noteWindowFactory)
     {
         _serviceProvider = serviceProvider;
-        _messenger = messenger;
+        _messengerService = messengerService;
         _noteWindowFactory = noteWindowFactory;
 
-        _messenger.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
-        _messenger.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
+        _messengerService.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
+        _messengerService.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
     }
 
     private void OnCreateNewNoteMessage(CreateNewNoteMessage message)

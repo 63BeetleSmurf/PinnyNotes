@@ -19,18 +19,18 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
-    private readonly SettingsService _settings;
-    private readonly MessengerService _messenger;
+    private readonly SettingsService _settingsService;
+    private readonly MessengerService _messengerService;
 
     private readonly NoteViewModel _viewModel;
 
     #region NoteWindow
 
-    public NoteWindow(SettingsService settingsService, MessengerService messenger, NoteViewModel viewModel)
+    public NoteWindow(SettingsService settingsService, MessengerService messengerService, NoteViewModel viewModel)
     {
-        _settings = settingsService;
-        _messenger = messenger;
-        _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
+        _settingsService = settingsService;
+        _messengerService = messengerService;
+        _messengerService.Subscribe<WindowActionMessage>(OnWindowActionMessage);
         _viewModel = viewModel;
 
         DataContext = _viewModel;
@@ -91,7 +91,7 @@ public partial class NoteWindow : Window
 
     private void NoteWindow_StateChanged(object sender, EventArgs e)
     {
-        MinimizeModes minimizeMode = _settings.NoteSettings.MinimizeMode;
+        MinimizeModes minimizeMode = _settingsService.NoteSettings.MinimizeMode;
 
         if (WindowState == WindowState.Minimized
             && (
@@ -195,7 +195,7 @@ public partial class NoteWindow : Window
 
     private void NewButton_Click(object sender, RoutedEventArgs e)
     {
-        _messenger.Publish(new CreateNewNoteMessage(_viewModel));
+        _messengerService.Publish(new CreateNewNoteMessage(_viewModel));
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -205,7 +205,7 @@ public partial class NoteWindow : Window
 
     private void HideTitleBar()
     {
-        if (_settings.NoteSettings.HideTitleBar)
+        if (_settingsService.NoteSettings.HideTitleBar)
             BeginStoryboard("HideTitleBarAnimation");
     }
 
@@ -227,13 +227,13 @@ public partial class NoteWindow : Window
 
     private void ResetMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        Width = _settings.NoteSettings.DefaultWidth;
-        Height = _settings.NoteSettings.DefaultHeight;
+        Width = _settingsService.NoteSettings.DefaultWidth;
+        Height = _settingsService.NoteSettings.DefaultHeight;
     }
 
     private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        _messenger.Publish(new OpenSettingsWindowMessage(this));
+        _messengerService.Publish(new OpenSettingsWindowMessage(this));
     }
 
     #endregion

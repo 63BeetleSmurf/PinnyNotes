@@ -10,14 +10,14 @@ namespace PinnyNotes.WpfUi.Views;
 
 public partial class SettingsWindow : Window
 {
-    private readonly MessengerService _messenger;
+    private readonly MessengerService _messengerService;
 
     private Window _lastOwner;
 
-    public SettingsWindow(MessengerService messenger, SettingsViewModel viewModel)
+    public SettingsWindow(MessengerService messengerService, SettingsViewModel viewModel)
     {
-        _messenger = messenger;
-        _messenger.Subscribe<WindowActionMessage>(OnWindowActionMessage);
+        _messengerService = messengerService;
+        _messengerService.Subscribe<WindowActionMessage>(OnWindowActionMessage);
 
         DataContext = viewModel;
 

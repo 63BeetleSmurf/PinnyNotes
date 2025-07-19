@@ -1,7 +1,12 @@
-﻿namespace PinnyNotes.WpfUi.Models;
+﻿using PinnyNotes.WpfUi.Base;
 
-public class ApplicationSettingsModel
+namespace PinnyNotes.WpfUi.Models;
+
+public class ApplicationSettingsModel : NotifyPropertyChangedBase
 {
-    public bool ShowNotifiyIcon { get; set; }
-    public bool CheckForUpdates { get; set; }
+    // General
+    public bool ShowNotifiyIcon { get => _showNotifiyIcon; set => SetProperty(ref _showNotifiyIcon, value); }
+    private bool _showNotifiyIcon;
+    public bool CheckForUpdates { get => _checkForUpdates; set => SetProperty(ref _checkForUpdates, value); }
+    private bool _checkForUpdates;
 }

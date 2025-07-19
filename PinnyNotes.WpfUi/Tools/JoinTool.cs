@@ -15,7 +15,7 @@ public class JoinTool : BaseTool, ITool
         JoinTab
     }
 
-    public ToolStates State => _settings.ToolSettings.JoinToolState;
+    public ToolStates State => ToolSettings.JoinToolState;
 
     public JoinTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
     {
