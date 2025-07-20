@@ -3,7 +3,6 @@ using System;
 using System.Threading;
 using System.Windows;
 
-using PinnyNotes.WpfUi.Components;
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Factories;
 using PinnyNotes.WpfUi.Helpers;
@@ -31,10 +30,9 @@ public partial class App : Application
 
     private AppMetadataService _appMetadataService = null!;
     private SettingsService _settingsService = null!;
+    private NotifyIconService _notifyIconService = null!;
 
     private EventWaitHandle _eventWaitHandle = null!;
-
-    private NotifyIconComponent? _notifyIcon;
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -58,10 +56,12 @@ public partial class App : Application
 
         _settingsService = Services.GetRequiredService<SettingsService>();
         _appMetadataService = Services.GetRequiredService<AppMetadataService>();
+        _ = Services.GetRequiredService<WindowService>();
+        _notifyIconService = Services.GetRequiredService<NotifyIconService>();
+
         MessengerService messengerService = Services.GetRequiredService<MessengerService>();
         messengerService.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
         messengerService.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
-        _ = Services.GetRequiredService<WindowService>();
 
         // Spawn a thread which will be waiting for our event
         Thread thread = new(
@@ -78,9 +78,6 @@ public partial class App : Application
         };
 
         thread.Start();
-
-        if (_settingsService.ApplicationSettings.ShowNotifiyIcon)
-            ShowNotifyIcon();
 
         messengerService.Publish(new CreateNewNoteMessage());
 
@@ -100,8 +97,7 @@ public partial class App : Application
 
         services.AddSingleton<MessengerService>();
         services.AddSingleton<WindowService>();
-
-        services.AddTransient<NotifyIconComponent>();
+        services.AddTransient<NotifyIconService>();
 
         services.AddTransient<SettingsWindow>();
         services.AddTransient<SettingsViewModel>();
@@ -114,8 +110,7 @@ public partial class App : Application
     {
         _appMetadataService.Save();
         _settingsService.Save();
-
-        RemoveNotifyIcon();
+        _notifyIconService.Dispose();
 
         _mutex?.ReleaseMutex();
         _mutex?.Dispose();
@@ -133,34 +128,6 @@ public partial class App : Application
     private void OnSettingChangedMessage(SettingChangedMessage message)
     {
         if (message.SettingName == "ShowTrayIcon")
-        {
-            if ((bool)message.NewValue)
-            {
-                ShowNotifyIcon();
-            }
-            else
-            {
-                RemoveNotifyIcon();
-                ShutdownMode = ShutdownMode.OnLastWindowClose;
-            }
-        }
-    }
-
-    private void ShowNotifyIcon()
-    {
-        if (_notifyIcon != null)
-            return;
-
-        _notifyIcon = Services.GetRequiredService<NotifyIconComponent>();
-        ShutdownMode = ShutdownMode.OnExplicitShutdown;
-    }
-
-    private void RemoveNotifyIcon()
-    {
-        if (_notifyIcon == null)
-            return;
-
-        _notifyIcon.Dispose();
-        _notifyIcon = null;
+            ShutdownMode = ((bool)message.NewValue) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
     }
 }

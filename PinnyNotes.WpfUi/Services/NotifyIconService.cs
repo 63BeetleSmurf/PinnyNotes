@@ -1,22 +1,49 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Messages;
-using PinnyNotes.WpfUi.Services;
+using PinnyNotes.WpfUi.Models;
 
-namespace PinnyNotes.WpfUi.Components;
+namespace PinnyNotes.WpfUi.Services;
 
-public class NotifyIconComponent : IDisposable
+public class NotifyIconService : IDisposable
 {
     private readonly MessengerService _messengerService;
+    private readonly ApplicationSettingsModel _applicationSettings;
 
-    private NotifyIcon _notifyIcon;
+    private NotifyIcon? _notifyIcon;
 
-    public NotifyIconComponent(MessengerService messengerService)
+    private bool _disposed;
+
+    public NotifyIconService(MessengerService messengerService, SettingsService settingsService)
     {
         _messengerService = messengerService;
+
+        _applicationSettings = settingsService.ApplicationSettings;
+        _applicationSettings.PropertyChanged += OnApplicationSettingsChanged;
+
+        if (_applicationSettings.ShowNotifiyIcon)
+            InitializeNotifyIcon();
+    }
+
+    private void OnApplicationSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ApplicationSettingsModel.ShowNotifiyIcon))
+        {
+            if (_applicationSettings.ShowNotifiyIcon && _notifyIcon == null)
+                InitializeNotifyIcon();
+            else if (!_applicationSettings.ShowNotifiyIcon && _notifyIcon != null)
+                DisposeNotifyIcon();
+        }
+    }
+
+    private void InitializeNotifyIcon()
+    {
+        if (_notifyIcon != null)
+            return;
 
         _notifyIcon = new()
         {
@@ -33,11 +60,23 @@ public class NotifyIconComponent : IDisposable
         ContextMenuStrip contextMenu = new();
         contextMenu.Items.Add("New Note", null, NewNote_Click);
         contextMenu.Items.Add("-");
-        contextMenu.Items.Add("Setings", null, Settings_Click);
+        contextMenu.Items.Add("Settings", null, Settings_Click);
         contextMenu.Items.Add("-");
         contextMenu.Items.Add("Exit", null, Exit_Click);
 
         _notifyIcon.ContextMenuStrip = contextMenu;
+    }
+
+    private void DisposeNotifyIcon()
+    {
+        if (_notifyIcon == null)
+            return;
+
+        _notifyIcon.MouseClick -= NotifyIcon_MouseClick;
+        _notifyIcon.MouseDoubleClick -= NotifyIcon_MouseDoubleClick;
+
+        _notifyIcon.Dispose();
+        _notifyIcon = null;
     }
 
     private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
@@ -69,6 +108,13 @@ public class NotifyIconComponent : IDisposable
 
     public void Dispose()
     {
-        _notifyIcon.Dispose();
+        if (_disposed)
+            return;
+
+        _applicationSettings.PropertyChanged -= OnApplicationSettingsChanged;
+
+        DisposeNotifyIcon();
+
+        _disposed = true;
     }
 }
