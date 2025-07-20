@@ -1,49 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.Core.Enums;
+using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
-using PinnyNotes.WpfUi.Messages;
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
-using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
 public class NoteViewModel : BaseViewModel
 {
-    private readonly Dictionary<string, Action<object>> _settingChangeHandlers;
-
     public RelayCommand<ThemeColors> ChangeThemeColorCommand { get; }
 
     public Theme[] AvailableThemes { get; }
+
+    public NoteSettingsModel NoteSettings { get; set; }
+    public EditorSettingsModel EditorSettings { get; set; }
 
     public NoteViewModel(
         AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService,
         NoteViewModel? parent = null
     ) : base(appMetadata, settingsService, messengerService)
     {
-        _settingChangeHandlers = new()
-        {
-            { "TransparencyMode", _ => UpdateOpacity() },
-            { "OpaqueWhenFocused", _ => UpdateOpacity() },
-            { "OnlyTransparentWhenPinned", _ => UpdateOpacity() },
-            { "OpaqueOpacity", _ => UpdateOpacity() },
-            { "TransparentOpacity", _ => UpdateOpacity() },
-            { "ColorMode", _ => UpdateBrushes() }
-        };
-
-        MessengerService.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
-
         ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
 
         AvailableThemes = ThemeHelper.Themes.Values.ToArray();
 
         NoteSettings = SettingsService.NoteSettings;
+        NoteSettings.PropertyChanged += OnNoteSettingsChanged;
         EditorSettings = SettingsService.EditorSettings;
 
         _width = NoteSettings.DefaultWidth;
@@ -222,10 +211,20 @@ public class NoteViewModel : BaseViewModel
             Opacity = transparentOpacity;
     }
 
-    private void OnSettingChangedMessage(SettingChangedMessage message)
+    private void OnNoteSettingsChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_settingChangeHandlers.TryGetValue(message.SettingName, out Action<object>? handler))
-            handler(message.NewValue);
+        switch (e.PropertyName)
+        {
+            case nameof(NoteSettingsModel.TransparencyMode):
+            case nameof(NoteSettingsModel.OpaqueWhenFocused):
+            case nameof(NoteSettingsModel.OpaqueValue):
+            case nameof(NoteSettingsModel.TransparentValue):
+                UpdateOpacity();
+                break;
+            case nameof(NoteSettingsModel.ColorMode):
+                UpdateBrushes();
+                break;
+        }
     }
 
     public nint WindowHandel { get; set; }
@@ -276,9 +275,6 @@ public class NoteViewModel : BaseViewModel
 
     public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
     private double _opacity;
-
-    public NoteSettingsModel NoteSettings { get; set; }
-    public EditorSettingsModel EditorSettings { get; set; }
 
 
     public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }
