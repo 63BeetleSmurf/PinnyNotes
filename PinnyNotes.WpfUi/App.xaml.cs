@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 
@@ -7,9 +8,10 @@ using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Factories;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
-using PinnyNotes.WpfUi.Views;
 using PinnyNotes.WpfUi.ViewModels;
+using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi;
 
@@ -34,6 +36,8 @@ public partial class App : Application
 
     private EventWaitHandle _eventWaitHandle = null!;
 
+    private ApplicationSettingsModel _applicationSettings = null!;
+
     protected override async void OnStartup(StartupEventArgs e)
     {
         // _mutex is required to keep it in memory, using _ = new Mutex() will not work as garbage collector will dispose of it eventually.
@@ -53,15 +57,16 @@ public partial class App : Application
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
 
-
         _settingsService = Services.GetRequiredService<SettingsService>();
+        _applicationSettings = _settingsService.ApplicationSettings;
+        _applicationSettings.PropertyChanged += OnApplicationSettingsChanged;
+
         _appMetadataService = Services.GetRequiredService<AppMetadataService>();
         _ = Services.GetRequiredService<WindowService>();
         _notifyIconService = Services.GetRequiredService<NotifyIconService>();
 
         MessengerService messengerService = Services.GetRequiredService<MessengerService>();
         messengerService.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
-        messengerService.Subscribe<SettingChangedMessage>(OnSettingChangedMessage);
 
         // Spawn a thread which will be waiting for our event
         Thread thread = new(
@@ -125,9 +130,9 @@ public partial class App : Application
             Shutdown();
     }
 
-    private void OnSettingChangedMessage(SettingChangedMessage message)
+    private void OnApplicationSettingsChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (message.SettingName == "ShowTrayIcon")
-            ShutdownMode = ((bool)message.NewValue) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
+        if (e.PropertyName == nameof(ApplicationSettingsModel.ShowNotifiyIcon))
+            ShutdownMode = (_applicationSettings.ShowNotifiyIcon) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
     }
 }
