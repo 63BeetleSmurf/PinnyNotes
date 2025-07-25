@@ -2,6 +2,7 @@
 
 public enum CopyActions
 {
+    None,
     CopySelected,
     CopyLine,
     CopyAll

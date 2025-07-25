@@ -257,9 +257,10 @@ public partial class NoteTextBoxControl : TextBox
 
         return action switch
         {
+            CopyActions.CopySelected => SelectedText,
             CopyActions.CopyLine => GetCurrentLineText(),
             CopyActions.CopyAll => Text,
-            _ => SelectedText // Default, CopyActions.CopySlected
+            _ => string.Empty // Default, CopyActions.None
         };
     }
 

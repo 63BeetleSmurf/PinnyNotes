@@ -47,6 +47,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
                                        .ToArray();
 
     private static readonly KeyValuePair<CopyActions, string>[] _copyActionList = [
+        new(CopyActions.None, "None"),
         new(CopyActions.CopySelected, "Copy selected"),
         new(CopyActions.CopyLine, "Copy line"),
         new(CopyActions.CopyAll, "Copy all")
