@@ -188,7 +188,7 @@
             </TabItem>
 
             <!-- Editor Tab -->
-            <TabItem Header="Editor">
+            <TabItem Header="Editor" HorizontalAlignment="Left" Width="43">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
@@ -197,8 +197,6 @@
                             <StackPanel>
 
                                 <CheckBox Grid.Column="0" Grid.Row="0" Content="Spell Checker" IsChecked="{Binding Settings.EditorSettings.CheckSpelling}" />
-
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Auto Indent" IsChecked="{Binding Settings.EditorSettings.AutoIndent}" />
 
                                 <CheckBox Grid.Column="0" Grid.Row="2" Content="New Line At End" IsChecked="{Binding Settings.EditorSettings.NewLineAtEnd}" />
 
@@ -255,14 +253,17 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Use spaces instead of tabs" IsChecked="{Binding Settings.EditorSettings.UseSpacesForTab}" />
+                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Auto Indent" IsChecked="{Binding Settings.EditorSettings.AutoIndent}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Convert indentation in pasted text" IsChecked="{Binding Settings.EditorSettings.ConvertIndentationOnPaste}" />
+                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Use spaces instead of tabs" IsChecked="{Binding Settings.EditorSettings.UseSpacesForTab}" />
 
-                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Tab width"/>
-                                <TextBox Grid.Column="1" Grid.Row="2" Width="50" Text="{Binding Settings.EditorSettings.TabSpacesWidth}" />
+                                <CheckBox Grid.Column="0" Grid.Row="2" Content="Convert indentation in pasted text" IsChecked="{Binding Settings.EditorSettings.ConvertIndentationOnPaste}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Tab width"/>
+                                <TextBox Grid.Column="1" Grid.Row="3" Width="50" Text="{Binding Settings.EditorSettings.TabSpacesWidth}" />
 
                             </Grid>
                         </GroupBox>

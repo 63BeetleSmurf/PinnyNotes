@@ -13,6 +13,7 @@
 
 ### Changed
 - Code refactoring.
+- Rearranged Show In Task Bar and Auto Indent settings.
 - 
 
 ### Fixed
