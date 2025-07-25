@@ -141,7 +141,9 @@ public class SettingsService
                 SlashState = ToolSettings.SlashToolState,
                 SortState = ToolSettings.SortToolState,
                 SplitState = ToolSettings.SplitToolState,
-                TrimState = ToolSettings.TrimToolState
+                TrimState = ToolSettings.TrimToolState,
+
+                Id = 1
             }
         );
     }
