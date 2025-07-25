@@ -137,12 +137,26 @@ public partial class NoteTextBoxControl : TextBox
     }
     public static readonly DependencyProperty CopyActionProperty = DependencyProperty.Register(nameof(CopyAction), typeof(CopyActions), typeof(NoteTextBoxControl));
 
+    public bool TrimTextOnCopy
+    {
+        get => (bool)GetValue(TrimTextOnCopyProperty);
+        set => SetValue(TrimTextOnCopyProperty, value);
+    }
+    public static readonly DependencyProperty TrimTextOnCopyProperty = DependencyProperty.Register(nameof(TrimTextOnCopy), typeof(bool), typeof(NoteTextBoxControl));
+
     public CopyActions CopyAltAction
     {
         get => (CopyActions)GetValue(CopyAltActionProperty);
         set => SetValue(CopyAltActionProperty, value);
     }
     public static readonly DependencyProperty CopyAltActionProperty = DependencyProperty.Register(nameof(CopyAltAction), typeof(CopyActions), typeof(NoteTextBoxControl));
+
+    public bool TrimTextOnAltCopy
+    {
+        get => (bool)GetValue(TrimTextOnAltCopyProperty);
+        set => SetValue(TrimTextOnAltCopyProperty, value);
+    }
+    public static readonly DependencyProperty TrimTextOnAltCopyProperty = DependencyProperty.Register(nameof(TrimTextOnAltCopy), typeof(bool), typeof(NoteTextBoxControl));
 
     public CopyFallbackActions CopyFallbackAction
     {
@@ -151,6 +165,13 @@ public partial class NoteTextBoxControl : TextBox
     }
     public static readonly DependencyProperty CopyFallbackActionProperty = DependencyProperty.Register(nameof(CopyFallbackAction), typeof(CopyFallbackActions), typeof(NoteTextBoxControl));
 
+    public bool TrimTextOnFallbackCopy
+    {
+        get => (bool)GetValue(TrimTextOnFallbackCopyProperty);
+        set => SetValue(TrimTextOnFallbackCopyProperty, value);
+    }
+    public static readonly DependencyProperty TrimTextOnFallbackCopyProperty = DependencyProperty.Register(nameof(TrimTextOnFallbackCopy), typeof(bool), typeof(NoteTextBoxControl));
+
     public CopyFallbackActions CopyAltFallbackAction
     {
         get => (CopyFallbackActions)GetValue(CopyAltFallbackActionProperty);
@@ -158,19 +179,19 @@ public partial class NoteTextBoxControl : TextBox
     }
     public static readonly DependencyProperty CopyAltFallbackActionProperty = DependencyProperty.Register(nameof(CopyAltFallbackAction), typeof(CopyFallbackActions), typeof(NoteTextBoxControl));
 
+    public bool TrimTextOnAltFallbackCopy
+    {
+        get => (bool)GetValue(TrimTextOnAltFallbackCopyProperty);
+        set => SetValue(TrimTextOnAltFallbackCopyProperty, value);
+    }
+    public static readonly DependencyProperty TrimTextOnAltFallbackCopyProperty = DependencyProperty.Register(nameof(TrimTextOnAltFallbackCopy), typeof(bool), typeof(NoteTextBoxControl));
+
     public bool AutoCopy
     {
         get => (bool)GetValue(AutoCopyProperty);
         set => SetValue(AutoCopyProperty, value);
     }
     public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.Register(nameof(AutoCopy), typeof(bool), typeof(NoteTextBoxControl));
-
-    public bool TrimCopiedText
-    {
-        get => (bool)GetValue(TrimCopiedTextProperty);
-        set => SetValue(TrimCopiedTextProperty, value);
-    }
-    public static readonly DependencyProperty TrimCopiedTextProperty = DependencyProperty.Register(nameof(TrimCopiedText), typeof(bool), typeof(NoteTextBoxControl));
 
     public bool MiddleClickPaste
     {
@@ -232,36 +253,44 @@ public partial class NoteTextBoxControl : TextBox
 
     private new void Copy()
     {
-        string copiedText = GetTextForCopyAction(
-            (IsShiftPressed()) ? CopyAltAction : CopyAction,
-            (IsShiftPressed()) ? CopyAltFallbackAction : CopyFallbackAction
-        );
+        string copiedText;
+
+        if (IsShiftPressed())
+            copiedText = GetTextForCopyAction(CopyAltAction, CopyAltFallbackAction, TrimTextOnAltCopy, TrimTextOnAltFallbackCopy);
+        else
+            copiedText = GetTextForCopyAction(CopyAction, CopyFallbackAction, TrimTextOnCopy, TrimTextOnFallbackCopy);
+
         if (string.IsNullOrEmpty(copiedText))
             return;
-
-        if (TrimCopiedText)
-            copiedText = copiedText.Trim();
 
         Clipboard.SetDataObject(copiedText);
     }
 
-    private string GetTextForCopyAction(CopyActions action, CopyFallbackActions fallbackAction)
+    private string GetTextForCopyAction(CopyActions action, CopyFallbackActions fallbackAction, bool trim, bool fallbackTrim)
     {
+        string text;
+
         if (!HasSelectedText)
-            return fallbackAction switch
+        {
+            text = fallbackAction switch
             {
                 CopyFallbackActions.CopyLine => GetCurrentLineText(),
                 CopyFallbackActions.CopyNote => Text,
                 _ => string.Empty // Default, CopyFallbackActions.None
             };
 
-        return action switch
+            return (fallbackTrim) ? text.Trim() : text;
+        }
+
+        text = action switch
         {
             CopyActions.CopySelected => SelectedText,
             CopyActions.CopyLine => GetCurrentLineText(),
             CopyActions.CopyAll => Text,
             _ => string.Empty // Default, CopyActions.None
         };
+
+        return (trim) ? text.Trim() : text;
     }
 
     private new void Cut()

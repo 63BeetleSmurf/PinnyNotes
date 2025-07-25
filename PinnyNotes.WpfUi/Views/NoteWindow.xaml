@@ -201,13 +201,16 @@
                                          TabWidth="{Binding EditorSettings.TabSpacesWidth}"
 
                                          CopyAction="{Binding EditorSettings.CopyAction}"
+                                         TrimTextOnCopy="{Binding EditorSettings.TrimTextOnCopy}"
                                          CopyAltAction="{Binding EditorSettings.CopyAltAction}"
+                                         TrimTextOnAltCopy="{Binding EditorSettings.TrimTextOnAltCopy}"
                                          CopyFallbackAction="{Binding EditorSettings.CopyFallbackAction}"
+                                         TrimTextOnFallbackCopy="{Binding EditorSettings.TrimTextOnFallbackCopy}"
                                          CopyAltFallbackAction="{Binding EditorSettings.CopyAltFallbackAction}"
+                                         TrimTextOnAltFallbackCopy="{Binding EditorSettings.TrimTextOnAltFallbackCopy}"
                                          AutoCopy="{Binding EditorSettings.CopyOnSelect}"
-                                         TrimCopiedText="{Binding EditorSettings.TrimCopiedText}"
                                          MiddleClickPaste="{Binding EditorSettings.MiddleClickPaste}"
-                                         TrimPastedText="{Binding EditorSettings.TrimCopiedText}"
+                                         TrimPastedText="{Binding EditorSettings.TrimPastedText}"
                 />
         </Grid>
     </Grid>

@@ -36,14 +36,20 @@ public class EditorSettingsModel : NotifyPropertyChangedBase
     // Clipboard
     public CopyActions CopyAction { get => _copyAction; set => SetProperty(ref _copyAction, value); }
     private CopyActions _copyAction;
+    public bool TrimTextOnCopy { get => _trimTextOnCopy; set => SetProperty(ref _trimTextOnCopy, value); }
+    private bool _trimTextOnCopy;
     public CopyActions CopyAltAction { get => _copyAltAction; set => SetProperty(ref _copyAltAction, value); }
     private CopyActions _copyAltAction;
+    public bool TrimTextOnAltCopy { get => _trimTextOnAltCopy; set => SetProperty(ref _trimTextOnAltCopy, value); }
+    private bool _trimTextOnAltCopy;
     public CopyFallbackActions CopyFallbackAction { get => _copyFallbackAction; set => SetProperty(ref _copyFallbackAction, value); }
     private CopyFallbackActions _copyFallbackAction;
+    public bool TrimTextOnFallbackCopy { get => _trimTextOnFallbackCopy; set => SetProperty(ref _trimTextOnFallbackCopy, value); }
+    private bool _trimTextOnFallbackCopy;
     public CopyFallbackActions CopyAltFallbackAction { get => _copyAltFallbackAction; set => SetProperty(ref _copyAltFallbackAction, value); }
     private CopyFallbackActions _copyAltFallbackAction;
-    public bool TrimCopiedText { get => _trimCopiedText; set => SetProperty(ref _trimCopiedText, value); }
-    private bool _trimCopiedText;
+    public bool TrimTextOnAltFallbackCopy { get => _trimTextOnAltFallbackCopy; set => SetProperty(ref _trimTextOnAltFallbackCopy, value); }
+    private bool _trimTextOnAltFallbackCopy;
     public bool CopyOnSelect { get => _copyOnSelect; set => SetProperty(ref _copyOnSelect, value); }
     private bool _copyOnSelect;
     public bool MiddleClickPaste { get => _middleClickPaste; set => SetProperty(ref _middleClickPaste, value); }

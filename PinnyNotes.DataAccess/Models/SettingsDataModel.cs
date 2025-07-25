@@ -34,11 +34,14 @@ public class SettingsDataModel
     public bool ConvertIndentationOnPaste { get; set; }
     public int TabWidth { get; set; }
     public CopyActions CopyAction { get; set; }
+    public bool TrimTextOnCopy { get; set; }
     public CopyActions CopyAltAction { get; set; }
+    public bool TrimTextOnAltCopy { get; set; }
     public CopyFallbackActions CopyFallbackAction { get; set; }
+    public bool TrimTextOnFallbackCopy { get; set; }
     public CopyFallbackActions CopyAltFallbackAction { get; set; }
+    public bool TrimTextOnAltFallbackCopy { get; set; }
     public bool CopyTextOnHighlight { get; set; }
-    public bool TrimCopiedText { get; set; }
     public bool MiddleClickPaste { get; set; }
     public bool TrimPastedText { get; set; }
 
