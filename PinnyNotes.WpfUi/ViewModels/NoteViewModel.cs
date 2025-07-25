@@ -63,7 +63,7 @@ public class NoteViewModel : BaseViewModel
         }
     }
 
-    private int GetNextThemeColorIndex(int currentIndex)
+    private static int GetNextThemeColorIndex(int currentIndex)
     {
         int nextIndex = currentIndex + 1;
         if (!Enum.IsDefined((ThemeColors)nextIndex))

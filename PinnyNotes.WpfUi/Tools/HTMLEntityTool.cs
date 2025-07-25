@@ -34,14 +34,11 @@ public class HtmlEntityTool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        switch (action)
+        return action switch
         {
-            case ToolActions.EntityEncode:
-                return WebUtility.HtmlEncode(text);
-            case ToolActions.EntityDecode:
-                return WebUtility.HtmlDecode(text);
-        }
-
-        return text;
+            ToolActions.EntityEncode => WebUtility.HtmlEncode(text),
+            ToolActions.EntityDecode => WebUtility.HtmlDecode(text),
+            _ => text,
+        };
     }
 }

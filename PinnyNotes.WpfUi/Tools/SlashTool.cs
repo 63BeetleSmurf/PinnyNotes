@@ -37,20 +37,16 @@ public class SlashTool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        switch (action)
+        return action switch
         {
-            case ToolActions.SlashAllForward:
-                return text.Replace('\\', '/');
-            case ToolActions.SlashAllBack:
-                return text.Replace('/', '\\');
-            case ToolActions.SlashSwap:
-                return SwapCharacters(text, '\\', '/');
-        }
-
-        return text;
+            ToolActions.SlashAllForward => text.Replace('\\', '/'),
+            ToolActions.SlashAllBack => text.Replace('/', '\\'),
+            ToolActions.SlashSwap => SwapCharacters(text, '\\', '/'),
+            _ => text,
+        };
     }
 
-    private string SwapCharacters(string text, char character1, char? character2 = null)
+    private static string SwapCharacters(string text, char character1, char? character2 = null)
     {
         StringBuilder stringBuilder = new(text.Length);
 

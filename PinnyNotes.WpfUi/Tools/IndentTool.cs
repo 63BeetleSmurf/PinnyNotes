@@ -36,16 +36,12 @@ public class IndentTool : BaseTool, ITool
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {
-        switch (action)
+        return action switch
         {
-            case ToolActions.Indent2Spaces:
-                return $"  {line}";
-            case ToolActions.Indent4Spaces:
-                return $"    {line}";
-            case ToolActions.IndentTab:
-                return $"\t{line}";
-        }
-
-        return line;
+            ToolActions.Indent2Spaces => $"  {line}",
+            ToolActions.Indent4Spaces => $"    {line}",
+            ToolActions.IndentTab => $"\t{line}",
+            _ => line,
+        };
     }
 }

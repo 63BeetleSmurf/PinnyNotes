@@ -41,15 +41,14 @@ public class DateTimeTool : BaseTool, ITool
         return GetDateTime("s", selectedText);
     }
 
-    private string GetDateTime(string format, string? dateString = null)
+    private static string GetDateTime(string format, string? dateString = null)
     {
         if (string.IsNullOrEmpty(dateString))
             return DateTime.UtcNow.ToString(format);
 
-        DateTime parsedDateTime;
-        if (DateTime.TryParse(dateString, out parsedDateTime))
+        if (DateTime.TryParse(dateString, out DateTime parsedDateTime))
             return parsedDateTime.ToString(format);
 
-        return "";
+        return string.Empty;
     }
 }

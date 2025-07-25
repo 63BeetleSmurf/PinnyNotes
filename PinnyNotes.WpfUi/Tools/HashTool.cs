@@ -63,8 +63,10 @@ public class HashTool : BaseTool, ITool
                 return text;
         }
 
-        return BitConverter.ToString(
-            hasher.ComputeHash(Encoding.UTF8.GetBytes(NoteTextBox.Text))
-        ).Replace("-", "");
+        return Convert.ToHexString(
+            hasher.ComputeHash(
+                Encoding.UTF8.GetBytes(NoteTextBox.Text)
+            )
+        );
     }
 }

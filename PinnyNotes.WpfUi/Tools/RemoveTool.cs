@@ -83,7 +83,7 @@ public class RemoveTool : BaseTool, ITool
         return text;
     }
 
-    private string RemoveCharacters(string text, HashSet<char> character)
+    private static string RemoveCharacters(string text, HashSet<char> character)
     {
         StringBuilder stringBuilder = new(text.Length);
 
@@ -96,8 +96,8 @@ public class RemoveTool : BaseTool, ITool
         return stringBuilder.ToString();
     }
 
-    private string RemoveString(string text, string toRemove)
+    private static string RemoveString(string text, string toRemove)
     {
-        return text.Replace(toRemove, "");
+        return text.Replace(toRemove, string.Empty);
     }
 }

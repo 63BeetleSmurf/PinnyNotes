@@ -8,7 +8,7 @@ namespace PinnyNotes.WpfUi.Services;
 
 public class DatabaseService
 {
-    private string _connectionString { get; }
+    private readonly string _connectionString;
 
     public AppMetadataRepository AppMetadataRepository { get; }
     public SettingsRepository SettingsRepository { get; }

@@ -39,16 +39,12 @@ public class CaseTool : BaseTool, ITool
     {
         TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
-        switch (action)
+        return action switch
         {
-            case ToolActions.CaseLower:
-                return textInfo.ToLower(text);
-            case ToolActions.CaseUpper:
-                return textInfo.ToUpper(text);
-            case ToolActions.CaseTitle:
-                return textInfo.ToTitleCase(text);
-        }
-
-        return text;
+            ToolActions.CaseLower => textInfo.ToLower(text),
+            ToolActions.CaseUpper => textInfo.ToUpper(text),
+            ToolActions.CaseTitle => textInfo.ToTitleCase(text),
+            _ => text,
+        };
     }
 }

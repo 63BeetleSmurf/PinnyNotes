@@ -11,7 +11,7 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
 {
-    private static readonly KeyValuePair<StartupPositions, string>[] _startupPositionsList = [
+    public static KeyValuePair<StartupPositions, string>[] StartupPositionsList { get; } = [
         new(StartupPositions.TopLeft, "Top Left"),
         new(StartupPositions.TopCenter, "Top Center"),
         new(StartupPositions.TopRight, "Top Right"),
@@ -23,43 +23,43 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         new(StartupPositions.BottomRight, "Bottom Right")
     ];
 
-    private static readonly KeyValuePair<MinimizeModes, string>[] _minimizeModeList = [
+    public static KeyValuePair<MinimizeModes, string>[] MinimizeModeList { get; } = [
         new(MinimizeModes.Allow, "Yes"),
         new(MinimizeModes.Prevent, "No"),
         new(MinimizeModes.PreventIfPinned, "When not pinned")
     ];
 
-    private static readonly KeyValuePair<ColorModes, string>[] _colorModeList = [
+    public static KeyValuePair<ColorModes, string>[] ColorModeList { get; } = [
         new(ColorModes.Light, "Light"),
         new(ColorModes.Dark, "Dark"),
         new(ColorModes.System, "System Default")
     ];
 
-    private static readonly KeyValuePair<TransparencyModes, string>[] _transparencyModeList = [
+    public static KeyValuePair<TransparencyModes, string>[] TransparencyModeList { get; } = [
         new(TransparencyModes.Disabled, "Disabled"),
         new(TransparencyModes.Enabled, "Enabled"),
         new(TransparencyModes.WhenPinned, "Only when pinned")
     ];
 
-    private static readonly KeyValuePair<string, string>[] _fontFamilyList
+    public static KeyValuePair<string, string>[] FontFamilyList { get; }
         = new InstalledFontCollection().Families
                                        .Select(f => new KeyValuePair<string, string>(f.Name, f.Name))
                                        .ToArray();
 
-    private static readonly KeyValuePair<CopyActions, string>[] _copyActionList = [
+    public static KeyValuePair<CopyActions, string>[] CopyActionList { get; } = [
         new(CopyActions.None, "None"),
         new(CopyActions.CopySelected, "Copy selected"),
         new(CopyActions.CopyLine, "Copy line"),
         new(CopyActions.CopyAll, "Copy all")
     ];
 
-    private static readonly KeyValuePair<CopyFallbackActions, string>[] _copyFallbackActionList = [
+    public static KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList { get; } = [
         new(CopyFallbackActions.None, "None"),
         new(CopyFallbackActions.CopyLine, "Copy line"),
         new(CopyFallbackActions.CopyNote, "Copy note")
     ];
 
-    private static readonly KeyValuePair<ToolStates, string>[] _toolStateList = [
+    public static KeyValuePair<ToolStates, string>[] ToolStateList { get; } = [
         new(ToolStates.Disabled, "Disabled"),
         new(ToolStates.Enabled, "Enabled"),
         new(ToolStates.Favourite, "Favourite")
@@ -69,27 +69,17 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService
         ) : base(appMetadata, settingsService, messengerService)
     {
-        Settings = new()
-        {
-            ApplicationSettings = SettingsService.ApplicationSettings,
-            NoteSettings = SettingsService.NoteSettings,
-            EditorSettings = SettingsService.EditorSettings,
-            ToolSettings = SettingsService.ToolSettings
-        };
+        Settings = new(
+            SettingsService.ApplicationSettings,
+            SettingsService.NoteSettings,
+            SettingsService.EditorSettings,
+            SettingsService.ToolSettings
+        );
 
         _isTransparencyEnabled = (Settings.NoteSettings.TransparencyMode != TransparencyModes.Disabled);
     }
 
     public SettingsModel Settings { get; set; }
-
-    public KeyValuePair<StartupPositions, string>[] StartupPositionsList => _startupPositionsList;
-    public KeyValuePair<MinimizeModes, string>[] MinimizeModeList => _minimizeModeList;
-    public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
-    public KeyValuePair<TransparencyModes, string>[] TransparencyModeList => _transparencyModeList;
-    public KeyValuePair<string, string>[] FontFamilyList => _fontFamilyList;
-    public KeyValuePair<CopyActions, string>[] CopyActionList => _copyActionList;
-    public KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList => _copyFallbackActionList;
-    public KeyValuePair<ToolStates, string>[] ToolStateList => _toolStateList;
 
     public bool IsTransparencyEnabled
     {

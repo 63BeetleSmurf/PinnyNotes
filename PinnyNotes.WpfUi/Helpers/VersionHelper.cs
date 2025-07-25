@@ -32,7 +32,7 @@ public static class VersionHelper
 
     private static async Task<Version?> GetLatestGitHubReleaseVersion()
     {
-        using HttpClient client = new HttpClient();
+        using HttpClient client = new();
         client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("PinnyNotes", CurrentVersion.ToString()));
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

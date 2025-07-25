@@ -3,16 +3,11 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public abstract class BaseViewModel : NotifyPropertyChangedBase
+public abstract class BaseViewModel(
+    AppMetadataService appMetadataService, SettingsService settingsService, MessengerService messengerService
+) : NotifyPropertyChangedBase
 {
-    protected AppMetadataService AppMetadataService { get; }
-    protected SettingsService SettingsService { get; }
-    protected MessengerService MessengerService { get; }
-
-    protected BaseViewModel(AppMetadataService appMetadataService, SettingsService settingsService, MessengerService messengerService)
-    {
-        AppMetadataService = appMetadataService;
-        SettingsService = settingsService;
-        MessengerService = messengerService;
-    }
+    protected AppMetadataService AppMetadataService { get; } = appMetadataService;
+    protected SettingsService SettingsService { get; } = settingsService;
+    protected MessengerService MessengerService { get; } = messengerService;
 }

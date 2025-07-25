@@ -18,7 +18,7 @@ public partial class NoteTextBoxControl : TextBox
     public RelayCommand PasteCommand;
     public RelayCommand ClearCommand;
 
-    private NoteTextBoxContextMenu _contextMenu;
+    private readonly NoteTextBoxContextMenu _contextMenu;
 
     public NoteTextBoxControl() : base()
     {
@@ -242,7 +242,7 @@ public partial class NoteTextBoxControl : TextBox
     public string GetCurrentLineText()
         => GetLineText(GetLineIndexFromCharacterIndex(CaretIndex));
 
-    private bool IsShiftPressed(bool exclusive = false)
+    private static bool IsShiftPressed(bool exclusive = false)
         => (exclusive) ? (Keyboard.Modifiers == ModifierKeys.Shift) : Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
     private void OnCopyExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -350,7 +350,7 @@ public partial class NoteTextBoxControl : TextBox
         if (!Clipboard.ContainsText())
             return;
 
-        string? clipboardString = null;
+        string clipboardString;
         try
         {
             // Get text from clipboard and trim if specified
@@ -530,7 +530,7 @@ public partial class NoteTextBoxControl : TextBox
                 int lineCaretIndex = caretIndex - lineStart;
                 int tabWidth = lineCaretIndex % spaceCount;
                 if (tabWidth > 0)
-                    spaceCount = spaceCount - tabWidth;
+                    spaceCount -= tabWidth;
             }
             string spaces = "".PadLeft(spaceCount, ' ');
 

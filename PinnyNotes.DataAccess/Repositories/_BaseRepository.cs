@@ -38,7 +38,7 @@ public abstract class BaseRepository(string connectionString)
         return command.ExecuteReader();
     }
 
-    protected int GetLastInsertRowId(SqliteConnection connection)
+    protected static int GetLastInsertRowId(SqliteConnection connection)
         => Convert.ToInt32(
             ExecuteScalar(connection, "SELECT last_insert_rowid();")
         );
@@ -127,21 +127,15 @@ public abstract class BaseRepository(string connectionString)
     {
         string value = reader.GetString(ordinal);
 
-        switch (value)
+        return value switch
         {
-            case "bool":
-                return typeof(bool);
-            case "int":
-                return typeof(int);
-            case "long":
-                return typeof(long);
-            case "double":
-                return typeof(double);
-            case "string":
-                return typeof(string);
-            default:
-                throw new ArgumentException($"Unknown type: {value}");
-        }
+            "bool" => typeof(bool),
+            "int" => typeof(int),
+            "long" => typeof(long),
+            "double" => typeof(double),
+            "string" => typeof(string),
+            _ => throw new ArgumentException($"Unknown type: {value}"),
+        };
     }
     protected static Type GetValueType(SqliteDataReader reader, string columnName)
         => GetValueType(reader, reader.GetOrdinal(columnName));

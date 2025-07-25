@@ -17,9 +17,9 @@ public class EditorSettingsModel : NotifyPropertyChangedBase
 
     // Fonts
     public string StandardFontFamily { get => _standardFontFamily; set => SetProperty(ref _standardFontFamily, value); }
-    private string _standardFontFamily;
+    private string _standardFontFamily = string.Empty;
     public string MonoFontFamily { get => _monoFontFamily; set => SetProperty(ref _monoFontFamily, value); }
-    private string _monoFontFamily;
+    private string _monoFontFamily = string.Empty;
     public bool UseMonoFont { get => _useMonoFont; set => SetProperty(ref _useMonoFont, value); }
     private bool _useMonoFont;
 

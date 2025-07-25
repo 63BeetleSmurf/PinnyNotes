@@ -36,16 +36,12 @@ public class JoinTool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        switch (action)
+        return action switch
         {
-            case ToolActions.JoinComma:
-                return text.Replace(Environment.NewLine, ",");
-            case ToolActions.JoinSpace:
-                return text.Replace(Environment.NewLine, " ");
-            case ToolActions.JoinTab:
-                return text.Replace(Environment.NewLine, "\t");
-        }
-
-        return text;
+            ToolActions.JoinComma => text.Replace(Environment.NewLine, ","),
+            ToolActions.JoinSpace => text.Replace(Environment.NewLine, " "),
+            ToolActions.JoinTab => text.Replace(Environment.NewLine, "\t"),
+            _ => text,
+        };
     }
 }

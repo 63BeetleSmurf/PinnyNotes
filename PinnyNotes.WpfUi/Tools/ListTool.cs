@@ -36,16 +36,12 @@ public class ListTool : BaseTool, ITool
 
     private string? ModifyLineCallback(string line, int index, Enum action)
     {
-        switch (action)
+        return action switch
         {
-            case ToolActions.ListEnumerate:
-                return $"{index + 1}. {line}";
-            case ToolActions.ListDash:
-                return $"- {line}";
-            case ToolActions.ListRemove:
-                return line[(line.IndexOf(' ') + 1)..];
-        }
-
-        return line;
+            ToolActions.ListEnumerate => $"{index + 1}. {line}",
+            ToolActions.ListDash => $"- {line}",
+            ToolActions.ListRemove => line[(line.IndexOf(' ') + 1)..],
+            _ => line,
+        };
     }
 }

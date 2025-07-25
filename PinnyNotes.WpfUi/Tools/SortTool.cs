@@ -34,18 +34,15 @@ public class SortTool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        switch (action)
+        return action switch
         {
-            case ToolActions.SortAscending:
-                return SortNoteText(text);
-            case ToolActions.SortDescending:
-                return SortNoteText(text, true);
-        }
-
-        return text;
+            ToolActions.SortAscending => SortNoteText(text),
+            ToolActions.SortDescending => SortNoteText(text, true),
+            _ => text,
+        };
     }
 
-    private string SortNoteText(string text, bool reverse = false)
+    private static string SortNoteText(string text, bool reverse = false)
     {
         string[] lines = text.Split(Environment.NewLine);
         Array.Sort(lines);
