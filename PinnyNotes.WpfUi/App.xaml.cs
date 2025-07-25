@@ -86,6 +86,8 @@ public partial class App : Application
 
         messengerService.Publish(new CreateNewNoteMessage());
 
+        ShutdownMode = (_applicationSettings.ShowNotifiyIcon) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
+
         if (_settingsService.ApplicationSettings.CheckForUpdates)
         {
             DateTimeOffset date = DateTimeOffset.UtcNow;
