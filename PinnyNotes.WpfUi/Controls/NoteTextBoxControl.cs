@@ -50,6 +50,7 @@ public partial class NoteTextBoxControl : TextBox
         InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
         InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift)));
         InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
+        InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control | ModifierKeys.Shift)));
         InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
 
         _contextMenu = new NoteTextBoxContextMenu(this);
@@ -252,13 +253,19 @@ public partial class NoteTextBoxControl : TextBox
         => Paste();
 
     private new void Copy()
+        => CopyText();
+
+    private new void Cut()
+        => CopyText(true);
+
+    private void CopyText(bool cut = false)
     {
         string copiedText;
 
         if (IsShiftPressed())
-            copiedText = GetTextForCopyAction(CopyAltAction, CopyAltFallbackAction, TrimTextOnAltCopy, TrimTextOnAltFallbackCopy);
+            copiedText = GetTextForCopyAction(CopyAltAction, CopyAltFallbackAction, TrimTextOnAltCopy, TrimTextOnAltFallbackCopy, cut);
         else
-            copiedText = GetTextForCopyAction(CopyAction, CopyFallbackAction, TrimTextOnCopy, TrimTextOnFallbackCopy);
+            copiedText = GetTextForCopyAction(CopyAction, CopyFallbackAction, TrimTextOnCopy, TrimTextOnFallbackCopy, cut);
 
         if (string.IsNullOrEmpty(copiedText))
             return;
@@ -266,7 +273,7 @@ public partial class NoteTextBoxControl : TextBox
         Clipboard.SetDataObject(copiedText);
     }
 
-    private string GetTextForCopyAction(CopyActions action, CopyFallbackActions fallbackAction, bool trim, bool fallbackTrim)
+    private string GetTextForCopyAction(CopyActions action, CopyFallbackActions fallbackAction, bool trim, bool fallbackTrim, bool cut)
     {
         string text;
 
@@ -274,29 +281,67 @@ public partial class NoteTextBoxControl : TextBox
         {
             text = fallbackAction switch
             {
-                CopyFallbackActions.CopyLine => GetCurrentLineText(),
-                CopyFallbackActions.CopyNote => Text,
+                CopyFallbackActions.CopyLine => HandleLineCopyOrCut(fallbackTrim, cut),
+                CopyFallbackActions.CopyNote => HandleNoteCopyOrCut(fallbackTrim, cut),
                 _ => string.Empty // Default, CopyFallbackActions.None
             };
-
-            return (fallbackTrim) ? text.Trim() : text;
+            return text;
         }
 
         text = action switch
         {
-            CopyActions.CopySelected => SelectedText,
-            CopyActions.CopyLine => GetCurrentLineText(),
-            CopyActions.CopyAll => Text,
+            CopyActions.CopySelected => HandleSelectedTextCopyOrCut(trim, cut),
+            CopyActions.CopyLine => HandleLineCopyOrCut(trim, cut),
+            CopyActions.CopyAll => HandleNoteCopyOrCut(trim, cut),
             _ => string.Empty // Default, CopyActions.None
         };
 
-        return (trim) ? text.Trim() : text;
+        return text;
     }
 
-    private new void Cut()
+    private string HandleSelectedTextCopyOrCut(bool trim, bool cut)
     {
-        Copy();
-        SelectedText = string.Empty;
+        string text = SelectedText;
+
+        if (trim)
+            text = text.Trim();
+
+        if (cut)
+            SelectedText = string.Empty;
+
+        return text;
+    }
+
+    private string HandleLineCopyOrCut(bool trim, bool cut)
+    {
+        int lineIndex = GetLineIndexFromCharacterIndex(CaretIndex);
+        string lineText = GetLineText(lineIndex);
+
+        string text = (trim) ? lineText.Trim() : lineText;
+
+        if (cut)
+        {
+            int lineStart = GetCharacterIndexFromLineIndex(lineIndex);
+            int lineLength = GetLineLength(lineIndex);
+
+            Select(lineStart, lineLength);
+            SelectedText = string.Empty;
+        }
+
+        return text;
+    }
+
+    private string HandleNoteCopyOrCut(bool trim, bool cut)
+    {
+        string text = (trim) ? Text.Trim() : Text;
+
+        if (cut)
+        {
+            SelectAll();
+            SelectedText = string.Empty;
+        }
+
+        return text;
     }
 
     private new void Paste()
