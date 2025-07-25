@@ -33,11 +33,14 @@ public class SettingsDataModel
     public bool TabUsesSpaces { get; set; }
     public bool ConvertIndentationOnPaste { get; set; }
     public int TabWidth { get; set; }
+    public CopyActions CopyAction { get; set; }
+    public CopyActions CopyAltAction { get; set; }
+    public CopyFallbackActions CopyFallbackAction { get; set; }
+    public CopyFallbackActions CopyAltFallbackAction { get; set; }
+    public bool CopyTextOnHighlight { get; set; }
+    public bool TrimCopiedText { get; set; }
     public bool MiddleClickPaste { get; set; }
     public bool TrimPastedText { get; set; }
-    public bool TrimCopiedText { get; set; }
-    public bool CopyTextOnHighlight { get; set; }
-    public CopyFallbackActions NoSelectionCopyAction { get; set; }
 
     public ToolStates Base64State { get; set; }
     public ToolStates BracketState { get; set; }

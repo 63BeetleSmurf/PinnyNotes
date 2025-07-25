@@ -48,6 +48,7 @@ public partial class NoteTextBoxControl : TextBox
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPasteExecuted));
 
         InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control)));
+        InputBindings.Add(new InputBinding(CopyCommand, new KeyGesture(Key.C, ModifierKeys.Control | ModifierKeys.Shift)));
         InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
         InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
 
@@ -55,114 +56,140 @@ public partial class NoteTextBoxControl : TextBox
         ContextMenu = _contextMenu;
     }
 
-    public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.Register(nameof(AutoCopy), typeof(bool), typeof(NoteTextBoxControl));
-    public bool AutoCopy
-    {
-        get => (bool)GetValue(AutoCopyProperty);
-        set => SetValue(AutoCopyProperty, value);
-    }
-    public static readonly DependencyProperty AutoIndentProperty = DependencyProperty.Register(nameof(AutoIndent), typeof(bool), typeof(NoteTextBoxControl));
+    // General
     public bool AutoIndent
     {
         get => (bool)GetValue(AutoIndentProperty);
         set => SetValue(AutoIndentProperty, value);
     }
+    public static readonly DependencyProperty AutoIndentProperty = DependencyProperty.Register(nameof(AutoIndent), typeof(bool), typeof(NoteTextBoxControl));
 
-    public static readonly DependencyProperty ConvertIndentationProperty = DependencyProperty.Register(nameof(ConvertIndentation), typeof(bool), typeof(NoteTextBoxControl));
-    public bool ConvertIndentation
-    {
-        get => (bool)GetValue(ConvertIndentationProperty);
-        set => SetValue(ConvertIndentationProperty, value);
-    }
-
-    public static readonly DependencyProperty CopyFallbackActionProperty = DependencyProperty.Register(nameof(CopyFallbackAction), typeof(CopyFallbackActions), typeof(NoteTextBoxControl));
-    public CopyFallbackActions CopyFallbackAction
-    {
-        get => (CopyFallbackActions)GetValue(CopyFallbackActionProperty);
-        set => SetValue(CopyFallbackActionProperty, value);
-    }
-
-    public static readonly DependencyProperty KeepNewLineAtEndVisibleProperty = DependencyProperty.Register(nameof(KeepNewLineAtEndVisible), typeof(bool), typeof(NoteTextBoxControl));
-    public bool KeepNewLineAtEndVisible
-    {
-        get => (bool)GetValue(KeepNewLineAtEndVisibleProperty);
-        set => SetValue(KeepNewLineAtEndVisibleProperty, value);
-    }
-
-    public static readonly DependencyProperty MiddleClickPasteProperty = DependencyProperty.Register(nameof(MiddleClickPaste), typeof(bool), typeof(NoteTextBoxControl));
-    public bool MiddleClickPaste
-    {
-        get => (bool)GetValue(MiddleClickPasteProperty);
-        set => SetValue(MiddleClickPasteProperty, value);
-    }
-
-    public static readonly DependencyProperty NewLineAtEndProperty = DependencyProperty.Register(nameof(NewLineAtEnd), typeof(bool), typeof(NoteTextBoxControl));
     public bool NewLineAtEnd
     {
         get => (bool)GetValue(NewLineAtEndProperty);
         set => SetValue(NewLineAtEndProperty, value);
     }
+    public static readonly DependencyProperty NewLineAtEndProperty = DependencyProperty.Register(nameof(NewLineAtEnd), typeof(bool), typeof(NoteTextBoxControl));
 
-    public static readonly DependencyProperty TabSpacesProperty = DependencyProperty.Register(nameof(TabSpaces), typeof(bool), typeof(NoteTextBoxControl));
-    public bool TabSpaces
+    public bool KeepNewLineAtEndVisible
     {
-        get => (bool)GetValue(TabSpacesProperty);
-        set => SetValue(TabSpacesProperty, value);
+        get => (bool)GetValue(KeepNewLineAtEndVisibleProperty);
+        set => SetValue(KeepNewLineAtEndVisibleProperty, value);
     }
+    public static readonly DependencyProperty KeepNewLineAtEndVisibleProperty = DependencyProperty.Register(nameof(KeepNewLineAtEndVisible), typeof(bool), typeof(NoteTextBoxControl));
 
-    public static readonly DependencyProperty TabWidthProperty = DependencyProperty.Register(nameof(TabWidth), typeof(int), typeof(NoteTextBoxControl));
-    public int TabWidth
-    {
-        get => (int)GetValue(TabWidthProperty);
-        set => SetValue(TabWidthProperty, value);
-    }
-
-    public static readonly DependencyProperty TrimCopiedTextProperty = DependencyProperty.Register(nameof(TrimCopiedText), typeof(bool), typeof(NoteTextBoxControl));
-    public bool TrimCopiedText
-    {
-        get => (bool)GetValue(TrimCopiedTextProperty);
-        set => SetValue(TrimCopiedTextProperty, value);
-    }
-
-    public static readonly DependencyProperty TrimPastedTextProperty = DependencyProperty.Register(nameof(TrimPastedText), typeof(bool), typeof(NoteTextBoxControl));
-    public bool TrimPastedText
-    {
-        get => (bool)GetValue(TrimPastedTextProperty);
-        set => SetValue(TrimPastedTextProperty, value);
-    }
-
-    public static readonly DependencyProperty StandardFontFamilyProperty = DependencyProperty.Register(nameof(StandardFontFamily), typeof(string), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
-    public string StandardFontFamily
-    {
-        get => (string)GetValue(StandardFontFamilyProperty);
-        set => SetValue(StandardFontFamilyProperty, value);
-    }
-
-    public static readonly DependencyProperty MonoFontFamilyProperty = DependencyProperty.Register(nameof(MonoFontFamily), typeof(string), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
-    public string MonoFontFamily
-    {
-        get => (string)GetValue(MonoFontFamilyProperty);
-        set => SetValue(MonoFontFamilyProperty, value);
-    }
-
-    public static readonly DependencyProperty UseMonoFontProperty = DependencyProperty.Register(nameof(UseMonoFont), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
-    public bool UseMonoFont
-    {
-        get => (bool)GetValue(UseMonoFontProperty);
-        set => SetValue(UseMonoFontProperty, value);
-    }
-
-    public static readonly DependencyProperty WrapTextProperty = DependencyProperty.Register(nameof(WrapText), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(OnWrapTextChanged));
     public bool WrapText
     {
         get => (bool)GetValue(WrapTextProperty);
         set => SetValue(WrapTextProperty, value);
     }
+    public static readonly DependencyProperty WrapTextProperty = DependencyProperty.Register(nameof(WrapText), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(OnWrapTextChanged));
+
+    // Fonts
+    public string StandardFontFamily
+    {
+        get => (string)GetValue(StandardFontFamilyProperty);
+        set => SetValue(StandardFontFamilyProperty, value);
+    }
+    public static readonly DependencyProperty StandardFontFamilyProperty = DependencyProperty.Register(nameof(StandardFontFamily), typeof(string), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
+
+    public string MonoFontFamily
+    {
+        get => (string)GetValue(MonoFontFamilyProperty);
+        set => SetValue(MonoFontFamilyProperty, value);
+    }
+    public static readonly DependencyProperty MonoFontFamilyProperty = DependencyProperty.Register(nameof(MonoFontFamily), typeof(string), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
+
+    public bool UseMonoFont
+    {
+        get => (bool)GetValue(UseMonoFontProperty);
+        set => SetValue(UseMonoFontProperty, value);
+    }
+    public static readonly DependencyProperty UseMonoFontProperty = DependencyProperty.Register(nameof(UseMonoFont), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(OnFontPropertyChanged));
+
+    // Indentation
+    public bool TabSpaces
+    {
+        get => (bool)GetValue(TabSpacesProperty);
+        set => SetValue(TabSpacesProperty, value);
+    }
+    public static readonly DependencyProperty TabSpacesProperty = DependencyProperty.Register(nameof(TabSpaces), typeof(bool), typeof(NoteTextBoxControl));
+
+    public bool ConvertIndentation
+    {
+        get => (bool)GetValue(ConvertIndentationProperty);
+        set => SetValue(ConvertIndentationProperty, value);
+    }
+    public static readonly DependencyProperty ConvertIndentationProperty = DependencyProperty.Register(nameof(ConvertIndentation), typeof(bool), typeof(NoteTextBoxControl));
+
+    public int TabWidth
+    {
+        get => (int)GetValue(TabWidthProperty);
+        set => SetValue(TabWidthProperty, value);
+    }
+    public static readonly DependencyProperty TabWidthProperty = DependencyProperty.Register(nameof(TabWidth), typeof(int), typeof(NoteTextBoxControl));
+
+    // Copy and Paste
+    public CopyActions CopyAction
+    {
+        get => (CopyActions)GetValue(CopyActionProperty);
+        set => SetValue(CopyActionProperty, value);
+    }
+    public static readonly DependencyProperty CopyActionProperty = DependencyProperty.Register(nameof(CopyAction), typeof(CopyActions), typeof(NoteTextBoxControl));
+
+    public CopyActions CopyAltAction
+    {
+        get => (CopyActions)GetValue(CopyAltActionProperty);
+        set => SetValue(CopyAltActionProperty, value);
+    }
+    public static readonly DependencyProperty CopyAltActionProperty = DependencyProperty.Register(nameof(CopyAltAction), typeof(CopyActions), typeof(NoteTextBoxControl));
+
+    public CopyFallbackActions CopyFallbackAction
+    {
+        get => (CopyFallbackActions)GetValue(CopyFallbackActionProperty);
+        set => SetValue(CopyFallbackActionProperty, value);
+    }
+    public static readonly DependencyProperty CopyFallbackActionProperty = DependencyProperty.Register(nameof(CopyFallbackAction), typeof(CopyFallbackActions), typeof(NoteTextBoxControl));
+
+    public CopyFallbackActions CopyAltFallbackAction
+    {
+        get => (CopyFallbackActions)GetValue(CopyAltFallbackActionProperty);
+        set => SetValue(CopyAltFallbackActionProperty, value);
+    }
+    public static readonly DependencyProperty CopyAltFallbackActionProperty = DependencyProperty.Register(nameof(CopyAltFallbackAction), typeof(CopyFallbackActions), typeof(NoteTextBoxControl));
+
+    public bool AutoCopy
+    {
+        get => (bool)GetValue(AutoCopyProperty);
+        set => SetValue(AutoCopyProperty, value);
+    }
+    public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.Register(nameof(AutoCopy), typeof(bool), typeof(NoteTextBoxControl));
+
+    public bool TrimCopiedText
+    {
+        get => (bool)GetValue(TrimCopiedTextProperty);
+        set => SetValue(TrimCopiedTextProperty, value);
+    }
+    public static readonly DependencyProperty TrimCopiedTextProperty = DependencyProperty.Register(nameof(TrimCopiedText), typeof(bool), typeof(NoteTextBoxControl));
+
+    public bool MiddleClickPaste
+    {
+        get => (bool)GetValue(MiddleClickPasteProperty);
+        set => SetValue(MiddleClickPasteProperty, value);
+    }
+    public static readonly DependencyProperty MiddleClickPasteProperty = DependencyProperty.Register(nameof(MiddleClickPaste), typeof(bool), typeof(NoteTextBoxControl));
+
+    public bool TrimPastedText
+    {
+        get => (bool)GetValue(TrimPastedTextProperty);
+        set => SetValue(TrimPastedTextProperty, value);
+    }
+    public static readonly DependencyProperty TrimPastedTextProperty = DependencyProperty.Register(nameof(TrimPastedText), typeof(bool), typeof(NoteTextBoxControl));
 
     public new int LineCount()
     {
         int count;
-        if (SelectionLength > 0)
+        if (HasSelectedText)
             count = GetLineIndexFromCharacterIndex(SelectionStart + SelectionLength)
                 - GetLineIndexFromCharacterIndex(SelectionStart)
                 + 1;
@@ -173,7 +200,7 @@ public partial class NoteTextBoxControl : TextBox
 
     public int WordCount()
     {
-        string text = (SelectionLength > 0) ? SelectedText : Text;
+        string text = (HasSelectedText) ? SelectedText : Text;
         if (text.Length == 0)
             return 0;
         return text.Split((char[])[' ', '\t', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Length;
@@ -181,11 +208,20 @@ public partial class NoteTextBoxControl : TextBox
 
     public int CharCount()
     {
-        string text = (SelectionLength > 0) ? SelectedText : Text;
+        string text = (HasSelectedText) ? SelectedText : Text;
         if (text.Length == 0)
             return 0;
         return text.Length - text.Count(c => c == '\n' || c == '\r'); // Substract new lines from count.
     }
+
+    public bool HasSelectedText
+        => (SelectionLength > 0);
+
+    public string GetCurrentLineText()
+        => GetLineText(GetLineIndexFromCharacterIndex(CaretIndex));
+
+    private bool IsShiftPressed(bool exclusive = false)
+        => (exclusive) ? (Keyboard.Modifiers == ModifierKeys.Shift) : Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
     private void OnCopyExecuted(object sender, ExecutedRoutedEventArgs e)
         => Copy();
@@ -196,30 +232,35 @@ public partial class NoteTextBoxControl : TextBox
 
     private new void Copy()
     {
-        string copiedText;
-
-        if (SelectionLength == 0)
-        {
-            switch (CopyFallbackAction)
-            {
-                case CopyFallbackActions.CopyLine:
-                    copiedText = GetLineText(GetLineIndexFromCharacterIndex(CaretIndex));
-                    break;
-                case CopyFallbackActions.CopyNote:
-                    copiedText = Text;
-                    break;
-                default:
-                    return;
-            }
-        }
-        else
-        {
-            copiedText = SelectedText;
-        }
+        string copiedText = GetTextForCopyAction(
+            (IsShiftPressed()) ? CopyAltAction : CopyAction,
+            (IsShiftPressed()) ? CopyAltFallbackAction : CopyFallbackAction
+        );
+        if (string.IsNullOrEmpty(copiedText))
+            return;
 
         if (TrimCopiedText)
             copiedText = copiedText.Trim();
+
         Clipboard.SetDataObject(copiedText);
+    }
+
+    private string GetTextForCopyAction(CopyActions action, CopyFallbackActions fallbackAction)
+    {
+        if (!HasSelectedText)
+            return fallbackAction switch
+            {
+                CopyFallbackActions.CopyLine => GetCurrentLineText(),
+                CopyFallbackActions.CopyNote => Text,
+                _ => string.Empty // Default, CopyFallbackActions.None
+            };
+
+        return action switch
+        {
+            CopyActions.CopyLine => GetCurrentLineText(),
+            CopyActions.CopyAll => Text,
+            _ => SelectedText // Default, CopyActions.CopySlected
+        };
     }
 
     private new void Cut()
@@ -261,14 +302,13 @@ public partial class NoteTextBoxControl : TextBox
                 clipboardString = clipboardString.Replace(spaces, "\t");
         }
 
-        bool hasSelectedText = (SelectionLength > 0);
-        int caretIndex = (hasSelectedText) ? SelectionStart : CaretIndex;
+        int caretIndex = (HasSelectedText) ? SelectionStart : CaretIndex;
         bool caretAtEnd = (caretIndex == Text.Length);
 
         SelectedText = clipboardString;
 
         CaretIndex = caretIndex + clipboardString.Length;
-        if (!hasSelectedText && KeepNewLineAtEndVisible && caretAtEnd)
+        if (!HasSelectedText && KeepNewLineAtEndVisible && caretAtEnd)
             ScrollToEnd();
     }
 
@@ -293,7 +333,7 @@ public partial class NoteTextBoxControl : TextBox
 
     private void OnSelectionChanged(object sender, RoutedEventArgs e)
     {
-        if (AutoCopy && SelectionLength > 0)
+        if (AutoCopy && HasSelectedText)
             Copy();
     }
 
@@ -318,9 +358,7 @@ public partial class NoteTextBoxControl : TextBox
 
     private void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if (SelectionLength > 0
-            && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-        )
+        if (HasSelectedText && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
             Copy();
     }
 
@@ -372,7 +410,7 @@ public partial class NoteTextBoxControl : TextBox
         else if (e.Key == Key.Return && AutoIndent)
         {
             // If there is selected text remove it and set caret to correct position
-            if (SelectionLength > 0)
+            if (HasSelectedText)
             {
                 int selectionStart = SelectionStart;
                 Text = Text.Remove(selectionStart, SelectionLength);
@@ -404,10 +442,10 @@ public partial class NoteTextBoxControl : TextBox
 
     private bool HandledTabPressed()
     {
-        if ((SelectionLength == 0 || !SelectedText.Contains(Environment.NewLine)) && Keyboard.Modifiers != ModifierKeys.Shift && TabSpaces)
+        if ((!HasSelectedText || !SelectedText.Contains(Environment.NewLine)) && !IsShiftPressed() && TabSpaces)
         {
             int spaceCount = TabWidth;
-            int caretIndex = (SelectionLength == 0) ? CaretIndex : SelectionStart;
+            int caretIndex = (HasSelectedText) ? SelectionStart : CaretIndex;
 
             int lineStart = GetCharacterIndexFromLineIndex(
                 GetLineIndexFromCharacterIndex(caretIndex)
@@ -421,7 +459,7 @@ public partial class NoteTextBoxControl : TextBox
             }
             string spaces = "".PadLeft(spaceCount, ' ');
 
-            if (SelectionLength == 0)
+            if (!HasSelectedText)
             {
                 Text = Text.Insert(caretIndex, spaces);
                 CaretIndex = caretIndex + spaceCount;
@@ -434,13 +472,13 @@ public partial class NoteTextBoxControl : TextBox
             }
             return true;
         }
-        else if (SelectionLength == 0 && Keyboard.Modifiers == ModifierKeys.Shift)
+        else if (!HasSelectedText && IsShiftPressed(true))
         {
             int caretIndex = CaretIndex;
             if (caretIndex > 0)
             {
                 int tabLength = 0;
-                int charIndex = caretIndex - 1;
+                int charIndex = caretIndex - 1; 
 
                 if (Text[charIndex] == '\t')
                 {
@@ -463,7 +501,7 @@ public partial class NoteTextBoxControl : TextBox
             }
             return true;
         }
-        else if (SelectionLength > 0 && SelectedText.Contains(Environment.NewLine))
+        else if (HasSelectedText && SelectedText.Contains(Environment.NewLine))
         {
             int selectionStart = SelectionStart;
             int selectionEnd = SelectionStart + SelectionLength;
@@ -490,7 +528,7 @@ public partial class NoteTextBoxControl : TextBox
             string[] lines = SelectedText.Split(Environment.NewLine);
             for (int i = 0; i < lines.Length; i++)
             {
-                if (Keyboard.Modifiers == ModifierKeys.Shift)
+                if (IsShiftPressed(true))
                 {
                     if (lines[i].Length > 0)
                     {

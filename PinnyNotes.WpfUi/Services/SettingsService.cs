@@ -50,11 +50,14 @@ public class SettingsService
             AutoIndent = settings.AutoIndent,
             UseSpacesForTab = settings.TabUsesSpaces,
             ConvertIndentationOnPaste = settings.ConvertIndentationOnPaste,
-            MiddleClickPaste = settings.MiddleClickPaste,
-            TrimPastedText = settings.TrimPastedText,
-            TrimCopiedText = settings.TrimCopiedText,
+            CopyAction = settings.CopyAction,
+            CopyAltAction = settings.CopyAltAction,
+            CopyFallbackAction = settings.CopyFallbackAction,
+            CopyAltFallbackAction = settings.CopyAltFallbackAction,
             CopyOnSelect = settings.CopyTextOnHighlight,
-            CopyFallbackAction = settings.NoSelectionCopyAction
+            TrimCopiedText = settings.TrimCopiedText,
+            MiddleClickPaste = settings.MiddleClickPaste,
+            TrimPastedText = settings.TrimPastedText
         };
         ToolSettings = new()
         {
@@ -110,11 +113,14 @@ public class SettingsService
                 AutoIndent = EditorSettings.AutoIndent,
                 TabUsesSpaces = EditorSettings.UseSpacesForTab,
                 ConvertIndentationOnPaste = EditorSettings.ConvertIndentationOnPaste,
+                CopyAction = EditorSettings.CopyAction,
+                CopyAltAction = EditorSettings.CopyAltAction,
+                CopyFallbackAction = EditorSettings.CopyFallbackAction,
+                CopyAltFallbackAction = EditorSettings.CopyAltFallbackAction,
+                CopyTextOnHighlight = EditorSettings.CopyOnSelect,
+                TrimCopiedText = EditorSettings.TrimCopiedText,
                 MiddleClickPaste = EditorSettings.MiddleClickPaste,
                 TrimPastedText = EditorSettings.TrimPastedText,
-                TrimCopiedText = EditorSettings.TrimCopiedText,
-                CopyTextOnHighlight = EditorSettings.CopyOnSelect,
-                NoSelectionCopyAction = EditorSettings.CopyFallbackAction,
 
                 Base64State = ToolSettings.Base64ToolState,
                 BracketState = ToolSettings.BracketToolState,

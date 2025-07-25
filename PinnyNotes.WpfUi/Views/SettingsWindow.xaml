@@ -280,23 +280,50 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Middle Click Paste" IsChecked="{Binding Settings.EditorSettings.MiddleClickPaste}" />
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Copy action"/>
+                                <ComboBox Grid.Column="1" Grid.Row="0"
+                                          Width="120"
+                                          ItemsSource="{Binding CopyActionList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding Settings.EditorSettings.CopyAction, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Trim Pasted Text" IsChecked="{Binding Settings.EditorSettings.TrimPastedText}" />
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Copy alt action (Hold Shift)"/>
+                                <ComboBox Grid.Column="1" Grid.Row="1"
+                                          Width="120"
+                                          ItemsSource="{Binding CopyActionList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding Settings.EditorSettings.CopyAltAction, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Content="Trim Copied Text" IsChecked="{Binding Settings.EditorSettings.TrimCopiedText}" />
-
-                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Auto Copy" IsChecked="{Binding Settings.EditorSettings.CopyOnSelect}" />
-
-                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Copy fallback action"/>
-                                <ComboBox Grid.Column="1" Grid.Row="4"
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Copy fallback action"/>
+                                <ComboBox Grid.Column="1" Grid.Row="2"
                                           Width="120"
                                           ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
                                           SelectedValue="{Binding Settings.EditorSettings.CopyFallbackAction, Mode=TwoWay}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Copy alt fallback action"/>
+                                <ComboBox Grid.Column="1" Grid.Row="3"
+                                          Width="120"
+                                          ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding Settings.EditorSettings.CopyAltFallbackAction, Mode=TwoWay}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Trim Copied Text" IsChecked="{Binding Settings.EditorSettings.TrimCopiedText}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="5" Content="Auto Copy" IsChecked="{Binding Settings.EditorSettings.CopyOnSelect}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="6" Content="Middle Click Paste" IsChecked="{Binding Settings.EditorSettings.MiddleClickPaste}" />
+
+                                <CheckBox Grid.Column="0" Grid.Row="7" Content="Trim Pasted Text" IsChecked="{Binding Settings.EditorSettings.TrimPastedText}" />
 
                             </Grid>
                         </GroupBox>

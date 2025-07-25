@@ -46,6 +46,12 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
                                        .Select(f => new KeyValuePair<string, string>(f.Name, f.Name))
                                        .ToArray();
 
+    private static readonly KeyValuePair<CopyActions, string>[] _copyActionList = [
+        new(CopyActions.CopySelected, "Copy selected"),
+        new(CopyActions.CopyLine, "Copy line"),
+        new(CopyActions.CopyAll, "Copy all")
+    ];
+
     private static readonly KeyValuePair<CopyFallbackActions, string>[] _copyFallbackActionList = [
         new(CopyFallbackActions.None, "None"),
         new(CopyFallbackActions.CopyLine, "Copy line"),
@@ -80,6 +86,7 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
     public KeyValuePair<ColorModes, string>[] ColorModeList => _colorModeList;
     public KeyValuePair<TransparencyModes, string>[] TransparencyModeList => _transparencyModeList;
     public KeyValuePair<string, string>[] FontFamilyList => _fontFamilyList;
+    public KeyValuePair<CopyActions, string>[] CopyActionList => _copyActionList;
     public KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList => _copyFallbackActionList;
     public KeyValuePair<ToolStates, string>[] ToolStateList => _toolStateList;
 

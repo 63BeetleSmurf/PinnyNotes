@@ -34,14 +34,20 @@ public class EditorSettingsModel : NotifyPropertyChangedBase
     private bool _convertIndentationOnPaste;
 
     // Clipboard
-    public bool MiddleClickPaste { get => _middleClickPaste; set => SetProperty(ref _middleClickPaste, value); }
-    private bool _middleClickPaste;
-    public bool TrimPastedText { get => _trimPastedText; set => SetProperty(ref _trimPastedText, value); }
-    private bool _trimPastedText;
+    public CopyActions CopyAction { get => _copyAction; set => SetProperty(ref _copyAction, value); }
+    private CopyActions _copyAction;
+    public CopyActions CopyAltAction { get => _copyAltAction; set => SetProperty(ref _copyAltAction, value); }
+    private CopyActions _copyAltAction;
+    public CopyFallbackActions CopyFallbackAction { get => _copyFallbackAction; set => SetProperty(ref _copyFallbackAction, value); }
+    private CopyFallbackActions _copyFallbackAction;
+    public CopyFallbackActions CopyAltFallbackAction { get => _copyAltFallbackAction; set => SetProperty(ref _copyAltFallbackAction, value); }
+    private CopyFallbackActions _copyAltFallbackAction;
     public bool TrimCopiedText { get => _trimCopiedText; set => SetProperty(ref _trimCopiedText, value); }
     private bool _trimCopiedText;
     public bool CopyOnSelect { get => _copyOnSelect; set => SetProperty(ref _copyOnSelect, value); }
     private bool _copyOnSelect;
-    public CopyFallbackActions CopyFallbackAction { get => _copyFallbackAction; set => SetProperty(ref _copyFallbackAction, value); }
-    private CopyFallbackActions _copyFallbackAction;
+    public bool MiddleClickPaste { get => _middleClickPaste; set => SetProperty(ref _middleClickPaste, value); }
+    private bool _middleClickPaste;
+    public bool TrimPastedText { get => _trimPastedText; set => SetProperty(ref _trimPastedText, value); }
+    private bool _trimPastedText;
 }

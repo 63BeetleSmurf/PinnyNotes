@@ -114,12 +114,11 @@ public class NoteTextBoxContextMenu : ContextMenu
     public void Update()
     {
         bool hasText = (_noteTextBox.Text.Length > 0);
-        bool hasSelectedText = (_noteTextBox.SelectionLength > 0);
 
         UpdateSpellingErrorMenuItems();
 
-        _copyMenuItem.IsEnabled = hasSelectedText;
-        _cutMenuItem.IsEnabled = hasSelectedText;
+        _copyMenuItem.IsEnabled = _noteTextBox.HasSelectedText;
+        _cutMenuItem.IsEnabled = _noteTextBox.HasSelectedText;
         _pasteMenuItem.IsEnabled = Clipboard.ContainsText();
 
         _selectAllMenuItem.IsEnabled = hasText;

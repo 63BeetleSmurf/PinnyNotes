@@ -57,7 +57,7 @@ public abstract class BaseTool
 
     protected void ApplyFunctionToNoteText(Func<string, Enum, string> function, Enum action)
     {
-        if (NoteTextBox.SelectionLength > 0)
+        if (NoteTextBox.HasSelectedText)
         {
             NoteTextBox.SelectedText = function(NoteTextBox.SelectedText, action);
         }
@@ -77,8 +77,7 @@ public abstract class BaseTool
 
     protected void ApplyFunctionToEachLine(Func<string, int, Enum, string?> function, Enum action)
     {
-        bool hasSelectedText = (NoteTextBox.SelectionLength > 0);
-        string noteText = (hasSelectedText) ? NoteTextBox.SelectedText : NoteTextBox.Text;
+        string noteText = (NoteTextBox.HasSelectedText) ? NoteTextBox.SelectedText : NoteTextBox.Text;
 
         string[] lines = noteText.Split(Environment.NewLine);
         // Ignore trailing new line if it was automatically added
@@ -95,7 +94,7 @@ public abstract class BaseTool
 
         noteText = string.Join(Environment.NewLine, newLines);
 
-        if (hasSelectedText)
+        if (NoteTextBox.HasSelectedText)
             NoteTextBox.SelectedText = noteText;
         else
         {
@@ -109,14 +108,13 @@ public abstract class BaseTool
 
     protected void InsertIntoNoteText(string text)
     {
-        bool hasSelectedText = (NoteTextBox.SelectionLength > 0);
-        int caretIndex = (hasSelectedText) ? NoteTextBox.SelectionStart : NoteTextBox.CaretIndex;
+        int caretIndex = (NoteTextBox.HasSelectedText) ? NoteTextBox.SelectionStart : NoteTextBox.CaretIndex;
         bool caretAtEnd = (caretIndex == NoteTextBox.Text.Length);
 
         NoteTextBox.SelectedText = text;
 
         NoteTextBox.CaretIndex = caretIndex + text.Length;
-        if (!hasSelectedText && NoteTextBox.KeepNewLineAtEndVisible && caretAtEnd)
+        if (!NoteTextBox.HasSelectedText && NoteTextBox.KeepNewLineAtEndVisible && caretAtEnd)
             NoteTextBox.ScrollToEnd();
     }
 }
