@@ -52,8 +52,14 @@ public class EditorSettingsModel : NotifyPropertyChangedBase
     private bool _trimTextOnAltFallbackCopy;
     public bool CopyOnSelect { get => _copyOnSelect; set => SetProperty(ref _copyOnSelect, value); }
     private bool _copyOnSelect;
+    public PasteActions PasteAction { get => _pasteAction; set => SetProperty(ref _pasteAction, value); }
+    private PasteActions _pasteAction;
+    public bool TrimTextOnPaste { get => _trimTextOnPaste; set => SetProperty(ref _trimTextOnPaste, value); }
+    private bool _trimTextOnPaste;
+    public PasteActions PasteAltAction { get => _pasteAltAction; set => SetProperty(ref _pasteAltAction, value); }
+    private PasteActions _pasteAltAction;
+    public bool TrimTextOnAltPaste { get => _trimTextOnAltPaste; set => SetProperty(ref _trimTextOnAltPaste, value); }
+    private bool _trimTextOnAltPaste;
     public bool MiddleClickPaste { get => _middleClickPaste; set => SetProperty(ref _middleClickPaste, value); }
     private bool _middleClickPaste;
-    public bool TrimPastedText { get => _trimPastedText; set => SetProperty(ref _trimPastedText, value); }
-    private bool _trimPastedText;
 }

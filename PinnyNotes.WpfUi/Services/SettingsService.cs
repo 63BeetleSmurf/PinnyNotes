@@ -60,8 +60,11 @@ public class SettingsService
             CopyAltFallbackAction = settings.CopyAltFallbackAction,
             TrimTextOnAltFallbackCopy = settings.TrimTextOnAltFallbackCopy,
             CopyOnSelect = settings.CopyTextOnHighlight,
-            MiddleClickPaste = settings.MiddleClickPaste,
-            TrimPastedText = settings.TrimPastedText
+            PasteAction = settings.PasteAction,
+            TrimTextOnPaste = settings.TrimTextOnPaste,
+            PasteAltAction = settings.PasteAltAction,
+            TrimTextOnAltPaste = settings.TrimTextOnAltPaste,
+            MiddleClickPaste = settings.MiddleClickPaste
         };
         ToolSettings = new()
         {
@@ -127,8 +130,11 @@ public class SettingsService
                 CopyAltFallbackAction = EditorSettings.CopyAltFallbackAction,
                 TrimTextOnAltFallbackCopy = EditorSettings.TrimTextOnAltFallbackCopy,
                 CopyTextOnHighlight = EditorSettings.CopyOnSelect,
+                PasteAction = EditorSettings.PasteAction,
+                TrimTextOnPaste = EditorSettings.TrimTextOnPaste,
+                PasteAltAction = EditorSettings.PasteAltAction,
+                TrimTextOnAltPaste = EditorSettings.TrimTextOnAltPaste,
                 MiddleClickPaste = EditorSettings.MiddleClickPaste,
-                TrimPastedText = EditorSettings.TrimPastedText,
 
                 Base64State = ToolSettings.Base64ToolState,
                 BracketState = ToolSettings.BracketToolState,

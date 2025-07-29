@@ -52,6 +52,7 @@ public partial class NoteTextBoxControl : TextBox
         InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control)));
         InputBindings.Add(new InputBinding(CutCommand, new KeyGesture(Key.X, ModifierKeys.Control | ModifierKeys.Shift)));
         InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
+        InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control | ModifierKeys.Shift)));
 
         _contextMenu = new NoteTextBoxContextMenu(this);
         ContextMenu = _contextMenu;
@@ -194,19 +195,40 @@ public partial class NoteTextBoxControl : TextBox
     }
     public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.Register(nameof(AutoCopy), typeof(bool), typeof(NoteTextBoxControl));
 
+    public PasteActions PasteAction
+    {
+        get => (PasteActions)GetValue(PasteActionProperty);
+        set => SetValue(PasteActionProperty, value);
+    }
+    public static readonly DependencyProperty PasteActionProperty = DependencyProperty.Register(nameof(PasteAction), typeof(PasteActions), typeof(NoteTextBoxControl));
+
+    public bool TrimTextOnPaste
+    {
+        get => (bool)GetValue(TrimTextOnPasteProperty);
+        set => SetValue(TrimTextOnPasteProperty, value);
+    }
+    public static readonly DependencyProperty TrimTextOnPasteProperty = DependencyProperty.Register(nameof(TrimTextOnPaste), typeof(bool), typeof(NoteTextBoxControl));
+
+    public PasteActions PasteAltAction
+    {
+        get => (PasteActions)GetValue(PasteAltActionProperty);
+        set => SetValue(PasteAltActionProperty, value);
+    }
+    public static readonly DependencyProperty PasteAltActionProperty = DependencyProperty.Register(nameof(PasteAltAction), typeof(PasteActions), typeof(NoteTextBoxControl));
+
+    public bool TrimTextOnAltPaste
+    {
+        get => (bool)GetValue(TrimTextOnAltPasteProperty);
+        set => SetValue(TrimTextOnAltPasteProperty, value);
+    }
+    public static readonly DependencyProperty TrimTextOnAltPasteProperty = DependencyProperty.Register(nameof(TrimTextOnAltPaste), typeof(bool), typeof(NoteTextBoxControl));
+
     public bool MiddleClickPaste
     {
         get => (bool)GetValue(MiddleClickPasteProperty);
         set => SetValue(MiddleClickPasteProperty, value);
     }
     public static readonly DependencyProperty MiddleClickPasteProperty = DependencyProperty.Register(nameof(MiddleClickPaste), typeof(bool), typeof(NoteTextBoxControl));
-
-    public bool TrimPastedText
-    {
-        get => (bool)GetValue(TrimPastedTextProperty);
-        set => SetValue(TrimPastedTextProperty, value);
-    }
-    public static readonly DependencyProperty TrimPastedTextProperty = DependencyProperty.Register(nameof(TrimPastedText), typeof(bool), typeof(NoteTextBoxControl));
 
     public new int LineCount()
     {
@@ -346,64 +368,119 @@ public partial class NoteTextBoxControl : TextBox
 
     private new void Paste()
     {
-        // Do nothing if clipboard does not contain text.
-        if (!Clipboard.ContainsText())
+        bool trimText;
+        PasteActions action;
+        if (IsShiftPressed())
+        {
+            trimText = TrimTextOnAltPaste;
+            action = PasteAltAction;
+        }
+        else
+        {
+            trimText = TrimTextOnPaste;
+            action = PasteAction;
+        }
+
+        // Do nothing if action is None or clipboard does not contain text.
+        if (action == PasteActions.None || !Clipboard.ContainsText())
             return;
 
         string clipboardString;
         try
         {
-            // Get text from clipboard and trim if specified
             clipboardString = Clipboard.GetText();
-            if (TrimPastedText)
-                clipboardString = clipboardString.Trim();
         }
         catch
         {
             return;
         }
 
+        if (trimText)
+            clipboardString = clipboardString.Trim();
+
         if (string.IsNullOrEmpty(clipboardString))
             return;
 
-        // Replace tabs/spaces if specified
+        // Conversion indentation
         if (ConvertIndentation)
         {
-            string spaces = "".PadLeft(TabWidth, ' ');
-
+            string spaces = string.Empty.PadLeft(TabWidth, ' ');
             if (TabSpaces)
                 clipboardString = clipboardString.Replace("\t", spaces);
             else
                 clipboardString = clipboardString.Replace(spaces, "\t");
         }
 
-        int caretIndex = (HasSelectedText) ? SelectionStart : CaretIndex;
-        bool caretAtEnd = (caretIndex == Text.Length);
-
-        SelectedText = clipboardString;
-
-        CaretIndex = caretIndex + clipboardString.Length;
-        if (!HasSelectedText && KeepNewLineAtEndVisible && caretAtEnd)
-            ScrollToEnd();
+        switch (action)
+        {
+            case PasteActions.Paste:
+                HandelPaste(clipboardString);
+                break;
+            case PasteActions.PasteAndReplaceAll:
+                HandelPasteAndReplaceAll(clipboardString);
+                break;
+            case PasteActions.PasteAtEnd:
+                HandelPasteAtEnd(clipboardString);
+                break;
+        }
     }
 
-    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    private void HandelPaste(string pasteText)
+    {
+        int originalCaretIndex = SelectionStart;
+
+        SelectedText = pasteText;
+        SelectionLength = 0;
+        CaretIndex = originalCaretIndex + pasteText.Length;
+
+        EnforceNewLineAtEnd();
+    }
+
+    private void HandelPasteAndReplaceAll(string pasteText)
+    {
+        SelectAll();
+        SelectedText = pasteText;
+        SelectionLength = 0;
+        CaretIndex = pasteText.Length;
+
+        EnforceNewLineAtEnd();
+    }
+
+    private void HandelPasteAtEnd(string pasteText)
+    {
+        // Find the position before trailing newline if NewLineAtEnd is active
+        int insertPosition = Text.Length;
+        if (NewLineAtEnd && Text.EndsWith(Environment.NewLine))
+            insertPosition -= Environment.NewLine.Length;
+
+        CaretIndex = insertPosition;
+        SelectionLength = 0;
+        SelectedText = pasteText;
+        CaretIndex = insertPosition + pasteText.Length;
+
+        EnforceNewLineAtEnd();
+    }
+
+    private void EnforceNewLineAtEnd()
     {
         if (!NewLineAtEnd || Text.Length == 0 || Text.EndsWith(Environment.NewLine))
             return;
 
-        bool caretAtEnd = (CaretIndex == Text.Length);
-        // Preserving selection when adding new line
+        // Store caret position
+        int caretPosition = CaretIndex;
         int selectionStart = SelectionStart;
         int selectionLength = SelectionLength;
 
         AppendText(Environment.NewLine);
 
+        CaretIndex = caretPosition;
         SelectionStart = selectionStart;
         SelectionLength = selectionLength;
+    }
 
-        if (KeepNewLineAtEndVisible && caretAtEnd)
-            ScrollToEnd();
+    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        EnforceNewLineAtEnd();
     }
 
     private void OnSelectionChanged(object sender, RoutedEventArgs e)

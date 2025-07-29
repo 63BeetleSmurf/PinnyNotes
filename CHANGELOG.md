@@ -6,10 +6,9 @@
 ### Added
 - Color tool.
 - Backend database.
-- Copy (Ctrl+C) action options.
-- Alternative Copy (Ctrl+Shift+C) action options.
-- Alternative Copy Fallback (Ctrl+Shift+C with no selection) action options.
-- Trim option for all copy actions.
+- Copy (Ctrl+C), Alternative Copy (Ctrl+Shift+C) and Alternative Copy Fallback (Ctrl+Shift+C with no selection) action options.
+- Paste (Ctrl+V) and Alternative Copy (Ctrl+Shift+C) action options.
+- Trim option for all copy and paste actions.
 - 
 
 ### Changed

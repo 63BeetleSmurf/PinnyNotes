@@ -42,8 +42,11 @@ public class SettingsDataModel
     public CopyFallbackActions CopyAltFallbackAction { get; set; }
     public bool TrimTextOnAltFallbackCopy { get; set; }
     public bool CopyTextOnHighlight { get; set; }
+    public PasteActions PasteAction { get; set; }
+    public bool TrimTextOnPaste { get; set; }
+    public PasteActions PasteAltAction { get; set; }
+    public bool TrimTextOnAltPaste { get; set; }
     public bool MiddleClickPaste { get; set; }
-    public bool TrimPastedText { get; set; }
 
     public ToolStates Base64State { get; set; }
     public ToolStates BracketState { get; set; }

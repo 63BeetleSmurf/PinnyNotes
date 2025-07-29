@@ -53,6 +53,13 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         new(CopyActions.CopyAll, "Copy all")
     ];
 
+    public static KeyValuePair<PasteActions, string>[] PasteActionList { get; } = [
+        new(PasteActions.None, "None"),
+        new(PasteActions.Paste, "Paste"),
+        new(PasteActions.PasteAndReplaceAll, "Paste and replace all"),
+        new(PasteActions.PasteAtEnd, "Paste at end")
+    ];
+
     public static KeyValuePair<CopyFallbackActions, string>[] CopyFallbackActionList { get; } = [
         new(CopyFallbackActions.None, "None"),
         new(CopyFallbackActions.CopyLine, "Copy line"),

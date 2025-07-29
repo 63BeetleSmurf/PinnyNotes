@@ -209,8 +209,11 @@
                                          CopyAltFallbackAction="{Binding EditorSettings.CopyAltFallbackAction}"
                                          TrimTextOnAltFallbackCopy="{Binding EditorSettings.TrimTextOnAltFallbackCopy}"
                                          AutoCopy="{Binding EditorSettings.CopyOnSelect}"
+                                         PasteAction="{Binding EditorSettings.PasteAction}"
+                                         TrimTextOnPaste="{Binding EditorSettings.TrimTextOnPaste}"
+                                         PasteAltAction="{Binding EditorSettings.PasteAltAction}"
+                                         TrimTextOnAltPaste="{Binding EditorSettings.TrimTextOnAltPaste}"
                                          MiddleClickPaste="{Binding EditorSettings.MiddleClickPaste}"
-                                         TrimPastedText="{Binding EditorSettings.TrimPastedText}"
                 />
         </Grid>
     </Grid>
