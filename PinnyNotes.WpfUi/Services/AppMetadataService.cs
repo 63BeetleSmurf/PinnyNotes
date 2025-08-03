@@ -24,7 +24,7 @@ public class AppMetadataService
 
     public void Save()
     {
-        _databaseService.AppMetadataRepository.Update(
+        _ = _databaseService.AppMetadataRepository.Update(
             new AppMetadataDataModel(
                 Id: 1,
 

@@ -161,12 +161,12 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         );
     }
 
-    public void Update(SettingsDataModel settings)
+    public int Update(SettingsDataModel settings)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        ExecuteNonQuery(
+        return ExecuteNonQuery(
             connection,
             @"
                 UPDATE

@@ -91,7 +91,7 @@ public class SettingsService
 
     public void Save()
     {
-        _databaseService.SettingsRepository.Update(
+        _ = _databaseService.SettingsRepository.Update(
             new SettingsDataModel(
                 Id: 1,
 

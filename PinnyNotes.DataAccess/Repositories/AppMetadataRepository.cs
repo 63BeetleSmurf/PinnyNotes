@@ -45,12 +45,12 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         );
     }
 
-    public void Update(AppMetadataDataModel applicationData)
+    public int Update(AppMetadataDataModel applicationData)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        ExecuteNonQuery(
+        return ExecuteNonQuery(
             connection,
             @"
                 UPDATE ApplicationData
