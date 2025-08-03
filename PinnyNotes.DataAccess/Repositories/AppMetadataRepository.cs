@@ -18,7 +18,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         );
     ";
 
-    public AppMetadataDataModel Get()
+    public AppMetadataDataModel GetById(int id)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
@@ -28,19 +28,21 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
             @"
                 SELECT *
                 FROM ApplicationData
-                WHERE Id = 1;
-            "
+                WHERE Id = @id;
+            ",
+            parameters: [
+                new("@id", id)
+            ]
         );
         if (!reader.Read())
-            throw new Exception("Error getting application data.");
+            throw new Exception($"Could not find application data with id: {id}.");
 
-        return new()
-        {
-            Id = GetInt(reader, "Id"),
+        return new AppMetadataDataModel(
+            Id: GetInt(reader, "Id"),
 
-            LastUpdateCheck = GetLongNullable(reader, "LastUpdateCheck"),
-            ThemeColor = GetEnumNullable<ThemeColors>(reader, "ThemeColor")
-        };
+            LastUpdateCheck: GetLongNullable(reader, "LastUpdateCheck"),
+            ThemeColor: GetEnumNullable<ThemeColors>(reader, "ThemeColor")
+        );
     }
 
     public void Update(AppMetadataDataModel applicationData)

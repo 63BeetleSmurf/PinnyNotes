@@ -46,7 +46,7 @@ public class NoteViewModel : BaseViewModel
     private void InitNoteColor(NoteViewModel? parent = null)
     {
         // Set this first as cycle colors wont trigger a change if the next color if the default for ThemeColors
-        CurrentThemeColor = AppMetadataService.AppData.ThemeColor;
+        CurrentThemeColor = AppMetadataService.Metadata.ThemeColor;
         if (NoteSettings.CycleColors)
         {
             int themeColorIndex = GetNextThemeColorIndex((int)CurrentThemeColor);
@@ -236,7 +236,7 @@ public class NoteViewModel : BaseViewModel
         set
         {
             SetProperty(ref _currentThemeColor, value);
-            AppMetadataService.AppData.ThemeColor = value;
+            AppMetadataService.Metadata.ThemeColor = value;
             UpdateBrushes();
         }
     }

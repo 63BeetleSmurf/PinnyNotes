@@ -91,8 +91,8 @@ public partial class App : Application
         if (_settingsService.ApplicationSettings.CheckForUpdates)
         {
             DateTimeOffset date = DateTimeOffset.UtcNow;
-            if (await VersionHelper.CheckForNewRelease(_appMetadataService.AppData.LastUpdateCheck, date))
-                _appMetadataService.AppData.LastUpdateCheck = date.ToUnixTimeSeconds();
+            if (await VersionHelper.CheckForNewRelease(_appMetadataService.Metadata.LastUpdateCheck, date))
+                _appMetadataService.Metadata.LastUpdateCheck = date.ToUnixTimeSeconds();
         }
     }
 

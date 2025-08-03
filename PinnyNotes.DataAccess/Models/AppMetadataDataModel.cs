@@ -2,10 +2,9 @@
 
 namespace PinnyNotes.DataAccess.Models;
 
-public class AppMetadataDataModel
-{
-    public int Id { get; init; }
+public record AppMetadataDataModel(
+    int Id,
 
-    public long? LastUpdateCheck { get; set; }
-    public ThemeColors ThemeColor { get; set; }
-}
+    long? LastUpdateCheck,
+    ThemeColors ThemeColor
+);
