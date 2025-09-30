@@ -30,8 +30,8 @@ public partial class NoteTextBoxControl : TextBox
 
         TextChanged += OnTextChanged;
         SelectionChanged += OnSelectionChanged;
-        DragOver += OnDragOver;
-        Drop += OnDrop;
+        PreviewDragOver += OnPreviewDragOver;
+        PreviewDrop += OnPreviewDrop;
         MouseDoubleClick += OnMouseDoubleClick;
         MouseDown += OnMouseDown;
         MouseUp += OnMouseUp;
@@ -489,7 +489,7 @@ public partial class NoteTextBoxControl : TextBox
             Copy();
     }
 
-    private void OnDragOver(object sender, DragEventArgs e)
+    private void OnPreviewDragOver(object sender, DragEventArgs e)
     {
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
         {
@@ -498,7 +498,7 @@ public partial class NoteTextBoxControl : TextBox
         }
     }
 
-    private void OnDrop(object sender, DragEventArgs e)
+    private void OnPreviewDrop(object sender, DragEventArgs e)
     {
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
         {
