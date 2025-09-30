@@ -11,6 +11,7 @@
     <Version>1.14.0</Version>
     <UseWindowsForms>True</UseWindowsForms>
     <AssemblyName>Pinny Notes</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
