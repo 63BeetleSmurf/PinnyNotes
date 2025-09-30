@@ -1,7 +1,7 @@
 # Change Log
 
 
-## v1.14.0 - Pending
+## v1.14.0 - 30/09/2025
 
 ### Added
 - Color tool.
@@ -9,19 +9,17 @@
 - Copy (Ctrl+C), Alternative Copy (Ctrl+Shift+C) and Alternative Copy Fallback (Ctrl+Shift+C with no selection) action options.
 - Paste (Ctrl+V) and Alternative Copy (Ctrl+Shift+C) action options.
 - Trim option for all copy and paste actions.
-- 
 
 ### Changed
 - Code refactoring.
 - Rearranged Show In Task Bar and Auto Indent settings.
-- 
 
 ### Fixed
 - Additional copy, cut and paste actions being skipped in some situations, e.g. triggered by mapped mouse button.
 - Clipboard being cleared when note if activated and AutoCopy is enabled.
 - Child settings not enabling/disabling when parent value changed.
 - Undo (Ctrl+Z) not working after applying tool actions.
-- 
+- Drag drop not working for loading files.
 
 
 ## v1.13.0 - 01/07/2025
