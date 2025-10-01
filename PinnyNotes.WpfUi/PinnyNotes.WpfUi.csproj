@@ -12,6 +12,7 @@
     <UseWindowsForms>True</UseWindowsForms>
     <AssemblyName>Pinny Notes</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

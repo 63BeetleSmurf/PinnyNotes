@@ -66,7 +66,10 @@ public partial class NoteWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        _viewModel.WindowHandel = ScreenHelper.GetWindowHandle(this);
+        if (DataContext is NoteViewModel viewModel)
+            viewModel.OnWindowLoaded(
+                ScreenHelper.GetWindowHandle(this)
+            );
     }
 
     private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -83,7 +86,7 @@ public partial class NoteWindow : Window
             _viewModel.X = Left;
             _viewModel.Y = Top;
 
-            System.Drawing.Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandel);
+            System.Drawing.Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandle);
             _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
             _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
         }

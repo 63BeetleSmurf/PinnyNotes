@@ -1,19 +1,20 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-
-using PinnyNotes.Core.Enums;
+﻿using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
+using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class NoteViewModel : BaseViewModel
+public partial class NoteViewModel : BaseViewModel
 {
     public RelayCommand<ThemeColors> ChangeThemeColorCommand { get; }
 
@@ -21,6 +22,72 @@ public class NoteViewModel : BaseViewModel
 
     public NoteSettingsModel NoteSettings { get; set; }
     public EditorSettingsModel EditorSettings { get; set; }
+
+    public nint WindowHandle { get; set; }
+
+    private ThemeColors _currentThemeColor;
+    public ThemeColors CurrentThemeColor
+    {
+        get => _currentThemeColor;
+        set
+        {
+            SetProperty(ref _currentThemeColor, value);
+            AppMetadataService.Metadata.ThemeColor = value;
+            UpdateBrushes();
+        }
+    }
+
+    public SolidColorBrush TitleBarColorBrush { get => _titleBarColorBrush; set => SetProperty(ref _titleBarColorBrush, value); }
+    private SolidColorBrush _titleBarColorBrush = new();
+
+    public SolidColorBrush TitleButtonColorBrush { get => _titleButtonColorBrush; set => SetProperty(ref _titleButtonColorBrush, value); }
+    private SolidColorBrush _titleButtonColorBrush = new();
+
+    public SolidColorBrush BackgroundColorBrush { get => _backgroundColorBrush; set => SetProperty(ref _backgroundColorBrush, value); }
+    private SolidColorBrush _backgroundColorBrush = new();
+
+    public SolidColorBrush BorderColorBrush { get => _borderColorBrush; set => SetProperty(ref _borderColorBrush, value); }
+    private SolidColorBrush _borderColorBrush = new();
+
+    public SolidColorBrush TextColorBrush { get => _textColorBrush; set => SetProperty(ref _textColorBrush, value); }
+    private SolidColorBrush _textColorBrush = new();
+
+    public int GravityX;
+    public int GravityY;
+
+    public double X { get => _x; set => SetProperty(ref _x, value); }
+    private double _x;
+
+    public double Y { get => _y; set => SetProperty(ref _y, value); }
+    private double _y;
+
+
+    public double Width { get => _width; set => SetProperty(ref _width, value); }
+    private double _width;
+
+    public double Height { get => _height; set => SetProperty(ref _height, value); }
+    private double _height;
+
+
+    public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
+    private double _opacity;
+
+    public bool ShowInTaskbar { get => _showInTaskbar; set => SetProperty(ref _showInTaskbar, value); }
+    private bool _showInTaskbar;
+
+
+    public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }
+    private bool _isPinned = false;
+
+    public bool IsFocused { get => _isFocused; set => SetProperty(ref _isFocused, value); }
+    private bool _isFocused;
+
+    public bool IsSaved { get => _isSaved; set => SetProperty(ref _isSaved, value); }
+    private bool _isSaved = false;
+
+
+    public string Content { get => _content; set => SetProperty(ref _content, value); }
+    private string _content = "";
 
     public NoteViewModel(
         AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService,
@@ -41,6 +108,12 @@ public class NoteViewModel : BaseViewModel
         InitNoteColor(parent);
         InitNotePosition(parent);
         UpdateOpacity();
+    }
+
+    public void OnWindowLoaded(nint windowHandle)
+    {
+        WindowHandle = windowHandle;
+        UpdateVisibility();
     }
 
     private void InitNoteColor(NoteViewModel? parent = null)
@@ -80,7 +153,7 @@ public class NoteViewModel : BaseViewModel
 
         if (parent != null)
         {
-            screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandel);
+            screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandle);
 
             GravityX = parent.GravityX;
             GravityY = parent.GravityY;
@@ -224,69 +297,45 @@ public class NoteViewModel : BaseViewModel
             case nameof(NoteSettingsModel.ColorMode):
                 UpdateBrushes();
                 break;
+            case nameof(NoteSettingsModel.VisibilityMode):
+                UpdateVisibility();
+                break;
         }
     }
 
-    public nint WindowHandel { get; set; }
-
-    private ThemeColors _currentThemeColor;
-    public ThemeColors CurrentThemeColor
+    private void UpdateVisibility()
     {
-        get => _currentThemeColor;
-        set
+        const int GWL_EXSTYLE = -20;
+        const int WS_EX_TOOLWINDOW = 0x00000080;
+
+        if (WindowHandle == 0)
+            return;
+
+        nint exStyle = GetWindowLongPtrW(WindowHandle, GWL_EXSTYLE);
+
+        switch (NoteSettings.VisibilityMode)
         {
-            SetProperty(ref _currentThemeColor, value);
-            AppMetadataService.Metadata.ThemeColor = value;
-            UpdateBrushes();
+            default:
+            case VisibilityModes.ShowInTaskbar:
+                exStyle &= ~WS_EX_TOOLWINDOW;
+                ShowInTaskbar = true;
+                break;
+            case VisibilityModes.HideInTaskbar:
+                exStyle &= ~WS_EX_TOOLWINDOW;
+                ShowInTaskbar = false;
+                break;
+            case VisibilityModes.HideInTaskbarAndTaskSwitcher:
+                exStyle |= WS_EX_TOOLWINDOW;
+                ShowInTaskbar = false;
+                break;
         }
+
+        _ = SetWindowLongPtrW(WindowHandle, GWL_EXSTYLE, exStyle);
     }
 
-    public SolidColorBrush TitleBarColorBrush { get => _titleBarColorBrush; set => SetProperty(ref _titleBarColorBrush, value); }
-    private SolidColorBrush _titleBarColorBrush = new();
+    [LibraryImport("user32.dll")]
+    private static partial int GetWindowLongPtrW(nint hWnd, int nIndex);
 
-    public SolidColorBrush TitleButtonColorBrush { get => _titleButtonColorBrush; set => SetProperty(ref _titleButtonColorBrush, value); }
-    private SolidColorBrush _titleButtonColorBrush = new();
-
-    public SolidColorBrush BackgroundColorBrush { get => _backgroundColorBrush; set => SetProperty(ref _backgroundColorBrush, value); }
-    private SolidColorBrush _backgroundColorBrush = new();
-
-    public SolidColorBrush BorderColorBrush { get => _borderColorBrush; set => SetProperty(ref _borderColorBrush, value); }
-    private SolidColorBrush _borderColorBrush = new();
-
-    public SolidColorBrush TextColorBrush { get => _textColorBrush; set => SetProperty(ref _textColorBrush, value); }
-    private SolidColorBrush _textColorBrush = new();
-
-    public int GravityX;
-    public int GravityY;
-
-    public double X { get => _x; set => SetProperty(ref _x, value); }
-    private double _x;
-
-    public double Y { get => _y; set => SetProperty(ref _y, value); }
-    private double _y;
-
-
-    public double Width { get => _width; set => SetProperty(ref _width, value); }
-    private double _width;
-
-    public double Height { get => _height; set => SetProperty(ref _height, value); }
-    private double _height;
-
-
-    public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
-    private double _opacity;
-
-
-    public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }
-    private bool _isPinned = false;
-
-    public bool IsFocused { get => _isFocused; set => SetProperty(ref _isFocused, value); }
-    private bool _isFocused;
-
-    public bool IsSaved { get => _isSaved; set => SetProperty(ref _isSaved, value); }
-    private bool _isSaved = false;
-
-
-    public string Content { get => _content; set => SetProperty(ref _content, value); }
-    private string _content = "";
+    [LibraryImport("user32.dll")]
+    private static partial int SetWindowLongPtrW(nint hWnd, int nIndex, nint dwNewLong);
 }

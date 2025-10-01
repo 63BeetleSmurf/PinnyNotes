@@ -99,9 +99,15 @@
                                           DisplayMemberPath="Value"
                                           SelectedValue="{Binding Settings.NoteSettings.MinimizeMode, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="3" Content="Hide title bar" IsChecked="{Binding Settings.NoteSettings.HideTitleBar}" />
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Visibility mode"/>
+                                <ComboBox Grid.Column="1" Grid.Row="3"
+                                          Width="120"
+                                          ItemsSource="{Binding VisibilityModeList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding Settings.NoteSettings.VisibilityMode, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Show notes in Taskbar" IsChecked="{Binding Settings.NoteSettings.ShowInTaskBar}" />
+                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Hide title bar" IsChecked="{Binding Settings.NoteSettings.HideTitleBar}" />
 
                             </Grid>
                         </GroupBox>

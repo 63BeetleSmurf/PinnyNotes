@@ -8,11 +8,11 @@ public record SettingsDataModel(
      bool ShowTrayIcon,
      bool CheckForUpdates,
 
-     bool ShowNotesInTaskbar,
      double DefaultNoteWidth,
      double DefaultNoteHeight,
      StartupPositions StartupPosition,
      MinimizeModes MinimizeMode,
+     VisibilityModes VisibilityMode,
      bool HideTitleBar,
      bool CycleColors,
      ColorModes ColorMode,

@@ -14,10 +14,10 @@ public class NoteSettingsModel : NotifyPropertyChangedBase
     private StartupPositions _startupPosition;
     public MinimizeModes MinimizeMode { get => _minimizeMode; set => SetProperty(ref _minimizeMode, value); }
     private MinimizeModes _minimizeMode;
+    public VisibilityModes VisibilityMode { get => _visibilityMode; set => SetProperty(ref _visibilityMode, value); }
+    private VisibilityModes _visibilityMode;
     public bool HideTitleBar { get => _hideTitleBar; set => SetProperty(ref _hideTitleBar, value); }
     private bool _hideTitleBar;
-    public bool ShowInTaskBar { get => _showInTaskBar; set => SetProperty(ref _showInTaskBar, value); }
-    private bool _showInTaskBar;
 
     // Theme
     public bool CycleColors { get => _cycleColors; set => SetProperty(ref _cycleColors, value); }

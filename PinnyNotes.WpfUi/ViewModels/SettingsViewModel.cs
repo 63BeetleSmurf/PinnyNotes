@@ -29,6 +29,12 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         new(MinimizeModes.PreventIfPinned, "When not pinned")
     ];
 
+    public static KeyValuePair<VisibilityModes, string>[] VisibilityModeList { get; } = [
+        new(VisibilityModes.ShowInTaskbar, "Show in taskbar"),
+        new(VisibilityModes.HideInTaskbar, "Hide in taskbar"),
+        new(VisibilityModes.HideInTaskbarAndTaskSwitcher, "Hide in taskbar and task switcher")
+    ];
+
     public static KeyValuePair<ColorModes, string>[] ColorModeList { get; } = [
         new(ColorModes.Light, "Light"),
         new(ColorModes.Dark, "Dark"),

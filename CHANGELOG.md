@@ -1,6 +1,19 @@
 # Change Log
 
 
+## v1.15.0 - Pending
+
+### Added
+- Setting to change note visibility, Show in taskbar, hide in taskbar or hide in taskbar and task switcher (Alt+Tab and Win+Tab).
+- 
+
+### Changed
+- 
+
+### Fixed
+- 
+
+
 ## v1.14.0 - 30/09/2025
 
 ### Added

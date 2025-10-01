@@ -22,7 +22,7 @@
         Height="{Binding Height}"
         Left="{Binding X}"
         Opacity="{Binding Opacity}"
-        ShowInTaskbar="{Binding NoteSettings.ShowInTaskBar}"
+        ShowInTaskbar="{Binding ShowInTaskbar}"
         Top="{Binding Y}"
         Width="{Binding Width}"
 

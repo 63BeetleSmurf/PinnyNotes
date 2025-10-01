@@ -39,6 +39,7 @@
 - **Spell Checking:** Integrated spell checker.
 - **Counts Menu:** View line, word, and character counts for selected or full text.
 - **Tray Icon:** Easily bring all notes to the front or launch new notes from the system tray.
+- **Note Visibility:** Show or hide note windows from the Taskbar and Task Switcher (Alt+Tab and Win+Tab)
 
 
 ## 🛠️ Tools
