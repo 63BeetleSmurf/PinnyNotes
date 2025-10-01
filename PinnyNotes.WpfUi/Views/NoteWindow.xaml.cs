@@ -86,7 +86,7 @@ public partial class NoteWindow : Window
             _viewModel.X = Left;
             _viewModel.Y = Top;
 
-            System.Drawing.Rectangle screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandle);
+            Rect screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandle);
             _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
             _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
         }

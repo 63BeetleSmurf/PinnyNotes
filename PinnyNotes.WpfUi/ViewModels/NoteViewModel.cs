@@ -188,7 +188,7 @@ public partial class NoteViewModel : BaseViewModel
         int noteMargin = 45;
 
         Point position = new(0, 0);
-        System.Drawing.Rectangle screenBounds;
+        Rect screenBounds;
 
         if (parent != null)
         {

@@ -43,7 +43,7 @@ public partial class SettingsWindow : Window
                 (Owner.Left + Owner.Width / 2) - Width / 2,
                 (Owner.Top + Owner.Height / 2) - Height / 2
             );
-            System.Drawing.Rectangle currentScreenBounds = ScreenHelper.GetCurrentScreenBounds(
+            Rect currentScreenBounds = ScreenHelper.GetCurrentScreenBounds(
                 ScreenHelper.GetWindowHandle(Owner)
             );
 
