@@ -17,6 +17,7 @@ public partial class NoteTextBoxControl : TextBox
     public RelayCommand CutCommand;
     public RelayCommand PasteCommand;
     public RelayCommand ClearCommand;
+    public RelayCommand<bool> SetReadOnlyCommand;
 
     private readonly NoteTextBoxContextMenu _contextMenu;
 
@@ -42,6 +43,7 @@ public partial class NoteTextBoxControl : TextBox
         CutCommand = new(Cut);
         PasteCommand = new(Paste);
         ClearCommand = new(Clear);
+        SetReadOnlyCommand = new(SetReadOnly);
 
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, OnCopyExecuted));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, OnCutExecuted));
@@ -744,5 +746,10 @@ public partial class NoteTextBoxControl : TextBox
     private void UpdateTextWrapping()
     {
         TextWrapping = (WrapText) ? TextWrapping.Wrap : TextWrapping.NoWrap;
+    }
+
+    private void SetReadOnly(bool isReadOnly)
+    {
+        IsReadOnly = isReadOnly;
     }
 }

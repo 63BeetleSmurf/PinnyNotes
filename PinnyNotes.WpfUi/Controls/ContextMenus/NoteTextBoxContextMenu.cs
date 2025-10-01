@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 
 using PinnyNotes.Core.Enums;
@@ -21,6 +22,7 @@ public class NoteTextBoxContextMenu : ContextMenu
     private readonly MenuItem _pasteMenuItem;
     private readonly MenuItem _selectAllMenuItem;
     private readonly MenuItem _clearMenuItem;
+    private readonly MenuItem _lockedMenuItem;
     private readonly MenuItem _countsMenuItem;
     private readonly MenuItem _lineCountMenuItem;
     private readonly MenuItem _wordCountMenuItem;
@@ -86,6 +88,21 @@ public class NoteTextBoxContextMenu : ContextMenu
             Command = _noteTextBox.ClearCommand
         };
 
+        _lockedMenuItem = new()
+        {
+            Header = "Locked",
+            IsCheckable = true,
+            Command = _noteTextBox.SetReadOnlyCommand,
+            CommandParameter = true // Will bind IsChecked to this below
+        };
+        _lockedMenuItem.SetBinding(
+            MenuItem.CommandParameterProperty,
+            new Binding(nameof(MenuItem.IsChecked))
+            {
+                Source = _lockedMenuItem
+            }
+        );
+
         _countsMenuItem = new()
         {
             Header = "Counts"
@@ -141,6 +158,10 @@ public class NoteTextBoxContextMenu : ContextMenu
 
         Items.Add(_selectAllMenuItem);
         Items.Add(_clearMenuItem);
+
+        Items.Add(new Separator());
+
+        Items.Add(_lockedMenuItem);
 
         Items.Add(new Separator());
 
