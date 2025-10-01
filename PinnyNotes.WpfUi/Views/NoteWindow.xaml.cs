@@ -99,7 +99,7 @@ public partial class NoteWindow : Window
         if (WindowState == WindowState.Minimized
             && (
                 minimizeMode == MinimizeModes.Prevent 
-                || (minimizeMode == MinimizeModes.PreventIfPinned && Topmost)
+                || (minimizeMode == MinimizeModes.PreventIfPinned && _viewModel.IsPinned)
             )
         )
             WindowState = WindowState.Normal;
@@ -118,17 +118,17 @@ public partial class NoteWindow : Window
 
     private void Window_Activated(object sender, EventArgs e)
     {
-        Topmost = true;
         _viewModel.IsFocused = true;
         _viewModel.UpdateOpacity();
+        _viewModel.UpdateAlwaysOnTop();
         ShowTitleBar();
     }
 
     private void Window_Deactivated(object sender, EventArgs e)
     {
-        Topmost = _viewModel.IsPinned;
         _viewModel.IsFocused = false;
         _viewModel.UpdateOpacity();
+        _viewModel.UpdateAlwaysOnTop();
         HideTitleBar();
     }
 

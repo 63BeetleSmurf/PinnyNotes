@@ -1,16 +1,16 @@
-﻿using PinnyNotes.Core.Enums;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Media;
+
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
-using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -114,6 +114,45 @@ public partial class NoteViewModel : BaseViewModel
     {
         WindowHandle = windowHandle;
         UpdateVisibility();
+        UpdateAlwaysOnTop();
+    }
+
+    public void UpdateOpacity()
+    {
+        TransparencyModes transparentMode = NoteSettings.TransparencyMode;
+        if (transparentMode == TransparencyModes.Disabled)
+        {
+            Opacity = 1.0;
+            return;
+        }
+
+        bool opaqueWhenFocused = NoteSettings.OpaqueWhenFocused;
+
+        double opaqueOpacity = NoteSettings.OpaqueValue;
+        double transparentOpacity = NoteSettings.TransparentValue;
+
+        if ((opaqueWhenFocused && IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !IsPinned))
+            Opacity = opaqueOpacity;
+        else
+            Opacity = transparentOpacity;
+    }
+
+    public void UpdateAlwaysOnTop()
+    {
+        const nint HWND_TOPMOST = -1;
+        const nint HWND_NOTOPMOST = -2;
+        const uint SWP_NOMOVE = 0x0002;
+        const uint SWP_NOSIZE = 0x0001;
+        const uint SWP_NOACTIVATE = 0x0010;
+
+        if (WindowHandle == 0)
+            return;
+
+        nint hWndInsertAfter = (IsFocused || IsPinned) ? HWND_TOPMOST : HWND_NOTOPMOST;
+
+        uint uFlags = SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE;
+
+        _ = SetWindowPos(WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
     }
 
     private void InitNoteColor(NoteViewModel? parent = null)
@@ -264,26 +303,6 @@ public partial class NoteViewModel : BaseViewModel
         CurrentThemeColor = themeColor;
     }
 
-    public void UpdateOpacity()
-    {
-        TransparencyModes transparentMode = NoteSettings.TransparencyMode;
-        if (transparentMode == TransparencyModes.Disabled)
-        {
-            Opacity = 1.0;
-            return;
-        }
-
-        bool opaqueWhenFocused = NoteSettings.OpaqueWhenFocused;
-
-        double opaqueOpacity = NoteSettings.OpaqueValue;
-        double transparentOpacity = NoteSettings.TransparentValue;
-
-        if ((opaqueWhenFocused && IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !IsPinned))
-            Opacity = opaqueOpacity;
-        else
-            Opacity = transparentOpacity;
-    }
-
     private void OnNoteSettingsChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
@@ -338,4 +357,8 @@ public partial class NoteViewModel : BaseViewModel
 
     [LibraryImport("user32.dll")]
     private static partial int SetWindowLongPtrW(nint hWnd, int nIndex, nint dwNewLong);
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 }

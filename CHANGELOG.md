@@ -13,6 +13,7 @@
 - 
 
 ### Fixed
+- Notes sometimes not going behind other windows when unpinned.
 - 
 
 
