@@ -5,6 +5,7 @@
 
 ### Added
 - Setting to change note visibility, Show in taskbar, hide in taskbar or hide in taskbar and task switcher (Alt+Tab and Win+Tab).
+- Database migration system, seamlessly upgrade the database after upgrading the application.
 - 
 
 ### Changed
