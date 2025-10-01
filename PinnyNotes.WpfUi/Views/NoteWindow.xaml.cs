@@ -11,15 +11,16 @@ using System.Windows.Shapes;
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
-using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Themes;
+using PinnyNotes.WpfUi.ViewModels;
 
 namespace PinnyNotes.WpfUi.Views;
 
 public partial class NoteWindow : Window
 {
-    private readonly SettingsService _settingsService;
+    private readonly NoteSettingsModel _noteSettings;
     private readonly MessengerService _messengerService;
 
     private readonly NoteViewModel _viewModel;
@@ -28,7 +29,7 @@ public partial class NoteWindow : Window
 
     public NoteWindow(SettingsService settingsService, MessengerService messengerService, NoteViewModel viewModel)
     {
-        _settingsService = settingsService;
+        _noteSettings = settingsService.NoteSettings;
         _messengerService = messengerService;
         _messengerService.Subscribe<WindowActionMessage>(OnWindowActionMessage);
         _viewModel = viewModel;
@@ -45,63 +46,60 @@ public partial class NoteWindow : Window
         int insertIndex = TitleBarContextMenu.Items.IndexOf(ThemeMenuSeparator);
         foreach (Theme theme in _viewModel.AvailableThemes)
         {
-            TitleBarContextMenu.Items.Insert(
-                insertIndex,
-                new MenuItem()
-                {
-                    Header = theme.Name,
-                    Command = _viewModel.ChangeThemeColorCommand,
-                    CommandParameter = theme.ThemeColor,
-                    Icon = new Rectangle()
-                    {
-                        Width = 16,
-                        Height = 16,
-                        Fill = theme.MenuIcon.Brush
-                    }
-                }
-            );
+            Rectangle icon = new()
+            {
+                Width = 16,
+                Height = 16,
+                Fill = theme.MenuIcon.Brush
+            };
+
+            MenuItem menuItem = new()
+            {
+                Header = theme.Name,
+                Command = _viewModel.ChangeThemeColorCommand,
+                CommandParameter = theme.ThemeColor,
+                Icon = icon
+            };
+            
+            TitleBarContextMenu.Items.Insert(insertIndex, menuItem);
+
             insertIndex++;
         }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        if (DataContext is NoteViewModel viewModel)
-            viewModel.OnWindowLoaded(
-                ScreenHelper.GetWindowHandle(this)
-            );
+        _viewModel.OnWindowLoaded(
+            ScreenHelper.GetWindowHandle(this)
+        );
     }
 
     private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
     {
         // Check mouse button is pressed as a missed click of a button
         // can cause issues with DragMove().
-        if (e.LeftButton == MouseButtonState.Pressed)
-        {
-            DragMove();
+        if (e.LeftButton != MouseButtonState.Pressed)
+            return;
 
-            // Reset gravity depending what position the note was moved to.
-            // This does not effect the saved start up setting, only what
-            // direction new child notes will go towards.
-            _viewModel.X = Left;
-            _viewModel.Y = Top;
+        DragMove();
 
-            Rect screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandle);
-            _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
-            _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
-        }
+        // Reset gravity depending what position the note was moved to.
+        // This does not effect the saved start up setting, only what
+        // direction new child notes will go towards.
+        _viewModel.X = Left;
+        _viewModel.Y = Top;
+
+        Rect screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandle);
+        _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
+        _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
     }
 
     private void NoteWindow_StateChanged(object sender, EventArgs e)
     {
-        MinimizeModes minimizeMode = _settingsService.NoteSettings.MinimizeMode;
+        if (WindowState != WindowState.Minimized)
+            return;
 
-        if (WindowState == WindowState.Minimized
-            && (
-                minimizeMode == MinimizeModes.Prevent 
-                || (minimizeMode == MinimizeModes.PreventIfPinned && _viewModel.IsPinned)
-            )
-        )
+        if (_noteSettings.MinimizeMode == MinimizeModes.Prevent || (_noteSettings.MinimizeMode == MinimizeModes.PreventIfPinned && _viewModel.IsPinned))
             WindowState = WindowState.Normal;
     }
 
@@ -134,23 +132,26 @@ public partial class NoteWindow : Window
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {
-        if (!_viewModel.IsSaved && NoteTextBox.Text != "")
+        if (_viewModel.IsSaved || NoteTextBox.Text == "")
+            return;
+
+        MessageBoxResult messageBoxResult = MessageBox.Show(
+            this,
+            "Do you want to save this note?",
+            "Pinny Notes",
+            MessageBoxButton.YesNoCancel,
+            MessageBoxImage.Question
+        );
+
+        if (messageBoxResult != MessageBoxResult.Yes)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show(
-                this,
-                "Do you want to save this note?",
-                "Pinny Notes",
-                MessageBoxButton.YesNoCancel,
-                MessageBoxImage.Question
-            );
-            // If the user presses cancel on the message box or 
-            // save dialog, do not close.
-            if (
-                (messageBoxResult == MessageBoxResult.Yes && SaveNote() == MessageBoxResult.Cancel)
-                || messageBoxResult == MessageBoxResult.Cancel
-            )
-                e.Cancel = true;
+            e.Cancel = (messageBoxResult == MessageBoxResult.Cancel);
+            return;
         }
+
+        MessageBoxResult saveDialogResult = SaveNote();
+
+        e.Cancel = (saveDialogResult == MessageBoxResult.Cancel);
     }
 
     private void OnWindowActionMessage(WindowActionMessage message)
@@ -172,13 +173,15 @@ public partial class NoteWindow : Window
         {
             Filter = "Text Documents (*.txt)|*.txt|All Files|*"
         };
-        if (saveFileDialog.ShowDialog(this) == true)
-        {
-            File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-            _viewModel.IsSaved = true;
-            return MessageBoxResult.OK;
-        }
-        return MessageBoxResult.Cancel;
+
+        if (saveFileDialog.ShowDialog(this) == false)
+            return MessageBoxResult.Cancel;
+
+        File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
+
+        _viewModel.IsSaved = true;
+
+        return MessageBoxResult.OK;
     }
 
     #endregion
@@ -208,7 +211,7 @@ public partial class NoteWindow : Window
 
     private void HideTitleBar()
     {
-        if (_settingsService.NoteSettings.HideTitleBar)
+        if (_noteSettings.HideTitleBar)
             BeginStoryboard("HideTitleBarAnimation");
     }
 
@@ -230,8 +233,8 @@ public partial class NoteWindow : Window
 
     private void ResetMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        Width = _settingsService.NoteSettings.DefaultWidth;
-        Height = _settingsService.NoteSettings.DefaultHeight;
+        Width = _noteSettings.DefaultWidth;
+        Height = _noteSettings.DefaultHeight;
     }
 
     private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
