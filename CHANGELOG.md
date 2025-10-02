@@ -11,6 +11,7 @@
 - 
 
 ### Changed
+- Tray icon implimentation, removes dependancy on WinForms.
 - 
 
 ### Fixed
