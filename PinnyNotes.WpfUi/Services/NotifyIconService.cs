@@ -1,7 +1,8 @@
-﻿using System;
+﻿using H.NotifyIcon;
+using System;
 using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Messages;
@@ -14,7 +15,7 @@ public class NotifyIconService : IDisposable
     private readonly MessengerService _messengerService;
     private readonly ApplicationSettingsModel _applicationSettings;
 
-    private NotifyIcon? _notifyIcon;
+    private TaskbarIcon? _notifyIcon;
 
     private bool _disposed;
 
@@ -45,26 +46,46 @@ public class NotifyIconService : IDisposable
         if (_notifyIcon != null)
             return;
 
-        _notifyIcon = new()
+        _notifyIcon = new TaskbarIcon
         {
-            Icon = new Icon(
-                App.GetResourceStream(new Uri("pack://application:,,,/Images/icon.ico")).Stream
+            IconSource = new System.Windows.Media.Imaging.BitmapImage(
+                new Uri("pack://application:,,,/Images/icon.ico")
             ),
-            Text = "Pinny Notes",
-            Visible = true
+            ToolTipText = "Pinny Notes",
+            Visibility = Visibility.Visible
         };
 
-        _notifyIcon.MouseClick += NotifyIcon_MouseClick;
-        _notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+        _notifyIcon.TrayLeftMouseDown += NotifyIcon_TrayMouseLeftButtonDown;
+        _notifyIcon.TrayLeftMouseDoubleClick += NotifyIcon_TrayLeftMouseDoubleClick;
 
-        ContextMenuStrip contextMenu = new();
-        contextMenu.Items.Add("New Note", null, NewNote_Click);
-        contextMenu.Items.Add("-");
-        contextMenu.Items.Add("Settings", null, Settings_Click);
-        contextMenu.Items.Add("-");
-        contextMenu.Items.Add("Exit", null, Exit_Click);
+        MenuItem newNoteItem = new()
+        {
+            Header = "New Note"
+        };
+        newNoteItem.Click += NewNote_Click;
 
-        _notifyIcon.ContextMenuStrip = contextMenu;
+        MenuItem settingsItem = new()
+        {
+            Header = "Settings"
+        };
+        settingsItem.Click += Settings_Click;
+
+        MenuItem exitItem = new()
+        {
+            Header = "Exit"
+        };
+        exitItem.Click += Exit_Click;
+
+        ContextMenu contextMenu = new();
+        contextMenu.Items.Add(newNoteItem);
+        contextMenu.Items.Add(new Separator());
+        contextMenu.Items.Add(settingsItem);
+        contextMenu.Items.Add(new Separator());
+        contextMenu.Items.Add(exitItem);
+
+        _notifyIcon.ContextMenu = contextMenu;
+
+        _notifyIcon.ForceCreate();
     }
 
     private void DisposeNotifyIcon()
@@ -72,23 +93,21 @@ public class NotifyIconService : IDisposable
         if (_notifyIcon == null)
             return;
 
-        _notifyIcon.MouseClick -= NotifyIcon_MouseClick;
-        _notifyIcon.MouseDoubleClick -= NotifyIcon_MouseDoubleClick;
+        _notifyIcon.TrayLeftMouseDown -= NotifyIcon_TrayMouseLeftButtonDown;
+        _notifyIcon.TrayLeftMouseDoubleClick -= NotifyIcon_TrayLeftMouseDoubleClick;
 
         _notifyIcon.Dispose();
         _notifyIcon = null;
     }
 
-    private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
+    private void NotifyIcon_TrayMouseLeftButtonDown(object? sender, RoutedEventArgs e)
     {
-        if (e.Button == MouseButtons.Left)
-            _messengerService.Publish(new WindowActionMessage(WindowActions.Activate));
+        _messengerService.Publish(new WindowActionMessage(WindowActions.Activate));
     }
 
-    private void NotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
+    private void NotifyIcon_TrayLeftMouseDoubleClick(object? sender, RoutedEventArgs e)
     {
-        if (e.Button == MouseButtons.Left)
-            NewNote_Click(null, e);
+        NewNote_Click(null, e);
     }
 
     private void NewNote_Click(object? sender, EventArgs e)
