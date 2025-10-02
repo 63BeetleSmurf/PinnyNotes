@@ -396,6 +396,7 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Column="0" Grid.Row="0" Text="Base 64"/>
@@ -576,6 +577,16 @@
                             SelectedValuePath="Key"
                             DisplayMemberPath="Value"
                             SelectedValue="{Binding Settings.ToolSettings.TrimToolState, Mode=TwoWay}"
+                        />
+
+                        <TextBlock Grid.Column="0" Grid.Row="18" Text="URL"/>
+                        <ComboBox
+                            Grid.Column="1" Grid.Row="18"
+                            Width="120"
+                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                            SelectedValuePath="Key"
+                            DisplayMemberPath="Value"
+                            SelectedValue="{Binding Settings.ToolSettings.UrlToolState, Mode=TwoWay}"
                         />
 
                     </Grid>

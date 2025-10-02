@@ -62,6 +62,7 @@
 - **Slash:** Toggle or remove forward/back slashes.
 - **Split:** Split text by commas, tabs, spaces, or selected patterns.
 - **Trim:** Remove line-leading/trailing whitespace or blank lines.
+- **URL:** Encode and decode text for use in URLs.
 
 
 ## 💾 Installation (Windows Only)

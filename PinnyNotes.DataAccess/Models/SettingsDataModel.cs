@@ -64,5 +64,6 @@ public record SettingsDataModel(
      ToolStates SlashState,
      ToolStates SortState,
      ToolStates SplitState,
-     ToolStates TrimState
+     ToolStates TrimState,
+     ToolStates UrlState
 );

@@ -41,4 +41,6 @@ public class ToolSettingsModel : NotifyPropertyChangedBase
     private ToolStates _splitToolState;
     public ToolStates TrimToolState { get => _trimToolState; set => SetProperty(ref _trimToolState, value); }
     private ToolStates _trimToolState;
+    public ToolStates UrlToolState { get => _urlToolState; set => SetProperty(ref _urlToolState, value); }
+    private ToolStates _urlToolState;
 }

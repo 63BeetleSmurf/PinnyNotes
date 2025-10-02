@@ -55,7 +55,8 @@ public class NoteTextBoxContextMenu : ContextMenu
             new SlashTool(_noteTextBox),
             new SortTool(_noteTextBox),
             new SplitTool(_noteTextBox),
-            new TrimTool(_noteTextBox)
+            new TrimTool(_noteTextBox),
+            new UrlTool(_noteTextBox)
         ];
 
         _copyMenuItem = new()

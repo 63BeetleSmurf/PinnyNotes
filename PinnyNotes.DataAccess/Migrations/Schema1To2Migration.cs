@@ -6,7 +6,7 @@ public class Schema1To2Migration : SchemaMigration
     public override int ResultingSchemaVersion => 2;
     public override string UpdateQuery => $@"
         -- Update Settings
-        -- Notes_ShowInTaskbar to Notes_VisibilityMode
+        -- -- Change Notes_ShowInTaskbar to Notes_VisibilityMode
         ALTER TABLE Settings
         ADD COLUMN Notes_VisibilityMode INTEGER DEFAULT 0;
 
@@ -19,6 +19,10 @@ public class Schema1To2Migration : SchemaMigration
 
         ALTER TABLE Settings
         DROP COLUMN Notes_ShowInTaskbar;
+
+        -- -- Add UrlToolState
+        ALTER TABLE Settings
+        ADD COLUMN Tool_UrlState INTEGER DEFAULT 1;
 
         -- Update schema version
         UPDATE SchemaInfo

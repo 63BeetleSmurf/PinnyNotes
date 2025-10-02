@@ -72,7 +72,8 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
             Tool_SlashState                     INTEGER DEFAULT 1,
             Tool_SortState                      INTEGER DEFAULT 1,
             Tool_SplitState                     INTEGER DEFAULT 1,
-            Tool_TrimState                      INTEGER DEFAULT 1
+            Tool_TrimState                      INTEGER DEFAULT 1,
+            Tool_UrlState                       INTEGER DEFAULT 1
         )
     ";
 
@@ -157,7 +158,8 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
             SlashState: GetEnum<ToolStates>(reader, "Tool_SlashState"),
             SortState: GetEnum<ToolStates>(reader, "Tool_SortState"),
             SplitState: GetEnum<ToolStates>(reader, "Tool_SplitState"),
-            TrimState: GetEnum<ToolStates>(reader, "Tool_TrimState")
+            TrimState: GetEnum<ToolStates>(reader, "Tool_TrimState"),
+            UrlState: GetEnum<ToolStates>(reader, "Tool_UrlState")
         );
     }
 
@@ -231,7 +233,8 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
                     Tool_SlashState = @tool_SlashState,
                     Tool_SortState = @tool_SortState,
                     Tool_SplitState = @tool_SplitState,
-                    Tool_TrimState = @tool_TrimState
+                    Tool_TrimState = @tool_TrimState,
+                    Tool_UrlState = @tool_UrlState
                 WHERE
                     Id = @id;
             ",
@@ -296,6 +299,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
                 new("@tool_SortState", settings.SortState),
                 new("@tool_SplitState", settings.SplitState),
                 new("@tool_TrimState", settings.TrimState),
+                new("@tool_UrlState", settings.UrlState),
 
                 new("@id", settings.Id)
             ]

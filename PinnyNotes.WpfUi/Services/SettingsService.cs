@@ -85,7 +85,8 @@ public class SettingsService
             SlashToolState = settings.SlashState,
             SortToolState = settings.SortState,
             SplitToolState = settings.SplitState,
-            TrimToolState = settings.TrimState
+            TrimToolState = settings.TrimState,
+            UrlToolState = settings.UrlState
         };
     }
 
@@ -154,7 +155,8 @@ public class SettingsService
                 SlashState: ToolSettings.SlashToolState,
                 SortState: ToolSettings.SortToolState,
                 SplitState: ToolSettings.SplitToolState,
-                TrimState: ToolSettings.TrimToolState
+                TrimState: ToolSettings.TrimToolState,
+                UrlState: ToolSettings.UrlToolState
             )
         );
     }
