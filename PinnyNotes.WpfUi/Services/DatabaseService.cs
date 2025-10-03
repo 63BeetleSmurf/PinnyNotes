@@ -15,10 +15,15 @@ public class DatabaseService
 
     public DatabaseService()
     {
-        string dataPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "Pinny Notes"
-        );
+        string dataPath;
+        if (File.Exists(Path.Combine(AppContext.BaseDirectory, "portable.txt")))
+            dataPath = AppContext.BaseDirectory;
+        else
+            dataPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Pinny Notes"
+            );
+
         if (!Path.Exists(dataPath))
             Directory.CreateDirectory(dataPath);
 

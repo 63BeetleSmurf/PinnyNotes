@@ -8,6 +8,7 @@
 - Database migration system, seamlessly upgrade the database after upgrading the application.
 - Text Lock, toggle Locked from the text box context menu to prevent note text being edited.
 - URL tool, encode and decode text for use in URls.
+- Marker file check (portable.txt), signal database to be created in exe path when using portable version.
 
 ### Changed
 - Tray icon implimentation, removes dependancy on WinForms.
