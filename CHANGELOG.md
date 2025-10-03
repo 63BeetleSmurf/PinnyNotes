@@ -1,22 +1,19 @@
 # Change Log
 
 
-## v1.15.0 - Pending
+## v1.15.0 - 03/10/2025
 
 ### Added
 - Setting to change note visibility, Show in taskbar, hide in taskbar or hide in taskbar and task switcher (Alt+Tab and Win+Tab).
 - Database migration system, seamlessly upgrade the database after upgrading the application.
 - Text Lock, toggle Locked from the text box context menu to prevent note text being edited.
 - URL tool, encode and decode text for use in URls.
-- 
 
 ### Changed
 - Tray icon implimentation, removes dependancy on WinForms.
-- 
 
 ### Fixed
 - Notes sometimes not going behind other windows when unpinned.
-- 
 
 
 ## v1.14.0 - 30/09/2025
