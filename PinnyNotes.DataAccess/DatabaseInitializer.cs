@@ -9,14 +9,14 @@ public class DatabaseInitialiser
 {
     public const int SchemaVersion = 2;
 
-    public static void Initialise(string connectionString)
+    public static async Task Initialise(string connectionString)
     {
         using SqliteConnection connection = new(connectionString);
         connection.Open();
 
         if (!SchemaTableExists(connection))
         {
-            CreateDatabase(connection);
+            await CreateDatabase(connection);
             return;
         }
 
@@ -24,7 +24,7 @@ public class DatabaseInitialiser
         if (databaseSchemaVersion > SchemaVersion)
             throw new Exception("Database is from a newer version of Pinny Notes.");
         else if (databaseSchemaVersion < SchemaVersion)
-            UpdateDatabase(connection, databaseSchemaVersion);
+            await UpdateDatabase(connection, databaseSchemaVersion);
     }
 
     private static bool SchemaTableExists(SqliteConnection connection)
@@ -61,9 +61,9 @@ public class DatabaseInitialiser
         return schemaVersion;
     }
 
-    private static void CreateDatabase(SqliteConnection connection)
+    private static async Task CreateDatabase(SqliteConnection connection)
     {
-        BaseRepository.ExecuteNonQuery(
+        await BaseRepository.ExecuteNonQuery(
             connection,
             $@"
                 CREATE TABLE IF NOT EXISTS SchemaInfo (
@@ -87,7 +87,7 @@ public class DatabaseInitialiser
         );
     }
 
-    private static void UpdateDatabase(SqliteConnection connection, int databaseSchemaVersion)
+    private static async Task UpdateDatabase(SqliteConnection connection, int databaseSchemaVersion)
     {
         Schema1To2Migration schema1To2Migration = new();
 
@@ -103,7 +103,7 @@ public class DatabaseInitialiser
             while (currentSchemaVersion < SchemaVersion)
             {
                 SchemaMigration migration = migrations[currentSchemaVersion];
-                BaseRepository.ExecuteNonQuery(connection, migration.UpdateQuery);
+                await BaseRepository.ExecuteNonQuery(connection, migration.UpdateQuery);
                 currentSchemaVersion = migration.ResultingSchemaVersion;
             }
             transaction.Commit();

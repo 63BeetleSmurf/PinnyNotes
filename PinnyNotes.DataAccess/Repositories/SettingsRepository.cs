@@ -77,12 +77,12 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         )
     ";
 
-    public SettingsDataModel GetById(int id)
+    public async Task<SettingsDataModel> GetById(int id)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        using SqliteDataReader reader = ExecuteReader(
+        using SqliteDataReader reader = await ExecuteReader(
             connection,
             @"
                 SELECT *
@@ -163,12 +163,12 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         );
     }
 
-    public int Update(SettingsDataModel settings)
+    public async Task<int> Update(SettingsDataModel settings)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        return ExecuteNonQuery(
+        return await ExecuteNonQuery(
             connection,
             @"
                 UPDATE

@@ -20,27 +20,27 @@ public abstract class BaseRepository(string connectionString)
         return command;
     }
 
-    protected static object? ExecuteScalar(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    protected async static Task<object?> ExecuteScalar(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
     {
         using SqliteCommand command = CreateCommand(connection, query, parameters);
-        return command.ExecuteScalar();
+        return await command.ExecuteScalarAsync();
     }
 
-    public static int ExecuteNonQuery(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    public async static Task<int> ExecuteNonQuery(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
     {
         using SqliteCommand command = CreateCommand(connection, query, parameters);
-        return command.ExecuteNonQuery();
+        return await command.ExecuteNonQueryAsync();
     }
 
-    protected static SqliteDataReader ExecuteReader(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
+    protected async static Task<SqliteDataReader> ExecuteReader(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
     {
         SqliteCommand command = CreateCommand(connection, query, parameters);
-        return command.ExecuteReader();
+        return await command.ExecuteReaderAsync();
     }
 
-    protected static int GetLastInsertRowId(SqliteConnection connection)
+    protected async static Task<int> GetLastInsertRowId(SqliteConnection connection)
         => Convert.ToInt32(
-            ExecuteScalar(connection, "SELECT last_insert_rowid();")
+            await ExecuteScalar(connection, "SELECT last_insert_rowid();")
         );
 
     protected static bool GetBool(SqliteDataReader reader, int ordinal)

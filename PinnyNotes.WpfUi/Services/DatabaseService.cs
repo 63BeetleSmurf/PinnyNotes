@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 using PinnyNotes.DataAccess;
+using PinnyNotes.DataAccess.Models;
 using PinnyNotes.DataAccess.Repositories;
 
 namespace PinnyNotes.WpfUi.Services;
@@ -10,8 +12,8 @@ public class DatabaseService
 {
     private readonly string _connectionString;
 
-    public AppMetadataRepository AppMetadataRepository { get; }
-    public SettingsRepository SettingsRepository { get; }
+    private readonly AppMetadataRepository _appMetadataRepository;
+    private readonly SettingsRepository _settingsRepository;
 
     public DatabaseService()
     {
@@ -29,8 +31,22 @@ public class DatabaseService
 
         _connectionString = $"Data Source={Path.Combine(dataPath, "pinny_notes.sqlite")}";
 
-        DatabaseInitialiser.Initialise(_connectionString);
-        AppMetadataRepository = new(_connectionString);
-        SettingsRepository = new(_connectionString);
+        _appMetadataRepository = new(_connectionString);
+        _settingsRepository = new(_connectionString);
     }
+
+    public async Task Initialise()
+        => await DatabaseInitialiser.Initialise(_connectionString);
+
+    public async Task<AppMetadataDataModel> GetAppMetadata(int id)
+        => await _appMetadataRepository.GetById(id);
+
+    public async Task<int> UpdateAppMetadata(AppMetadataDataModel model)
+        => await _appMetadataRepository.Update(model);
+
+    public async Task<SettingsDataModel> GetSettings(int id)
+        => await _settingsRepository.GetById(id);
+
+    public async Task<int> UpdateSettings(SettingsDataModel model)
+        => await _settingsRepository.Update(model);
 }

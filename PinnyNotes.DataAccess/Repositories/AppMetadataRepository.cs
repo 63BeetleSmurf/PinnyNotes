@@ -18,12 +18,12 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         );
     ";
 
-    public AppMetadataDataModel GetById(int id)
+    public async Task<AppMetadataDataModel> GetById(int id)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        using SqliteDataReader reader = ExecuteReader(
+        using SqliteDataReader reader = await ExecuteReader(
             connection,
             @"
                 SELECT *
@@ -45,12 +45,12 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         );
     }
 
-    public int Update(AppMetadataDataModel applicationData)
+    public async Task<int> Update(AppMetadataDataModel applicationData)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
 
-        return ExecuteNonQuery(
+        return await ExecuteNonQuery(
             connection,
             @"
                 UPDATE ApplicationData

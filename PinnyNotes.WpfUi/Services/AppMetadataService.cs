@@ -1,35 +1,36 @@
-﻿using PinnyNotes.DataAccess.Models;
+﻿using System.Threading.Tasks;
+
+using PinnyNotes.DataAccess.Models;
 using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.Services;
 
-public class AppMetadataService
+public class AppMetadataService(DatabaseService databaseService)
 {
-    private readonly DatabaseService _databaseService;
+    private readonly DatabaseService _databaseService = databaseService;
 
-    public AppMetadataModel Metadata { get; }
+    public AppMetadataModel Metadata => _metadata;
+    private AppMetadataModel _metadata = null!;
 
-    public AppMetadataService(DatabaseService databaseService)
+    public async Task Load()
     {
-        _databaseService = databaseService;
+        AppMetadataDataModel appMetadata = await _databaseService.GetAppMetadata(1);
 
-        AppMetadataDataModel appMetadata = _databaseService.AppMetadataRepository.GetById(1);
-
-        Metadata = new()
+        _metadata = new()
         {
             LastUpdateCheck = appMetadata.LastUpdateCheck,
             ThemeColor = appMetadata.ThemeColor
         };
     }
 
-    public void Save()
+    public async Task Save()
     {
-        _ = _databaseService.AppMetadataRepository.Update(
+        _ = await _databaseService.UpdateAppMetadata(
             new AppMetadataDataModel(
                 Id: 1,
 
-                LastUpdateCheck: Metadata.LastUpdateCheck,
-                ThemeColor: Metadata.ThemeColor
+                LastUpdateCheck: _metadata.LastUpdateCheck,
+                ThemeColor: _metadata.ThemeColor
             )
         );
     }

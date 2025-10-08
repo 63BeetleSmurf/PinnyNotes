@@ -57,11 +57,16 @@ public partial class App : Application
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
 
+        DatabaseService databaseService = Services.GetRequiredService<DatabaseService>();
+        await databaseService.Initialise();
+
         _settingsService = Services.GetRequiredService<SettingsService>();
+        await _settingsService.Load();
         _applicationSettings = _settingsService.ApplicationSettings;
         _applicationSettings.PropertyChanged += OnApplicationSettingsChanged;
 
         _appMetadataService = Services.GetRequiredService<AppMetadataService>();
+        await _appMetadataService.Load();
         _ = Services.GetRequiredService<WindowService>();
         _notifyIconService = Services.GetRequiredService<NotifyIconService>();
 
@@ -113,10 +118,10 @@ public partial class App : Application
         services.AddSingleton<NoteWindowFactory>();
     }
 
-    protected override void OnExit(ExitEventArgs e)
+    protected override async void OnExit(ExitEventArgs e)
     {
-        _appMetadataService.Save();
-        _settingsService.Save();
+        await _appMetadataService.Save();
+        await _settingsService.Save();
         _notifyIconService.Dispose();
 
         _mutex?.ReleaseMutex();
