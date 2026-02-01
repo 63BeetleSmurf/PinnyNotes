@@ -23,10 +23,12 @@ public partial class SettingsWindow : Window
 
         InitializeComponent();
 
+        Activated += Window_Activated;
+
         _lastOwner = Owner;
     }
 
-    private void Window_Activated(object sender, System.EventArgs e)
+    private void Window_Activated(object? sender, System.EventArgs e)
     {
         if (Owner == null)
         {

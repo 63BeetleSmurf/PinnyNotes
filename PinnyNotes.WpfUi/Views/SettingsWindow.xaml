@@ -9,9 +9,8 @@
         Title="Pinny Notes Settings"
         ResizeMode="NoResize"
         Width="340"
-        Height="445"
-        Activated="Window_Activated"
-        >
+        Height="445">
+
     <Grid Margin="5,5,5,5">
         <Grid.Resources>
             <Style TargetType="TextBlock" >

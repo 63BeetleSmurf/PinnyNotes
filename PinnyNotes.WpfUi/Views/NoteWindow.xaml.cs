@@ -38,6 +38,21 @@ public partial class NoteWindow : Window
 
         InitializeComponent();
 
+        Activated += Window_Activated;
+        Closing += Window_Closing;
+        Deactivated += Window_Deactivated;
+        MouseDown += NoteWindow_MouseDown;
+        MouseEnter += Window_MouseEnter;
+        MouseLeave += Window_MouseLeave;
+        Loaded += Window_Loaded;
+        StateChanged += NoteWindow_StateChanged;
+
+        TitleBarGrid.MouseDown += TitleBar_MouseDown;
+        NewButton.Click += NewButton_Click;
+        CloseButton.Click += CloseButton_Click;
+
+        NoteTextBox.TextChanged += NoteTextBox_TextChanged;
+
         PopulateTitleBarContextMenu();
     }
 
@@ -94,7 +109,7 @@ public partial class NoteWindow : Window
         _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
     }
 
-    private void NoteWindow_StateChanged(object sender, EventArgs e)
+    private void NoteWindow_StateChanged(object? sender, EventArgs e)
     {
         if (WindowState != WindowState.Minimized)
             return;
@@ -114,7 +129,7 @@ public partial class NoteWindow : Window
             HideTitleBar();
     }
 
-    private void Window_Activated(object sender, EventArgs e)
+    private void Window_Activated(object? sender, EventArgs e)
     {
         _viewModel.IsFocused = true;
         _viewModel.UpdateOpacity();
@@ -122,7 +137,7 @@ public partial class NoteWindow : Window
         ShowTitleBar();
     }
 
-    private void Window_Deactivated(object sender, EventArgs e)
+    private void Window_Deactivated(object? sender, EventArgs e)
     {
         _viewModel.IsFocused = false;
         _viewModel.UpdateOpacity();
@@ -130,7 +145,7 @@ public partial class NoteWindow : Window
         HideTitleBar();
     }
 
-    private void Window_Closing(object sender, CancelEventArgs e)
+    private void Window_Closing(object? sender, CancelEventArgs e)
     {
         if (_viewModel.IsSaved || NoteTextBox.Text == "")
             return;

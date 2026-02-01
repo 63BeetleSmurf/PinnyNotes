@@ -27,15 +27,6 @@
         Top="{Binding Y}"
         Width="{Binding Width}"
 
-        Activated="Window_Activated"
-        Closing="Window_Closing"
-        Deactivated="Window_Deactivated"
-        MouseDown="NoteWindow_MouseDown"
-        MouseEnter="Window_MouseEnter"
-        MouseLeave="Window_MouseLeave"
-        Loaded="Window_Loaded"
-        StateChanged="NoteWindow_StateChanged"
-
         d:DataContext="{d:DesignInstance Type=vm:NoteViewModel}"
         d:Height="300"
         d:Width="300"
@@ -90,15 +81,19 @@
         </Grid.RowDefinitions>
 
         <!-- Title Bar -->
-        <Grid Name="TitleBarGrid" Grid.Column="0" Grid.Row="0" Height="40" MouseDown="TitleBar_MouseDown" Background="{Binding TitleBarColorBrush}" d:Background="#fef7b1">
+        <Grid Name="TitleBarGrid"
+              Grid.Column="0"
+              Grid.Row="0"
+              Height="40"
+              Background="{Binding TitleBarColorBrush}"
+              d:Background="#fef7b1">
 
             <!-- New Note Button -->
             <Button Name="NewButton"
                     HorizontalAlignment="Left"
                     Margin="10,0,0,0"
                     ToolTip="New Note"
-                    Style="{StaticResource TitleBarButtonStyle}"
-                    Click="NewButton_Click">
+                    Style="{StaticResource TitleBarButtonStyle}">
                 <Button.Template>
                     <ControlTemplate>
                         <Canvas>
@@ -152,8 +147,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,0,10,0"
                     ToolTip="Close"
-                    Style="{StaticResource TitleBarButtonStyle}"
-                    Click="CloseButton_Click">
+                    Style="{StaticResource TitleBarButtonStyle}">
                 <Button.Template>
                     <ControlTemplate>
                         <Canvas>
@@ -193,7 +187,6 @@
                                          FontSize="16"
                                          x:Name="NoteTextBox"
                                          Padding="5,5,5,5"
-                                         TextChanged="NoteTextBox_TextChanged"
                                          Text="{Binding Content}"
 
                                          SpellCheck.IsEnabled="{Binding EditorSettings.CheckSpelling}"
