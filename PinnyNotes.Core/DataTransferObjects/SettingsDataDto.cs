@@ -2,7 +2,7 @@
 
 namespace PinnyNotes.Core.Models;
 
-public record SettingsDataModel(
+public record SettingsDataDto(
      int Id,
 
      bool ShowTrayIcon,

@@ -2,7 +2,7 @@
 
 namespace PinnyNotes.Core.Models;
 
-public record AppMetadataDataModel(
+public record AppMetadataDataDto(
     int Id,
 
     long? LastUpdateCheck,

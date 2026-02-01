@@ -39,15 +39,15 @@ public class DatabaseService
     public async Task Initialise()
         => await DatabaseInitialiser.Initialise(_connectionString);
 
-    public async Task<AppMetadataDataModel> GetAppMetadata(int id)
+    public async Task<AppMetadataDataDto> GetAppMetadata(int id)
         => await _appMetadataRepository.GetById(id);
 
-    public async Task<int> UpdateAppMetadata(AppMetadataDataModel model)
+    public async Task<int> UpdateAppMetadata(AppMetadataDataDto model)
         => await _appMetadataRepository.Update(model);
 
-    public async Task<SettingsDataModel> GetSettings(int id)
+    public async Task<SettingsDataDto> GetSettings(int id)
         => await _settingsRepository.GetById(id);
 
-    public async Task<int> UpdateSettings(SettingsDataModel model)
+    public async Task<int> UpdateSettings(SettingsDataDto model)
         => await _settingsRepository.Update(model);
 }

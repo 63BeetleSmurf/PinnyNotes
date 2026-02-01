@@ -77,7 +77,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         )
     ";
 
-    public async Task<SettingsDataModel> GetById(int id)
+    public async Task<SettingsDataDto> GetById(int id)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
@@ -96,7 +96,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         if (!reader.Read())
             throw new Exception($"Could not find settings with id: {id}.");
 
-        return new SettingsDataModel(
+        return new SettingsDataDto(
             Id: GetInt(reader, "Id"),
 
             ShowTrayIcon: GetBool(reader, "Application_ShowTrayIcon"),
@@ -163,7 +163,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
         );
     }
 
-    public async Task<int> Update(SettingsDataModel settings)
+    public async Task<int> Update(SettingsDataDto settings)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();

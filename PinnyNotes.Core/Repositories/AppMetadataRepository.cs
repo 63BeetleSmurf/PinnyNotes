@@ -18,7 +18,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         );
     ";
 
-    public async Task<AppMetadataDataModel> GetById(int id)
+    public async Task<AppMetadataDataDto> GetById(int id)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();
@@ -37,7 +37,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         if (!reader.Read())
             throw new Exception($"Could not find application data with id: {id}.");
 
-        return new AppMetadataDataModel(
+        return new AppMetadataDataDto(
             Id: GetInt(reader, "Id"),
 
             LastUpdateCheck: GetLongNullable(reader, "LastUpdateCheck"),
@@ -45,7 +45,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
         );
     }
 
-    public async Task<int> Update(AppMetadataDataModel applicationData)
+    public async Task<int> Update(AppMetadataDataDto applicationData)
     {
         using SqliteConnection connection = new(_connectionString);
         connection.Open();

@@ -14,7 +14,7 @@ public class AppMetadataService(DatabaseService databaseService)
 
     public async Task Load()
     {
-        AppMetadataDataModel appMetadata = await _databaseService.GetAppMetadata(1);
+        AppMetadataDataDto appMetadata = await _databaseService.GetAppMetadata(1);
 
         _metadata = new()
         {
@@ -26,7 +26,7 @@ public class AppMetadataService(DatabaseService databaseService)
     public async Task Save()
     {
         _ = await _databaseService.UpdateAppMetadata(
-            new AppMetadataDataModel(
+            new AppMetadataDataDto(
                 Id: 1,
 
                 LastUpdateCheck: _metadata.LastUpdateCheck,

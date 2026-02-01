@@ -20,7 +20,7 @@ public class SettingsService(DatabaseService databaseService)
 
     public async Task Load()
     {
-        SettingsDataModel settings = await _databaseService.GetSettings(1);
+        SettingsDataDto settings = await _databaseService.GetSettings(1);
 
         _applicationSettings = new()
         {
@@ -100,7 +100,7 @@ public class SettingsService(DatabaseService databaseService)
     public async Task Save()
     {
         _ = await _databaseService.UpdateSettings(
-            new SettingsDataModel(
+            new SettingsDataDto(
                 Id: 1,
 
                 ShowTrayIcon: _applicationSettings.ShowNotifiyIcon,
