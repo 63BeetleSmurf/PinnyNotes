@@ -2,9 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using PinnyNotes.DataAccess;
-using PinnyNotes.DataAccess.Models;
-using PinnyNotes.DataAccess.Repositories;
+using PinnyNotes.Core;
+using PinnyNotes.Core.Models;
+using PinnyNotes.Core.Repositories;
 
 namespace PinnyNotes.WpfUi.Services;
 

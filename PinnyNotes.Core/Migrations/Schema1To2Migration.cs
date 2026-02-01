@@ -1,4 +1,4 @@
-﻿namespace PinnyNotes.DataAccess.Migrations;
+﻿namespace PinnyNotes.Core.Migrations;
 
 public class Schema1To2Migration : SchemaMigration
 {

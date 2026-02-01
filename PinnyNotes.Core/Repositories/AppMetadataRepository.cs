@@ -1,9 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 
 using PinnyNotes.Core.Enums;
-using PinnyNotes.DataAccess.Models;
+using PinnyNotes.Core.Models;
 
-namespace PinnyNotes.DataAccess.Repositories;
+namespace PinnyNotes.Core.Repositories;
 
 public class AppMetadataRepository(string connectionString) : BaseRepository(connectionString)
 {

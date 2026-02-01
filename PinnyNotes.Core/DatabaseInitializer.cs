@@ -1,9 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 
-using PinnyNotes.DataAccess.Migrations;
-using PinnyNotes.DataAccess.Repositories;
+using PinnyNotes.Core.Migrations;
+using PinnyNotes.Core.Repositories;
 
-namespace PinnyNotes.DataAccess;
+namespace PinnyNotes.Core;
 
 public class DatabaseInitialiser
 {

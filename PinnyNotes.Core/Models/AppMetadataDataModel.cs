@@ -1,6 +1,6 @@
 ﻿using PinnyNotes.Core.Enums;
 
-namespace PinnyNotes.DataAccess.Models;
+namespace PinnyNotes.Core.Models;
 
 public record AppMetadataDataModel(
     int Id,

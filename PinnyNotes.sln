@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33403.182
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PinnyNotes.WpfUi", "PinnyNotes.WpfUi\PinnyNotes.WpfUi.csproj", "{E34E73A9-41C3-4895-9E6E-246CFCFE81E1}"
 EndProject
@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinnyNotes.DataAccess", "PinnyNotes.DataAccess\PinnyNotes.DataAccess.csproj", "{826DB3BC-0FC7-4160-97CA-7108C13743BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinnyNotes.Core", "PinnyNotes.Core\PinnyNotes.Core.csproj", "{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}"
 EndProject
@@ -38,14 +36,6 @@ Global
 		{EB322717-9351-4B06-B1C1-915EE8189ADE}.Debug|x64.ActiveCfg = Debug
 		{EB322717-9351-4B06-B1C1-915EE8189ADE}.Release|Any CPU.ActiveCfg = Release
 		{EB322717-9351-4B06-B1C1-915EE8189ADE}.Release|x64.ActiveCfg = Release
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Debug|x64.ActiveCfg = Debug|x64
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Debug|x64.Build.0 = Debug|x64
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Release|x64.ActiveCfg = Release|x64
-		{826DB3BC-0FC7-4160-97CA-7108C13743BF}.Release|x64.Build.0 = Release|x64
 		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF5F8C24-B2F0-41A1-B4B4-CECBF6704E3F}.Debug|x64.ActiveCfg = Debug|x64

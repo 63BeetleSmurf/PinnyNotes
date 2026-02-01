@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 
-namespace PinnyNotes.DataAccess.Repositories;
+namespace PinnyNotes.Core.Repositories;
 
 public abstract class BaseRepository(string connectionString)
 {
