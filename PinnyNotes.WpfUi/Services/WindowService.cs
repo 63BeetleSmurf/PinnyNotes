@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-using PinnyNotes.WpfUi.Factories;
 using PinnyNotes.WpfUi.Messages;
+using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Views;
 
 namespace PinnyNotes.WpfUi.Services;
@@ -11,14 +11,16 @@ public class WindowService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly MessengerService _messengerService;
-    private readonly NoteWindowFactory _noteWindowFactory;
+    private readonly AppMetadataService _appMetadataService;
+    private readonly SettingsService _settingsService;
     private SettingsWindow? _settingsWindow;
 
-    public WindowService(IServiceProvider serviceProvider, MessengerService messengerService, NoteWindowFactory noteWindowFactory)
+    public WindowService(IServiceProvider serviceProvider, MessengerService messengerService, AppMetadataService appMetadataService, SettingsService settingsService)
     {
         _serviceProvider = serviceProvider;
         _messengerService = messengerService;
-        _noteWindowFactory = noteWindowFactory;
+        _appMetadataService = appMetadataService;
+        _settingsService = settingsService;
 
         _messengerService.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
         _messengerService.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
@@ -26,7 +28,9 @@ public class WindowService
 
     private void OnCreateNewNoteMessage(CreateNewNoteMessage message)
     {
-        NoteWindow newNote = _noteWindowFactory.Create(message.ParentViewModel);
+        NoteViewModel viewModel = new(_appMetadataService, _settingsService, _messengerService, message.ParentViewModel);
+        NoteWindow newNote = new(_settingsService, _messengerService, viewModel);
+
         newNote.Show();
     }
 

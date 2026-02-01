@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows;
 
 using PinnyNotes.Core.Enums;
-using PinnyNotes.WpfUi.Factories;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Models;
@@ -113,9 +112,6 @@ public partial class App : Application
 
         services.AddTransient<SettingsWindow>();
         services.AddTransient<SettingsViewModel>();
-
-        services.AddSingleton<NoteViewModelFactory>();
-        services.AddSingleton<NoteWindowFactory>();
     }
 
     protected override async void OnExit(ExitEventArgs e)
