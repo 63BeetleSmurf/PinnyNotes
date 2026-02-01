@@ -18,7 +18,8 @@ public class DatabaseService
     public DatabaseService()
     {
         string dataPath;
-        if (File.Exists(Path.Combine(AppContext.BaseDirectory, "portable.txt")))
+        // Use exe dir for database if in Debug mode or is portable.
+        if (App.IsDebugMode || File.Exists(Path.Combine(AppContext.BaseDirectory, "portable.txt")))
             dataPath = AppContext.BaseDirectory;
         else
             dataPath = Path.Combine(

@@ -7,6 +7,7 @@
 - 
 
 ### Changed
+- Use exe dir for database when in debug mode.
 - 
 
 ### Fixed
