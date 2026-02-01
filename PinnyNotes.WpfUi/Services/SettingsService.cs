@@ -1,11 +1,12 @@
 ﻿using PinnyNotes.Core.DataTransferObjects;
+using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.Services;
 
-public class SettingsService(DatabaseService databaseService)
+public class SettingsService(SettingsRepository settingsRepository)
 {
-    private readonly DatabaseService _databaseService = databaseService;
+    private readonly SettingsRepository _settingsRepository = settingsRepository;
 
     public ApplicationSettingsModel ApplicationSettings => _applicationSettings;
     private ApplicationSettingsModel _applicationSettings = null!;
@@ -18,7 +19,7 @@ public class SettingsService(DatabaseService databaseService)
 
     public async Task Load()
     {
-        SettingsDataDto settings = await _databaseService.GetSettings(1);
+        SettingsDataDto settings = await _settingsRepository.GetById(1);
 
         _applicationSettings = new()
         {
@@ -97,7 +98,7 @@ public class SettingsService(DatabaseService databaseService)
 
     public async Task Save()
     {
-        _ = await _databaseService.UpdateSettings(
+        _ = await _settingsRepository.Update(
             new SettingsDataDto(
                 Id: 1,
 

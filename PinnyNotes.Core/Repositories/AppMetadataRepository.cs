@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 
+using PinnyNotes.Core.Configurations;
 using PinnyNotes.Core.DataTransferObjects;
 
 namespace PinnyNotes.Core.Repositories;
 
-public class AppMetadataRepository(string connectionString) : BaseRepository(connectionString)
+public class AppMetadataRepository(DatabaseConfiguration databaseConfiguration) : BaseRepository(databaseConfiguration)
 {
     public static readonly string TableName = "ApplicationData";
 
@@ -19,7 +20,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
 
     public async Task<AppMetadataDataDto> GetById(int id)
     {
-        using SqliteConnection connection = new(_connectionString);
+        using SqliteConnection connection = new(ConnectionString);
         connection.Open();
 
         using SqliteDataReader reader = await ExecuteReader(
@@ -46,7 +47,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
 
     public async Task<int> Update(AppMetadataDataDto applicationData)
     {
-        using SqliteConnection connection = new(_connectionString);
+        using SqliteConnection connection = new(ConnectionString);
         connection.Open();
 
         return await ExecuteNonQuery(

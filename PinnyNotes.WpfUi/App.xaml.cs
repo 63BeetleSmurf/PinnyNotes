@@ -2,7 +2,10 @@
 using System.ComponentModel;
 using System.Windows;
 
+using PinnyNotes.Core;
+using PinnyNotes.Core.Configurations;
 using PinnyNotes.Core.Enums;
+using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Models;
@@ -54,8 +57,8 @@ public partial class App : Application
         ConfigureServices(services);
         Services = services.BuildServiceProvider();
 
-        DatabaseService databaseService = Services.GetRequiredService<DatabaseService>();
-        await databaseService.Initialise();
+        DatabaseConfiguration databaseConfiguration = Services.GetRequiredService<DatabaseConfiguration>();
+        await DatabaseInitialiser.Initialise(databaseConfiguration.ConnectionString);
 
         _settingsService = Services.GetRequiredService<SettingsService>();
         await _settingsService.Load();
@@ -100,7 +103,11 @@ public partial class App : Application
 
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<DatabaseService>();
+        services.AddSingleton<DatabaseConfiguration>();
+
+        services.AddSingleton<SettingsRepository>();
+        services.AddSingleton<AppMetadataRepository>();
+
         services.AddSingleton<AppMetadataService>();
         services.AddSingleton<SettingsService>();
 

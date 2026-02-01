@@ -1,11 +1,12 @@
 ﻿using Microsoft.Data.Sqlite;
 
-using PinnyNotes.Core.Enums;
+using PinnyNotes.Core.Configurations;
 using PinnyNotes.Core.DataTransferObjects;
+using PinnyNotes.Core.Enums;
 
 namespace PinnyNotes.Core.Repositories;
 
-public class SettingsRepository(string connectionString) : BaseRepository(connectionString)
+public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : BaseRepository(databaseConfiguration)
 {
     public static readonly string TableName = "Settings";
 
@@ -79,7 +80,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
 
     public async Task<SettingsDataDto> GetById(int id)
     {
-        using SqliteConnection connection = new(_connectionString);
+        using SqliteConnection connection = new(ConnectionString);
         connection.Open();
 
         using SqliteDataReader reader = await ExecuteReader(
@@ -165,7 +166,7 @@ public class SettingsRepository(string connectionString) : BaseRepository(connec
 
     public async Task<int> Update(SettingsDataDto settings)
     {
-        using SqliteConnection connection = new(_connectionString);
+        using SqliteConnection connection = new(ConnectionString);
         connection.Open();
 
         return await ExecuteNonQuery(

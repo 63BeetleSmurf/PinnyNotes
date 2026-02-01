@@ -1,10 +1,21 @@
 ﻿using Microsoft.Data.Sqlite;
 
+using PinnyNotes.Core.Configurations;
+
 namespace PinnyNotes.Core.Repositories;
 
-public abstract class BaseRepository(string connectionString)
+public abstract class BaseRepository
 {
-    protected readonly string _connectionString = connectionString;
+    private readonly DatabaseConfiguration _databaseConfiguration;
+
+    protected string ConnectionString;
+
+    public BaseRepository(DatabaseConfiguration databaseConfiguration)
+    {
+        _databaseConfiguration = databaseConfiguration;
+
+        ConnectionString = _databaseConfiguration.ConnectionString;
+    }
 
     private static SqliteCommand CreateCommand(SqliteConnection connection, string query, IEnumerable<KeyValuePair<string, object?>>? parameters = null)
     {
