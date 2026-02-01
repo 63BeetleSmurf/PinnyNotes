@@ -58,23 +58,16 @@ public partial class NoteWindow : Window
     private void PopulateTitleBarContextMenu()
     {
         int insertIndex = TitleBarContextMenu.Items.IndexOf(ThemeMenuSeparator);
-        foreach (Theme theme in _viewModel.AvailableThemes)
+        foreach (ColorScheme colorScheme in _viewModel.AvailableThemes[0].ColorSchemes.Values)
         {
-            Rectangle icon = new()
-            {
-                Width = 16,
-                Height = 16,
-                Fill = theme.MenuIcon.Brush
-            };
-
             MenuItem menuItem = new()
             {
-                Header = theme.Name,
+                Header = colorScheme.Name,
                 Command = _viewModel.ChangeThemeColorCommand,
-                CommandParameter = theme.ThemeColor,
-                Icon = icon
+                CommandParameter = colorScheme.Name,
+                Icon = colorScheme.Icon
             };
-            
+
             TitleBarContextMenu.Items.Insert(insertIndex, menuItem);
 
             insertIndex++;

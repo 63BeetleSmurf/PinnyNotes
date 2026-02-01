@@ -15,7 +15,7 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class NoteViewModel : BaseViewModel
 {
-    public RelayCommand<ThemeColors> ChangeThemeColorCommand { get; }
+    public RelayCommand<string> ChangeThemeColorCommand { get; }
 
     public Theme[] AvailableThemes { get; }
 
@@ -24,22 +24,22 @@ public class NoteViewModel : BaseViewModel
 
     public nint WindowHandle { get; set; }
 
-    public ThemeColors CurrentThemeColor
+    public string? CurrentColorScheme
     {
         get;
         set
         {
             SetProperty(ref field, value);
-            AppMetadataService.Metadata.ThemeColor = value;
+            AppMetadataService.Metadata.ColorScheme = value;
             UpdateBrushes();
         }
     }
 
-    public SolidColorBrush TitleBarColorBrush { get; set => SetProperty(ref field, value); } = new();
-    public SolidColorBrush TitleButtonColorBrush { get; set => SetProperty(ref field, value); } = new();
-    public SolidColorBrush BackgroundColorBrush { get; set => SetProperty(ref field, value); } = new();
-    public SolidColorBrush BorderColorBrush { get; set => SetProperty(ref field, value); } = new();
-    public SolidColorBrush TextColorBrush { get; set => SetProperty(ref field, value); } = new();
+    public Brush Background { get; set => SetProperty(ref field, value); } = Brushes.LightGray;
+    public Brush BorderBrush { get; set => SetProperty(ref field, value); } = Brushes.DarkGray;
+    public Brush TitleGridBackground { get; set => SetProperty(ref field, value); } = Brushes.Gray;
+    public Brush TitleGridButtonForeground { get; set => SetProperty(ref field, value); } = Brushes.DarkGray;
+    public Brush ContentTextBoxForeground { get; set => SetProperty(ref field, value); } = Brushes.Black;
 
     public int GravityX;
     public int GravityY;
@@ -64,9 +64,11 @@ public class NoteViewModel : BaseViewModel
         NoteViewModel? parent = null
     ) : base(appMetadata, settingsService, messengerService)
     {
-        ChangeThemeColorCommand = new RelayCommand<ThemeColors>(ChangeThemeColor);
+        ChangeThemeColorCommand = new RelayCommand<string>(ChangeThemeColor);
 
-        AvailableThemes = ThemeHelper.Themes.Values.ToArray();
+        AvailableThemes = [
+            new DefaultTheme()
+        ];
 
         NoteSettings = SettingsService.NoteSettings;
         NoteSettings.PropertyChanged += OnNoteSettingsChanged;
@@ -75,7 +77,7 @@ public class NoteViewModel : BaseViewModel
         Width = NoteSettings.DefaultWidth;
         Height = NoteSettings.DefaultHeight;
 
-        InitNoteColor(parent);
+        InitNoteColor(parent?.CurrentColorScheme);
         InitNotePosition(parent);
         UpdateOpacity();
     }
@@ -119,32 +121,17 @@ public class NoteViewModel : BaseViewModel
         _ = User32.SetWindowPos(WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
     }
 
-    private void InitNoteColor(NoteViewModel? parent = null)
+    private void InitNoteColor(string? parentColorScheme = null)
     {
         // Set this first as cycle colors wont trigger a change if the next color if the default for ThemeColors
-        CurrentThemeColor = AppMetadataService.Metadata.ThemeColor;
+        CurrentColorScheme = AppMetadataService.Metadata.ColorScheme;
         if (NoteSettings.CycleColors)
-        {
-            int themeColorIndex = GetNextThemeColorIndex((int)CurrentThemeColor);
-            if (parent != null && themeColorIndex == (int)parent.CurrentThemeColor)
-                themeColorIndex = GetNextThemeColorIndex(themeColorIndex);
-            CurrentThemeColor = (ThemeColors)themeColorIndex;
-        }
+            CurrentColorScheme = AvailableThemes[0].GetNextColorScheme(CurrentColorScheme, parentColorScheme);
         else
-        {
             // Need to update brushes if color isn't changing.
             // If color is changed/cycled UpdateBrushes is called in OnCurrentThemeColorChanged.
             // Would probably work fine if enums were started at 1 rather than 0.
             UpdateBrushes();
-        }
-    }
-
-    private static int GetNextThemeColorIndex(int currentIndex)
-    {
-        int nextIndex = currentIndex + 1;
-        if (!Enum.IsDefined((ThemeColors)nextIndex))
-            nextIndex = 0;
-        return nextIndex;
     }
 
     private void InitNotePosition(NoteViewModel? parent = null)
@@ -247,24 +234,27 @@ public class NoteViewModel : BaseViewModel
 
     private void UpdateBrushes()
     {
+        CurrentColorScheme ??= AvailableThemes[0].GetNextColorScheme(null);
+
+        ColorScheme colorScheme = AvailableThemes[0].ColorSchemes[CurrentColorScheme];
+
         ColorModes colorMode = NoteSettings.ColorMode;
-
-        NotePalette notePalette;
+        Palette palette;
         if (colorMode == ColorModes.Dark || (colorMode == ColorModes.System && SystemThemeHelper.IsDarkMode()))
-            notePalette = ThemeHelper.Themes[CurrentThemeColor].NoteDarkPalette;
+            palette = colorScheme.Dark;
         else
-            notePalette = ThemeHelper.Themes[CurrentThemeColor].NoteLightPalette;
+            palette = colorScheme.Light;
 
-        TitleBarColorBrush.Color = notePalette.TitleBar.Color;
-        TitleButtonColorBrush.Color = notePalette.TitleButton.Color;
-        BackgroundColorBrush.Color = notePalette.Background.Color;
-        BorderColorBrush.Color = notePalette.Border.Color;
-        TextColorBrush.Color = notePalette.Text.Color;
+        Background = new SolidColorBrush(palette.Background);
+        BorderBrush = new SolidColorBrush(palette.Border);
+        TitleGridBackground = new SolidColorBrush(palette.Title);
+        TitleGridButtonForeground = new SolidColorBrush(palette.Button);
+        ContentTextBoxForeground = new SolidColorBrush(palette.Text);
     }
 
-    private void ChangeThemeColor(ThemeColors themeColor)
+    private void ChangeThemeColor(string colorScheme)
     {
-        CurrentThemeColor = themeColor;
+        CurrentColorScheme = colorScheme;
     }
 
     private void OnNoteSettingsChanged(object? sender, PropertyChangedEventArgs e)

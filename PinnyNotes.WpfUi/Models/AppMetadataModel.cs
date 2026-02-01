@@ -6,5 +6,5 @@ namespace PinnyNotes.WpfUi.Models;
 public class AppMetadataModel : NotifyPropertyChangedBase
 {
     public long? LastUpdateCheck { get; set => SetProperty(ref field, value); }
-    public ThemeColors ThemeColor { get; set => SetProperty(ref field, value); }
+    public string? ColorScheme { get => field; set => SetProperty(ref field, value); } = "";
 }

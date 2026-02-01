@@ -7,7 +7,7 @@ namespace PinnyNotes.Core;
 
 public class DatabaseInitialiser
 {
-    public const int SchemaVersion = 2;
+    public const int SchemaVersion = 3;
 
     public static async Task Initialise(string connectionString)
     {
@@ -90,10 +90,12 @@ public class DatabaseInitialiser
     private static async Task UpdateDatabase(SqliteConnection connection, int databaseSchemaVersion)
     {
         Schema1To2Migration schema1To2Migration = new();
+        Schema2To3Migration schema2To3Migration = new();
 
         Dictionary<int, SchemaMigration> migrations = new()
         {
-            {schema1To2Migration.TargetSchemaVersion, schema1To2Migration}
+            {schema1To2Migration.TargetSchemaVersion, schema1To2Migration},
+            {schema2To3Migration.TargetSchemaVersion, schema2To3Migration}
         };
 
         using SqliteTransaction transaction = connection.BeginTransaction();

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 
-using PinnyNotes.Core.Enums;
 using PinnyNotes.Core.DataTransferObjects;
 
 namespace PinnyNotes.Core.Repositories;
@@ -14,7 +13,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
             Id              INTEGER PRIMARY KEY AUTOINCREMENT,
 
             LastUpdateCheck INTEGER DEFAULT NULL,
-            ThemeColor      INTEGER DEFAULT 0
+            ColorScheme     TEXT    DEFAULT NULL
         );
     ";
 
@@ -41,7 +40,7 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
             Id: GetInt(reader, "Id"),
 
             LastUpdateCheck: GetLongNullable(reader, "LastUpdateCheck"),
-            ThemeColor: GetEnumNullable<ThemeColors>(reader, "ThemeColor")
+            ColorScheme: GetStringNullable(reader, "ColorScheme")
         );
     }
 
@@ -56,12 +55,12 @@ public class AppMetadataRepository(string connectionString) : BaseRepository(con
                 UPDATE ApplicationData
                 SET
                     LastUpdateCheck = @lastUpdateCheck,
-                    ThemeColor      = @themeColor
+                    ColorScheme     = @colorScheme
                 WHERE Id = @id
             ",
             parameters: [
                 new("@lastUpdateCheck", applicationData.LastUpdateCheck),
-                new("@themeColor", applicationData.ThemeColor),
+                new("@colorScheme", applicationData.ColorScheme),
 
                 new("@id", applicationData.Id)
             ]

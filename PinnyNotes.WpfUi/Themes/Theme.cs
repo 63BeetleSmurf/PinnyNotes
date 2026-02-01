@@ -1,20 +1,23 @@
-﻿using PinnyNotes.Core.Enums;
+﻿namespace PinnyNotes.WpfUi.Themes;
 
-namespace PinnyNotes.WpfUi.Themes;
-
-public class Theme(string name, ThemeColors themeColor, string menuIconHex)
+public class Theme(string name)
 {
     public string Name { get; set; } = name;
+    public Dictionary<string, ColorScheme> ColorSchemes { get; set; } = [];
 
-    public ThemeColors ThemeColor { get; set; } = themeColor;
-
-    public PaletteColor MenuIcon { get; set; } = new(menuIconHex);
-
-    public required NotePalette NoteLightPalette { get; set; }
-    private NotePalette? _noteDarkPalette;
-    public NotePalette NoteDarkPalette
+    public string GetNextColorScheme(string? currentColorScheme, string? parentColorScheme = null)
     {
-        get => _noteDarkPalette ?? NoteLightPalette;
-        set => _noteDarkPalette = value;
+        string[] keys = [.. ColorSchemes.Keys];
+
+        int index = keys.IndexOf(currentColorScheme) + 1; // Index will be -1 if null, but +1 fixes anyway.
+        string nextColorScheme = (index == keys.Length) ? keys[0] : keys[index];
+
+        if (nextColorScheme == parentColorScheme)
+        {
+            index++;
+            nextColorScheme = (index == keys.Length) ? keys[0] : keys[index];
+        }
+
+        return nextColorScheme;
     }
 }

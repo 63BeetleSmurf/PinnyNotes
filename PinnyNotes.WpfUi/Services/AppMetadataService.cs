@@ -17,7 +17,7 @@ public class AppMetadataService(DatabaseService databaseService)
         _metadata = new()
         {
             LastUpdateCheck = appMetadata.LastUpdateCheck,
-            ThemeColor = appMetadata.ThemeColor
+            ColorScheme = appMetadata.ColorScheme
         };
     }
 
@@ -28,7 +28,7 @@ public class AppMetadataService(DatabaseService databaseService)
                 Id: 1,
 
                 LastUpdateCheck: _metadata.LastUpdateCheck,
-                ThemeColor: _metadata.ThemeColor
+                ColorScheme: _metadata.ColorScheme
             )
         );
     }
