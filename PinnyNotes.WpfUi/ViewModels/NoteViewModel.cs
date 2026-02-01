@@ -26,69 +26,40 @@ public class NoteViewModel : BaseViewModel
 
     public nint WindowHandle { get; set; }
 
-    private ThemeColors _currentThemeColor;
     public ThemeColors CurrentThemeColor
     {
-        get => _currentThemeColor;
+        get;
         set
         {
-            SetProperty(ref _currentThemeColor, value);
+            SetProperty(ref field, value);
             AppMetadataService.Metadata.ThemeColor = value;
             UpdateBrushes();
         }
     }
 
-    public SolidColorBrush TitleBarColorBrush { get => _titleBarColorBrush; set => SetProperty(ref _titleBarColorBrush, value); }
-    private SolidColorBrush _titleBarColorBrush = new();
-
-    public SolidColorBrush TitleButtonColorBrush { get => _titleButtonColorBrush; set => SetProperty(ref _titleButtonColorBrush, value); }
-    private SolidColorBrush _titleButtonColorBrush = new();
-
-    public SolidColorBrush BackgroundColorBrush { get => _backgroundColorBrush; set => SetProperty(ref _backgroundColorBrush, value); }
-    private SolidColorBrush _backgroundColorBrush = new();
-
-    public SolidColorBrush BorderColorBrush { get => _borderColorBrush; set => SetProperty(ref _borderColorBrush, value); }
-    private SolidColorBrush _borderColorBrush = new();
-
-    public SolidColorBrush TextColorBrush { get => _textColorBrush; set => SetProperty(ref _textColorBrush, value); }
-    private SolidColorBrush _textColorBrush = new();
+    public SolidColorBrush TitleBarColorBrush { get; set => SetProperty(ref field, value); } = new();
+    public SolidColorBrush TitleButtonColorBrush { get; set => SetProperty(ref field, value); } = new();
+    public SolidColorBrush BackgroundColorBrush { get; set => SetProperty(ref field, value); } = new();
+    public SolidColorBrush BorderColorBrush { get; set => SetProperty(ref field, value); } = new();
+    public SolidColorBrush TextColorBrush { get; set => SetProperty(ref field, value); } = new();
 
     public int GravityX;
     public int GravityY;
 
-    public double X { get => _x; set => SetProperty(ref _x, value); }
-    private double _x;
+    public double X { get; set => SetProperty(ref field, value); }
+    public double Y { get; set => SetProperty(ref field, value); }
 
-    public double Y { get => _y; set => SetProperty(ref _y, value); }
-    private double _y;
+    public double Width { get; set => SetProperty(ref field, value); }
+    public double Height { get; set => SetProperty(ref field, value); }
 
+    public double Opacity { get; set => SetProperty(ref field, value); }
+    public bool ShowInTaskbar { get; set => SetProperty(ref field, value); }
 
-    public double Width { get => _width; set => SetProperty(ref _width, value); }
-    private double _width;
+    public bool IsPinned { get; set => SetProperty(ref field, value); } = false;
+    public bool IsFocused { get; set => SetProperty(ref field, value); }
+    public bool IsSaved { get; set => SetProperty(ref field, value); } = false;
 
-    public double Height { get => _height; set => SetProperty(ref _height, value); }
-    private double _height;
-
-
-    public double Opacity { get => _opacity; set => SetProperty(ref _opacity, value); }
-    private double _opacity;
-
-    public bool ShowInTaskbar { get => _showInTaskbar; set => SetProperty(ref _showInTaskbar, value); }
-    private bool _showInTaskbar;
-
-
-    public bool IsPinned { get => _isPinned; set => SetProperty(ref _isPinned, value); }
-    private bool _isPinned = false;
-
-    public bool IsFocused { get => _isFocused; set => SetProperty(ref _isFocused, value); }
-    private bool _isFocused;
-
-    public bool IsSaved { get => _isSaved; set => SetProperty(ref _isSaved, value); }
-    private bool _isSaved = false;
-
-
-    public string Content { get => _content; set => SetProperty(ref _content, value); }
-    private string _content = "";
+    public string Content { get; set => SetProperty(ref field, value); } = "";
 
     public NoteViewModel(
         AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService,
@@ -103,8 +74,8 @@ public class NoteViewModel : BaseViewModel
         NoteSettings.PropertyChanged += OnNoteSettingsChanged;
         EditorSettings = SettingsService.EditorSettings;
 
-        _width = NoteSettings.DefaultWidth;
-        _height = NoteSettings.DefaultHeight;
+        Width = NoteSettings.DefaultWidth;
+        Height = NoteSettings.DefaultHeight;
 
         InitNoteColor(parent);
         InitNotePosition(parent);

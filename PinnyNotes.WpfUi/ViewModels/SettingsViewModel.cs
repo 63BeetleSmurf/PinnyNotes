@@ -89,15 +89,10 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
             SettingsService.ToolSettings
         );
 
-        _isTransparencyEnabled = (Settings.NoteSettings.TransparencyMode != TransparencyModes.Disabled);
+        IsTransparencyEnabled = (Settings.NoteSettings.TransparencyMode != TransparencyModes.Disabled);
     }
 
     public SettingsModel Settings { get; set; }
 
-    public bool IsTransparencyEnabled
-    {
-        get => _isTransparencyEnabled;
-        set => SetProperty(ref _isTransparencyEnabled, value);
-    }
-    private bool _isTransparencyEnabled;
+    public bool IsTransparencyEnabled { get; set => SetProperty(ref field, value); }
 }
