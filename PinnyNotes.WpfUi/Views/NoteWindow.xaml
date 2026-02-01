@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Controls"
         mc:Ignorable="d"
@@ -12,7 +13,7 @@
         Icon="/Images/icon.ico"
         MinHeight="75"
         MinWidth="150"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="CanResize"
         WindowStyle="None"
 
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
@@ -40,6 +41,15 @@
         d:Width="300"
         d:Background="#fffcdd"
         d:BorderBrush="#feea00">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome
+            CaptionHeight="0"
+            UseAeroCaptionButtons="False"
+            GlassFrameThickness="0"
+            CornerRadius="0"
+            ResizeBorderThickness="5"/>
+    </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
         <!-- Title Bar Buttons -->

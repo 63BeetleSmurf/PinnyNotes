@@ -8,6 +8,7 @@
 
 ### Changed
 - Use exe dir for database when in debug mode.
+- Resize can now be done from any side or corner, rather than only with bottom right grip.
 - 
 
 ### Fixed
