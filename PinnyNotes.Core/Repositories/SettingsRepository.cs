@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 
 using PinnyNotes.Core.Enums;
-using PinnyNotes.Core.Models;
+using PinnyNotes.Core.DataTransferObjects;
 
 namespace PinnyNotes.Core.Repositories;
 
