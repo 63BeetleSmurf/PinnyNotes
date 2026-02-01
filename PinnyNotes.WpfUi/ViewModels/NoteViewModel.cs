@@ -1,20 +1,21 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
+using PinnyNotes.WpfUi.Interop;
+using PinnyNotes.WpfUi.Interop.Constants;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public partial class NoteViewModel : BaseViewModel
+public class NoteViewModel : BaseViewModel
 {
     public RelayCommand<ThemeColors> ChangeThemeColorCommand { get; }
 
@@ -139,20 +140,14 @@ public partial class NoteViewModel : BaseViewModel
 
     public void UpdateAlwaysOnTop()
     {
-        const nint HWND_TOPMOST = -1;
-        const nint HWND_NOTOPMOST = -2;
-        const uint SWP_NOMOVE = 0x0002;
-        const uint SWP_NOSIZE = 0x0001;
-        const uint SWP_NOACTIVATE = 0x0010;
-
         if (WindowHandle == 0)
             return;
 
-        nint hWndInsertAfter = (IsFocused || IsPinned) ? HWND_TOPMOST : HWND_NOTOPMOST;
+        nint hWndInsertAfter = (IsFocused || IsPinned) ? HWND.TOPMOST : HWND.NOTOPMOST;
 
-        uint uFlags = SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE;
+        uint uFlags = SWP.NOMOVE | SWP.NOSIZE | SWP.NOACTIVATE;
 
-        _ = SetWindowPos(WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
+        _ = User32.SetWindowPos(WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
     }
 
     private void InitNoteColor(NoteViewModel? parent = null)
@@ -324,41 +319,28 @@ public partial class NoteViewModel : BaseViewModel
 
     private void UpdateVisibility()
     {
-        const int GWL_EXSTYLE = -20;
-        const int WS_EX_TOOLWINDOW = 0x00000080;
-
         if (WindowHandle == 0)
             return;
 
-        nint exStyle = GetWindowLongPtrW(WindowHandle, GWL_EXSTYLE);
+        nint exStyle = User32.GetWindowLongPtrW(WindowHandle, GWL.EXSTYLE);
 
         switch (NoteSettings.VisibilityMode)
         {
             default:
             case VisibilityModes.ShowInTaskbar:
-                exStyle &= ~WS_EX_TOOLWINDOW;
+                exStyle &= ~WS_EX.TOOLWINDOW;
                 ShowInTaskbar = true;
                 break;
             case VisibilityModes.HideInTaskbar:
-                exStyle &= ~WS_EX_TOOLWINDOW;
+                exStyle &= ~WS_EX.TOOLWINDOW;
                 ShowInTaskbar = false;
                 break;
             case VisibilityModes.HideInTaskbarAndTaskSwitcher:
-                exStyle |= WS_EX_TOOLWINDOW;
+                exStyle |= WS_EX.TOOLWINDOW;
                 ShowInTaskbar = false;
                 break;
         }
 
-        _ = SetWindowLongPtrW(WindowHandle, GWL_EXSTYLE, exStyle);
+        _ = User32.SetWindowLongPtrW(WindowHandle, GWL.EXSTYLE, exStyle);
     }
-
-    [LibraryImport("user32.dll")]
-    private static partial int GetWindowLongPtrW(nint hWnd, int nIndex);
-
-    [LibraryImport("user32.dll")]
-    private static partial int SetWindowLongPtrW(nint hWnd, int nIndex, nint dwNewLong);
-
-    [LibraryImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 }

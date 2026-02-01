@@ -2,9 +2,13 @@
 using System.Windows;
 using System.Windows.Interop;
 
+using PinnyNotes.WpfUi.Interop;
+using PinnyNotes.WpfUi.Interop.Constants;
+using PinnyNotes.WpfUi.Interop.Structures;
+
 namespace PinnyNotes.WpfUi.Helpers;
 
-public static partial class ScreenHelper
+public static class ScreenHelper
 {
     public static nint GetWindowHandle(Window window)
     {
@@ -13,27 +17,23 @@ public static partial class ScreenHelper
 
     public static Rect GetCurrentScreenBounds(nint windowHandle)
     {
-        const int MONITOR_DEFAULTTONEAREST = 2;
-
         MONITORINFO monitorInfo = new();
         monitorInfo.cbSize = Marshal.SizeOf(monitorInfo);
 
-        nint hMonitor = MonitorFromWindow(windowHandle, MONITOR_DEFAULTTONEAREST);
-        GetMonitorInfoW(hMonitor, ref monitorInfo);
+        nint hMonitor = User32.MonitorFromWindow(windowHandle, MONITOR.DEFAULTTONEAREST);
+        User32.GetMonitorInfoW(hMonitor, ref monitorInfo);
 
         return RectFromMonitorInfo(monitorInfo);
     }
 
     public static Rect GetPrimaryScreenBounds()
     {
-        const int MONITOR_DEFAULTTOPRIMARY = 1;
-
         POINT pt = new() { x = 0, y = 0 };
-        nint hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTOPRIMARY);
+        nint hMonitor = User32.MonitorFromPoint(pt, MONITOR.DEFAULTTOPRIMARY);
 
         MONITORINFO monitorInfo = new();
         monitorInfo.cbSize = Marshal.SizeOf(monitorInfo);
-        GetMonitorInfoW(hMonitor, ref monitorInfo);
+        User32.GetMonitorInfoW(hMonitor, ref monitorInfo);
 
         return RectFromMonitorInfo(monitorInfo);
     }
@@ -47,39 +47,4 @@ public static partial class ScreenHelper
             Height = monitorInfo.rcMonitor.Bottom - monitorInfo.rcMonitor.Top
         };
     }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct RECT
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct POINT
-    {
-        public int x;
-        public int y;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct MONITORINFO
-    {
-        public int cbSize;
-        public RECT rcMonitor;
-        public RECT rcWork;
-        public uint dwFlags;
-    }
-
-    [LibraryImport("user32.dll")]
-    private static partial nint MonitorFromWindow(nint hwnd, int dwFlags);
-
-    [LibraryImport("user32.dll")]
-    private static partial nint MonitorFromPoint(POINT pt, int dwFlags);
-
-    [LibraryImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool GetMonitorInfoW(nint hMonitor, ref MONITORINFO lpmi);
 }
