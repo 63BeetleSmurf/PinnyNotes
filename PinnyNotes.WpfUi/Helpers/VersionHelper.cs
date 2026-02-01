@@ -1,9 +1,7 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PinnyNotes.WpfUi.Helpers;

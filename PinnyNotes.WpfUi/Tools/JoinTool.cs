@@ -1,6 +1,4 @@
-﻿using System;
-
-using PinnyNotes.Core.Enums;
+﻿using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Controls;
 using PinnyNotes.WpfUi.Commands;
 

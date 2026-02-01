@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;

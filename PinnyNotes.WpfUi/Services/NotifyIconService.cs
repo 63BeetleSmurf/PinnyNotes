@@ -1,5 +1,4 @@
 ﻿using H.NotifyIcon;
-using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;

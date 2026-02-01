@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;

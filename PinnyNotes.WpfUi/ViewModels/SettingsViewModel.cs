@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing.Text;
-using System.Linq;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Models;

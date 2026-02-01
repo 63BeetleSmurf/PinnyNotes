@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.ViewModels;

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.ComponentModel;
-using System.Threading;
 using System.Windows;
 
 using PinnyNotes.Core.Enums;

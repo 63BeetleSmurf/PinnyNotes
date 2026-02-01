@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using PinnyNotes.Core.DataTransferObjects;
+﻿using PinnyNotes.Core.DataTransferObjects;
 using PinnyNotes.WpfUi.Models;
 
 namespace PinnyNotes.WpfUi.Services;
