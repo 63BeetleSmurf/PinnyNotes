@@ -9,6 +9,23 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
 {
+    public SettingsViewModel(
+        AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService
+    ) : base(appMetadata, settingsService, messengerService)
+    {
+        ApplicationSettings = SettingsService.ApplicationSettings;
+        NoteSettings = SettingsService.NoteSettings;
+        EditorSettings = SettingsService.EditorSettings;
+        ToolSettings = SettingsService.ToolSettings;
+
+        IsTransparencyEnabled = (NoteSettings.TransparencyMode != TransparencyModes.Disabled);
+    }
+
+    public ApplicationSettingsModel ApplicationSettings { get; set; }
+    public NoteSettingsModel NoteSettings { get; set; }
+    public EditorSettingsModel EditorSettings { get; set; }
+    public ToolSettingsModel ToolSettings { get; set; }
+
     public static KeyValuePair<StartupPositions, string>[] StartupPositionsList { get; } = [
         new(StartupPositions.TopLeft, "Top Left"),
         new(StartupPositions.TopCenter, "Top Center"),
@@ -75,22 +92,6 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         new(ToolStates.Enabled, "Enabled"),
         new(ToolStates.Favourite, "Favourite")
     ];
-
-    public SettingsViewModel(
-        AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService
-        ) : base(appMetadata, settingsService, messengerService)
-    {
-        Settings = new(
-            SettingsService.ApplicationSettings,
-            SettingsService.NoteSettings,
-            SettingsService.EditorSettings,
-            SettingsService.ToolSettings
-        );
-
-        IsTransparencyEnabled = (Settings.NoteSettings.TransparencyMode != TransparencyModes.Disabled);
-    }
-
-    public SettingsModel Settings { get; set; }
 
     public bool IsTransparencyEnabled { get; set => SetProperty(ref field, value); }
 }
