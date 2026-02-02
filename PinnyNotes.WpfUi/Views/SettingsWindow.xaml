@@ -148,20 +148,28 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Mode"/>
-                                <ComboBox Grid.Column="1" Grid.Row="0"
+                                <TextBlock Grid.Column="0"
+                                           Grid.Row="0"
+                                           Grid.ColumnSpan="2"
+                                           FontStyle="Italic"
+                                           TextWrapping="Wrap"
+                                           Text="Transparency will slow performance, though mainly just with initial start-up."/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Mode"/>
+                                <ComboBox Grid.Column="1" Grid.Row="1"
                                           Width="120"
                                           ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
                                           SelectedValuePath="Key"
                                           DisplayMemberPath="Value"
                                           SelectedValue="{Binding Settings.NoteSettings.TransparencyMode, Mode=TwoWay}" />
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Margin="15,4,0,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding Settings.NoteSettings.OpaqueWhenFocused}" />
+                                <CheckBox Grid.Column="0" Grid.Row="2" Margin="15,4,0,0" Content="Opaque When Focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding Settings.NoteSettings.OpaqueWhenFocused}" />
 
-                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Opaque value" />
-                                <Slider Grid.Column="1" Grid.Row="2" Minimum="0.1"
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Opaque value" />
+                                <Slider Grid.Column="1" Grid.Row="3" Minimum="0.1"
                                         Maximum="1.0"
                                         TickFrequency="0.1"
                                         IsSnapToTickEnabled="True"
@@ -172,8 +180,8 @@
                                         IsEnabled="{Binding IsTransparencyEnabled}"
                                         Value="{Binding Settings.NoteSettings.OpaqueValue}" />
 
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Transparent value" />
-                                <Slider Grid.Column="1" Grid.Row="3"
+                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Transparent value" />
+                                <Slider Grid.Column="1" Grid.Row="4"
                                         Minimum="0.1"
                                         Maximum="1.0"
                                         TickFrequency="0.1"
@@ -181,7 +189,7 @@
                                         SmallChange="0.1"
                                         LargeChange="0.1"
                                         TickPlacement="BottomRight"
-                                    Width="120"
+                                        Width="120"
                                         IsEnabled="{Binding IsTransparencyEnabled}"
                                         Value="{Binding Settings.NoteSettings.TransparentValue}" />
 

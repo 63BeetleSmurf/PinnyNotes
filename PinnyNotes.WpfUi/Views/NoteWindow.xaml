@@ -8,7 +8,6 @@
         xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Controls"
         mc:Ignorable="d"
 
-        AllowsTransparency="True"
         BorderThickness="1"
         Icon="/Images/icon.ico"
         MinHeight="75"
@@ -22,6 +21,7 @@
         BorderBrush="{Binding BorderBrush}"
         Height="{Binding Height}"
         Left="{Binding X}"
+        AllowsTransparency="{Binding TransparencyEnabled}"
         Opacity="{Binding Opacity}"
         ShowInTaskbar="{Binding ShowInTaskbar}"
         Top="{Binding Y}"

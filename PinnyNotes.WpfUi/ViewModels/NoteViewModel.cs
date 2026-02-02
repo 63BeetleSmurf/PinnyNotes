@@ -50,6 +50,7 @@ public class NoteViewModel : BaseViewModel
     public double Width { get; set => SetProperty(ref field, value); }
     public double Height { get; set => SetProperty(ref field, value); }
 
+    public bool TransparencyEnabled { get; set => SetProperty(ref field, value); }
     public double Opacity { get; set => SetProperty(ref field, value); }
     public bool ShowInTaskbar { get; set => SetProperty(ref field, value); }
 
@@ -76,6 +77,8 @@ public class NoteViewModel : BaseViewModel
 
         Width = NoteSettings.DefaultWidth;
         Height = NoteSettings.DefaultHeight;
+
+        TransparencyEnabled = (NoteSettings.TransparencyMode != TransparencyModes.Disabled);
 
         InitNoteColor(parent?.CurrentColorScheme);
         InitNotePosition(parent);
