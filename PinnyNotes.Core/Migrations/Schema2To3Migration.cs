@@ -13,7 +13,10 @@ public class Schema2To3Migration : SchemaMigration
         ALTER TABLE ApplicationData
         DROP COLUMN ThemeColor;
 
-
+        -- Update Settings
+        -- -- Add UrlToolState
+        ALTER TABLE Settings
+        ADD COLUMN Tool_GuidState INTEGER DEFAULT 1;
 
         -- Update schema version
         UPDATE SchemaInfo

@@ -53,6 +53,7 @@ public record SettingsDataDto(
      ToolStates ColorState,
      ToolStates DateTimeState,
      ToolStates GibberishState,
+     ToolStates GuidState,
      ToolStates HashState,
      ToolStates HTMLEntityState,
      ToolStates IndentState,

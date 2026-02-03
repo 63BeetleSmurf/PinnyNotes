@@ -51,6 +51,7 @@
 - **Color:** Convert RGB to and from HEX values.
 - **DateTime:** Get the current date in a sortable format (e.g., 2024-07-11T12:00:00).
 - **Gibberish:** Generate gibberish words, sentences, paragraphs, articles, and names.
+- **GUID:** Generate GUID/UUID's.
 - **Hash:** Generate MD5, SHA1, SHA256/384/512 hashes.
 - **HTML Entities:** Encode/decode HTML entities.
 - **Indent:** Indent all lines using 2/4 spaces or tabs.

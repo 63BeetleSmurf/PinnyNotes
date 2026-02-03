@@ -4,11 +4,13 @@
 ## v1.16.0 - Pending
 
 ### Added
+- GUID tool.
 - 
 
 ### Changed
 - Use exe dir for database when in debug mode.
 - Resize can now be done from any side or corner, rather than only with bottom right grip.
+- Transparency only enabled if required when loading notes.
 - 
 
 ### Fixed
@@ -25,7 +27,7 @@
 - Marker file check (portable.txt), signal database to be created in exe path when using portable version.
 
 ### Changed
-- Tray icon implimentation, removes dependancy on WinForms.
+- Tray icon implementation, removes dependency on WinForms.
 
 ### Fixed
 - Notes sometimes not going behind other windows when unpinned.

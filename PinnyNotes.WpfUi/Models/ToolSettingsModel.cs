@@ -11,6 +11,7 @@ public class ToolSettingsModel : NotifyPropertyChangedBase
     public ToolStates ColorToolState { get; set => SetProperty(ref field, value); }
     public ToolStates DateTimeToolState { get; set => SetProperty(ref field, value); }
     public ToolStates GibberishToolState { get; set => SetProperty(ref field, value); }
+    public ToolStates GuidToolState { get; set => SetProperty(ref field, value); }
     public ToolStates HashToolState { get; set => SetProperty(ref field, value); }
     public ToolStates HtmlEntityToolState { get; set => SetProperty(ref field, value); }
     public ToolStates IndentToolState { get; set => SetProperty(ref field, value); }

@@ -42,6 +42,7 @@ public class NoteTextBoxContextMenu : ContextMenu
             new ColorTool(_noteTextBox),
             new DateTimeTool(_noteTextBox),
             new GibberishTool(_noteTextBox),
+            new GuidTool(_noteTextBox),
             new HashTool(_noteTextBox),
             new HtmlEntityTool(_noteTextBox),
             new IndentTool(_noteTextBox),
