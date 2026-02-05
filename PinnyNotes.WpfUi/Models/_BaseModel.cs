@@ -1,11 +1,24 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace PinnyNotes.WpfUi.Base;
+namespace PinnyNotes.WpfUi.Models;
 
-public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
+public abstract class BaseModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public bool IsSaved
+    {
+        get;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged(nameof(IsSaved));
+        }
+    }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
@@ -19,6 +32,9 @@ public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
 
         storage = value;
         OnPropertyChanged(propertyName);
+
+        IsSaved = false;
+
         return true;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using PinnyNotes.Core.Enums;
-using PinnyNotes.WpfUi.Base;
 
 namespace PinnyNotes.WpfUi.Models;
 
-public class NoteSettingsModel : NotifyPropertyChangedBase
+public class NoteSettingsModel : BaseModel
 {
     // General
     public double DefaultWidth { get; set => SetProperty(ref field, value); }

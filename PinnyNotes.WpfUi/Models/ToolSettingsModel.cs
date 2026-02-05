@@ -1,9 +1,8 @@
 ﻿using PinnyNotes.Core.Enums;
-using PinnyNotes.WpfUi.Base;
 
 namespace PinnyNotes.WpfUi.Models;
 
-public class ToolSettingsModel : NotifyPropertyChangedBase
+public class ToolSettingsModel : BaseModel
 {
     public ToolStates Base64ToolState { get; set => SetProperty(ref field, value); }
     public ToolStates BracketToolState { get; set => SetProperty(ref field, value); }

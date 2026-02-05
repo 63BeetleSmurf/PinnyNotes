@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Helpers;
@@ -23,6 +23,8 @@ public partial class NoteWindow : Window
     private readonly MessengerService _messengerService;
 
     private readonly NoteViewModel _viewModel;
+
+    private DispatcherTimer _saveTimer;
 
     #region NoteWindow
 
@@ -53,6 +55,12 @@ public partial class NoteWindow : Window
         NoteTextBox.TextChanged += NoteTextBox_TextChanged;
 
         PopulateTitleBarContextMenu();
+
+        _saveTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(30)
+        };
+        _saveTimer.Tick += OnSaveTimerTick;
     }
 
     private void PopulateTitleBarContextMenu()
@@ -79,6 +87,8 @@ public partial class NoteWindow : Window
         _viewModel.OnWindowLoaded(
             ScreenHelper.GetWindowHandle(this)
         );
+
+        _saveTimer.Start();
     }
 
     private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -90,15 +100,7 @@ public partial class NoteWindow : Window
 
         DragMove();
 
-        // Reset gravity depending what position the note was moved to.
-        // This does not effect the saved start up setting, only what
-        // direction new child notes will go towards.
-        _viewModel.X = Left;
-        _viewModel.Y = Top;
-
-        Rect screenBounds = ScreenHelper.GetCurrentScreenBounds(_viewModel.WindowHandle);
-        _viewModel.GravityX = (Left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
-        _viewModel.GravityY = (Top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
+        _viewModel.OnWindowMoved(Left, Top);
     }
 
     private void NoteWindow_StateChanged(object? sender, EventArgs e)
@@ -106,7 +108,7 @@ public partial class NoteWindow : Window
         if (WindowState != WindowState.Minimized)
             return;
 
-        if (_noteSettings.MinimizeMode == MinimizeModes.Prevent || (_noteSettings.MinimizeMode == MinimizeModes.PreventIfPinned && _viewModel.IsPinned))
+        if (_noteSettings.MinimizeMode == MinimizeModes.Prevent || (_noteSettings.MinimizeMode == MinimizeModes.PreventIfPinned && _viewModel.Note.IsPinned))
             WindowState = WindowState.Normal;
     }
 
@@ -123,7 +125,7 @@ public partial class NoteWindow : Window
 
     private void Window_Activated(object? sender, EventArgs e)
     {
-        _viewModel.IsFocused = true;
+        _viewModel.Note.IsFocused = true;
         _viewModel.UpdateOpacity();
         _viewModel.UpdateAlwaysOnTop();
         ShowTitleBar();
@@ -131,7 +133,7 @@ public partial class NoteWindow : Window
 
     private void Window_Deactivated(object? sender, EventArgs e)
     {
-        _viewModel.IsFocused = false;
+        _viewModel.Note.IsFocused = false;
         _viewModel.UpdateOpacity();
         _viewModel.UpdateAlwaysOnTop();
         HideTitleBar();
@@ -139,7 +141,7 @@ public partial class NoteWindow : Window
 
     private void Window_Closing(object? sender, CancelEventArgs e)
     {
-        if (_viewModel.IsSaved || NoteTextBox.Text == "")
+        if (_viewModel.Note.IsSaved || NoteTextBox.Text == "")
             return;
 
         MessageBoxResult messageBoxResult = MessageBox.Show(
@@ -159,6 +161,11 @@ public partial class NoteWindow : Window
         MessageBoxResult saveDialogResult = SaveNote();
 
         e.Cancel = (saveDialogResult == MessageBoxResult.Cancel);
+    }
+
+    private void OnSaveTimerTick(object? sender, EventArgs e)
+    {
+        _ = _viewModel.SaveNote();
     }
 
     private void OnWindowActionMessage(WindowActionMessage message)
@@ -186,7 +193,7 @@ public partial class NoteWindow : Window
 
         File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
 
-        _viewModel.IsSaved = true;
+        _viewModel.Note.IsSaved = true;
 
         return MessageBoxResult.OK;
     }
@@ -208,7 +215,9 @@ public partial class NoteWindow : Window
 
     private void NewButton_Click(object sender, RoutedEventArgs e)
     {
-        _messengerService.Publish(new CreateNewNoteMessage(_viewModel));
+        _messengerService.Publish(
+            new OpenNoteWindowMessage(ParentNote: _viewModel.Note)
+        );
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -255,7 +264,7 @@ public partial class NoteWindow : Window
 
     private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        _viewModel.IsSaved = false;
+        _viewModel.Note.IsSaved = false;
     }
 
     #endregion

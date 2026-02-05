@@ -111,7 +111,7 @@ public class NotifyIconService : IDisposable
 
     private void NewNote_Click(object? sender, EventArgs e)
     {
-        _messengerService.Publish(new CreateNewNoteMessage());
+        _messengerService.Publish(new OpenNoteWindowMessage());
     }
 
     private void Settings_Click(object? sender, EventArgs e)

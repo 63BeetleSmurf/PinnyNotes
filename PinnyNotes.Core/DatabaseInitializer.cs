@@ -80,6 +80,9 @@ public class DatabaseInitialiser
                 CREATE TABLE IF NOT EXISTS {SettingsRepository.TableName}
                     {SettingsRepository.TableSchema};
                 INSERT INTO {SettingsRepository.TableName} DEFAULT VALUES;
+
+                CREATE TABLE IF NOT EXISTS {NoteRepository.TableName}
+                    {NoteRepository.TableSchema};
             ",
             parameters: [
                 new("@schemaVersion", SchemaVersion)

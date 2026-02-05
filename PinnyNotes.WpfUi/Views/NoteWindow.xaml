@@ -17,15 +17,15 @@
 
         FocusManager.FocusedElement="{Binding ElementName=NoteTextBox}"
 
-        Background="{Binding Background}"
-        BorderBrush="{Binding BorderBrush}"
-        Height="{Binding Height}"
-        Left="{Binding X}"
-        AllowsTransparency="{Binding TransparencyEnabled}"
-        Opacity="{Binding Opacity}"
-        ShowInTaskbar="{Binding ShowInTaskbar}"
-        Top="{Binding Y}"
-        Width="{Binding Width}"
+        Left="{Binding Note.X}"
+        Top="{Binding Note.Y}"
+        Width="{Binding Note.Width}"
+        Height="{Binding Note.Height}"
+        AllowsTransparency="{Binding Note.TransparencyEnabled}"
+        Opacity="{Binding Note.Opacity}"
+        ShowInTaskbar="{Binding Note.ShowInTaskbar}"
+        Background="{Binding Note.Background}"
+        BorderBrush="{Binding Note.BorderBrush}"
 
         d:DataContext="{d:DesignInstance Type=vm:NoteViewModel}"
         d:Height="300"
@@ -85,7 +85,7 @@
               Grid.Column="0"
               Grid.Row="0"
               Height="40"
-              Background="{Binding TitleGridBackground}"
+              Background="{Binding Note.TitleGridBackground}"
               d:Background="#fef7b1">
 
             <!-- New Note Button -->
@@ -99,7 +99,7 @@
                         <Canvas>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
                             <Path Data="M 10,2 v 16 M 2,10 h 16"
-                                  Stroke="{Binding TitleGridButtonForeground}"
+                                  Stroke="{Binding Note.TitleGridButtonForeground}"
                                   StrokeThickness="3"
                                   StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                   d:Stroke="#464646">
@@ -114,13 +114,13 @@
                           HorizontalAlignment="Center"
                           ToolTip="Toggle On Top"
                           Style="{StaticResource TitleBarButtonStyle}"
-                          IsChecked="{Binding IsPinned}">
+                          IsChecked="{Binding Note.IsPinned}">
                 <ToggleButton.Template>
                     <ControlTemplate TargetType="ToggleButton">
                         <Canvas>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
                             <Path Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z"
-                                  Fill="{Binding TitleGridButtonForeground}"
+                                  Fill="{Binding Note.TitleGridButtonForeground}"
                                   RenderTransformOrigin="0.5,0.5"
                                   d:Fill="#464646">
                                 <Path.Style>
@@ -153,7 +153,7 @@
                         <Canvas>
                             <Rectangle Width="20" Height="20" Fill="Transparent" />
                             <Path Data="M 3,3 L 17,17 M 3,17 L 17,3"
-                                  Stroke="{Binding TitleGridButtonForeground}"
+                                  Stroke="{Binding Note.TitleGridButtonForeground}"
                                   StrokeThickness="3"
                                   StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                   d:Stroke="#464646">
@@ -182,12 +182,12 @@
         <Grid Grid.Column="0" Grid.Row="1">
             <controls:NoteTextBoxControl BorderThickness="0"
                                          Background="Transparent"
-                                         Foreground="{Binding ContentTextBoxForeground}"
+                                         Foreground="{Binding Note.ContentTextBoxForeground}"
                                          CaretBrush="{Binding Foreground, RelativeSource={RelativeSource Self}}"
                                          FontSize="16"
                                          x:Name="NoteTextBox"
                                          Padding="5,5,5,5"
-                                         Text="{Binding Content}"
+                                         Text="{Binding Note.Content}"
 
                                          SpellCheck.IsEnabled="{Binding EditorSettings.CheckSpelling}"
                                          NewLineAtEnd="{Binding EditorSettings.NewLineAtEnd}"

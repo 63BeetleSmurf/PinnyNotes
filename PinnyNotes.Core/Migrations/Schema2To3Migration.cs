@@ -1,4 +1,6 @@
-﻿namespace PinnyNotes.Core.Migrations;
+﻿using PinnyNotes.Core.Repositories;
+
+namespace PinnyNotes.Core.Migrations;
 
 public class Schema2To3Migration : SchemaMigration
 {
@@ -17,6 +19,10 @@ public class Schema2To3Migration : SchemaMigration
         -- -- Add UrlToolState
         ALTER TABLE Settings
         ADD COLUMN Tool_GuidState INTEGER DEFAULT 1;
+
+        -- Create Notes Table
+        CREATE TABLE IF NOT EXISTS {NoteRepository.TableName}
+            {NoteRepository.TableSchema};
 
         -- Update schema version
         UPDATE SchemaInfo

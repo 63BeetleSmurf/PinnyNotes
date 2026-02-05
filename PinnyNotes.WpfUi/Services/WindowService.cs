@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Messages;
+using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Views;
 
@@ -12,22 +14,28 @@ public class WindowService
     private readonly MessengerService _messengerService;
     private readonly AppMetadataService _appMetadataService;
     private readonly SettingsService _settingsService;
+    private readonly NoteRepository _noteRepository;
     private SettingsWindow? _settingsWindow;
 
-    public WindowService(IServiceProvider serviceProvider, MessengerService messengerService, AppMetadataService appMetadataService, SettingsService settingsService)
+    public WindowService(IServiceProvider serviceProvider, MessengerService messengerService, AppMetadataService appMetadataService, SettingsService settingsService, NoteRepository noteRepository)
     {
         _serviceProvider = serviceProvider;
         _messengerService = messengerService;
         _appMetadataService = appMetadataService;
         _settingsService = settingsService;
+        _noteRepository = noteRepository;
 
-        _messengerService.Subscribe<CreateNewNoteMessage>(OnCreateNewNoteMessage);
+        _messengerService.Subscribe<OpenNoteWindowMessage>(OnOpenNoteWindowMessage);
         _messengerService.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
     }
 
-    private void OnCreateNewNoteMessage(CreateNewNoteMessage message)
+    private void OnOpenNoteWindowMessage(OpenNoteWindowMessage message)
+        => _ = OpenNoteWindow(message.NoteId, message.ParentNote);
+
+    private async Task OpenNoteWindow(int? noteId = null, NoteModel? parentNote = null)
     {
-        NoteViewModel viewModel = new(_appMetadataService, _settingsService, _messengerService, message.ParentViewModel);
+        NoteViewModel viewModel = new(_noteRepository, _appMetadataService, _settingsService, _messengerService);
+        await viewModel.Initialize(noteId, parentNote);
         NoteWindow newNote = new(_settingsService, _messengerService, viewModel);
 
         newNote.Show();

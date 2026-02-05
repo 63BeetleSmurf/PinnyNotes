@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Drawing.Text;
+﻿using System.Drawing.Text;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Models;
@@ -7,7 +6,7 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
+public class SettingsViewModel : BaseViewModel
 {
     public SettingsViewModel(
         AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService
@@ -93,5 +92,5 @@ public class SettingsViewModel : BaseViewModel, INotifyPropertyChanged
         new(ToolStates.Favourite, "Favourite")
     ];
 
-    public bool IsTransparencyEnabled { get; set => SetProperty(ref field, value); }
+    public bool IsTransparencyEnabled { get; set; }
 }

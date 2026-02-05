@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows;
-using System.Windows.Media;
 
 using PinnyNotes.Core.Enums;
+using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Interop;
@@ -15,6 +16,8 @@ namespace PinnyNotes.WpfUi.ViewModels;
 
 public class NoteViewModel : BaseViewModel
 {
+    private readonly NoteRepository _noteRepository;
+
     public RelayCommand<string> ChangeThemeColorCommand { get; }
 
     public Theme[] AvailableThemes { get; }
@@ -22,49 +25,17 @@ public class NoteViewModel : BaseViewModel
     public NoteSettingsModel NoteSettings { get; set; }
     public EditorSettingsModel EditorSettings { get; set; }
 
-    public nint WindowHandle { get; set; }
-
-    public string? CurrentColorScheme
-    {
-        get;
-        set
-        {
-            SetProperty(ref field, value);
-            AppMetadataService.Metadata.ColorScheme = value;
-            UpdateBrushes();
-        }
-    }
-
-    public Brush Background { get; set => SetProperty(ref field, value); } = Brushes.LightGray;
-    public Brush BorderBrush { get; set => SetProperty(ref field, value); } = Brushes.DarkGray;
-    public Brush TitleGridBackground { get; set => SetProperty(ref field, value); } = Brushes.Gray;
-    public Brush TitleGridButtonForeground { get; set => SetProperty(ref field, value); } = Brushes.DarkGray;
-    public Brush ContentTextBoxForeground { get; set => SetProperty(ref field, value); } = Brushes.Black;
-
-    public int GravityX;
-    public int GravityY;
-
-    public double X { get; set => SetProperty(ref field, value); }
-    public double Y { get; set => SetProperty(ref field, value); }
-
-    public double Width { get; set => SetProperty(ref field, value); }
-    public double Height { get; set => SetProperty(ref field, value); }
-
-    public bool TransparencyEnabled { get; set => SetProperty(ref field, value); }
-    public double Opacity { get; set => SetProperty(ref field, value); }
-    public bool ShowInTaskbar { get; set => SetProperty(ref field, value); }
-
-    public bool IsPinned { get; set => SetProperty(ref field, value); } = false;
-    public bool IsFocused { get; set => SetProperty(ref field, value); }
-    public bool IsSaved { get; set => SetProperty(ref field, value); } = false;
-
-    public string Content { get; set => SetProperty(ref field, value); } = "";
+    public NoteModel Note { get; set; } = null!;
 
     public NoteViewModel(
-        AppMetadataService appMetadata, SettingsService settingsService, MessengerService messengerService,
-        NoteViewModel? parent = null
-    ) : base(appMetadata, settingsService, messengerService)
+        NoteRepository noteRepository,
+        AppMetadataService appMetadataService,
+        SettingsService settingsService,
+        MessengerService messengerService
+    ) : base(appMetadataService, settingsService, messengerService)
     {
+        _noteRepository = noteRepository;
+
         ChangeThemeColorCommand = new RelayCommand<string>(ChangeThemeColor);
 
         AvailableThemes = [
@@ -74,22 +45,46 @@ public class NoteViewModel : BaseViewModel
         NoteSettings = SettingsService.NoteSettings;
         NoteSettings.PropertyChanged += OnNoteSettingsChanged;
         EditorSettings = SettingsService.EditorSettings;
+    }
 
-        Width = NoteSettings.DefaultWidth;
-        Height = NoteSettings.DefaultHeight;
+    public async Task Initialize(int? noteId = null, NoteModel? parent = null)
+    {
+        int id;
+        if (noteId is null)
+            id = await _noteRepository.Create();
+        else
+            id = (int)noteId;
 
-        TransparencyEnabled = (NoteSettings.TransparencyMode != TransparencyModes.Disabled);
+        Note = new(await _noteRepository.GetById(id), NoteSettings);
 
-        InitNoteColor(parent?.CurrentColorScheme);
-        InitNotePosition(parent);
+        if (noteId is null)
+        {
+            InitNoteColor(parent?.ThemeColorScheme);
+            InitNotePosition(parent);
+        }
+
+        UpdateBrushes();
         UpdateOpacity();
     }
 
     public void OnWindowLoaded(nint windowHandle)
     {
-        WindowHandle = windowHandle;
+        Note.WindowHandle = windowHandle;
         UpdateVisibility();
         UpdateAlwaysOnTop();
+    }
+
+    public void OnWindowMoved(double left, double top)
+    {
+        // Reset gravity depending what position the note was moved to.
+        // This does not effect the saved start up setting, only what
+        // direction new child notes will go towards.
+        Note.X = left;
+        Note.Y = top;
+
+        Rect screenBounds = ScreenHelper.GetCurrentScreenBounds(Note.WindowHandle);
+        Note.GravityX = (left - screenBounds.X < screenBounds.Width / 2) ? 1 : -1;
+        Note.GravityY = (top - screenBounds.Y < screenBounds.Height / 2) ? 1 : -1;
     }
 
     public void UpdateOpacity()
@@ -97,7 +92,7 @@ public class NoteViewModel : BaseViewModel
         TransparencyModes transparentMode = NoteSettings.TransparencyMode;
         if (transparentMode == TransparencyModes.Disabled)
         {
-            Opacity = 1.0;
+            Note.Opacity = 1.0;
             return;
         }
 
@@ -106,38 +101,35 @@ public class NoteViewModel : BaseViewModel
         double opaqueOpacity = NoteSettings.OpaqueValue;
         double transparentOpacity = NoteSettings.TransparentValue;
 
-        if ((opaqueWhenFocused && IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !IsPinned))
-            Opacity = opaqueOpacity;
+        if ((opaqueWhenFocused && Note.IsFocused) || (transparentMode == TransparencyModes.WhenPinned && !Note.IsPinned))
+            Note.Opacity = opaqueOpacity;
         else
-            Opacity = transparentOpacity;
+            Note.Opacity = transparentOpacity;
     }
 
     public void UpdateAlwaysOnTop()
     {
-        if (WindowHandle == 0)
+        if (Note.WindowHandle == 0)
             return;
 
-        nint hWndInsertAfter = (IsFocused || IsPinned) ? HWND.TOPMOST : HWND.NOTOPMOST;
+        nint hWndInsertAfter = (Note.IsFocused || Note.IsPinned) ? HWND.TOPMOST : HWND.NOTOPMOST;
 
         uint uFlags = SWP.NOMOVE | SWP.NOSIZE | SWP.NOACTIVATE;
 
-        _ = User32.SetWindowPos(WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
+        _ = User32.SetWindowPos(Note.WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
     }
 
     private void InitNoteColor(string? parentColorScheme = null)
     {
         // Set this first as cycle colors wont trigger a change if the next color if the default for ThemeColors
-        CurrentColorScheme = AppMetadataService.Metadata.ColorScheme;
+        string? currentColorScheme = AppMetadataService.Metadata.ColorScheme;
         if (NoteSettings.CycleColors)
-            CurrentColorScheme = AvailableThemes[0].GetNextColorScheme(CurrentColorScheme, parentColorScheme);
-        else
-            // Need to update brushes if color isn't changing.
-            // If color is changed/cycled UpdateBrushes is called in OnCurrentThemeColorChanged.
-            // Would probably work fine if enums were started at 1 rather than 0.
-            UpdateBrushes();
+            currentColorScheme = AvailableThemes[0].GetNextColorScheme(currentColorScheme, parentColorScheme);
+
+        Note.ThemeColorScheme = currentColorScheme;
     }
 
-    private void InitNotePosition(NoteViewModel? parent = null)
+    private void InitNotePosition(NoteModel? parent = null)
     {
         int noteMargin = 45;
 
@@ -148,11 +140,11 @@ public class NoteViewModel : BaseViewModel
         {
             screenBounds = ScreenHelper.GetCurrentScreenBounds(parent.WindowHandle);
 
-            GravityX = parent.GravityX;
-            GravityY = parent.GravityY;
+            Note.GravityX = parent.GravityX;
+            Note.GravityY = parent.GravityY;
 
-            position.X = parent.X + (noteMargin * GravityX);
-            position.Y = parent.Y + (noteMargin * GravityY);
+            position.X = parent.X + (noteMargin * Note.GravityX);
+            position.Y = parent.Y + (noteMargin * Note.GravityY);
         }
         else
         {
@@ -165,19 +157,19 @@ public class NoteViewModel : BaseViewModel
                 case StartupPositions.MiddleLeft:
                 case StartupPositions.BottomLeft:
                     position.X = screenMargin;
-                    GravityX = 1;
+                    Note.GravityX = 1;
                     break;
                 case StartupPositions.TopCenter:
                 case StartupPositions.MiddleCenter:
                 case StartupPositions.BottomCenter:
-                    position.X = screenBounds.Width / 2 - Width / 2;
-                    GravityX = 1;
+                    position.X = screenBounds.Width / 2 - Note.Width / 2;
+                    Note.GravityX = 1;
                     break;
                 case StartupPositions.TopRight:
                 case StartupPositions.MiddleRight:
                 case StartupPositions.BottomRight:
-                    position.X = (screenBounds.Width - screenMargin) - Width;
-                    GravityX = -1;
+                    position.X = (screenBounds.Width - screenMargin) - Note.Width;
+                    Note.GravityX = -1;
                     break;
             }
 
@@ -187,19 +179,19 @@ public class NoteViewModel : BaseViewModel
                 case StartupPositions.TopCenter:
                 case StartupPositions.TopRight:
                     position.Y = screenMargin;
-                    GravityY = 1;
+                    Note.GravityY = 1;
                     break;
                 case StartupPositions.MiddleLeft:
                 case StartupPositions.MiddleCenter:
                 case StartupPositions.MiddleRight:
-                    position.Y = screenBounds.Height / 2 - Height / 2;
-                    GravityY = -1;
+                    position.Y = screenBounds.Height / 2 - Note.Height / 2;
+                    Note.GravityY = -1;
                     break;
                 case StartupPositions.BottomLeft:
                 case StartupPositions.BottomCenter:
                 case StartupPositions.BottomRight:
-                    position.Y = (screenBounds.Height - screenMargin) - Height;
-                    GravityY = -1;
+                    position.Y = (screenBounds.Height - screenMargin) - Note.Height;
+                    Note.GravityY = -1;
                     break;
             }
         }
@@ -211,17 +203,17 @@ public class NoteViewModel : BaseViewModel
             Application.Current.Windows.CopyTo(otherWindows, 0);
             while (otherWindows.Any(w => w.Left == position.X && w.Top == position.Y))
             {
-                double newX = position.X + (noteMargin * GravityX);
+                double newX = position.X + (noteMargin * Note.GravityX);
                 if (newX < screenBounds.Left)
                     newX = screenBounds.Left;
-                else if (newX + Width > screenBounds.Right)
-                    newX = screenBounds.Right - Width;
+                else if (newX + Note.Width > screenBounds.Right)
+                    newX = screenBounds.Right - Note.Width;
 
-                double newY = position.Y + (noteMargin * GravityY);
+                double newY = position.Y + (noteMargin * Note.GravityY);
                 if (newY < screenBounds.Top)
                     newY = screenBounds.Top;
-                else if (newY + Height > screenBounds.Bottom)
-                    newY = screenBounds.Bottom - Height;
+                else if (newY + Note.Height > screenBounds.Bottom)
+                    newY = screenBounds.Bottom - Note.Height;
 
                 if (position.X == newX && position.Y == newY)
                     break;
@@ -231,15 +223,17 @@ public class NoteViewModel : BaseViewModel
             }
         }
 
-        X = position.X;
-        Y = position.Y;
+        Note.X = position.X;
+        Note.Y = position.Y;
     }
 
     private void UpdateBrushes()
     {
-        CurrentColorScheme ??= AvailableThemes[0].GetNextColorScheme(null);
+        Note.ThemeColorScheme ??= AvailableThemes[0].GetNextColorScheme(null);
 
-        ColorScheme colorScheme = AvailableThemes[0].ColorSchemes[CurrentColorScheme];
+        AppMetadataService.Metadata.ColorScheme = Note.ThemeColorScheme;
+
+        ColorScheme colorScheme = AvailableThemes[0].ColorSchemes[Note.ThemeColorScheme];
 
         ColorModes colorMode = NoteSettings.ColorMode;
         Palette palette;
@@ -248,16 +242,13 @@ public class NoteViewModel : BaseViewModel
         else
             palette = colorScheme.Light;
 
-        Background = new SolidColorBrush(palette.Background);
-        BorderBrush = new SolidColorBrush(palette.Border);
-        TitleGridBackground = new SolidColorBrush(palette.Title);
-        TitleGridButtonForeground = new SolidColorBrush(palette.Button);
-        ContentTextBoxForeground = new SolidColorBrush(palette.Text);
+        Note.UpdateBrushes(palette);
     }
 
     private void ChangeThemeColor(string colorScheme)
     {
-        CurrentColorScheme = colorScheme;
+        Note.ThemeColorScheme = colorScheme;
+        UpdateBrushes();
     }
 
     private void OnNoteSettingsChanged(object? sender, PropertyChangedEventArgs e)
@@ -281,28 +272,40 @@ public class NoteViewModel : BaseViewModel
 
     private void UpdateVisibility()
     {
-        if (WindowHandle == 0)
+        if (Note.WindowHandle == 0)
             return;
 
-        nint exStyle = User32.GetWindowLongPtrW(WindowHandle, GWL.EXSTYLE);
+        nint exStyle = User32.GetWindowLongPtrW(Note.WindowHandle, GWL.EXSTYLE);
 
         switch (NoteSettings.VisibilityMode)
         {
             default:
             case VisibilityModes.ShowInTaskbar:
                 exStyle &= ~WS_EX.TOOLWINDOW;
-                ShowInTaskbar = true;
+                Note.ShowInTaskbar = true;
                 break;
             case VisibilityModes.HideInTaskbar:
                 exStyle &= ~WS_EX.TOOLWINDOW;
-                ShowInTaskbar = false;
+                Note.ShowInTaskbar = false;
                 break;
             case VisibilityModes.HideInTaskbarAndTaskSwitcher:
                 exStyle |= WS_EX.TOOLWINDOW;
-                ShowInTaskbar = false;
+                Note.ShowInTaskbar = false;
                 break;
         }
 
-        _ = User32.SetWindowLongPtrW(WindowHandle, GWL.EXSTYLE, exStyle);
+        _ = User32.SetWindowLongPtrW(Note.WindowHandle, GWL.EXSTYLE, exStyle);
+    }
+
+    public async Task SaveNote()
+    {
+        if (Note.IsSaved)
+            return;
+
+        await _noteRepository.Update(
+            Note.ToDto()
+        );
+
+        Note.IsSaved = true;
     }
 }

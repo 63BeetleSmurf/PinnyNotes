@@ -78,7 +78,7 @@ public partial class App : Application
             () => {
                 while (_eventWaitHandle.WaitOne())
                     Current.Dispatcher.BeginInvoke(
-                        () => messengerService.Publish(new CreateNewNoteMessage())
+                        () => messengerService.Publish(new OpenNoteWindowMessage())
                     );
             }
         )
@@ -89,7 +89,7 @@ public partial class App : Application
 
         thread.Start();
 
-        messengerService.Publish(new CreateNewNoteMessage());
+        messengerService.Publish(new OpenNoteWindowMessage());
 
         ShutdownMode = (_applicationSettings.ShowNotifiyIcon) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
 
@@ -107,6 +107,7 @@ public partial class App : Application
 
         services.AddSingleton<SettingsRepository>();
         services.AddSingleton<AppMetadataRepository>();
+        services.AddSingleton<NoteRepository>();
 
         services.AddSingleton<AppMetadataService>();
         services.AddSingleton<SettingsService>();
