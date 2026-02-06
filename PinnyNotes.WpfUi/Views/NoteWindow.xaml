@@ -19,8 +19,8 @@
 
         Left="{Binding Note.X}"
         Top="{Binding Note.Y}"
-        Width="{Binding Note.Width}"
-        Height="{Binding Note.Height}"
+        Width="{Binding Note.Width, Mode=TwoWay}"
+        Height="{Binding Note.Height, Mode=TwoWay}"
         AllowsTransparency="{Binding Note.TransparencyEnabled}"
         Opacity="{Binding Note.Opacity}"
         ShowInTaskbar="{Binding Note.ShowInTaskbar}"
@@ -187,7 +187,7 @@
                                          FontSize="16"
                                          x:Name="NoteTextBox"
                                          Padding="5,5,5,5"
-                                         Text="{Binding Note.Content}"
+                                         Text="{Binding Note.Content, UpdateSourceTrigger=PropertyChanged}"
 
                                          SpellCheck.IsEnabled="{Binding EditorSettings.CheckSpelling}"
                                          NewLineAtEnd="{Binding EditorSettings.NewLineAtEnd}"
