@@ -50,8 +50,6 @@ public partial class NoteWindow : Window
         NewButton.Click += NewButton_Click;
         CloseButton.Click += CloseButton_Click;
 
-        NoteTextBox.TextChanged += NoteTextBox_TextChanged;
-
         PopulateTitleBarContextMenu();
     }
 
@@ -241,15 +239,6 @@ public partial class NoteWindow : Window
     private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
     {
         _messengerService.Publish(new OpenSettingsWindowMessage(this));
-    }
-
-    #endregion
-
-    #region TextBox
-
-    private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        _viewModel.Note.IsSaved = false;
     }
 
     #endregion
