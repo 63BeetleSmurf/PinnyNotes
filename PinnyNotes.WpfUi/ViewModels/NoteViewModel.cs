@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.Eventing.Reader;
-using System.Windows;
-
-using PinnyNotes.Core.Enums;
+﻿using PinnyNotes.Core.Enums;
 using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
@@ -11,12 +7,17 @@ using PinnyNotes.WpfUi.Interop.Constants;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
 public class NoteViewModel : BaseViewModel
 {
     private readonly NoteRepository _noteRepository;
+
+    private DispatcherTimer _saveTimer;
 
     public RelayCommand<string> ChangeThemeColorCommand { get; }
 
@@ -45,6 +46,12 @@ public class NoteViewModel : BaseViewModel
         NoteSettings = SettingsService.NoteSettings;
         NoteSettings.PropertyChanged += OnNoteSettingsChanged;
         EditorSettings = SettingsService.EditorSettings;
+
+        _saveTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(30)
+        };
+        _saveTimer.Tick += OnSaveTimerTick;
     }
 
     public async Task Initialize(int? noteId = null, NoteModel? parent = null)
@@ -72,6 +79,8 @@ public class NoteViewModel : BaseViewModel
         Note.WindowHandle = windowHandle;
         UpdateVisibility();
         UpdateAlwaysOnTop();
+
+        _saveTimer.Start();
     }
 
     public void OnWindowMoved(double left, double top)
@@ -117,6 +126,11 @@ public class NoteViewModel : BaseViewModel
         uint uFlags = SWP.NOMOVE | SWP.NOSIZE | SWP.NOACTIVATE;
 
         _ = User32.SetWindowPos(Note.WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
+    }
+
+    private async void OnSaveTimerTick(object? sender, EventArgs e)
+    {
+        await SaveNote();
     }
 
     private void InitNoteColor(string? parentColorScheme = null)

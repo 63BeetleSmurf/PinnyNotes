@@ -24,8 +24,6 @@ public partial class NoteWindow : Window
 
     private readonly NoteViewModel _viewModel;
 
-    private DispatcherTimer _saveTimer;
-
     #region NoteWindow
 
     public NoteWindow(SettingsService settingsService, MessengerService messengerService, NoteViewModel viewModel)
@@ -55,12 +53,6 @@ public partial class NoteWindow : Window
         NoteTextBox.TextChanged += NoteTextBox_TextChanged;
 
         PopulateTitleBarContextMenu();
-
-        _saveTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(30)
-        };
-        _saveTimer.Tick += OnSaveTimerTick;
     }
 
     private void PopulateTitleBarContextMenu()
@@ -87,8 +79,6 @@ public partial class NoteWindow : Window
         _viewModel.OnWindowLoaded(
             ScreenHelper.GetWindowHandle(this)
         );
-
-        _saveTimer.Start();
     }
 
     private void NoteWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -161,11 +151,6 @@ public partial class NoteWindow : Window
         MessageBoxResult saveDialogResult = SaveNote();
 
         e.Cancel = (saveDialogResult == MessageBoxResult.Cancel);
-    }
-
-    private void OnSaveTimerTick(object? sender, EventArgs e)
-    {
-        _ = _viewModel.SaveNote();
     }
 
     private void OnWindowActionMessage(WindowActionMessage message)
