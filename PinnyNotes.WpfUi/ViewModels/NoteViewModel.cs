@@ -1,4 +1,8 @@
-﻿using PinnyNotes.Core.Enums;
+﻿using System.ComponentModel;
+using System.Windows;
+using System.Windows.Threading;
+
+using PinnyNotes.Core.Enums;
 using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
@@ -7,9 +11,6 @@ using PinnyNotes.WpfUi.Interop.Constants;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -72,6 +73,8 @@ public class NoteViewModel : BaseViewModel
 
         UpdateBrushes();
         UpdateOpacity();
+
+        Note.IsOpen = true;
     }
 
     public void OnWindowLoaded(nint windowHandle)
@@ -321,5 +324,22 @@ public class NoteViewModel : BaseViewModel
         );
 
         Note.IsSaved = true;
+    }
+
+    public async Task<bool> CloseNote()
+    {
+        _saveTimer.Stop();
+
+        if (string.IsNullOrEmpty(Note.Content))
+        {
+            // Delete note if empty, TO DO: Add setting for this behaviour
+            await _noteRepository.Delete(Note.Id);
+            return false;
+        }
+
+        Note.IsOpen = false;
+        await _noteRepository.Update(Note.ToDto());
+
+        return false;
     }
 }

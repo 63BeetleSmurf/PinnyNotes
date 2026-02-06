@@ -127,28 +127,9 @@ public partial class NoteWindow : Window
         HideTitleBar();
     }
 
-    private void Window_Closing(object? sender, CancelEventArgs e)
+    private async void Window_Closing(object? sender, CancelEventArgs e)
     {
-        if (_viewModel.Note.IsSaved || NoteTextBox.Text == "")
-            return;
-
-        MessageBoxResult messageBoxResult = MessageBox.Show(
-            this,
-            "Do you want to save this note?",
-            "Pinny Notes",
-            MessageBoxButton.YesNoCancel,
-            MessageBoxImage.Question
-        );
-
-        if (messageBoxResult != MessageBoxResult.Yes)
-        {
-            e.Cancel = (messageBoxResult == MessageBoxResult.Cancel);
-            return;
-        }
-
-        MessageBoxResult saveDialogResult = SaveNote();
-
-        e.Cancel = (saveDialogResult == MessageBoxResult.Cancel);
+        e.Cancel = await _viewModel.CloseNote();
     }
 
     private void OnWindowActionMessage(WindowActionMessage message)
@@ -158,27 +139,6 @@ public partial class NoteWindow : Window
             WindowState = WindowState.Normal;
             Activate();
         }
-    }
-
-    #endregion
-
-    #region MiscFunctions
-
-    private MessageBoxResult SaveNote()
-    {
-        SaveFileDialog saveFileDialog = new()
-        {
-            Filter = "Text Documents (*.txt)|*.txt|All Files|*"
-        };
-
-        if (saveFileDialog.ShowDialog(this) == false)
-            return MessageBoxResult.Cancel;
-
-        File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
-
-        _viewModel.Note.IsSaved = true;
-
-        return MessageBoxResult.OK;
     }
 
     #endregion
@@ -227,7 +187,15 @@ public partial class NoteWindow : Window
 
     private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        SaveNote();
+        SaveFileDialog saveFileDialog = new()
+        {
+            Filter = "Text Documents (*.txt)|*.txt|All Files|*"
+        };
+
+        if (saveFileDialog.ShowDialog(this) == false)
+            return;
+
+        File.WriteAllText(saveFileDialog.FileName, NoteTextBox.Text);
     }
 
     private void ResetMenuItem_Click(object sender, RoutedEventArgs e)
