@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using PinnyNotes.Core.Enums;
 using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Models;
@@ -25,8 +26,23 @@ public class WindowService
         _settingsService = settingsService;
         _noteRepository = noteRepository;
 
+        _messengerService.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
         _messengerService.Subscribe<OpenNoteWindowMessage>(OnOpenNoteWindowMessage);
         _messengerService.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
+    }
+
+    private void OnApplicationActionMessage(ApplicationActionMessage message)
+    {
+        // TO DO: Add settings for this behaviour.
+        switch (message.Action)
+        {
+            case ApplicationActions.Start:
+                _ = OpenNoteWindow();
+                break;
+            case ApplicationActions.NewInstance:
+                _ = OpenNoteWindow();
+                break;
+        }
     }
 
     private void OnOpenNoteWindowMessage(OpenNoteWindowMessage message)

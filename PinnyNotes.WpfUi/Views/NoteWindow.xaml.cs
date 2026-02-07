@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
 
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Helpers;
@@ -165,6 +164,7 @@ public partial class NoteWindow : Window
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
+        _viewModel.Note.IsOpen = false;
         Close();
     }
 

@@ -18,7 +18,7 @@ public class NoteViewModel : BaseViewModel
 {
     private readonly NoteRepository _noteRepository;
 
-    private DispatcherTimer _saveTimer;
+    private readonly DispatcherTimer _saveTimer;
 
     public RelayCommand<string> ChangeThemeColorCommand { get; }
 
@@ -337,7 +337,8 @@ public class NoteViewModel : BaseViewModel
             return false;
         }
 
-        Note.IsOpen = false;
+        // IsOpen is updated when users closes note via close button,
+        // it's left true if windows is closed by exiting app so it will re-open with app.
         await _noteRepository.Update(Note.ToDto());
 
         return false;

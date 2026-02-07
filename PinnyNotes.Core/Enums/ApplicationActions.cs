@@ -2,5 +2,7 @@
 
 public enum ApplicationActions
 {
+    Start,
+    NewInstance,
     Close
 }
