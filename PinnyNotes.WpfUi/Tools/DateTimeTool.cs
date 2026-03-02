@@ -1,6 +1,7 @@
 ﻿using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Controls;
+using System.Globalization;
 
 namespace PinnyNotes.WpfUi.Tools;
 
@@ -8,7 +9,8 @@ public class DateTimeTool : BaseTool, ITool
 {
     private enum ToolActions
     {
-        DateTimeSortableDateTime
+        DateTimeSortableDateTime,
+        DateTimeWeekNumber
     }
 
     public DateTimeTool(NoteTextBoxControl noteTextBox) : base(noteTextBox)
@@ -16,7 +18,8 @@ public class DateTimeTool : BaseTool, ITool
         InitializeMenuItem(
             "Date Time",
             [
-                new ToolMenuAction("Sortable Date Time", new RelayCommand(() => MenuAction(ToolActions.DateTimeSortableDateTime)))
+                new ToolMenuAction("Sortable Date Time", new RelayCommand(() => MenuAction(ToolActions.DateTimeSortableDateTime))),
+                new ToolMenuAction("Week Number", new RelayCommand(() => MenuAction(ToolActions.DateTimeWeekNumber)))
             ]
         );
     }
@@ -30,23 +33,29 @@ public class DateTimeTool : BaseTool, ITool
             case ToolActions.DateTimeSortableDateTime:
                 InsertIntoNoteText(GetSortableDateTime());
                 break;
+            case ToolActions.DateTimeWeekNumber:
+                InsertIntoNoteText(GetWeekNumber());
+                break;
         }
     }
 
     private string GetSortableDateTime()
     {
         string selectedText = NoteTextBox.SelectedText;
-        return GetDateTime("s", selectedText);
+        return GetDateTime(selectedText).ToString("s");
     }
 
-    private static string GetDateTime(string format, string? dateString = null)
+    private string GetWeekNumber()
     {
-        if (string.IsNullOrEmpty(dateString))
-            return DateTime.UtcNow.ToString(format);
+        string selectedText = NoteTextBox.SelectedText;
+        return ISOWeek.GetWeekOfYear(GetDateTime(selectedText)).ToString();
+    }
 
-        if (DateTime.TryParse(dateString, out DateTime parsedDateTime))
-            return parsedDateTime.ToString(format);
+    private static DateTime GetDateTime(string? dateString = null)
+    {
+        if (!string.IsNullOrEmpty(dateString) && DateTime.TryParse(dateString, out DateTime parsedDateTime))
+            return parsedDateTime;
 
-        return string.Empty;
+        return DateTime.UtcNow;
     }
 }

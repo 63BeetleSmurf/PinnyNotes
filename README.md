@@ -51,7 +51,7 @@
 - **Bracket:** Add/remove parentheses, square or curly brackets.
 - **Case:** Convert to lower, upper, or proper case.
 - **Colour:** Convert RGB to and from HEX values.
-- **DateTime:** Get the current date in a sortable format (e.g., 2024-07-11T12:00:00).
+- **DateTime:** Get current or convert a dat eto a sortable format or the week number of the year.
 - **Gibberish:** Generate gibberish words, sentences, paragraphs, articles, and names.
 - **GUID:** Generate GUID/UUID's.
 - **Hash:** Generate MD5, SHA1, SHA256/384/512 hashes.

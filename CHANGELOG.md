@@ -4,6 +4,7 @@
 ## v1.17.0 - Pending
 
 ### Added
+- Week Number action to Date Time tool.
 - 
 
 ### Changed
