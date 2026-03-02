@@ -35,6 +35,8 @@ public class NoteTextBoxContextMenu : ContextMenu
     {
         _noteTextBox = noteTextBox;
 
+        Style = Application.Current.FindResource(typeof(ContextMenu)) as Style;
+
         _tools = [
             new Base64Tool(_noteTextBox),
             new BracketTool(_noteTextBox),

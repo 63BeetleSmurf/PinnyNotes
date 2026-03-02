@@ -13,17 +13,17 @@
 
     <Grid Margin="5,5,5,5">
         <Grid.Resources>
-            <Style TargetType="TextBlock" >
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Margin" Value="4,4,4,0" />
             </Style>
-            <Style TargetType="CheckBox" >
+            <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                 <Setter Property="Margin" Value="4,4,0,0" />
             </Style>
-            <Style TargetType="ComboBox" >
+            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                 <Setter Property="Margin" Value="0,4,0,0" />
             </Style>
-            <Style TargetType="Slider" >
+            <Style TargetType="Slider" BasedOn="{StaticResource {x:Type Slider}}">
                 <Setter Property="Margin" Value="0,4,0,0" />
             </Style>
         </Grid.Resources>

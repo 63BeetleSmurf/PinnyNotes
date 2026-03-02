@@ -1,7 +1,6 @@
 # Next release
 - Add start options - Select wither to show management window, new note, etc.
 - Custom Spell Check - Spell checking is slow, implement Hunspell or custom windows spellcheck off ui thread.
-- Dark mode - Implement Fluent to Add dark mode for all windows.
 - 
 
 # Future releases
