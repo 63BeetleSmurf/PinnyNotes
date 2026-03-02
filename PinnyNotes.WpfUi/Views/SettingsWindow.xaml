@@ -7,24 +7,30 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
         Title="Pinny Notes Settings"
-        ResizeMode="NoResize"
-        Width="340"
-        Height="445">
+        Width="640"
+        Height="480">
 
     <Grid Margin="5,5,5,5">
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                 <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="Margin" Value="4,4,4,0" />
             </Style>
             <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-                <Setter Property="Margin" Value="4,4,0,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
             <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-                <Setter Property="Margin" Value="0,4,0,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
             </Style>
             <Style TargetType="Slider" BasedOn="{StaticResource {x:Type Slider}}">
-                <Setter Property="Margin" Value="0,4,0,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                <Setter Property="Margin" Value="16,0,16,0" />
+            </Style>
+            <Style TargetType="Border">
+                <Setter Property="Padding" Value="12,8" />
+                <Setter Property="Margin" Value="0,0,0,4" />
+                <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
             </Style>
         </Grid.Resources>
 
@@ -44,9 +50,19 @@
                         <GroupBox Header="General">
                             <StackPanel>
 
-                                <CheckBox Content="Show tray icon" IsChecked="{Binding ApplicationSettings.ShowNotifyIcon}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding ApplicationSettings.ShowNotifyIcon}" />
+                                        <TextBlock Text="Show tray icon"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Content="Check for updates on startup" IsChecked="{Binding ApplicationSettings.CheckForUpdates}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding ApplicationSettings.CheckForUpdates}" />
+                                        <TextBlock Text="Check for updates on startup"/>
+                                    </DockPanel>
+                                </Border>
 
                             </StackPanel>
                         </GroupBox>
@@ -62,94 +78,90 @@
 
                         <!-- Notes General Group -->
                         <GroupBox Header="General">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                            <StackPanel>
 
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Default size (W x H)"/>
-                                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                                    <TextBox Width="50" Text="{Binding NoteSettings.DefaultWidth}" />
-                                    <TextBlock Text="x" />
-                                    <TextBox Width="50" Text="{Binding NoteSettings.DefaultHeight}" />
-                                </StackPanel>
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                            <TextBox Width="85" MaxLength="4" Text="{Binding NoteSettings.DefaultWidth}" />
+                                            <TextBlock Text=" x " />
+                                            <TextBox Width="85" MaxLength="4" Text="{Binding NoteSettings.DefaultHeight}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Default size (W x H)"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Startup position"/>
-                                <ComboBox Grid.Column="1" Grid.Row="1"
-                                          Width="120"
-                                          ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding NoteSettings.StartupPosition, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding StartupPositionsList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding NoteSettings.StartupPosition, Mode=TwoWay}" />
+                                        <TextBlock Text="Startup position"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Allow notes to be minimized"/>
-                                <ComboBox Grid.Column="1" Grid.Row="2"
-                                          Width="120"
-                                          ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding NoteSettings.MinimizeMode, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding NoteSettings.MinimizeMode, Mode=TwoWay}" />
+                                        <TextBlock Text="Allow notes to be minimized"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Visibility mode"/>
-                                <ComboBox Grid.Column="1" Grid.Row="3"
-                                          Width="120"
-                                          ItemsSource="{Binding VisibilityModeList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding NoteSettings.VisibilityMode, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding VisibilityModeList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding NoteSettings.VisibilityMode, Mode=TwoWay}" />
+                                        <TextBlock Text="Visibility mode"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Hide title bar" IsChecked="{Binding NoteSettings.HideTitleBar}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding NoteSettings.HideTitleBar}" />
+                                        <TextBlock Text="Hide title bar"/>
+                                    </DockPanel>
+                                </Border>
 
-                            </Grid>
+                            </StackPanel>
                         </GroupBox>
 
                         <!-- Notes Theme Group -->
                         <GroupBox Header="Theme">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                            <StackPanel>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Cycle colours" IsChecked="{Binding NoteSettings.CycleColours}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding NoteSettings.CycleColours}" />
+                                        <TextBlock Text="Cycle colours"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Colour mode"/>
-                                <ComboBox Grid.Column="1" Grid.Row="1"
-                                          Width="120"
-                                          ItemsSource="{Binding ColourModeList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding NoteSettings.ColourMode, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding ColourModeList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding NoteSettings.ColourMode, Mode=TwoWay}" />
+                                        <TextBlock Text="Colour mode"/>
+                                    </DockPanel>
+                                </Border>
 
-                            </Grid>
+                            </StackPanel>
                         </GroupBox>
 
                         <!-- Notes Transparency Group -->
                         <GroupBox Header="Transparency">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                            <StackPanel>
 
                                 <TextBlock Grid.Column="0"
                                            Grid.Row="0"
@@ -158,42 +170,59 @@
                                            TextWrapping="Wrap"
                                            Text="Transparency will slow performance, though mainly just with initial start-up."/>
 
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Mode"/>
-                                <ComboBox Grid.Column="1" Grid.Row="1"
-                                          Width="120"
-                                          ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding NoteSettings.TransparencyMode, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding TransparencyModeList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding NoteSettings.TransparencyMode, Mode=TwoWay}" />
+                                        <TextBlock Text="Mode"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Margin="15,4,0,0" Content="Opaque when focused" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding NoteSettings.OpaqueWhenFocused}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsEnabled="{Binding IsTransparencyEnabled}" IsChecked="{Binding NoteSettings.OpaqueWhenFocused}" />
+                                        <TextBlock Text="Opaque when focused"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Opaque value" />
-                                <Slider Grid.Column="1" Grid.Row="3" Minimum="0.1"
-                                        Maximum="1.0"
-                                        TickFrequency="0.1"
-                                        IsSnapToTickEnabled="True"
-                                        SmallChange="0.1"
-                                        LargeChange="0.1"
-                                        TickPlacement="BottomRight"
-                                        Width="120"
-                                        IsEnabled="{Binding IsTransparencyEnabled}"
-                                        Value="{Binding NoteSettings.OpaqueValue}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <Slider DockPanel.Dock="Right"
+                                                Minimum="0.1"
+                                                Maximum="1.0"
+                                                TickFrequency="0.1"
+                                                IsSnapToTickEnabled="True"
+                                                SmallChange="0.1"
+                                                LargeChange="0.1"
+                                                TickPlacement="BottomRight"
+                                                Width="150"
+                                                IsEnabled="{Binding IsTransparencyEnabled}"
+                                                Value="{Binding NoteSettings.OpaqueValue}" />
+                                        <TextBlock Text="Opaque value"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Transparent value" />
-                                <Slider Grid.Column="1" Grid.Row="4"
-                                        Minimum="0.1"
-                                        Maximum="1.0"
-                                        TickFrequency="0.1"
-                                        IsSnapToTickEnabled="True"
-                                        SmallChange="0.1"
-                                        LargeChange="0.1"
-                                        TickPlacement="BottomRight"
-                                        Width="120"
-                                        IsEnabled="{Binding IsTransparencyEnabled}"
-                                        Value="{Binding NoteSettings.TransparentValue}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <Slider DockPanel.Dock="Right"
+                                                Minimum="0.1"
+                                                Maximum="1.0"
+                                                TickFrequency="0.1"
+                                                IsSnapToTickEnabled="True"
+                                                SmallChange="0.1"
+                                                LargeChange="0.1"
+                                                TickPlacement="BottomRight"
+                                                Width="150"
+                                                IsEnabled="{Binding IsTransparencyEnabled}"
+                                                Value="{Binding NoteSettings.TransparentValue}" />
+                                        <TextBlock Text="Transparent value"/>
+                                    </DockPanel>
+                                </Border>
 
-                            </Grid>
+                            </StackPanel>
                         </GroupBox>
 
                     </StackPanel>
@@ -201,7 +230,7 @@
             </TabItem>
 
             <!-- Editor Tab -->
-            <TabItem Header="Editor" HorizontalAlignment="Left" Width="43">
+            <TabItem Header="Editor">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
@@ -209,167 +238,205 @@
                         <GroupBox Header="General">
                             <StackPanel>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Spell checker" IsChecked="{Binding EditorSettings.CheckSpelling}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.CheckSpelling}" />
+                                        <TextBlock Text="Spell checker"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Content="New line at end" IsChecked="{Binding EditorSettings.NewLineAtEnd}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.NewLineAtEnd}" />
+                                        <TextBlock Text="New line at end"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="3" Margin="15,4,0,0" Content="Keep new line at end visible" IsEnabled="{Binding EditorSettings.NewLineAtEnd}" IsChecked="{Binding EditorSettings.KeepNewLineVisible}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsEnabled="{Binding EditorSettings.NewLineAtEnd}" IsChecked="{Binding EditorSettings.KeepNewLineVisible}" />
+                                        <TextBlock Text="Keep new line at end visible"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="4" Content="Wrap text" IsChecked="{Binding EditorSettings.WrapText}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.WrapText}" />
+                                        <TextBlock Text="Wrap text"/>
+                                    </DockPanel>
+                                </Border>
 
                             </StackPanel>
                         </GroupBox>
 
                         <!-- Editor Fonts Group -->
                         <GroupBox Header="Fonts">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                            <StackPanel>
 
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Standard"/>
-                                <ComboBox Grid.Column="1" Grid.Row="0"
-                                          Width="120"
-                                          ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.StandardFontFamily, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding EditorSettings.StandardFontFamily, Mode=TwoWay}" />
+                                        <TextBlock Text="Standard"/>
+                                    </DockPanel>
+                                </Border>
 
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding EditorSettings.MonoFontFamily, Mode=TwoWay}" />
+                                        <TextBlock Text="Mono"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Mono"/>
-                                <ComboBox Grid.Column="1" Grid.Row="1"
-                                          Width="120"
-                                          ItemsSource="{Binding FontFamilyList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.MonoFontFamily, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.UseMonoFont}" />
+                                        <TextBlock Text="Use mono font"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Margin="15,4,0,0" Content="Use mono font" IsChecked="{Binding EditorSettings.UseMonoFont}" />
-
-                            </Grid>
+                            </StackPanel>
                         </GroupBox>
 
                         <!-- Editor Indentation Group -->
                         <GroupBox Header="Indentation">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                            <StackPanel>
 
-                                <CheckBox Grid.Column="0" Grid.Row="0" Content="Auto indent" IsChecked="{Binding EditorSettings.AutoIndent}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.AutoIndent}" />
+                                        <TextBlock Text="Auto indent"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="Use spaces instead of tabs" IsChecked="{Binding EditorSettings.UseSpacesForTab}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.UseSpacesForTab}" />
+                                        <TextBlock Text="Use spaces instead of tabs"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="2" Content="Convert indentation in pasted text" IsChecked="{Binding EditorSettings.ConvertIndentationOnPaste}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.ConvertIndentationOnPaste}" />
+                                        <TextBlock Text="Convert indentation in pasted text"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Tab width"/>
-                                <TextBox Grid.Column="1" Grid.Row="3" Width="50" Text="{Binding EditorSettings.TabSpacesWidth}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <TextBox DockPanel.Dock="Right" Width="75" MaxLength="2" Text="{Binding EditorSettings.TabSpacesWidth}" />
+                                        <TextBlock Text="Tab width"/>
+                                    </DockPanel>
+                                </Border>
 
-                            </Grid>
+                            </StackPanel>
                         </GroupBox>
 
                         <!-- Editor Copy and Paste Group -->
                         <GroupBox Header="Copy and Paste">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                            <StackPanel>
 
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Copy action"/>
-                                <ComboBox Grid.Column="1" Grid.Row="0"
-                                          Width="120"
-                                          ItemsSource="{Binding CopyActionList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.CopyAction, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <ComboBox ItemsSource="{Binding CopyActionList, Mode=OneTime}"
+                                                      SelectedValuePath="Key"
+                                                      DisplayMemberPath="Value"
+                                                      SelectedValue="{Binding EditorSettings.CopyAction, Mode=TwoWay}" />
+                                            <CheckBox Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnCopy}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Copy action" VerticalAlignment="Top"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="1" Grid.Row="1" Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnCopy}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <ComboBox ItemsSource="{Binding CopyActionList, Mode=OneTime}"
+                                                      SelectedValuePath="Key"
+                                                      DisplayMemberPath="Value"
+                                                      SelectedValue="{Binding EditorSettings.CopyAltAction, Mode=TwoWay}" />
+                                            <CheckBox Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnAltCopy}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Copy alt action (Hold Shift)" VerticalAlignment="Top"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="2" Text="Copy alt action (Hold Shift)"/>
-                                <ComboBox Grid.Column="1" Grid.Row="2"
-                                          Width="120"
-                                          ItemsSource="{Binding CopyActionList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.CopyAltAction, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <ComboBox ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
+                                                      SelectedValuePath="Key"
+                                                      DisplayMemberPath="Value"
+                                                      SelectedValue="{Binding EditorSettings.CopyFallbackAction, Mode=TwoWay}" />
+                                            <CheckBox Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnFallbackCopy}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Copy fallback action" VerticalAlignment="Top"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="1" Grid.Row="3" Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnAltCopy}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <ComboBox ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
+                                                      SelectedValuePath="Key"
+                                                      DisplayMemberPath="Value"
+                                                      SelectedValue="{Binding EditorSettings.CopyAltFallbackAction, Mode=TwoWay}" />
+                                            <CheckBox Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnAltFallbackCopy}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Copy alt fallback action" VerticalAlignment="Top"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Copy fallback action"/>
-                                <ComboBox Grid.Column="1" Grid.Row="4"
-                                          Width="120"
-                                          ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.CopyFallbackAction, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.CopyOnSelect}" />
+                                        <TextBlock Text="Auto copy"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="1" Grid.Row="5" Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnFallbackCopy}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <ComboBox ItemsSource="{Binding PasteActionList, Mode=OneTime}"
+                                                      SelectedValuePath="Key"
+                                                      DisplayMemberPath="Value"
+                                                      SelectedValue="{Binding EditorSettings.PasteAction, Mode=TwoWay}" />
+                                            <CheckBox Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnPaste}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Paste action" VerticalAlignment="Top"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <TextBlock Grid.Column="0" Grid.Row="6" Text="Copy alt fallback action"/>
-                                <ComboBox Grid.Column="1" Grid.Row="6"
-                                          Width="120"
-                                          ItemsSource="{Binding CopyFallbackActionList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.CopyAltFallbackAction, Mode=TwoWay}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right">
+                                            <ComboBox ItemsSource="{Binding PasteActionList, Mode=OneTime}"
+                                                      SelectedValuePath="Key"
+                                                      DisplayMemberPath="Value"
+                                                      SelectedValue="{Binding EditorSettings.PasteAltAction, Mode=TwoWay}" />
+                                            <CheckBox Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnAltPaste}" />
+                                        </StackPanel>
+                                        <TextBlock Text="Paste alt action (Hold shift)" VerticalAlignment="Top"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="1" Grid.Row="7" Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnAltFallbackCopy}" />
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding EditorSettings.MiddleClickPaste}" />
+                                        <TextBlock Text="Middle click paste"/>
+                                    </DockPanel>
+                                </Border>
 
-                                <CheckBox Grid.Column="0" Grid.Row="8" Content="Auto copy" IsChecked="{Binding EditorSettings.CopyOnSelect}" />
-
-                                <TextBlock Grid.Column="0" Grid.Row="9" Text="Paste action"/>
-                                <ComboBox Grid.Column="1" Grid.Row="9"
-                                          Width="120"
-                                          ItemsSource="{Binding PasteActionList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.PasteAction, Mode=TwoWay}" />
-
-                                <CheckBox Grid.Column="1" Grid.Row="10" Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnPaste}" />
-
-                                <TextBlock Grid.Column="0" Grid.Row="11" Text="Paste alt action (Hold shift)"/>
-                                <ComboBox Grid.Column="1" Grid.Row="11"
-                                          Width="120"
-                                          ItemsSource="{Binding PasteActionList, Mode=OneTime}"
-                                          SelectedValuePath="Key"
-                                          DisplayMemberPath="Value"
-                                          SelectedValue="{Binding EditorSettings.PasteAltAction, Mode=TwoWay}" />
-
-                                <CheckBox Grid.Column="1" Grid.Row="12" Content="Trim text" IsChecked="{Binding EditorSettings.TrimTextOnAltPaste}" />
-
-                                <CheckBox Grid.Column="0" Grid.Row="13" Content="Middle click paste" IsChecked="{Binding EditorSettings.MiddleClickPaste}" />
-
-                            </Grid>
+                            </StackPanel>
                         </GroupBox>
 
                     </StackPanel>
@@ -378,236 +445,229 @@
 
             <TabItem Header="Tools">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid Margin="5,5,5,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
+                    <StackPanel>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.Base64ToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Base 64"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Base 64"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="0"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.Base64ToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.BracketToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Bracket"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Bracket"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="1"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.BracketToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.CaseToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Case"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Case"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="2"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.CaseToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.ColourToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Colour"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Colour"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="3"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.ColourToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.DateTimeToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Date\Time"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="4" Text="Date\Time"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="4"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.DateTimeToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.GibberishToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Gibberish"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="5" Text="Gibberish"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="5"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.GibberishToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.GuidToolState, Mode=TwoWay}" />
+                                <TextBlock Text="GUID"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="6" Text="GUID"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="6"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.GuidToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.HashToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Hash"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="7" Text="Hash"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="7"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.HashToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.HtmlEntityToolState, Mode=TwoWay}" />
+                                <TextBlock Text="HTML entity"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="8" Text="HTML entity"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="8"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.HtmlEntityToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.IndentToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Indent"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="9" Text="Indent"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="9"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.IndentToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.JoinToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Join"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="10" Text="Join"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="10"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.JoinToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.JsonToolState, Mode=TwoWay}" />
+                                <TextBlock Text="JSON"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="11" Text="JSON"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="11"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.JsonToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.ListToolState, Mode=TwoWay}" />
+                                <TextBlock Text="List"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="12" Text="List"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="12"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.ListToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.QuoteToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Quote"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="13" Text="Quote"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="13"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.QuoteToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.RemoveToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Remove"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="14" Text="Remove"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="14"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.RemoveToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.SlashToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Slash"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="15" Text="Slash"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="15"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.SlashToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.SortToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Sort"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="16" Text="Sort"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="16"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.SortToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.SplitToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Split"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="17" Text="Split"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="17"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.SplitToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.TrimToolState, Mode=TwoWay}" />
+                                <TextBlock Text="Trim"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="18" Text="Trim"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="18"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.TrimToolState, Mode=TwoWay}"
-                        />
+                        <Border>
+                            <DockPanel LastChildFill="True">
+                                <ComboBox DockPanel.Dock="Right"
+                                          ItemsSource="{Binding ToolStateList, Mode=OneTime}"
+                                          SelectedValuePath="Key"
+                                          DisplayMemberPath="Value"
+                                          SelectedValue="{Binding ToolSettings.UrlToolState, Mode=TwoWay}" />
+                                <TextBlock Text="URL"/>
+                            </DockPanel>
+                        </Border>
 
-                        <TextBlock Grid.Column="0" Grid.Row="19" Text="URL"/>
-                        <ComboBox
-                            Grid.Column="1" Grid.Row="19"
-                            Width="120"
-                            ItemsSource="{Binding ToolStateList, Mode=OneTime}"
-                            SelectedValuePath="Key"
-                            DisplayMemberPath="Value"
-                            SelectedValue="{Binding ToolSettings.UrlToolState, Mode=TwoWay}"
-                        />
-
-                    </Grid>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
