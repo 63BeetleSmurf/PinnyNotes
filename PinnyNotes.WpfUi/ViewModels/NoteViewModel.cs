@@ -65,7 +65,6 @@ public class NoteViewModel : BaseViewModel
     {
         Note.WindowHandle = windowHandle;
         UpdateVisibility();
-        UpdateAlwaysOnTop();
 
         _saveTimer.Start();
     }
@@ -101,18 +100,6 @@ public class NoteViewModel : BaseViewModel
             Note.Opacity = opaqueOpacity;
         else
             Note.Opacity = transparentOpacity;
-    }
-
-    public void UpdateAlwaysOnTop()
-    {
-        if (Note.WindowHandle == 0)
-            return;
-
-        nint hWndInsertAfter = (Note.IsFocused || Note.IsPinned) ? HWND.TOPMOST : HWND.NOTOPMOST;
-
-        uint uFlags = SWP.NOMOVE | SWP.NOSIZE | SWP.NOACTIVATE;
-
-        _ = User32.SetWindowPos(Note.WindowHandle, hWndInsertAfter, 0, 0, 0, 0, uFlags);
     }
 
     public async Task SaveNote()

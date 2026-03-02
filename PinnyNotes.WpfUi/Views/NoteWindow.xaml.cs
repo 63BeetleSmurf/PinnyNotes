@@ -117,7 +117,6 @@ public partial class NoteWindow : Window
     {
         _viewModel.Note.IsFocused = true;
         _viewModel.UpdateOpacity();
-        _viewModel.UpdateAlwaysOnTop();
         ShowTitleBar();
     }
 
@@ -128,7 +127,6 @@ public partial class NoteWindow : Window
 
         _viewModel.Note.IsFocused = false;
         _viewModel.UpdateOpacity();
-        _viewModel.UpdateAlwaysOnTop();
         HideTitleBar();
 
         await _viewModel.SaveNote();

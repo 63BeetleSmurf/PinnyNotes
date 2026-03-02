@@ -22,8 +22,4 @@ internal partial class User32
 
     [LibraryImport("user32.dll")]
     public static partial int SetWindowLongPtrW(nint hWnd, int nIndex, nint dwNewLong);
-
-    [LibraryImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 }

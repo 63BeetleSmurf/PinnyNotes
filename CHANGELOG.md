@@ -1,6 +1,19 @@
 # Change Log
 
 
+## v1.17.0 - Pending
+
+### Added
+- 
+
+### Changed
+- 
+
+### Fixed
+- Notes staying on top of other windows when not pinned.
+- 
+
+
 ## v1.16.0 - 23/02/2026
 
 ### Added
