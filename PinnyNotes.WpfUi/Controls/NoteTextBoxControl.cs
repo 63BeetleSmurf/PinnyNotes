@@ -48,8 +48,11 @@ public partial class NoteTextBoxControl : TextBox
         InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control)));
         InputBindings.Add(new InputBinding(PasteCommand, new KeyGesture(Key.V, ModifierKeys.Control | ModifierKeys.Shift)));
 
-        _contextMenu = new NoteTextBoxContextMenu(this);
-        ContextMenu = _contextMenu;
+        if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+        {
+            _contextMenu = new NoteTextBoxContextMenu(this);
+            ContextMenu = _contextMenu;
+        }
     }
 
     // General
