@@ -35,6 +35,8 @@ public class ManagementViewModel : BaseViewModel
         LoadNotes();
 
         NewNoteCommand = new RelayCommand(OnNewNoteCommand);
+        OpenSettingsCommand = new RelayCommand(OnOpenSettingsCommand);
+
         OpenNotesCommand = new RelayCommand(OnOpenNotesCommand);
         CloseNotesCommand = new RelayCommand(OnCloseNotesCommand);
         DeleteNotesCommand = new RelayCommand(OnDeleteNotesCommand);
@@ -43,6 +45,8 @@ public class ManagementViewModel : BaseViewModel
     }
 
     public ICommand NewNoteCommand { get; }
+    public ICommand OpenSettingsCommand { get; }
+
     public ICommand OpenNotesCommand { get; }
     public ICommand CloseNotesCommand { get; }
     public ICommand DeleteNotesCommand { get; }
@@ -99,6 +103,11 @@ public class ManagementViewModel : BaseViewModel
     private void OnNewNoteCommand()
     {
         MessengerService.Publish(new OpenNoteWindowMessage(isManagementWindowParent: true));
+    }
+
+    private void OnOpenSettingsCommand()
+    {
+        MessengerService.Publish(new OpenSettingsWindowMessage());
     }
 
     private void OnOpenNotesCommand()

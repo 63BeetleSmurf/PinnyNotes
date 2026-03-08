@@ -13,8 +13,57 @@
         d:DataContext="{d:DesignInstance Type=vm:ManagementViewModel}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+
+            <Button x:Name="NewNoteButton"
+                    Width="32"
+                    Height="32"
+                    ToolTip="New note"
+                    Command="{Binding NewNoteCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Canvas>
+                            <Rectangle Width="32" Height="32" Fill="Transparent" />
+                            <Path Data="M 4,4 v 24 h 24 V 4 Z M 4, 10 h 24"
+                                  Stroke="{DynamicResource TextFillColorTertiaryBrush}"
+                                  StrokeThickness="2"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  d:Stroke="#464646">
+                            </Path>
+                        </Canvas>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="SettingsButton"
+                    Width="32"
+                    Height="32"
+                    ToolTip="Settings"
+                    Command="{Binding OpenSettingsCommand}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Canvas>
+                            <Rectangle Width="32" Height="32" Fill="Transparent" />
+                            <Path Data="M 4,8 h 24 M 8, 4 V 12 M 4,16 h 24 M 24, 12 V 20 M 4,24 h 24 M 16, 20 V 28"
+                                  Stroke="{DynamicResource TextFillColorTertiaryBrush}"
+                                  StrokeThickness="2"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  d:Stroke="#464646">
+                            </Path>
+                        </Canvas>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </ToolBar>
 
         <ListView x:Name="NotesListView"
+                  Grid.Row="1"
                   Margin="5,5,5,5"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   SelectionMode="Extended"
