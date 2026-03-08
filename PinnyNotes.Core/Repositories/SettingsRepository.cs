@@ -14,6 +14,8 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
         (
             Id  INTEGER PRIMARY KEY AUTOINCREMENT,
 
+            Application_StartupBehaviour        INTEGER DEFAULT 0,
+            Application_NewInstanceBehaviour    INTEGER DEFAULT 0,
             Application_ShowTrayIcon            INTEGER DEFAULT 1,
             Application_CheckForUpdates         INTEGER DEFAULT 0,
 
@@ -102,6 +104,8 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
         return new SettingsDataDto(
             Id: GetInt(reader, "Id"),
 
+            StartupBehaviour: GetEnum<StartupBehaviour>(reader, "Application_StartupBehaviour"),
+            NewInstanceBehaviour: GetEnum<NewInstanceBehaviour>(reader, "Application_NewInstanceBehaviour"),
             ShowTrayIcon: GetBool(reader, "Application_ShowTrayIcon"),
             CheckForUpdates: GetBool(reader, "Application_CheckForUpdates"),
 
@@ -179,6 +183,8 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
                 UPDATE
                     Settings
                 SET
+                    Application_StartupBehaviour = @application_StartupBehaviour,
+                    Application_NewInstanceBehaviour = @application_NewInstanceBehaviour,
                     Application_ShowTrayIcon = @application_ShowTrayIcon,
                     Application_CheckForUpdates = @application_CheckForUpdates,
 
@@ -246,6 +252,8 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
                     Id = @id;
             ",
             parameters: [
+                new("@application_StartupBehaviour", settings.StartupBehaviour),
+                new("@application_NewInstanceBehaviour", settings.NewInstanceBehaviour),
                 new("@application_ShowTrayIcon", settings.ShowTrayIcon),
                 new("@application_CheckForUpdates", settings.CheckForUpdates),
 

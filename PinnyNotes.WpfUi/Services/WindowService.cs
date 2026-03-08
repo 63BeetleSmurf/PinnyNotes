@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-
+using PinnyNotes.Core.DataTransferObjects;
 using PinnyNotes.Core.Enums;
 using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Helpers;
@@ -56,10 +56,49 @@ public class WindowService
         switch (message.Action)
         {
             case ApplicationAction.Start:
-                OpenManagementWindow();
+                DoStartUpAction();
                 break;
             case ApplicationAction.NewInstance:
+                DoNewInstanceAction();
+                break;
+        }
+    }
+
+    private async void DoStartUpAction()
+    {
+        switch (_settingsService.ApplicationSettings.StartupBehaviour)
+        {
+            case StartupBehaviour.RestoreOpenNotes:
+
+                IEnumerable<NoteDto> openNotes = await _noteRepository.GetOpen();
+                if (!openNotes.Any()) // Fallback to new instance action if no notes open
+                {
+                    DoNewInstanceAction();
+                    return;
+                }
+
+                foreach (NoteDto note in openNotes)
+                    _ = OpenNoteWindow(note.Id);
+
+                break;
+            case StartupBehaviour.CreateNewNote:
                 _ = OpenNoteWindow();
+                break;
+            case StartupBehaviour.ShowManagementWindow:
+                OpenManagementWindow();
+                break;
+        }
+    }
+
+    private void DoNewInstanceAction()
+    {
+        switch (_settingsService.ApplicationSettings.NewInstanceBehaviour)
+        {
+            case NewInstanceBehaviour.CreateNewNote:
+                _ = OpenNoteWindow();
+                break;
+            case NewInstanceBehaviour.ShowManagementWindow:
+                OpenManagementWindow();
                 break;
         }
     }

@@ -5,6 +5,8 @@ namespace PinnyNotes.Core.DataTransferObjects;
 public record SettingsDataDto(
      int Id,
 
+     StartupBehaviour StartupBehaviour,
+     NewInstanceBehaviour NewInstanceBehaviour,
      bool ShowTrayIcon,
      bool CheckForUpdates,
 

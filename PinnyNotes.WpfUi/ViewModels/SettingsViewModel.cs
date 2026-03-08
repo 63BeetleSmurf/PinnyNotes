@@ -27,6 +27,17 @@ public class SettingsViewModel : BaseViewModel
     public EditorSettingsModel EditorSettings { get; set; }
     public ToolSettingsModel ToolSettings { get; set; }
 
+    public static KeyValuePair<StartupBehaviour, string>[] StartupBehaviourList { get; } = [
+        new(StartupBehaviour.RestoreOpenNotes, "Restore open notes"),
+        new(StartupBehaviour.CreateNewNote, "Create new note"),
+        new(StartupBehaviour.ShowManagementWindow, "Show Management Window")
+    ];
+
+    public static KeyValuePair<NewInstanceBehaviour, string>[] NewInstanceBehaviourList { get; } = [
+        new(NewInstanceBehaviour.CreateNewNote, "Create new note"),
+        new(NewInstanceBehaviour.ShowManagementWindow, "Show Management Window")
+    ];
+
     public static KeyValuePair<StartupPosition, string>[] StartupPositionsList { get; } = [
         new(StartupPosition.TopLeft, "Top left"),
         new(StartupPosition.TopCentre, "Top centre"),

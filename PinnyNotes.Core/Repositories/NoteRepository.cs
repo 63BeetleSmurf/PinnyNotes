@@ -141,6 +141,28 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
         return notes;
     }
 
+    public async Task<IEnumerable<NoteDto>> GetOpen()
+    {
+        List<NoteDto> notes = [];
+
+        using SqliteConnection connection = new(ConnectionString);
+        connection.Open();
+
+        using SqliteDataReader reader = await ExecuteReader(
+            connection,
+            @"
+                SELECT *
+                FROM Notes
+                WHERE IsOpen = 1;
+            "
+        );
+
+        while (reader.Read())
+            notes.Add(GetNoteDtoFromReader(reader));
+
+        return notes;
+    }
+
     public async Task Update(NoteDto note)
     {
         using SqliteConnection connection = new(ConnectionString);

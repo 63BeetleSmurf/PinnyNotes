@@ -52,6 +52,28 @@
 
                                 <Border>
                                     <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding StartupBehaviourList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding ApplicationSettings.StartupBehaviour, Mode=TwoWay}" />
+                                        <TextBlock Text="Startup behaviour"/>
+                                    </DockPanel>
+                                </Border>
+
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <ComboBox DockPanel.Dock="Right"
+                                                  ItemsSource="{Binding NewInstanceBehaviourList, Mode=OneTime}"
+                                                  SelectedValuePath="Key"
+                                                  DisplayMemberPath="Value"
+                                                  SelectedValue="{Binding ApplicationSettings.NewInstanceBehaviour, Mode=TwoWay}" />
+                                        <TextBlock Text="New instance behaviour"/>
+                                    </DockPanel>
+                                </Border>
+
+                                <Border>
+                                    <DockPanel LastChildFill="True">
                                         <CheckBox DockPanel.Dock="Right" IsChecked="{Binding ApplicationSettings.ShowNotifyIcon}" />
                                         <TextBlock Text="Show tray icon"/>
                                     </DockPanel>

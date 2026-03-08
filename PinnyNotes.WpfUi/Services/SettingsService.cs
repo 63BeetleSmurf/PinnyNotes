@@ -19,6 +19,8 @@ public class SettingsService(SettingsRepository settingsRepository)
 
         ApplicationSettings = new()
         {
+            NewInstanceBehaviour = settings.NewInstanceBehaviour,
+            StartupBehaviour = settings.StartupBehaviour,
             ShowNotifyIcon = settings.ShowTrayIcon,
             CheckForUpdates = settings.CheckForUpdates
         };
@@ -100,6 +102,8 @@ public class SettingsService(SettingsRepository settingsRepository)
             new SettingsDataDto(
                 Id: 1,
 
+                StartupBehaviour: ApplicationSettings.StartupBehaviour,
+                NewInstanceBehaviour: ApplicationSettings.NewInstanceBehaviour,
                 ShowTrayIcon: ApplicationSettings.ShowNotifyIcon,
                 CheckForUpdates: ApplicationSettings.CheckForUpdates,
 
