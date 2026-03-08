@@ -11,6 +11,7 @@ public record SettingsDataDto(
      double DefaultNoteWidth,
      double DefaultNoteHeight,
      StartupPosition StartupPosition,
+     bool PinnedByDefault,
      MinimizeMode MinimizeMode,
      VisibilityMode VisibilityMode,
      bool HideTitleBar,

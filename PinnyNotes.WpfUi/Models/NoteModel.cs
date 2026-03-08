@@ -14,6 +14,8 @@ public class NoteModel : BaseModel
         Width = NoteSettings.DefaultWidth;
         Height = NoteSettings.DefaultHeight;
 
+        IsPinned = NoteSettings.PinnedByDefault;
+
         ThemeColourScheme = themeColourScheme;
 
         TransparencyEnabled = (NoteSettings.TransparencyMode != TransparencyMode.Disabled);

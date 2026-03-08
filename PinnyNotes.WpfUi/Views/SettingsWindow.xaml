@@ -104,6 +104,13 @@
 
                                 <Border>
                                     <DockPanel LastChildFill="True">
+                                        <CheckBox DockPanel.Dock="Right" IsChecked="{Binding NoteSettings.PinnedByDefault}" />
+                                        <TextBlock Text="Pinned by default"/>
+                                    </DockPanel>
+                                </Border>
+
+                                <Border>
+                                    <DockPanel LastChildFill="True">
                                         <ComboBox DockPanel.Dock="Right"
                                                   ItemsSource="{Binding MinimizeModeList, Mode=OneTime}"
                                                   SelectedValuePath="Key"

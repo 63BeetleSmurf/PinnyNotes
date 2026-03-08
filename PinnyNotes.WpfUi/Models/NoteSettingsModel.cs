@@ -8,6 +8,7 @@ public class NoteSettingsModel : BaseModel
     public double DefaultWidth { get; set => SetProperty(ref field, value); }
     public double DefaultHeight { get; set => SetProperty(ref field, value); }
     public StartupPosition StartupPosition { get; set => SetProperty(ref field, value); }
+    public bool PinnedByDefault { get; set => SetProperty(ref field, value); }
     public MinimizeMode MinimizeMode { get; set => SetProperty(ref field, value); }
     public VisibilityMode VisibilityMode { get; set => SetProperty(ref field, value); }
     public bool HideTitleBar { get; set => SetProperty(ref field, value); }
