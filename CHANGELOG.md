@@ -8,6 +8,7 @@
 - Fluent theme, other windows (settings, management, etc) and menus now match users Windows theme.
 - Pinned by default setting.
 - Startup and new instance behaviour settings.
+- Toolbar to management window.
 - 
 
 ### Changed
