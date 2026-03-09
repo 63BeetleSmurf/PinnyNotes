@@ -1,25 +1,50 @@
-﻿using System.IO;
+﻿using PinnyNotes.Core.Enums;
+using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Controls.BackgroundSpellCheck;
+using PinnyNotes.WpfUi.Controls.ContextMenus;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
-
-using PinnyNotes.Core.Enums;
-using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Controls.ContextMenus;
+using System.Windows.Threading;
 
 namespace PinnyNotes.WpfUi.Controls;
 
 public partial class NoteTextBoxControl : TextBox
 {
-    private readonly NoteTextBoxContextMenu _contextMenu;
+    private readonly BackgroundSpellChecker _spellChecker;
+
+    private DispatcherTimer? _updateTimer;
+    private BackgroundSpellingErrorAdorner? _adorner;
+    private ScrollViewer? _scrollViewer;
+    private IEnumerable<BackgroundSpellingError> _currentErrors = [];
+
+    private CancellationTokenSource? _checkCancellationToken;
+
+    private readonly NoteTextBoxContextMenu _contextMenu = null!;
 
     public NoteTextBoxControl() : base()
     {
         AcceptsReturn = true;
         AcceptsTab = true;
         AllowDrop = true;
+        SpellCheck.IsEnabled = false;
         VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+        _spellChecker = new(CultureInfo.CurrentUICulture.Name);
+
+        _updateTimer = new()
+        {
+            Interval = TimeSpan.FromMilliseconds(300)
+        };
+        _updateTimer.Tick += OnUpdateTimerTick;
+
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
 
         TextChanged += OnTextChanged;
         SelectionChanged += OnSelectionChanged;
@@ -31,6 +56,9 @@ public partial class NoteTextBoxControl : TextBox
         PreviewKeyDown += OnPreviewKeyDown;
         ContextMenuOpening += OnContextMenuOpening;
 
+        ApplySpellingSuggestionCommand = new(ApplySpellingSuggestion);
+        IgnoreSpellingErrorCommand = new(IgnoreSpellingError);
+        AddWordToDictionaryCommand = new(AddWordToDictionary);
         CopyCommand = new(Copy);
         CutCommand = new(Cut);
         PasteCommand = new(Paste);
@@ -56,6 +84,13 @@ public partial class NoteTextBoxControl : TextBox
     }
 
     // General
+    public bool BackgroundSpellCheck
+    {
+        get => (bool)GetValue(BackgroundSpellCheckProperty);
+        set => SetValue(BackgroundSpellCheckProperty, value);
+    }
+    public static readonly DependencyProperty BackgroundSpellCheckProperty = DependencyProperty.Register(nameof(BackgroundSpellCheck), typeof(bool), typeof(NoteTextBoxControl), new PropertyMetadata(false, OnBackgroundSpellCheckChanged));
+
     public bool AutoIndent
     {
         get => (bool)GetValue(AutoIndentProperty);
@@ -227,12 +262,26 @@ public partial class NoteTextBoxControl : TextBox
     }
     public static readonly DependencyProperty MiddleClickPasteProperty = DependencyProperty.Register(nameof(MiddleClickPaste), typeof(bool), typeof(NoteTextBoxControl));
 
-
+    public RelayCommand<BackgroundSpellingSuggestion> ApplySpellingSuggestionCommand;
+    public RelayCommand<string> IgnoreSpellingErrorCommand;
+    public RelayCommand<string> AddWordToDictionaryCommand;
     public RelayCommand CopyCommand;
     public RelayCommand CutCommand;
     public RelayCommand PasteCommand;
     public RelayCommand ClearCommand;
     public RelayCommand<bool> SetReadOnlyCommand;
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (_scrollViewer != null)
+            return;
+
+        _scrollViewer = GetTemplateChild("PART_ContentHost") as ScrollViewer;
+
+        _scrollViewer?.ScrollChanged += OnScrollChanged;
+    }
 
     public new int LineCount()
     {
@@ -267,6 +316,94 @@ public partial class NoteTextBoxControl : TextBox
 
     public string GetCurrentLineText()
         => GetLineText(GetLineIndexFromCharacterIndex(CaretIndex));
+
+    public BackgroundSpellingError? GetBackgroundSpellingError(int caretIndex)
+        => _currentErrors.FirstOrDefault(e => caretIndex >= e.StartIndex && caretIndex < e.StartIndex + e.Length);
+
+    public List<string> GetSpellingSuggestions(string word)
+        => _spellChecker.GetSuggestions(word);
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        _adorner = new BackgroundSpellingErrorAdorner(this);
+
+        AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+        adornerLayer.Add(_adorner);
+
+        UpdateSpellCheckAsync();
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        TextChanged -= OnTextChanged;
+        Loaded -= OnLoaded;
+        Unloaded -= OnUnloaded;
+        ContextMenuService.RemoveContextMenuOpeningHandler(this, OnContextMenuOpening);
+
+        _scrollViewer?.ScrollChanged -= OnScrollChanged;
+        _scrollViewer = null;
+
+        _updateTimer?.Stop();
+        _updateTimer?.Tick -= OnUpdateTimerTick;
+        _updateTimer = null;
+
+        _checkCancellationToken?.Cancel();
+        _checkCancellationToken?.Dispose();
+        _checkCancellationToken = null;
+
+        _spellChecker.Dispose();
+
+        if (_adorner is null)
+            return;
+
+        AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+        adornerLayer?.Remove(_adorner);
+        _adorner = null;
+    }
+
+    private void OnUpdateTimerTick(object? sender, EventArgs e)
+    {
+        _updateTimer?.Stop();
+        UpdateSpellCheckAsync();
+    }
+
+    private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        _adorner?.InvalidateVisual();
+    }
+
+    private void ApplySpellingSuggestion(BackgroundSpellingSuggestion suggestion)
+    {
+        // Replace the misspelled word with the suggestion
+        int startIndex = suggestion.Error.StartIndex;
+        int length = suggestion.Error.Length;
+
+        if (startIndex >= 0 && startIndex + length <= Text.Length)
+        {
+            string newText = Text.Remove(startIndex, length).Insert(startIndex, suggestion.Word);
+            Text = newText;
+
+            // Set caret position after the replaced word
+            CaretIndex = startIndex + suggestion.Word.Length;
+            Focus();
+        }
+    }
+
+    private void IgnoreSpellingError(string word)
+    {
+        _spellChecker.IgnoreWord(word);
+
+        // Trigger immediate recheck
+        UpdateSpellCheckAsync();
+    }
+
+    private void AddWordToDictionary(string word)
+    {
+        _spellChecker.AddToDictionary(word);
+
+        // Trigger immediate recheck
+        UpdateSpellCheckAsync();
+    }
 
     private static bool IsShiftPressed(bool exclusive = false)
         => (exclusive) ? (Keyboard.Modifiers == ModifierKeys.Shift) : Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
@@ -484,7 +621,23 @@ public partial class NoteTextBoxControl : TextBox
 
     private void OnTextChanged(object sender, TextChangedEventArgs e)
     {
+        _updateTimer?.Stop();
+
         EnforceNewLineAtEnd();
+
+        if (!BackgroundSpellCheck || Text.Length == 0)
+            return;
+
+        char lastChar = Text[^1];
+
+        if (!char.IsLetterOrDigit(lastChar)) // Is space, period, etc.
+        {
+            _updateTimer?.Stop();
+            UpdateSpellCheckAsync();
+            return;
+        }
+
+        _updateTimer?.Start();
     }
 
     private void OnSelectionChanged(object sender, RoutedEventArgs e)
@@ -753,5 +906,62 @@ public partial class NoteTextBoxControl : TextBox
     private void SetReadOnly(bool isReadOnly)
     {
         IsReadOnly = isReadOnly;
+    }
+
+    private async void UpdateSpellCheckAsync()
+    {
+        if (_adorner == null || !BackgroundSpellCheck)
+            return;
+
+        // Cancel any previous running check
+        _checkCancellationToken?.Cancel();
+        _checkCancellationToken?.Dispose();
+        _checkCancellationToken = new CancellationTokenSource();
+        CancellationToken token = _checkCancellationToken.Token;
+
+        string text = Text; // Cant access .Text from another thread, so add to variable.
+
+        try
+        {
+            List<BackgroundSpellingError> errors = await Task.Run(
+                () => FindSpellingErrors(text), token
+            );
+
+            _currentErrors = errors;
+            _adorner.UpdateErrors(errors);
+        }
+        catch (OperationCanceledException)
+        {
+            // If new check was started Task will throw this exception to discard this result
+        }
+    }
+
+    private List<BackgroundSpellingError> FindSpellingErrors(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return [];
+
+        return _spellChecker.CheckText(text);
+    }
+
+    private static void OnBackgroundSpellCheckChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is NoteTextBoxControl control)
+            control.UpdateSpellCheckState();
+    }
+
+    private void UpdateSpellCheckState()
+    {
+        if (BackgroundSpellCheck)
+        {
+            UpdateSpellCheckAsync();
+        }
+        else
+        {
+            _updateTimer?.Stop();
+            _checkCancellationToken?.Cancel();
+            _currentErrors = [];
+            _adorner?.UpdateErrors([]);
+        }
     }
 }

@@ -1,5 +1,4 @@
 # Next release
-- Custom Spell Check - Spell checking is slow, implement Hunspell or custom windows spellcheck off ui thread.
 - 
 
 # Future releases

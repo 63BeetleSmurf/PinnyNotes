@@ -1,7 +1,7 @@
 # Change Log
 
 
-## v1.17.0 - Pending
+## v1.17.0 - Testing
 
 ### Added
 - Week Number action to Date Time tool.
@@ -9,14 +9,12 @@
 - Pinned by default setting.
 - Startup and new instance behaviour settings.
 - Toolbar to management window.
-- 
 
 ### Changed
-- 
+- Spell checking now done directly with Windows vastly improving performance.
 
 ### Fixed
 - Notes staying on top of other windows when not pinned.
-- 
 
 
 ## v1.16.0 - 23/02/2026

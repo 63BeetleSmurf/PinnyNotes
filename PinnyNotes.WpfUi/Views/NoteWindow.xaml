@@ -190,7 +190,7 @@
                                          Padding="5,5,5,5"
                                          Text="{Binding Note.Content, UpdateSourceTrigger=PropertyChanged}"
 
-                                         SpellCheck.IsEnabled="{Binding EditorSettings.CheckSpelling}"
+                                         BackgroundSpellCheck="{Binding EditorSettings.CheckSpelling}"
                                          NewLineAtEnd="{Binding EditorSettings.NewLineAtEnd}"
                                          KeepNewLineAtEndVisible="{Binding EditorSettings.KeepNewLineVisible}"
                                          WrapText="{Binding EditorSettings.WrapText}"
@@ -217,8 +217,7 @@
                                          TrimTextOnPaste="{Binding EditorSettings.TrimTextOnPaste}"
                                          PasteAltAction="{Binding EditorSettings.PasteAltAction}"
                                          TrimTextOnAltPaste="{Binding EditorSettings.TrimTextOnAltPaste}"
-                                         MiddleClickPaste="{Binding EditorSettings.MiddleClickPaste}"
-                />
+                                         MiddleClickPaste="{Binding EditorSettings.MiddleClickPaste}" />
         </Grid>
     </Grid>
 </Window>

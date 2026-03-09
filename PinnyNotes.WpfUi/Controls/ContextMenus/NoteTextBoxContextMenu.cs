@@ -1,11 +1,10 @@
-﻿using System.Windows;
+﻿using PinnyNotes.Core.Enums;
+using PinnyNotes.WpfUi.Commands;
+using PinnyNotes.WpfUi.Controls.BackgroundSpellCheck;
+using PinnyNotes.WpfUi.Tools;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-
-using PinnyNotes.Core.Enums;
-using PinnyNotes.WpfUi.Commands;
-using PinnyNotes.WpfUi.Tools;
 
 namespace PinnyNotes.WpfUi.Controls.ContextMenus;
 
@@ -181,10 +180,11 @@ public class NoteTextBoxContextMenu : ContextMenu
         _spellingErrorMenuItems.Clear();
 
         int caretIndex = _noteTextBox.CaretIndex;
-        SpellingError spellingError = _noteTextBox.GetSpellingError(caretIndex);
-        if (spellingError != null)
+        BackgroundSpellingError? spellingError = _noteTextBox.GetBackgroundSpellingError(caretIndex);
+        if (spellingError is not null)
         {
-            if (!spellingError.Suggestions.Any())
+            List<string> suggestions = _noteTextBox.GetSpellingSuggestions(spellingError.Word);
+            if (suggestions.Count == 0)
                 _spellingErrorMenuItems.Add(
                     new MenuItem()
                     {
@@ -193,16 +193,21 @@ public class NoteTextBoxContextMenu : ContextMenu
                     }
                 );
             else
-                foreach (string spellingSuggestion in spellingError.Suggestions)
+                foreach (string spellingSuggestion in suggestions)
                 {
+                    BackgroundSpellingSuggestion backgroundSpellingSuggestion = new()
+                    {
+                        Word = spellingSuggestion,
+                        Error = spellingError
+                    };
+
                     _spellingErrorMenuItems.Add(
                         new MenuItem()
                         {
                             Header = spellingSuggestion,
                             FontWeight = FontWeights.Bold,
-                            Command = EditingCommands.CorrectSpellingError,
-                            CommandParameter = spellingSuggestion,
-                            CommandTarget = _noteTextBox
+                            Command = _noteTextBox.ApplySpellingSuggestionCommand,
+                            CommandParameter = backgroundSpellingSuggestion
                         }
                     );
                 }
