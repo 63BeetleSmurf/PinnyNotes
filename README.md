@@ -4,9 +4,7 @@
 [![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg?style=flat-square)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows)](https://github.com/63BeetleSmurf/PinnyNotes)
 [![Liberapay receiving](https://img.shields.io/liberapay/receives/63BeetleSmurf?style=flat-square&logo=liberapay&label=Sponsor)](https://liberapay.com/63BeetleSmurf/donate)
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=flat-square&logo=github)](https://github.com/sponsors/63BeetleSmurf)
 [![Ko-fi](https://img.shields.io/badge/Donate-Ko--fi-29abe0?style=flat-square&logo=ko-fi)](https://ko-fi.com/63BeetleSmurf)
-[![Buy Me A Coffee](https://img.shields.io/badge/Donate-Buy%20Me%20a%20Coffee-ffdd00?style=flat-square&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/63BeetleSmurf)
 
 ![Pinny Notes Screenshot](assets/Screenshot.png)
 
@@ -92,7 +90,5 @@ Pinny Notes is developed in my spare time. If you find it helpful, please consid
 <noscript><a href="https://liberapay.com/63BeetleSmurf/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/63BeetleSmurf)
-
-<a href="https://www.buymeacoffee.com/63BeetleSmurf" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 Every bit of support is appreciated 🙏
