@@ -18,19 +18,33 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ToolBar Grid.Row="0">
+        <ToolBar Grid.Row="0" ToolBarTray.IsLocked="True">
+            <ToolBar.Resources>
+                <Style x:Key="ToolBarButtonStyle" TargetType="Button">
+                    <Setter Property="Width" Value="32"/>
+                    <Setter Property="Height" Value="32"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Opacity" Value="0.6"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1.0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToolBar.Resources>
 
             <Button x:Name="NewNoteButton"
-                    Width="32"
-                    Height="32"
                     ToolTip="New note"
-                    Command="{Binding NewNoteCommand}">
+                    Command="{Binding NewNoteCommand}"
+                    Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Template>
                     <ControlTemplate>
                         <Canvas>
                             <Rectangle Width="32" Height="32" Fill="Transparent" />
                             <Path Data="M 4,4 v 24 h 24 V 4 Z M 4, 10 h 24"
-                                  Stroke="{DynamicResource TextFillColorTertiaryBrush}"
+                                  Stroke="{DynamicResource TextFillColorSecondaryBrush}"
                                   StrokeThickness="2"
                                   StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                   d:Stroke="#464646">
@@ -41,16 +55,15 @@
             </Button>
 
             <Button x:Name="SettingsButton"
-                    Width="32"
-                    Height="32"
                     ToolTip="Settings"
-                    Command="{Binding OpenSettingsCommand}">
+                    Command="{Binding OpenSettingsCommand}"
+                    Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Template>
                     <ControlTemplate>
                         <Canvas>
                             <Rectangle Width="32" Height="32" Fill="Transparent" />
                             <Path Data="M 4,8 h 24 M 8, 4 V 12 M 4,16 h 24 M 24, 12 V 20 M 4,24 h 24 M 16, 20 V 28"
-                                  Stroke="{DynamicResource TextFillColorTertiaryBrush}"
+                                  Stroke="{DynamicResource TextFillColorSecondaryBrush}"
                                   StrokeThickness="2"
                                   StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                                   d:Stroke="#464646">
