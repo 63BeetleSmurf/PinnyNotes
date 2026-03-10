@@ -210,6 +210,11 @@ public partial class NoteWindow : Window
         Height = _noteSettings.DefaultHeight;
     }
 
+    private void ManagementMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        _messengerService.Publish(new OpenManagementWindowMessage());
+    }
+
     private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
     {
         _messengerService.Publish(new OpenSettingsWindowMessage(this));

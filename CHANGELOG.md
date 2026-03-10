@@ -9,6 +9,7 @@
 - Pinned by default setting.
 - Startup and new instance behaviour settings.
 - Toolbar to management window.
+- Management menu into in note title bar context menu.
 
 ### Changed
 - Spell checking now done directly with Windows vastly improving performance.
