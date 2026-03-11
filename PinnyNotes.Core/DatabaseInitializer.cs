@@ -111,7 +111,16 @@ public class DatabaseInitialiser
             {
                 SchemaMigration migration = migrations[currentSchemaVersion];
                 await BaseRepository.ExecuteNonQuery(connection, migration.UpdateQuery);
+
                 currentSchemaVersion = migration.ResultingSchemaVersion;
+                await BaseRepository.ExecuteNonQuery(
+                    connection,
+                    $@"
+                        UPDATE SchemaInfo
+                        SET Version = {currentSchemaVersion}
+                        WHERE Id = 0;
+                    "
+                );
             }
             transaction.Commit();
         }

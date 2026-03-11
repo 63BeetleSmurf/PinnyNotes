@@ -33,10 +33,5 @@ public class Schema2To3Migration : SchemaMigration
         -- Create Notes Table
         CREATE TABLE IF NOT EXISTS {NoteRepository.TableName}
             {NoteRepository.TableSchema};
-
-        -- Update schema version
-        UPDATE SchemaInfo
-        SET Version = {ResultingSchemaVersion}
-        WHERE Id = 0;
     ";
 }

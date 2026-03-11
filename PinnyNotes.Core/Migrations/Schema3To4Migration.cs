@@ -17,10 +17,5 @@ public class Schema3To4Migration : SchemaMigration
         -- -- Add PinnedByDefault
         ALTER TABLE Settings
         ADD COLUMN Notes_PinnedByDefault INTEGER DEFAULT 0;
-
-        -- Update schema version
-        UPDATE SchemaInfo
-        SET Version = {ResultingSchemaVersion}
-        WHERE Id = 0;
     ";
 }

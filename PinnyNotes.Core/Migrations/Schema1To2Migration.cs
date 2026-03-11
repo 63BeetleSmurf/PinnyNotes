@@ -23,10 +23,5 @@ public class Schema1To2Migration : SchemaMigration
         -- -- Add UrlToolState
         ALTER TABLE Settings
         ADD COLUMN Tool_UrlState INTEGER DEFAULT 1;
-
-        -- Update schema version
-        UPDATE SchemaInfo
-        SET Version = {ResultingSchemaVersion}
-        WHERE Id = 0;
     ";
 }
