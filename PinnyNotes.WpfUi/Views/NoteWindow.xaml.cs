@@ -57,7 +57,6 @@ public partial class NoteWindow : Window
 
     private void PopulateTitleBarContextMenu()
     {
-        int insertIndex = TitleBarContextMenu.Items.IndexOf(ThemeMenuSeparator);
         foreach (ColourScheme colourScheme in _themeService.CurrentTheme.ColourSchemes.Values)
         {
             MenuItem menuItem = new()
@@ -68,9 +67,7 @@ public partial class NoteWindow : Window
                 Icon = colourScheme.Icon
             };
 
-            TitleBarContextMenu.Items.Insert(insertIndex, menuItem);
-
-            insertIndex++;
+            NoteColourMenuItem.Items.Add(menuItem);
         }
     }
 

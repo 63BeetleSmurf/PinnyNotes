@@ -1,7 +1,20 @@
 # Change Log
 
 
-## v1.17.0 - Testing
+## v1.18.0 - Pending
+
+### Added
+- 
+
+### Changed
+- Moved colours menu items into a sub menu.
+- 
+
+### Fixed
+- 
+
+
+## v1.17.0 - 10/03/2026
 
 ### Added
 - Week Number action to Date Time tool.

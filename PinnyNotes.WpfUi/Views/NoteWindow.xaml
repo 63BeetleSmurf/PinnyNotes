@@ -171,8 +171,8 @@
                     <Separator />
                     <MenuItem Header="Reset size" Click="ResetMenuItem_Click" />
                     <Separator />
-                    <!-- Theme options are added dynamically in code behind -->
-                    <Separator Name="ThemeMenuSeparator" />
+                    <MenuItem x:Name="NoteColourMenuItem" Header="Colour" />
+                    <Separator />
                     <MenuItem Header="Management" Click="ManagementMenuItem_Click" />
                     <MenuItem Header="Settings" Click="SettingsMenuItem_Click" />
                 </ContextMenu>
