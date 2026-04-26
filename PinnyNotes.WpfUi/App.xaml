@@ -2,12 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PinnyNotes.WpfUi"
+             xmlns:w="clr-namespace:System.Windows;assembly=PresentationFramework"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              ThemeMode="System">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <sys:Double x:Key="{x:Static w:SystemParameters.VerticalScrollBarButtonHeightKey}">50</sys:Double>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
