@@ -41,32 +41,25 @@ public class HashTool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        HashAlgorithm hasher;
-        switch (action)
+        using HashAlgorithm? hasher = action switch
         {
-            case ToolActions.HashSHA512:
-                hasher = SHA512.Create();
-                break;
-            case ToolActions.HashSHA384:
-                hasher = SHA384.Create();
-                break;
-            case ToolActions.HashSHA256:
-                hasher = SHA256.Create();
-                break;
-            case ToolActions.HashSHA1:
-                hasher = SHA1.Create();
-                break;
-            case ToolActions.HashMD5:
-                hasher = MD5.Create();
-                break;
-            default:
-                return text;
+            ToolActions.HashSHA512 => SHA512.Create(),
+            ToolActions.HashSHA384 => SHA384.Create(),
+            ToolActions.HashSHA256 => SHA256.Create(),
+            ToolActions.HashSHA1 => SHA1.Create(),
+            ToolActions.HashMD5 => MD5.Create(),
+            _ => null
+        };
+
+        if (hasher is null)
+        {
+            return text;
         }
 
-        return Convert.ToHexString(
-            hasher.ComputeHash(
-                Encoding.UTF8.GetBytes(text)
-            )
-        );
+        byte[] textBytes = Encoding.UTF8.GetBytes(text);
+        byte[] hash = hasher.ComputeHash(textBytes);
+        string hashString = Convert.ToHexString(hash);
+
+        return hashString;
     }
 }
