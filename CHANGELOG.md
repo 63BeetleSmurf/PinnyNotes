@@ -8,9 +8,11 @@
 
 ### Changed
 - Moved colours menu items into a sub menu.
+- Minimum size of scroll bars.
 - 
 
 ### Fixed
+- Hash tool hashing entire text rather than selected.
 - 
 
 

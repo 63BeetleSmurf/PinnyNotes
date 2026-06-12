@@ -65,7 +65,7 @@ public class HashTool : BaseTool, ITool
 
         return Convert.ToHexString(
             hasher.ComputeHash(
-                Encoding.UTF8.GetBytes(NoteTextBox.Text)
+                Encoding.UTF8.GetBytes(text)
             )
         );
     }
