@@ -2,7 +2,7 @@
 
 namespace PinnyNotes.WpfUi.Helpers;
 
-public static class SystemThemeHelper
+public static class RegistryHelper
 {
     public static bool IsDarkMode()
     {

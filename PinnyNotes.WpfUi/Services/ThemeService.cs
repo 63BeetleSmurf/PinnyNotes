@@ -42,7 +42,7 @@ public class ThemeService(AppMetadataService appMetadataService, SettingsService
         ColourScheme colourScheme = CurrentTheme.ColourSchemes[colourSchemeName];
 
         Palette palette;
-        if (colourMode == ColourMode.Dark || (colourMode == ColourMode.System && SystemThemeHelper.IsDarkMode()))
+        if (colourMode == ColourMode.Dark || (colourMode == ColourMode.System && RegistryHelper.IsDarkMode()))
             palette = colourScheme.Dark;
         else
             palette = colourScheme.Light;
