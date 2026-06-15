@@ -12,15 +12,16 @@ using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Views;
+using System.IO;
 
 namespace PinnyNotes.WpfUi;
 
 public partial class App : Application
 {
 #if DEBUG
-    public const bool IsDebugMode = true;
+    private const bool IsDebugMode = true;
 #else
-    public const bool IsDebugMode = false;
+    private const bool IsDebugMode = false;
 #endif
 
     private const string UniqueEventName = (IsDebugMode) ? "176fc692-28c2-4ed0-ba64-60fbd7165018" : "b1bc1a95-e142-4031-a239-dd0e14568a3c";
@@ -99,11 +100,36 @@ public partial class App : Application
         }
     }
 
+    public ApplicationMode ApplicationMode { get
+        {
+            if (_applicationMode is null)
+            {
+                if (IsDebugMode)
+                {
+                    _applicationMode = ApplicationMode.Debug;
+                }
+                else if (File.Exists(Path.Combine(AppContext.BaseDirectory, "portable.txt")))
+                {
+                    _applicationMode = ApplicationMode.Portable;
+                }
+                else
+                {
+                    _applicationMode = ApplicationMode.Normal;
+                }
+            }
+
+            return _applicationMode.Value;
+        }
+    }
+    private ApplicationMode? _applicationMode;
+
     public static IServiceProvider Services { get; private set; } = null!;
 
-    private static void ConfigureServices(IServiceCollection services)
+    private void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<DatabaseConfiguration>();
+        services.AddSingleton(
+            provider => new DatabaseConfiguration(ApplicationMode)
+        );
 
         services.AddSingleton<SettingsRepository>();
         services.AddSingleton<AppMetadataRepository>();
