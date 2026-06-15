@@ -105,5 +105,7 @@ public class SettingsViewModel : BaseViewModel
         new(ToolState.Favourite, "Favourite")
     ];
 
+    public bool IsStartWithWindowsEnabled { get; } = (((App)App.Current).ApplicationMode == ApplicationMode.Normal);
+
     public bool IsTransparencyEnabled { get; set; }
 }

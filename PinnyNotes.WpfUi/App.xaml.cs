@@ -100,7 +100,9 @@ public partial class App : Application
         }
     }
 
-    public ApplicationMode ApplicationMode { get
+    public ApplicationMode ApplicationMode
+    {
+        get
         {
             if (_applicationMode is null)
             {
@@ -171,7 +173,21 @@ public partial class App : Application
 
     private void OnApplicationSettingsChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ApplicationSettingsModel.ShowNotifyIcon))
-            ShutdownMode = (_applicationSettings.ShowNotifyIcon) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
+        switch (e.PropertyName)
+        {
+            case nameof(ApplicationSettingsModel.ShowNotifyIcon):
+                ShutdownMode = (_applicationSettings.ShowNotifyIcon) ? ShutdownMode.OnExplicitShutdown : ShutdownMode.OnLastWindowClose;
+                break;
+            case nameof(ApplicationSettingsModel.StartWithWindows):
+                if (_applicationSettings.StartWithWindows)
+                {
+                    RegistryHelper.AddToStartup();
+                }
+                else
+                {
+                    RegistryHelper.RemoveFromStartup();
+                }
+                break;
+        }
     }
 }

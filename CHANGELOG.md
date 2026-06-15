@@ -4,6 +4,7 @@
 ## v1.18.0 - Pending
 
 ### Added
+- Start with Windows setting.
 - 
 
 ### Changed

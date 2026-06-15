@@ -19,6 +19,7 @@ public class SettingsService(SettingsRepository settingsRepository)
 
         ApplicationSettings = new()
         {
+            StartWithWindows = settings.StartWithWindows,
             NewInstanceBehaviour = settings.NewInstanceBehaviour,
             StartupBehaviour = settings.StartupBehaviour,
             ShowNotifyIcon = settings.ShowTrayIcon,
@@ -102,6 +103,7 @@ public class SettingsService(SettingsRepository settingsRepository)
             new SettingsDataDto(
                 Id: 1,
 
+                StartWithWindows: ApplicationSettings.StartWithWindows,
                 StartupBehaviour: ApplicationSettings.StartupBehaviour,
                 NewInstanceBehaviour: ApplicationSettings.NewInstanceBehaviour,
                 ShowTrayIcon: ApplicationSettings.ShowNotifyIcon,
