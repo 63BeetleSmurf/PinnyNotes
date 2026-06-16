@@ -3,10 +3,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
 using PinnyNotes.Core.Enums;
+using PinnyNotes.WpfUi.Controls.TitleBarItems;
 using PinnyNotes.WpfUi.Helpers;
 using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Models;
@@ -24,6 +26,10 @@ public partial class NoteWindow : Window
 
     private readonly NoteViewModel _viewModel;
 
+    private readonly NewNoteButton _newNoteButton;
+    private readonly PinButton _pinButton;
+    private readonly CloseButton _closeButton;
+
     #region NoteWindow
 
     public NoteWindow(SettingsService settingsService, MessengerService messengerService, ThemeService themeService, NoteViewModel viewModel)
@@ -37,6 +43,15 @@ public partial class NoteWindow : Window
 
         DataContext = _viewModel;
 
+        _newNoteButton = new();
+        _newNoteButton.SetBinding(NewNoteButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+        _pinButton = new();
+        _pinButton.SetBinding(PinButton.IconFillProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+        _pinButton.SetBinding(PinButton.IsCheckedProperty, new Binding("Note.IsPinned") { Source = _viewModel, Mode = BindingMode.TwoWay });
+
+        _closeButton = new();
+        _closeButton.SetBinding(CloseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+
         InitializeComponent();
 
         Activated += Window_Activated;
@@ -49,14 +64,34 @@ public partial class NoteWindow : Window
         StateChanged += NoteWindow_StateChanged;
 
         TitleBarGrid.MouseDown += TitleBar_MouseDown;
-        NewNoteButton.Click += NewNoteButton_Click;
-        CloseButton.Click += CloseButton_Click;
+        _newNoteButton.Click += NewNoteButton_Click;
+        _closeButton.Click += CloseButton_Click;
 
-        PopulateTitleBarContextMenu();
+        PopulateTitleBar();
     }
 
-    private void PopulateTitleBarContextMenu()
+    private void PopulateTitleBar()
     {
+        GridLength buttonColumnWidth = new(40, GridUnitType.Pixel);
+        GridLength spacerColumnWidth = new(1, GridUnitType.Star);
+
+        TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
+        TitleBarGrid.ColumnDefinitions.Add(new() { Width = spacerColumnWidth });
+        TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
+        TitleBarGrid.ColumnDefinitions.Add(new() { Width = spacerColumnWidth });
+        TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
+
+        Grid.SetColumn(_newNoteButton, 0);
+        Grid.SetColumn(_pinButton, 2);
+        Grid.SetColumn(_closeButton, 4);
+
+        TitleBarGrid.Children.Add(_newNoteButton);
+        TitleBarGrid.Children.Add(_pinButton);
+        TitleBarGrid.Children.Add(_closeButton);
+
+
+
+        // Context menu
         foreach (ColourScheme colourScheme in _themeService.CurrentTheme.ColourSchemes.Values)
         {
             MenuItem menuItem = new()

@@ -68,31 +68,14 @@
         </Grid.RowDefinitions>
 
         <!-- Title Bar -->
-        <Grid Name="TitleBarGrid"
+        <Grid x:Name="TitleBarGrid"
               Grid.Column="0"
               Grid.Row="0"
               Height="40"
               Background="{Binding Note.TitleGridBackground}"
               d:Background="#fef7b1">
 
-            <!-- New Note Button -->
-            <titleBarItems:NewNoteButton x:Name="NewNoteButton"
-                                         HorizontalAlignment="Left"
-                                         IconStroke="{Binding Note.TitleGridButtonForeground}"
-                                         d:IconStroke="#464646" />
-
-            <!-- Pin Button -->
-            <titleBarItems:PinButton x:Name="PinButton"
-                                     HorizontalAlignment="Center"
-                                     IconFill="{Binding Note.TitleGridButtonForeground}"
-                                     IsChecked="{Binding Note.IsPinned, Mode=TwoWay}"
-                                     d:IconFill="#464646" />
-
-            <!-- Close Button -->
-            <titleBarItems:CloseButton x:Name="CloseButton"
-                                       HorizontalAlignment="Right"
-                                       IconStroke="{Binding Note.TitleGridButtonForeground}"
-                                       d:IconStroke="#464646" />
+            <!-- Items added dynamically -->
 
             <!-- Context Menu -->
             <Grid.ContextMenu>
