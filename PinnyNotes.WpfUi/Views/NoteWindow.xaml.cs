@@ -49,7 +49,7 @@ public partial class NoteWindow : Window
         StateChanged += NoteWindow_StateChanged;
 
         TitleBarGrid.MouseDown += TitleBar_MouseDown;
-        NewButton.Click += NewButton_Click;
+        NewNoteButton.Click += NewNoteButton_Click;
         CloseButton.Click += CloseButton_Click;
 
         PopulateTitleBarContextMenu();
@@ -158,7 +158,7 @@ public partial class NoteWindow : Window
         }
     }
 
-    private void NewButton_Click(object sender, RoutedEventArgs e)
+    private void NewNoteButton_Click(object sender, RoutedEventArgs e)
     {
         _messengerService.Publish(
             new OpenNoteWindowMessage(ParentNote: _viewModel.Note)

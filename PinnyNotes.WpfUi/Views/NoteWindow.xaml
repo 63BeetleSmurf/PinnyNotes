@@ -6,6 +6,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Controls"
+        xmlns:titleBarItems="clr-namespace:PinnyNotes.WpfUi.Controls.TitleBarItems"
         mc:Ignorable="d"
 
         BorderThickness="1"
@@ -44,21 +45,6 @@
     </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <!-- Title Bar Buttons -->
-        <Style x:Key="TitleBarButtonStyle" TargetType="Control">
-            <Setter Property="Width" Value="20"/>
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Opacity" Value="0.6"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Opacity" Value="1.0"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
         <!-- Show/Hide Title Bar -->
         <Storyboard x:Key="HideTitleBarAnimation">
             <DoubleAnimation Storyboard.TargetName="TitleBarGrid"
@@ -90,79 +76,23 @@
               d:Background="#fef7b1">
 
             <!-- New Note Button -->
-            <Button Name="NewButton"
-                    HorizontalAlignment="Left"
-                    Margin="10,0,0,0"
-                    ToolTip="New Note"
-                    Style="{StaticResource TitleBarButtonStyle}">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Canvas>
-                            <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 10,2 v 16 M 2,10 h 16"
-                                  Stroke="{Binding Note.TitleGridButtonForeground}"
-                                  StrokeThickness="3"
-                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
-                                  d:Stroke="#464646">
-                            </Path>
-                        </Canvas>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <titleBarItems:NewNoteButton x:Name="NewNoteButton"
+                                         HorizontalAlignment="Left"
+                                         IconStroke="{Binding Note.TitleGridButtonForeground}"
+                                         d:IconStroke="#464646" />
 
             <!-- Pin Button -->
-            <ToggleButton Name="PinButton"
-                          HorizontalAlignment="Center"
-                          ToolTip="Toggle On Top"
-                          Style="{StaticResource TitleBarButtonStyle}"
-                          IsChecked="{Binding Note.IsPinned}">
-                <ToggleButton.Template>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Canvas>
-                            <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 5,0 h 10 c 1,0 1,2 0,2 h -2 l 1,6 c 0,0 4,1 4,5 0,1 -7,1 -7,1 0,0 0,6 -1,6 C 9,20 9,14 9,14 9,14 2,14 2,13 2,9 6,8 6,8 L 7,2 H 5 C 4,2 4,0 5,0 Z"
-                                  Fill="{Binding Note.TitleGridButtonForeground}"
-                                  RenderTransformOrigin="0.5,0.5"
-                                  d:Fill="#464646">
-                                <Path.Style>
-                                    <Style TargetType="Path">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=IsChecked}" Value="False">
-                                                <Setter Property="RenderTransform">
-                                                    <Setter.Value>
-                                                        <RotateTransform Angle="45"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Path.Style>
-                            </Path>
-                        </Canvas>
-                    </ControlTemplate>
-                </ToggleButton.Template>
-            </ToggleButton>
+            <titleBarItems:PinButton x:Name="PinButton"
+                                     HorizontalAlignment="Center"
+                                     IconFill="{Binding Note.TitleGridButtonForeground}"
+                                     IsChecked="{Binding Note.IsPinned, Mode=TwoWay}"
+                                     d:IconFill="#464646" />
 
             <!-- Close Button -->
-            <Button Name="CloseButton"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,10,0"
-                    ToolTip="Close"
-                    Style="{StaticResource TitleBarButtonStyle}">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Canvas>
-                            <Rectangle Width="20" Height="20" Fill="Transparent" />
-                            <Path Data="M 3,3 L 17,17 M 3,17 L 17,3"
-                                  Stroke="{Binding Note.TitleGridButtonForeground}"
-                                  StrokeThickness="3"
-                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
-                                  d:Stroke="#464646">
-                            </Path>
-                        </Canvas>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <titleBarItems:CloseButton x:Name="CloseButton"
+                                       HorizontalAlignment="Right"
+                                       IconStroke="{Binding Note.TitleGridButtonForeground}"
+                                       d:IconStroke="#464646" />
 
             <!-- Context Menu -->
             <Grid.ContextMenu>
