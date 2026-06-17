@@ -92,26 +92,28 @@ public class DatabaseInitialiser
 
     private static async Task UpdateDatabase(SqliteConnection connection, int databaseSchemaVersion)
     {
-        Schema1To2Migration schema1To2Migration = new();
-        Schema2To3Migration schema2To3Migration = new();
-        Schema3To4Migration schema3To4Migration = new();
-        Schema4To5Migration schema4To5Migration = new();
+        SchemaMigration[] schemaMigrations = [
+            new Schema1To2Migration(),
+            new Schema2To3Migration(),
+            new Schema3To4Migration(),
+            new Schema4To5Migration()
+        ];
 
-        Dictionary<int, SchemaMigration> migrations = new()
+        // Build migrations map
+        Dictionary<int, SchemaMigration> migrationsMap = [];
+        foreach (SchemaMigration schemaMigration in schemaMigrations)
         {
-            {schema1To2Migration.TargetSchemaVersion, schema1To2Migration},
-            {schema2To3Migration.TargetSchemaVersion, schema2To3Migration},
-            {schema3To4Migration.TargetSchemaVersion, schema3To4Migration},
-            {schema4To5Migration.TargetSchemaVersion, schema4To5Migration}
-        };
+            migrationsMap[schemaMigration.TargetSchemaVersion] = schemaMigration;
+        }
 
+        // Find and apply any required migrations
         using SqliteTransaction transaction = connection.BeginTransaction();
         try
         {
             int currentSchemaVersion = databaseSchemaVersion;
             while (currentSchemaVersion < SchemaVersion)
             {
-                SchemaMigration migration = migrations[currentSchemaVersion];
+                SchemaMigration migration = migrationsMap[currentSchemaVersion];
                 await BaseRepository.ExecuteNonQuery(connection, migration.UpdateQuery);
 
                 currentSchemaVersion = migration.ResultingSchemaVersion;
