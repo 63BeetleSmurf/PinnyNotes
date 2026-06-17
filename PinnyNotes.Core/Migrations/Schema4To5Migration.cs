@@ -9,5 +9,9 @@ public class Schema4To5Migration : SchemaMigration
         -- -- Add Application_StartWithWindows
         ALTER TABLE Settings
         ADD COLUMN Application_StartWithWindows INTEGER DEFAULT 0;
+
+        -- -- Add Notes_TitleBarItems
+        ALTER TABLE Notes
+        ADD COLUMN TitleBarItems TEXT DEFAULT '[1,0,2,0,3]';
     ";
 }

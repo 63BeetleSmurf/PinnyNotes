@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Text.Json;
 
 using PinnyNotes.Core.Configurations;
 
@@ -136,6 +137,21 @@ public abstract class BaseRepository
         if (reader.IsDBNull(ordinal))
             return default;
         return GetEnum<T>(reader, ordinal);
+    }
+
+    protected static T[] GetArray<T>(SqliteDataReader reader, int ordinal)
+    {
+        string value = reader.GetString(ordinal);
+        return JsonSerializer.Deserialize<T[]>(value) ?? [];
+    }
+    protected static T[] GetArray<T>(SqliteDataReader reader, string columnName)
+        => GetArray<T>(reader, reader.GetOrdinal(columnName));
+    protected static T[]? GetListNullable<T>(SqliteDataReader reader, string columnName)
+    {
+        int ordinal = reader.GetOrdinal(columnName);
+        if (reader.IsDBNull(ordinal))
+            return null;
+        return GetArray<T>(reader, ordinal);
     }
 
     protected static Type GetValueType(SqliteDataReader reader, int ordinal)

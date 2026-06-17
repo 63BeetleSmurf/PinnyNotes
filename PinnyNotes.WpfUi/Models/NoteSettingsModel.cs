@@ -12,6 +12,7 @@ public class NoteSettingsModel : BaseModel
     public MinimizeMode MinimizeMode { get; set => SetProperty(ref field, value); }
     public VisibilityMode VisibilityMode { get; set => SetProperty(ref field, value); }
     public bool HideTitleBar { get; set => SetProperty(ref field, value); }
+    public NoteTitleBarItem[] TitleBarItems { get; set => SetProperty(ref field, value); } = [];
 
     // Theme
     public bool CycleColours { get; set => SetProperty(ref field, value); }

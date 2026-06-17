@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Text.Json;
 
 using PinnyNotes.Core.Configurations;
 using PinnyNotes.Core.DataTransferObjects;
@@ -27,6 +28,7 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
             Notes_MinimizeMode                  INTEGER DEFAULT 0,
             Notes_VisibilityMode                INTEGER DEFAULT 0,
             Notes_HideTitleBar                  INTEGER DEFAULT 0,
+            Notes_TitleBarItems                 TEXT    DEFAULT '[1,0,2,0,3]',
             Notes_CycleColours                  INTEGER DEFAULT 1,
             Notes_ColourMode                    INTEGER DEFAULT 0,
             Notes_TransparencyMode              INTEGER DEFAULT 2,
@@ -118,6 +120,7 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
             MinimizeMode: GetEnum<MinimizeMode>(reader, "Notes_MinimizeMode"),
             VisibilityMode: GetEnum<VisibilityMode>(reader, "Notes_VisibilityMode"),
             HideTitleBar: GetBool(reader, "Notes_HideTitleBar"),
+            TitleBarItems: GetArray<NoteTitleBarItem>(reader, "Notes_TitleBarItems"),
             CycleColours: GetBool(reader, "Notes_CycleColours"),
             ColourMode: GetEnum<ColourMode>(reader, "Notes_ColourMode"),
             TransparencyMode: GetEnum<TransparencyMode>(reader, "Notes_TransparencyMode"),
@@ -198,6 +201,7 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
                     Notes_MinimizeMode = @notes_MinimizeMode,
                     Notes_VisibilityMode = @notes_VisibilityMode,
                     Notes_HideTitleBar = @notes_HideTitleBar,
+                    Notes_TitleBarItems = @notes_TitleBarItems,
                     Notes_CycleColours = @notes_CycleColours,
                     Notes_ColourMode = @notes_ColourMode,
                     Notes_TransparencyMode = @notes_TransparencyMode,
@@ -268,6 +272,7 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
                 new("@notes_MinimizeMode", settings.MinimizeMode),
                 new("@notes_VisibilityMode", settings.VisibilityMode),
                 new("@notes_HideTitleBar", settings.HideTitleBar),
+                new("notes_TitleBarItems", JsonSerializer.Serialize(settings.TitleBarItems)),
                 new("@notes_CycleColours", settings.CycleColours),
                 new("@notes_ColourMode", settings.ColourMode),
                 new("@notes_TransparencyMode", settings.TransparencyMode),

@@ -26,10 +26,6 @@ public partial class NoteWindow : Window
 
     private readonly NoteViewModel _viewModel;
 
-    private readonly NewNoteButton _newNoteButton;
-    private readonly PinButton _pinButton;
-    private readonly CloseButton _closeButton;
-
     #region NoteWindow
 
     public NoteWindow(SettingsService settingsService, MessengerService messengerService, ThemeService themeService, NoteViewModel viewModel)
@@ -43,15 +39,6 @@ public partial class NoteWindow : Window
 
         DataContext = _viewModel;
 
-        _newNoteButton = new();
-        _newNoteButton.SetBinding(NewNoteButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
-        _pinButton = new();
-        _pinButton.SetBinding(PinButton.IconFillProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
-        _pinButton.SetBinding(PinButton.IsCheckedProperty, new Binding("Note.IsPinned") { Source = _viewModel, Mode = BindingMode.TwoWay });
-
-        _closeButton = new();
-        _closeButton.SetBinding(CloseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
-
         InitializeComponent();
 
         Activated += Window_Activated;
@@ -64,32 +51,50 @@ public partial class NoteWindow : Window
         StateChanged += NoteWindow_StateChanged;
 
         TitleBarGrid.MouseDown += TitleBar_MouseDown;
-        _newNoteButton.Click += NewNoteButton_Click;
-        _closeButton.Click += CloseButton_Click;
 
-        PopulateTitleBar();
+        InitializeTitleBar();
     }
 
-    private void PopulateTitleBar()
+    private void InitializeTitleBar()
     {
         GridLength buttonColumnWidth = new(40, GridUnitType.Pixel);
         GridLength spacerColumnWidth = new(1, GridUnitType.Star);
 
-        TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
-        TitleBarGrid.ColumnDefinitions.Add(new() { Width = spacerColumnWidth });
-        TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
-        TitleBarGrid.ColumnDefinitions.Add(new() { Width = spacerColumnWidth });
-        TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
-
-        Grid.SetColumn(_newNoteButton, 0);
-        Grid.SetColumn(_pinButton, 2);
-        Grid.SetColumn(_closeButton, 4);
-
-        TitleBarGrid.Children.Add(_newNoteButton);
-        TitleBarGrid.Children.Add(_pinButton);
-        TitleBarGrid.Children.Add(_closeButton);
-
-
+        int columnIndex = 0;
+        foreach (NoteTitleBarItem titleBarItem in _viewModel.NoteSettings.TitleBarItems)
+        {
+            switch (titleBarItem)
+            {
+                case NoteTitleBarItem.Spacer:
+                    TitleBarGrid.ColumnDefinitions.Add(new() { Width = spacerColumnWidth });
+                    break;
+                case NoteTitleBarItem.NewNoteButton:
+                    TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
+                    NewNoteButton newNoteButton = new();
+                    newNoteButton.Click += NewNoteButton_Click;
+                    newNoteButton.SetBinding(NewNoteButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+                    Grid.SetColumn(newNoteButton, columnIndex);
+                    TitleBarGrid.Children.Add(newNoteButton);
+                    break;
+                case NoteTitleBarItem.PinButton:
+                    TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
+                    PinButton pinButton = new();
+                    pinButton.SetBinding(PinButton.IconFillProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+                    pinButton.SetBinding(PinButton.IsCheckedProperty, new Binding("Note.IsPinned") { Source = _viewModel, Mode = BindingMode.TwoWay });
+                    Grid.SetColumn(pinButton, columnIndex);
+                    TitleBarGrid.Children.Add(pinButton);
+                    break;
+                case NoteTitleBarItem.CloseButton:
+                    TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
+                    CloseButton closeButton = new();
+                    closeButton.Click += CloseButton_Click;
+                    closeButton.SetBinding(CloseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+                    Grid.SetColumn(closeButton, columnIndex);
+                    TitleBarGrid.Children.Add(closeButton);
+                    break;
+            }
+            columnIndex++;
+        }
 
         // Context menu
         foreach (ColourScheme colourScheme in _themeService.CurrentTheme.ColourSchemes.Values)
