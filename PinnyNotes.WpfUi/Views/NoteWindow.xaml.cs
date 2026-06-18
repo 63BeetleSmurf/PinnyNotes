@@ -78,7 +78,10 @@ public partial class NoteWindow : Window
                     break;
                 case NoteTitleBarItem.PinButton:
                     TitleBarGrid.ColumnDefinitions.Add(new() { Width = buttonColumnWidth });
-                    PinButton pinButton = new();
+                    PinButton pinButton = new()
+                    {
+                        IsChecked = _viewModel.Note.IsPinned
+                    };
                     pinButton.SetBinding(PinButton.IconFillProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
                     pinButton.SetBinding(PinButton.IsCheckedProperty, new Binding("Note.IsPinned") { Source = _viewModel, Mode = BindingMode.TwoWay });
                     Grid.SetColumn(pinButton, columnIndex);
