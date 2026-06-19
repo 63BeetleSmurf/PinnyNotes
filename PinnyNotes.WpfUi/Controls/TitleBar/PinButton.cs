@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace PinnyNotes.WpfUi.Controls.TitleBarItems;
+namespace PinnyNotes.WpfUi.Controls.TitleBar;
 
-internal class PinButton : TitleBarButton
+internal class PinButton : BaseTitleBarButton
 {
     private const double StandardAngle = 45.0;
     private const double PinnedAngle = 0.0;

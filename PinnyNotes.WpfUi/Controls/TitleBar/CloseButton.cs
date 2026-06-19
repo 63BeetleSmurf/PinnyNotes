@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 
-namespace PinnyNotes.WpfUi.Controls.TitleBarItems;
+namespace PinnyNotes.WpfUi.Controls.TitleBar;
 
-internal class CloseButton : TitleBarButton
+internal class CloseButton : BaseTitleBarButton
 {
     public CloseButton() : base()
     {

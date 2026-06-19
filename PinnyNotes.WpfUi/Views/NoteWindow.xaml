@@ -6,7 +6,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         xmlns:controls="clr-namespace:PinnyNotes.WpfUi.Controls"
-        xmlns:titleBarItems="clr-namespace:PinnyNotes.WpfUi.Controls.TitleBarItems"
+        xmlns:titleBar="clr-namespace:PinnyNotes.WpfUi.Controls.TitleBar"
         mc:Ignorable="d"
 
         BorderThickness="1"
@@ -47,12 +47,12 @@
     <Window.Resources>
         <!-- Show/Hide Title Bar -->
         <Storyboard x:Key="HideTitleBarAnimation">
-            <DoubleAnimation Storyboard.TargetName="TitleBarGrid"
+            <DoubleAnimation Storyboard.TargetName="TitleBarPanel"
                              Storyboard.TargetProperty="Height" 
                              To="0" Duration="0:0:0.2" />
         </Storyboard>
         <Storyboard x:Key="ShowTitleBarAnimation">
-            <DoubleAnimation Storyboard.TargetName="TitleBarGrid"
+            <DoubleAnimation Storyboard.TargetName="TitleBarPanel"
                              Storyboard.TargetProperty="Height" 
                              To="40" Duration="0:0:0.2" />
         </Storyboard>
@@ -68,17 +68,24 @@
         </Grid.RowDefinitions>
 
         <!-- Title Bar -->
-        <Grid x:Name="TitleBarGrid"
-              Grid.Column="0"
-              Grid.Row="0"
-              Height="40"
-              Background="{Binding Note.TitleGridBackground}"
-              d:Background="#fef7b1">
+        <titleBar:TitleBarPanel x:Name="TitleBarPanel"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Height="40"
+                                Padding="10"
+                                Background="{Binding Note.TitleGridBackground}"
+                                d:Background="#fef7b1">
 
             <!-- Items added dynamically -->
 
+            <d:titleBar.NewNoteButton></d:titleBar.NewNoteButton>
+            <d:titleBar.TitleBarSpacer></d:titleBar.TitleBarSpacer>
+            <d:titleBar.PinButton></d:titleBar.PinButton>
+            <d:titleBar.TitleBarSpacer></d:titleBar.TitleBarSpacer>
+            <d:titleBar.CloseButton></d:titleBar.CloseButton>
+
             <!-- Context Menu -->
-            <Grid.ContextMenu>
+            <titleBar:TitleBarPanel.ContextMenu>
                 <ContextMenu Name="TitleBarContextMenu">
                     <MenuItem Header="Save" Click="SaveMenuItem_Click" />
                     <Separator />
@@ -89,9 +96,9 @@
                     <MenuItem Header="Management" Click="ManagementMenuItem_Click" />
                     <MenuItem Header="Settings" Click="SettingsMenuItem_Click" />
                 </ContextMenu>
-            </Grid.ContextMenu>
+            </titleBar:TitleBarPanel.ContextMenu>
 
-        </Grid>
+        </titleBar:TitleBarPanel>
 
         <!-- Text Box -->
         <Grid Grid.Column="0" Grid.Row="1">

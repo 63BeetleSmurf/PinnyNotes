@@ -5,9 +5,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace PinnyNotes.WpfUi.Controls.TitleBarItems;
+namespace PinnyNotes.WpfUi.Controls.TitleBar;
 
-internal abstract class TitleBarButton : Button
+internal abstract class BaseTitleBarButton : Button
 {
     private const double ButtonWidth = 20;
     private const double ButtonHeight = 20;
@@ -17,12 +17,10 @@ internal abstract class TitleBarButton : Button
 
     private const double IconStrokeThickness = 3.0;
 
-    public TitleBarButton() : base()
+    public BaseTitleBarButton() : base()
     {
         Width = ButtonWidth;
         Height = ButtonHeight;
-        Padding = new Thickness(0);
-        Margin = new Thickness(10);
         Focusable = false;
         Background = Brushes.Transparent;
         Opacity = StandardOpacity;
@@ -43,7 +41,7 @@ internal abstract class TitleBarButton : Button
     public static readonly DependencyProperty IconDataProperty = DependencyProperty.Register(
         nameof(IconData),
         typeof(Geometry),
-        typeof(TitleBarButton),
+        typeof(BaseTitleBarButton),
         new PropertyMetadata(Geometry.Empty)
     );
 
@@ -55,7 +53,7 @@ internal abstract class TitleBarButton : Button
     public static readonly DependencyProperty IconStrokeProperty = DependencyProperty.Register(
         nameof(IconStroke),
         typeof(Brush),
-        typeof(TitleBarButton),
+        typeof(BaseTitleBarButton),
         new PropertyMetadata(Brushes.Transparent)
     );
 
@@ -67,7 +65,7 @@ internal abstract class TitleBarButton : Button
     public static readonly DependencyProperty IconFillProperty = DependencyProperty.Register(
         nameof(IconFill),
         typeof(Brush),
-        typeof(TitleBarButton),
+        typeof(BaseTitleBarButton),
         new PropertyMetadata(Brushes.Transparent)
     );
 
@@ -79,7 +77,7 @@ internal abstract class TitleBarButton : Button
     public static readonly DependencyProperty IconRenderTransformProperty = DependencyProperty.Register(
         nameof(IconRenderTransform),
         typeof(Transform),
-        typeof(TitleBarButton),
+        typeof(BaseTitleBarButton),
         new PropertyMetadata(null)
     );
 
@@ -95,13 +93,13 @@ internal abstract class TitleBarButton : Button
     public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(
         nameof(IsChecked),
         typeof(bool),
-        typeof(TitleBarButton),
+        typeof(BaseTitleBarButton),
         new PropertyMetadata(false)
     );
 
     private static ControlTemplate CreateTemplate()
     {
-        ControlTemplate template = new(typeof(TitleBarButton));
+        ControlTemplate template = new(typeof(BaseTitleBarButton));
 
         FrameworkElementFactory canvasFactory = new(typeof(Canvas));
 

@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 
-namespace PinnyNotes.WpfUi.Controls.TitleBarItems;
+namespace PinnyNotes.WpfUi.Controls.TitleBar;
 
-internal class NewNoteButton : TitleBarButton
+internal class NewNoteButton : BaseTitleBarButton
 {
     public NewNoteButton() : base()
     {
