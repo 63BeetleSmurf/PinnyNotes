@@ -72,7 +72,7 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 Height="40"
-                                Padding="10"
+                                Padding="5,10,5,10"
                                 Background="{Binding Note.TitleGridBackground}"
                                 d:Background="#fef7b1">
 

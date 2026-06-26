@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
+        xmlns:titleBar="clr-namespace:PinnyNotes.WpfUi.Controls.TitleBar"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:SettingsViewModel}"
         Title="Pinny Notes Settings"
@@ -157,6 +158,34 @@
                                                   DisplayMemberPath="Value"
                                                   SelectedValue="{Binding NoteSettings.VisibilityMode, Mode=TwoWay}" />
                                         <TextBlock Text="Visibility mode"/>
+                                    </DockPanel>
+                                </Border>
+
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!-- Notes Title Bar Group -->
+                        <GroupBox Header="Title Bar">
+                            <StackPanel>
+
+                                <Border>
+                                    <DockPanel LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
+                                            <StackPanel x:Name="SelectedTitleBarItemsPanel"
+                                                        Orientation="Horizontal"
+                                                        Width="300"
+                                                        Height="40"
+                                                        Background="#fef7b1"
+                                                        Margin="0,0,0,5"/>
+                                            <StackPanel x:Name="AvailableTitleBarItemsPanel"
+                                                        Orientation="Horizontal"
+                                                        Width="300"
+                                                        Height="40"
+                                                        Background="#FFFCDD">
+                                                <titleBar:TitleBarBorderSpacer x:Name="BaseTitleBarSpacerItem"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <TextBlock Text="Title bar items"/>
                                     </DockPanel>
                                 </Border>
 

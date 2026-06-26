@@ -31,6 +31,7 @@ public partial class NoteWindow : Window
     public NoteWindow(SettingsService settingsService, MessengerService messengerService, ThemeService themeService, NoteViewModel viewModel)
     {
         _noteSettings = settingsService.NoteSettings;
+        _noteSettings.PropertyChanged += OnNoteSettingsChanged;
         _messengerService = messengerService;
         _messengerService.Subscribe<WindowActionMessage>(OnWindowActionMessage);
         _themeService = themeService;
@@ -57,48 +58,7 @@ public partial class NoteWindow : Window
 
     private void InitializeTitleBar()
     {
-        GridLength buttonColumnWidth = new(40, GridUnitType.Pixel);
-        GridLength spacerColumnWidth = new(1, GridUnitType.Star);
-
-        foreach (NoteTitleBarItem titleBarItem in _viewModel.NoteSettings.TitleBarItems)
-        {
-            switch (titleBarItem)
-            {
-                case NoteTitleBarItem.Spacer:
-                    TitleBarPanel.Children.Add(new TitleBarSpacer());
-                    break;
-                case NoteTitleBarItem.NewNoteButton:
-
-                    NewNoteButton newNoteButton = new();
-                    newNoteButton.Click += NewNoteButton_Click;
-                    newNoteButton.SetBinding(NewNoteButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
-
-                    TitleBarPanel.Children.Add(newNoteButton);
-
-                    break;
-                case NoteTitleBarItem.PinButton:
-
-                    PinButton pinButton = new()
-                    {
-                        IsChecked = _viewModel.Note.IsPinned
-                    };
-                    pinButton.SetBinding(PinButton.IconFillProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
-                    pinButton.SetBinding(PinButton.IsCheckedProperty, new Binding("Note.IsPinned") { Source = _viewModel, Mode = BindingMode.TwoWay });
-
-                    TitleBarPanel.Children.Add(pinButton);
-
-                    break;
-                case NoteTitleBarItem.CloseButton:
-
-                    CloseButton closeButton = new();
-                    closeButton.Click += CloseButton_Click;
-                    closeButton.SetBinding(CloseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
-
-                    TitleBarPanel.Children.Add(closeButton);
-
-                    break;
-            }
-        }
+        UpdateTitleBarItems();
 
         // Context menu
         foreach (ColourScheme colourScheme in _themeService.CurrentTheme.ColourSchemes.Values)
@@ -187,9 +147,71 @@ public partial class NoteWindow : Window
         }
     }
 
+    private void OnNoteSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(NoteSettingsModel.TitleBarItems):
+                UpdateTitleBarItems();
+                break;
+        }
+    }
+
     #endregion
 
     #region TitleBar
+
+    private void UpdateTitleBarItems()
+    {
+        TitleBarPanel.Children.Clear();
+
+        foreach (NoteTitleBarItem titleBarItem in _viewModel.NoteSettings.TitleBarItems)
+        {
+            switch (titleBarItem)
+            {
+                case NoteTitleBarItem.Spacer:
+                    TitleBarPanel.Children.Add(new TitleBarSpacer());
+                    break;
+                case NoteTitleBarItem.NewNoteButton:
+
+                    NewNoteButton newNoteButton = new()
+                    {
+                        Margin = new Thickness(5, 0, 5, 0)
+                    };
+                    newNoteButton.Click += NewNoteButton_Click;
+                    newNoteButton.SetBinding(NewNoteButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+
+                    TitleBarPanel.Children.Add(newNoteButton);
+
+                    break;
+                case NoteTitleBarItem.PinButton:
+
+                    PinButton pinButton = new()
+                    {
+                        IsChecked = _viewModel.Note.IsPinned,
+                        Margin = new Thickness(5, 0, 5, 0)
+                    };
+                    pinButton.SetBinding(PinButton.IconFillProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+                    pinButton.SetBinding(PinButton.IsCheckedProperty, new Binding("Note.IsPinned") { Source = _viewModel, Mode = BindingMode.TwoWay });
+
+                    TitleBarPanel.Children.Add(pinButton);
+
+                    break;
+                case NoteTitleBarItem.CloseButton:
+
+                    CloseButton closeButton = new()
+                    {
+                        Margin = new Thickness(5, 0, 5, 0)
+                    };
+                    closeButton.Click += CloseButton_Click;
+                    closeButton.SetBinding(CloseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+
+                    TitleBarPanel.Children.Add(closeButton);
+
+                    break;
+            }
+        }
+    }
 
     private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
     {

@@ -5,6 +5,7 @@
 
 ### Added
 - Start with Windows setting.
+- Customisable title bar.
 - 
 
 ### Changed
@@ -14,6 +15,7 @@
 
 ### Fixed
 - Hash tool hashing entire text rather than selected.
+- Fuzzy menues due to DPI awarness.
 - 
 
 
