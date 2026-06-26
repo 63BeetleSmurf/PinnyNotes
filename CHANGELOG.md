@@ -6,6 +6,7 @@
 ### Added
 - Start with Windows setting.
 - Customisable title bar.
+- Minimise and Maximise title bar buttons.
 - 
 
 ### Changed

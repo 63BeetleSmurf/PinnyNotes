@@ -209,6 +209,30 @@ public partial class NoteWindow : Window
                     TitleBarPanel.Children.Add(closeButton);
 
                     break;
+                case NoteTitleBarItem.MinimiseButton:
+
+                    MinimiseButton minimiseButton= new()
+                    {
+                        Margin = new Thickness(5, 0, 5, 0)
+                    };
+                    minimiseButton.Click += MinimiseButton_Click;
+                    minimiseButton.SetBinding(MinimiseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+
+                    TitleBarPanel.Children.Add(minimiseButton);
+
+                    break;
+                case NoteTitleBarItem.MaximiseButton:
+
+                    MaximiseButton maximiseButton = new()
+                    {
+                        Margin = new Thickness(5, 0, 5, 0)
+                    };
+                    maximiseButton.Click += MaximiseButton_Click;
+                    maximiseButton.SetBinding(MaximiseButton.IconStrokeProperty, new Binding("Note.TitleGridButtonForeground") { Source = _viewModel });
+
+                    TitleBarPanel.Children.Add(maximiseButton);
+
+                    break;
             }
         }
     }
@@ -235,6 +259,23 @@ public partial class NoteWindow : Window
     {
         _viewModel.Note.IsOpen = false;
         Close();
+    }
+
+    private void MinimiseButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+
+    private void MaximiseButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+        {
+            WindowState = WindowState.Normal;
+        }
+        else
+        {
+            WindowState = WindowState.Maximized;
+        }
     }
 
     private void HideTitleBar()

@@ -60,41 +60,36 @@ public partial class SettingsWindow : Window
 
         BaseTitleBarSpacerItem.PreviewMouseLeftButtonDown += TitleBarItem_PreviewMouseDown;
 
+        Dictionary<NoteTitleBarItem, FrameworkElement> allTitleBarItems = new() {
+            { NoteTitleBarItem.NewNoteButton, new NewNoteButton() { IconStroke = iconBrush, Margin = new Thickness(5,10,5,10) } },
+            { NoteTitleBarItem.PinButton, new PinButton() { IconFill = iconBrush, Margin = new Thickness(5,10,5,10) } },
+            { NoteTitleBarItem.CloseButton, new CloseButton() { IconStroke = iconBrush, Margin = new Thickness(5,10,5,10) } },
+            { NoteTitleBarItem.MinimiseButton, new MinimiseButton() { IconStroke = iconBrush, Margin = new Thickness(5,10,5,10) } },
+            { NoteTitleBarItem.MaximiseButton, new MaximiseButton() { IconStroke = iconBrush, Margin = new Thickness(5,10,5,10) } }
+        };
+
         foreach (NoteTitleBarItem titleBarItem in _viewModel.NoteSettings.TitleBarItems)
         {
             FrameworkElement itemElement;
-            switch (titleBarItem)
+            if (titleBarItem == NoteTitleBarItem.Spacer)
             {
-                case NoteTitleBarItem.Spacer:
-                    itemElement = new TitleBarBorderSpacer();
-                    break;
-                case NoteTitleBarItem.NewNoteButton:
-                    itemElement = new NewNoteButton()
-                    {
-                        IconStroke = iconBrush,
-                        Margin = new Thickness(5,10,5,10)
-                    };
-                    break;
-                case NoteTitleBarItem.PinButton:
-                    itemElement = new PinButton()
-                    {
-                        IconFill = iconBrush,
-                        Margin = new Thickness(5, 10, 5, 10)
-                    };
-                    break;
-                case NoteTitleBarItem.CloseButton:
-                    itemElement = new CloseButton()
-                    {
-                        IconStroke = iconBrush,
-                        Margin = new Thickness(5, 10, 5, 10)
-                    };
-                    break;
-                default:
-                    continue;
+                itemElement = new TitleBarBorderSpacer();
             }
+            else
+            {
+                itemElement = allTitleBarItems[titleBarItem];
+                allTitleBarItems.Remove(titleBarItem);
+            }
+
             itemElement.PreviewMouseLeftButtonDown += TitleBarItem_PreviewMouseDown;
 
             SelectedTitleBarItemsPanel.Children.Add(itemElement);
+        }
+
+        foreach (FrameworkElement titleBarElement in allTitleBarItems.Values)
+        {
+            AvailableTitleBarItemsPanel.Children.Add(titleBarElement);
+            titleBarElement.PreviewMouseLeftButtonDown += TitleBarItem_PreviewMouseDown;
         }
     }
 
@@ -254,6 +249,8 @@ public partial class SettingsWindow : Window
                 NewNoteButton => NoteTitleBarItem.NewNoteButton,
                 PinButton => NoteTitleBarItem.PinButton,
                 CloseButton => NoteTitleBarItem.CloseButton,
+                MinimiseButton => NoteTitleBarItem.MinimiseButton,
+                MaximiseButton => NoteTitleBarItem.MaximiseButton,
                 _ => null
             };
 

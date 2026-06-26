@@ -6,5 +6,8 @@ public enum NoteTitleBarItem
 
     NewNoteButton = 1,
     PinButton = 2,
-    CloseButton = 3
+    CloseButton = 3,
+
+    MinimiseButton = 4,
+    MaximiseButton = 5
 }
