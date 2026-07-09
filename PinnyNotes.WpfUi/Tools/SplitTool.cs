@@ -1,4 +1,6 @@
-﻿using PinnyNotes.Core.Enums;
+﻿using System.Text.RegularExpressions;
+
+using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Controls;
 
@@ -11,7 +13,8 @@ public class SplitTool : BaseTool, ITool
         SplitComma,
         SplitSpace,
         SplitTab,
-        SplitSelected
+        SplitSelected,
+        SplitSelectedRegex
     }
 
     private string? _selectedText = null;
@@ -25,7 +28,8 @@ public class SplitTool : BaseTool, ITool
                 new ToolMenuAction("Space", new RelayCommand(() => MenuAction(ToolActions.SplitSpace))),
                 new ToolMenuAction("Tab", new RelayCommand(() => MenuAction(ToolActions.SplitTab))),
                 new ToolMenuAction("-"),
-                new ToolMenuAction("Selected", new RelayCommand(() => MenuAction(ToolActions.SplitSelected)))
+                new ToolMenuAction("Selected", new RelayCommand(() => MenuAction(ToolActions.SplitSelected))),
+                new ToolMenuAction("Selected (Regex)", new RelayCommand(() => MenuAction(ToolActions.SplitSelectedRegex)))
             ]
         );
     }
@@ -34,7 +38,7 @@ public class SplitTool : BaseTool, ITool
 
     private void MenuAction(ToolActions action)
     {
-        if (action != ToolActions.SplitSelected)
+        if (action != ToolActions.SplitSelected && action != ToolActions.SplitSelectedRegex)
         {
             _selectedText = null;
         }
@@ -60,6 +64,23 @@ public class SplitTool : BaseTool, ITool
             case ToolActions.SplitSelected:
                 if (!string.IsNullOrEmpty(_selectedText))
                     return text.Replace(_selectedText, Environment.NewLine);
+                break;
+            case ToolActions.SplitSelectedRegex:
+                if (!string.IsNullOrEmpty(_selectedText))
+                {
+                    try
+                    {
+                        return Regex.Replace(text, _selectedText, Environment.NewLine, RegexOptions.None, TimeSpan.FromSeconds(1));
+                    }
+                    catch (ArgumentException)
+                    {
+                        // Leave text unchanged if selection is not a valid pattern.
+                    }
+                    catch (RegexMatchTimeoutException)
+                    {
+                        // Leave text unchanged if pattern takes too long to match.
+                    }
+                }
                 break;
         }
 
