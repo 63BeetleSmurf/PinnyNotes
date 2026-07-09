@@ -15,9 +15,12 @@ using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class NoteViewModel : BaseViewModel
+public class NoteViewModel
 {
     private readonly NoteRepository _noteRepository;
+    private readonly AppMetadataService _appMetadataService;
+    private readonly SettingsService _settingsService;
+    private readonly MessengerService _messengerService;
     private readonly ThemeService _themeService;
 
     private readonly DispatcherTimer _saveTimer;
@@ -28,16 +31,19 @@ public class NoteViewModel : BaseViewModel
         SettingsService settingsService,
         MessengerService messengerService,
         ThemeService themeService
-    ) : base(appMetadataService, settingsService, messengerService)
+    )
     {
         _noteRepository = noteRepository;
+        _appMetadataService = appMetadataService;
+        _settingsService = settingsService;
+        _messengerService = messengerService;
         _themeService = themeService;
 
         ChangeThemeColourCommand = new RelayCommand<string>(ChangeThemeColour);
 
-        NoteSettings = SettingsService.NoteSettings;
+        NoteSettings = _settingsService.NoteSettings;
         NoteSettings.PropertyChanged += OnNoteSettingsChanged;
-        EditorSettings = SettingsService.EditorSettings;
+        EditorSettings = _settingsService.EditorSettings;
 
         _saveTimer = new DispatcherTimer
         {
@@ -113,20 +119,20 @@ public class NoteViewModel : BaseViewModel
 
         Note.IsSaved = true;
 
-        MessengerService.Publish<NoteActionMessage>(new(NoteAction.Updated, Note.ToDto()));
+        _messengerService.Publish<NoteActionMessage>(new(NoteAction.Updated, Note.ToDto()));
     }
 
     public async Task<bool> CloseNote()
     {
         _saveTimer.Stop();
 
-        MessengerService.Publish<NoteActionMessage>(new(NoteAction.Closed, Note.ToDto()));
+        _messengerService.Publish<NoteActionMessage>(new(NoteAction.Closed, Note.ToDto()));
 
         if (string.IsNullOrEmpty(Note.Content))
         {
             // Delete note if empty, TO DO: Add setting for this behaviour
             await _noteRepository.Delete(Note.Id);
-            MessengerService.Publish<NoteActionMessage>(new(NoteAction.Deleted, Note.ToDto()));
+            _messengerService.Publish<NoteActionMessage>(new(NoteAction.Deleted, Note.ToDto()));
             return false;
         }
 
@@ -151,7 +157,7 @@ public class NoteViewModel : BaseViewModel
 
         Note.IsSaved = true;
 
-        MessengerService.Publish<NoteActionMessage>(new(NoteAction.Created, Note.ToDto()));
+        _messengerService.Publish<NoteActionMessage>(new(NoteAction.Created, Note.ToDto()));
     }
 
     private async Task LoadNote(int noteId)
@@ -274,7 +280,7 @@ public class NoteViewModel : BaseViewModel
 
     private void UpdateBrushes()
     {
-        AppMetadataService.Metadata.ColourScheme = Note.ThemeColourScheme;
+        _appMetadataService.Metadata.ColourScheme = Note.ThemeColourScheme;
 
         Palette palette = _themeService.GetPalette(Note.ThemeColourScheme, NoteSettings.ColourMode);
         Note.UpdateBrushes(palette);

@@ -6,18 +6,18 @@ using PinnyNotes.WpfUi.Services;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class SettingsViewModel : BaseViewModel
+public class SettingsViewModel
 {
-    public SettingsViewModel(
-        AppMetadataService appMetadata,
-        SettingsService settingsService,
-        MessengerService messengerService
-    ) : base(appMetadata, settingsService, messengerService)
+    private readonly SettingsService _settingsService;
+
+    public SettingsViewModel(SettingsService settingsService)
     {
-        ApplicationSettings = SettingsService.ApplicationSettings;
-        NoteSettings = SettingsService.NoteSettings;
-        EditorSettings = SettingsService.EditorSettings;
-        ToolSettings = SettingsService.ToolSettings;
+        _settingsService = settingsService;
+
+        ApplicationSettings = _settingsService.ApplicationSettings;
+        NoteSettings = _settingsService.NoteSettings;
+        EditorSettings = _settingsService.EditorSettings;
+        ToolSettings = _settingsService.ToolSettings;
 
         IsTransparencyEnabled = (NoteSettings.TransparencyMode != TransparencyMode.Disabled);
     }

@@ -13,9 +13,11 @@ using PinnyNotes.WpfUi.Themes;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
-public class ManagementViewModel : BaseViewModel
+public class ManagementViewModel
 {
     private readonly NoteRepository _noteRepository;
+    private readonly SettingsService _settingsService;
+    private readonly MessengerService _messengerService;
     private readonly ThemeService _themeService;
 
     private readonly Dictionary<int, int> _notePreviewIdIndexMap = []; // Use this since we don't have a Observable Dictionary
@@ -23,13 +25,14 @@ public class ManagementViewModel : BaseViewModel
 
     public ManagementViewModel(
         NoteRepository noteRepository,
-        AppMetadataService appMetadataService,
         SettingsService settingsService,
         MessengerService messengerService,
         ThemeService themeService
-    ) : base(appMetadataService, settingsService, messengerService)
+    )
     {
         _noteRepository = noteRepository;
+        _settingsService = settingsService;
+        _messengerService = messengerService;
         _themeService = themeService;
 
         LoadNotes();
@@ -41,7 +44,7 @@ public class ManagementViewModel : BaseViewModel
         CloseNotesCommand = new RelayCommand(OnCloseNotesCommand);
         DeleteNotesCommand = new RelayCommand(OnDeleteNotesCommand);
 
-        MessengerService.Subscribe<NoteActionMessage>(OnNoteActionMessage);
+        _messengerService.Subscribe<NoteActionMessage>(OnNoteActionMessage);
     }
 
     public ICommand NewNoteCommand { get; }
@@ -55,7 +58,7 @@ public class ManagementViewModel : BaseViewModel
 
     private async void LoadNotes()
     {
-        ColourMode colourMode = SettingsService.NoteSettings.ColourMode;
+        ColourMode colourMode = _settingsService.NoteSettings.ColourMode;
 
         ClearNotePreviews();
 
@@ -94,7 +97,7 @@ public class ManagementViewModel : BaseViewModel
     {
         Palette palette = _themeService.GetPalette(
             notePreview.ThemeColourScheme,
-            colourMode ?? SettingsService.NoteSettings.ColourMode
+            colourMode ?? _settingsService.NoteSettings.ColourMode
         );
 
         notePreview.UpdateBrushes(palette);
@@ -102,12 +105,12 @@ public class ManagementViewModel : BaseViewModel
 
     private void OnNewNoteCommand()
     {
-        MessengerService.Publish(new OpenNoteWindowMessage(isManagementWindowParent: true));
+        _messengerService.Publish(new OpenNoteWindowMessage(isManagementWindowParent: true));
     }
 
     private void OnOpenSettingsCommand()
     {
-        MessengerService.Publish(new OpenSettingsWindowMessage());
+        _messengerService.Publish(new OpenSettingsWindowMessage());
     }
 
     private void OnOpenNotesCommand()
@@ -116,7 +119,7 @@ public class ManagementViewModel : BaseViewModel
         if (selectedNoteIds.Count == 0)
             selectedNoteIds = [.._notePreviewIdIndexMap.Keys]; // All
 
-        MessengerService.Publish(new MultipleNoteWindowActionMessage(selectedNoteIds, NoteWindowAction.Open));
+        _messengerService.Publish(new MultipleNoteWindowActionMessage(selectedNoteIds, NoteWindowAction.Open));
     }
 
     private void OnCloseNotesCommand()
@@ -125,7 +128,7 @@ public class ManagementViewModel : BaseViewModel
         if (selectedNoteIds.Count == 0)
             selectedNoteIds = [.._notePreviewIdIndexMap.Keys]; // All
 
-        MessengerService.Publish(new MultipleNoteWindowActionMessage(selectedNoteIds, NoteWindowAction.Close));
+        _messengerService.Publish(new MultipleNoteWindowActionMessage(selectedNoteIds, NoteWindowAction.Close));
     }
 
     private async void OnDeleteNotesCommand()
@@ -134,7 +137,7 @@ public class ManagementViewModel : BaseViewModel
         if (selectedNoteIds.Count == 0)
             return; // No delete all
 
-        MessengerService.Publish(new MultipleNoteWindowActionMessage(selectedNoteIds, NoteWindowAction.Close));
+        _messengerService.Publish(new MultipleNoteWindowActionMessage(selectedNoteIds, NoteWindowAction.Close));
 
         foreach (int noteId in selectedNoteIds)
         {
