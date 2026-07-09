@@ -102,6 +102,7 @@ public partial class App : Application
 
     public ApplicationMode ApplicationMode
     {
+#pragma warning disable CS0162 // Disable unreachable code warnings
         get
         {
             if (_applicationMode is null)
@@ -122,6 +123,7 @@ public partial class App : Application
 
             return _applicationMode.Value;
         }
+#pragma warning restore CS0162
     }
     private ApplicationMode? _applicationMode;
 
