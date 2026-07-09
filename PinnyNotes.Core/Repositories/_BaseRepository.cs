@@ -154,6 +154,18 @@ public abstract class BaseRepository
         return GetArray<T>(reader, ordinal);
     }
 
+    protected static DateTime GetDateTime(SqliteDataReader reader, int ordinal)
+        => reader.GetDateTime(ordinal);
+    protected static DateTime GetDateTime(SqliteDataReader reader, string columnName)
+        => GetDateTime(reader, reader.GetOrdinal(columnName));
+    protected static DateTime? GetDateTimeNullable(SqliteDataReader reader, string columnName)
+    {
+        int ordinal = reader.GetOrdinal(columnName);
+        if (reader.IsDBNull(ordinal))
+            return null;
+        return GetDateTime(reader, ordinal);
+    }
+
     protected static Type GetValueType(SqliteDataReader reader, int ordinal)
     {
         string value = reader.GetString(ordinal);
