@@ -11,22 +11,22 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
 
     public static readonly string TableSchema = @"
         (
-            Id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+            Id                  INTEGER     NOT NULL    PRIMARY KEY AUTOINCREMENT,
 
-            Content             TEXT,
+            Content             TEXT        NOT NULL,
 
-            X                   REAL,
-            Y                   REAL,
-            Width               REAL,
-            Height              REAL,
+            X                   REAL        NOT NULL,
+            Y                   REAL        NOT NULL,
+            Width               REAL        NOT NULL,
+            Height              REAL        NOT NULL,
 
-            GravityX            INTEGER,
-            GravityY            INTEGER,
+            GravityX            INTEGER     NOT NULL,
+            GravityY            INTEGER     NOT NULL,
 
-            ThemeColourScheme   TEXT,
+            ThemeColourScheme   TEXT        NOT NULL,
 
-            IsPinned            INTEGER,
-            IsOpen              INTEGER
+            IsPinned            INTEGER     NOT NULL,
+            IsOpen              INTEGER     NOT NULL
         )
     ";
 

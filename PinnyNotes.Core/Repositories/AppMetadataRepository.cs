@@ -11,10 +11,10 @@ public class AppMetadataRepository(DatabaseConfiguration databaseConfiguration) 
 
     public static readonly string TableSchema = @"
         (
-            Id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            Id              INTEGER NOT NULL    PRIMARY KEY AUTOINCREMENT,
 
-            LastUpdateCheck INTEGER DEFAULT NULL,
-            ColourScheme    TEXT    DEFAULT NULL
+            LastUpdateCheck INTEGER NULL,
+            ColourScheme    TEXT    NULL
         );
     ";
 
