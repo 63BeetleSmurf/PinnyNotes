@@ -17,6 +17,7 @@
 ### Fixed
 - Hash tool hashing entire text rather than selected.
 - Fuzzy menues due to DPI awarness.
+- Triple and quad clicks to highlight lines not working.
 - 
 
 

@@ -4,7 +4,6 @@ using PinnyNotes.WpfUi.Controls.BackgroundSpellCheck;
 using PinnyNotes.WpfUi.Controls.ContextMenus;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -51,7 +50,7 @@ public partial class NoteTextBoxControl : TextBox
         PreviewDragOver += OnPreviewDragOver;
         PreviewDrop += OnPreviewDrop;
         MouseDoubleClick += OnMouseDoubleClick;
-        MouseDown += OnMouseDown;
+        PreviewMouseDown += OnPreviewMouseDown;
         MouseUp += OnMouseUp;
         PreviewKeyDown += OnPreviewKeyDown;
         ContextMenuOpening += OnContextMenuOpening;
@@ -671,7 +670,7 @@ public partial class NoteTextBoxControl : TextBox
             Copy();
     }
 
-    private void OnMouseDown(object sender, MouseButtonEventArgs e)
+    private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         // Triple click to select line, quadruple click to select entire wrapped line
         if (e.ClickCount < 3 || e.ClickCount > 4)
