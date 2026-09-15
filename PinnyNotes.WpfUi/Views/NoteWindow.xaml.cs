@@ -1,12 +1,4 @@
 ﻿using Microsoft.Win32;
-using System.ComponentModel;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media.Animation;
-
 using PinnyNotes.Core.Enums;
 using PinnyNotes.WpfUi.Controls.TitleBar;
 using PinnyNotes.WpfUi.Helpers;
@@ -15,6 +7,14 @@ using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
 using PinnyNotes.WpfUi.ViewModels;
+using System.ComponentModel;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace PinnyNotes.WpfUi.Views;
 
@@ -25,6 +25,9 @@ public partial class NoteWindow : Window
     private readonly ThemeService _themeService;
 
     private readonly NoteViewModel _viewModel;
+
+
+    private bool _restoringAfterMinimize; // Guard for NoteWindow_StateChanged
 
     #region NoteWindow
 
@@ -94,13 +97,34 @@ public partial class NoteWindow : Window
         _viewModel.OnWindowMoved(Left, Top);
     }
 
-    private void NoteWindow_StateChanged(object? sender, EventArgs e)
+    private async void NoteWindow_StateChanged(object? sender, EventArgs e)
     {
-        if (WindowState != WindowState.Minimized)
-            return;
+        bool preventMinimize = (
+            _noteSettings.MinimizeMode == MinimizeMode.Prevent
+            || (_noteSettings.MinimizeMode == MinimizeMode.PreventIfPinned && _viewModel.Note.IsPinned)
+        );
 
-        if (_noteSettings.MinimizeMode == MinimizeMode.Prevent || (_noteSettings.MinimizeMode == MinimizeMode.PreventIfPinned && _viewModel.Note.IsPinned))
-            WindowState = WindowState.Normal;
+        if (WindowState != WindowState.Minimized || !preventMinimize || _restoringAfterMinimize)
+        {
+            return;
+        }
+
+        bool pinnedState = _viewModel.Note.IsPinned;
+        _restoringAfterMinimize = true;
+
+        await Dispatcher.InvokeAsync(
+            () =>
+            {
+                _viewModel.Note.IsPinned = true;
+                WindowState = WindowState.Normal;
+            },
+            DispatcherPriority.ApplicationIdle
+        );
+
+        await Task.Delay(100);
+
+        _viewModel.Note.IsPinned = pinnedState;
+        _restoringAfterMinimize = false;
     }
 
     private void Window_MouseEnter(object sender, MouseEventArgs e)
