@@ -19,6 +19,7 @@
 - **Pin / Always on Top:** Keep notes visible above all other windows.
 - **Customisable title bar:** Customise note title bars to fit our needs.
 - **Auto Save:** Automatically saves notes.
+- **Reminders:** Set reminder to bring note to your attention as specified time.
 - **Block Minimizing:** Prevent notes from being minimized, even with the Show Desktop button.
 - **Colours:** Choose from multiple colours or have new notes cycle through them automatically.
 - **Dark Mode:** Dark theme with colour-matched accents.

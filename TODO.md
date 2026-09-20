@@ -1,5 +1,4 @@
 # Next release
-- Reminders - Open / bring note to focus at or after given a time. Snooze probably worth having as well.
 - Installer - Find better installer.
 - Distribution - Add to Chocolatey, winget and scoop.
 - 
