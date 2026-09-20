@@ -7,6 +7,7 @@ using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.ViewModels;
 using PinnyNotes.WpfUi.Views;
+using System.Media;
 
 namespace PinnyNotes.WpfUi.Services;
 
@@ -48,6 +49,8 @@ public class WindowService
         _messengerService.Subscribe<OpenSettingsWindowMessage>(OnOpenSettingsWindowMessage);
 
         _messengerService.Subscribe<OpenManagementWindowMessage>(OnOpenManagementWindowMessage);
+
+        _messengerService.Subscribe<ReminderTriggerMessage>(OnReminderTriggerMessage);
     }
 
     private void OnApplicationActionMessage(ApplicationActionMessage message)
@@ -156,6 +159,21 @@ public class WindowService
 
     private void OnOpenManagementWindowMessage(OpenManagementWindowMessage message)
         => OpenManagementWindow();
+
+    public async void OnReminderTriggerMessage(ReminderTriggerMessage message)
+    {
+        if (message.NoteIds.Length == 0)
+        {
+            return;
+        }
+
+        SystemSounds.Exclamation.Play(); // Only play sound once
+
+        foreach (int noteId in message.NoteIds)
+        {
+            await OpenNoteWindow(noteId);
+        }
+    }
 
     private async Task OpenNoteWindow(int? noteId = null, NoteModel? parentNote = null, nint? managementWindowHandle = null)
     {

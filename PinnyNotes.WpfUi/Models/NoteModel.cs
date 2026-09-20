@@ -40,6 +40,8 @@ public class NoteModel : BaseModel
         IsPinned = noteDto.IsPinned;
         IsOpen = noteDto.IsOpen;
 
+        ReminderTrigger = noteDto.ReminderTrigger;
+
         TransparencyEnabled = (NoteSettings.TransparencyMode != TransparencyMode.Disabled);
     }
 
@@ -60,6 +62,8 @@ public class NoteModel : BaseModel
 
     public bool IsPinned { get; set => SetProperty(ref field, value); }
     public bool IsOpen { get; set => SetProperty(ref field, value); }
+
+    public DateTime? ReminderTrigger { get; set => SetProperty(ref field, value); }
 
 
     public nint WindowHandle { get; set; }
@@ -104,7 +108,9 @@ public class NoteModel : BaseModel
             ThemeColourScheme,
 
             IsPinned,
-            IsOpen
+            IsOpen,
+
+            ReminderTrigger
         );
 
         return noteDto;

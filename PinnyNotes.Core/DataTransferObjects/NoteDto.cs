@@ -16,5 +16,7 @@ public record NoteDto(
     string ThemeColourScheme,
 
     bool IsPinned,
-    bool IsOpen
+    bool IsOpen,
+
+    DateTime? ReminderTrigger
 );

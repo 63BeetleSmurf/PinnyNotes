@@ -338,6 +338,21 @@ public partial class NoteWindow : Window
         Height = _noteSettings.DefaultHeight;
     }
 
+    private void SetReminderMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        DateTime? reminder = DialogueService.ShowReminderDialogue(_viewModel.Note.ReminderTrigger);
+        if (reminder is null)
+        {
+            return;
+        }
+
+        _viewModel.Note.ReminderTrigger = reminder;
+
+        _messengerService.Publish(
+            new ReminderSetMessage(_viewModel.Note.Id, reminder.Value)
+        );
+    }
+
     private void ManagementMenuItem_Click(object sender, RoutedEventArgs e)
     {
         _messengerService.Publish(new OpenManagementWindowMessage());

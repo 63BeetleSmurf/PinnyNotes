@@ -7,6 +7,8 @@ namespace PinnyNotes.Core.Repositories;
 
 public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseRepository(databaseConfiguration)
 {
+    private const string DateFormat = "yyyy-MM-dd HH:mm:ss";
+
     public static readonly string TableName = "Notes";
 
     public static readonly string TableSchema = @"
@@ -26,7 +28,9 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
             ThemeColourScheme   TEXT        NOT NULL,
 
             IsPinned            INTEGER     NOT NULL,
-            IsOpen              INTEGER     NOT NULL
+            IsOpen              INTEGER     NOT NULL,
+
+            ReminderTrigger     TEXT        NULL
         )
     ";
 
@@ -163,6 +167,64 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
         return notes;
     }
 
+    public async Task<int[]> PopReminderTriggers(DateTime? targetDateTime = null)
+    {
+        string reminderTriggerString = (targetDateTime ?? DateTime.Now).ToString(DateFormat);
+
+        List<int> noteIds = [];
+
+        using SqliteConnection connection = new(ConnectionString);
+        await connection.OpenAsync();
+
+        using SqliteDataReader reader = await ExecuteReader(
+            connection,
+            @"
+                UPDATE Notes
+                SET ReminderTrigger = NULL
+                WHERE ReminderTrigger <= @reminderTrigger
+                RETURNING Id;
+            ",
+            parameters: [
+                new("@reminderTrigger", reminderTriggerString)
+            ]
+        );
+
+        while (reader.Read())
+        {
+            noteIds.Add(GetInt(reader, "Id"));
+        }
+
+        return [.. noteIds];
+    }
+
+    public async Task<DateTime?> GetNextReminderTrigger()
+    {
+        using SqliteConnection connection = new(ConnectionString);
+        connection.Open();
+
+        using SqliteDataReader reader = await ExecuteReader(
+            connection,
+            @"
+                SELECT ReminderTrigger
+                FROM Notes
+                WHERE ReminderTrigger >= @currentDateTime
+                ORDER BY ReminderTrigger ASC LIMIT 1;
+            ",
+            parameters: [
+                new("@currentDateTime", DateTime.Now.ToString(DateFormat))
+            ]
+        );
+
+        if (!reader.Read())
+        {
+            return null;
+        }    
+
+        DateTime? reminderTrigger = GetDateTimeNullable(reader, "ReminderTrigger");
+
+        return reminderTrigger;
+    }
+
     public async Task Update(NoteDto note)
     {
         using SqliteConnection connection = new(ConnectionString);
@@ -186,7 +248,9 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
                     ThemeColourScheme = @themeColourScheme,
 
                     IsPinned = @isPinned,
-                    IsOpen = @isOpen
+                    IsOpen = @isOpen,
+
+                    ReminderTrigger = @reminderTrigger
                 WHERE Id = @id;
             ",
             parameters: [
@@ -204,6 +268,8 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
 
                 new("@isPinned", note.IsPinned),
                 new("@isOpen", note.IsOpen),
+
+                new("@reminderTrigger", note.ReminderTrigger?.ToString(DateFormat)),
 
                 new("@id", note.Id)
             ]
@@ -248,7 +314,9 @@ public class NoteRepository(DatabaseConfiguration databaseConfiguration) : BaseR
             GetString(reader, "ThemeColourScheme"),
 
             GetBool(reader, "IsPinned"),
-            GetBool(reader, "IsOpen")
+            GetBool(reader, "IsOpen"),
+
+            GetDateTimeNullable(reader, "ReminderTrigger")
         );
 
         return noteDto;

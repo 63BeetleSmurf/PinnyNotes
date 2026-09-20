@@ -88,8 +88,8 @@
             <titleBar:TitleBarPanel.ContextMenu>
                 <ContextMenu Name="TitleBarContextMenu">
                     <MenuItem Header="Save" Click="SaveMenuItem_Click" />
-                    <Separator />
                     <MenuItem Header="Reset size" Click="ResetMenuItem_Click" />
+                    <MenuItem Header="Set reminder" Click="SetReminderMenuItem_Click" />
                     <Separator />
                     <MenuItem x:Name="NoteColourMenuItem" Header="Colour" />
                     <Separator />

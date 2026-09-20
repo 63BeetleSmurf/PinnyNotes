@@ -32,6 +32,7 @@ public partial class App : Application
     private AppMetadataService _appMetadataService = null!;
     private SettingsService _settingsService = null!;
     private NotifyIconService _notifyIconService = null!;
+    private ReminderService _reminderService = null!;
 
     private EventWaitHandle _eventWaitHandle = null!;
 
@@ -68,6 +69,7 @@ public partial class App : Application
         await _appMetadataService.Load();
         _ = Services.GetRequiredService<WindowService>();
         _notifyIconService = Services.GetRequiredService<NotifyIconService>();
+        _reminderService = Services.GetRequiredService<ReminderService>();
 
         MessengerService messengerService = Services.GetRequiredService<MessengerService>();
         messengerService.Subscribe<ApplicationActionMessage>(OnApplicationActionMessage);
@@ -146,6 +148,7 @@ public partial class App : Application
         services.AddSingleton<WindowService>();
         services.AddTransient<NotifyIconService>();
         services.AddSingleton<ThemeService>();
+        services.AddTransient<ReminderService>();
 
         services.AddTransient<SettingsWindow>();
         services.AddTransient<SettingsViewModel>();

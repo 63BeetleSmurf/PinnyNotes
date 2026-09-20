@@ -1,0 +1,55 @@
+﻿<Window x:Class="PinnyNotes.WpfUi.Views.ReminderDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PinnyNotes.WpfUi.Views"
+        xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
+        mc:Ignorable="d"
+        Title="Set Reminder"
+        SizeToContent="Height"
+        Width="400"
+        ResizeMode="NoResize"
+
+        d:DataContext="{d:DesignInstance Type=vm:ReminderDialogueViewModel}">
+
+    <StackPanel Margin="5,5,5,5">
+        <StackPanel.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="Border">
+                <Setter Property="Padding" Value="12,8" />
+                <Setter Property="Margin" Value="0,0,0,4" />
+                <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+            </Style>
+        </StackPanel.Resources>
+
+        <Border>
+            <DockPanel LastChildFill="True">
+                <DatePicker x:Name="DateDatePicker" DockPanel.Dock="Right" SelectedDate="{Binding TriggerDate, Mode=TwoWay}" />
+                <TextBlock Text="Date"/>
+            </DockPanel>
+        </Border>
+
+        <Border>
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <TextBox x:Name="HourTextBox" Width="75" Text="{Binding TriggerHour, Mode=TwoWay}" />
+                    <TextBlock Text=":"/>
+                    <TextBox x:Name="MinuteTextBox" Width="75" Text="{Binding TriggerMinute, Mode=TwoWay}" />
+                </StackPanel>
+                <TextBlock Text="Time"/>
+            </DockPanel>
+        </Border>
+
+        <Border>
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="Set" Command="{Binding OkCommand}" IsCancel="True"></Button>
+                <Button Content="Cancel" Command="{Binding CancelCommand}" IsDefault="True"></Button>
+            </DockPanel>
+        </Border>
+
+    </StackPanel>
+
+</Window>

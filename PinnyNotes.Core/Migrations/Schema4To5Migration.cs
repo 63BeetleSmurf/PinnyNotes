@@ -15,5 +15,10 @@ public class Schema4To5Migration : SchemaMigration
         -- -- Add Notes_TitleBarItems
         ALTER TABLE Settings
         ADD COLUMN Notes_TitleBarItems TEXT DEFAULT '[1,0,2,0,3]';
+
+        -- Update Notes
+        -- -- Add ReminderTrigger
+        ALTER TABLE Settings
+        ADD COLUMN ReminderTrigger TEXT NULL;
     ";
 }
