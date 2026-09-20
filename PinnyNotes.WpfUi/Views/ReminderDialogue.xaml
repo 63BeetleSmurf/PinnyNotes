@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:PinnyNotes.WpfUi.Views"
         xmlns:vm="clr-namespace:PinnyNotes.WpfUi.ViewModels"
         mc:Ignorable="d"
-        Title="Set Reminder"
-        SizeToContent="Height"
-        Width="400"
+
         ResizeMode="NoResize"
+        SizeToContent="Height"
+        Title="{Binding WindowTitle}"
+        Width="350"
+        WindowStartupLocation="CenterOwner"
 
         d:DataContext="{d:DesignInstance Type=vm:ReminderDialogueViewModel}">
 
@@ -45,7 +47,7 @@
 
         <Border>
             <DockPanel>
-                <Button DockPanel.Dock="Right" Content="Set" Command="{Binding OkCommand}" IsCancel="True"></Button>
+                <Button DockPanel.Dock="Right" Content="{Binding OkButtonText}" Command="{Binding OkCommand}" IsCancel="True"></Button>
                 <Button Content="Cancel" Command="{Binding CancelCommand}" IsDefault="True"></Button>
             </DockPanel>
         </Border>

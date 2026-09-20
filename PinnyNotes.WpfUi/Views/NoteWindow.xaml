@@ -89,7 +89,7 @@
                 <ContextMenu Name="TitleBarContextMenu">
                     <MenuItem Header="Save" Click="SaveMenuItem_Click" />
                     <MenuItem Header="Reset size" Click="ResetMenuItem_Click" />
-                    <MenuItem Header="Set reminder" Click="SetReminderMenuItem_Click" />
+                    <MenuItem Header="{Binding PlacementTarget.DataContext.SetReminderMenuHeader, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Click="SetReminderMenuItem_Click" />
                     <Separator />
                     <MenuItem x:Name="NoteColourMenuItem" Header="Colour" />
                     <Separator />

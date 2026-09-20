@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Threading;
-
-using PinnyNotes.Core.Enums;
+﻿using PinnyNotes.Core.Enums;
 using PinnyNotes.Core.Repositories;
 using PinnyNotes.WpfUi.Commands;
 using PinnyNotes.WpfUi.Helpers;
@@ -12,6 +8,10 @@ using PinnyNotes.WpfUi.Messages;
 using PinnyNotes.WpfUi.Models;
 using PinnyNotes.WpfUi.Services;
 using PinnyNotes.WpfUi.Themes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace PinnyNotes.WpfUi.ViewModels;
 
@@ -59,12 +59,21 @@ public class NoteViewModel
 
     public NoteModel Note { get; set; } = null!;
 
+    public string SetReminderMenuHeader
+        => (Note.ReminderTrigger is null) ? "Set reminder" : "Update reminder";
+
     public async Task Initialize(int? noteId = null, NoteModel? parent = null, nint? managementWindowHandle = null)
     {
         if (noteId is null)
+        {
             await CreateNewNote(parent, managementWindowHandle);
+        }
         else
+        {
             await LoadNote((int)noteId);
+        }
+
+        Note.PropertyChanged += Note_PropertyChanged;
     }
 
     public void OnWindowLoaded(nint windowHandle)
@@ -337,4 +346,17 @@ public class NoteViewModel
 
         _ = User32.SetWindowLongPtrW(Note.WindowHandle, GWL.EXSTYLE, exStyle);
     }
+
+    private void Note_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Note.ReminderTrigger))
+        {
+            OnPropertyChanged(nameof(SetReminderMenuHeader));
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

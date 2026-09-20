@@ -340,7 +340,7 @@ public partial class NoteWindow : Window
 
     private void SetReminderMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        DateTime? reminder = DialogueService.ShowReminderDialogue(_viewModel.Note.ReminderTrigger);
+        DateTime? reminder = DialogueService.ShowReminderDialogue(this, _viewModel.Note.ReminderTrigger);
         if (reminder is null)
         {
             return;

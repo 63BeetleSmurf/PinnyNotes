@@ -5,13 +5,14 @@ namespace PinnyNotes.WpfUi.Services;
 
 public static class DialogueService
 {
-    public static DateTime? ShowReminderDialogue(DateTime? reminderTrigger = null)
+    public static DateTime? ShowReminderDialogue(NoteWindow owner, DateTime? reminderTrigger = null)
     {
         ReminderDialogueViewModel viewModel = new(reminderTrigger);
 
         ReminderDialogue dialogue = new()
         {
-            DataContext = viewModel
+            DataContext = viewModel,
+            Owner = owner
         };
 
         viewModel.CloseAction = (result) => { dialogue.DialogResult = result; };
