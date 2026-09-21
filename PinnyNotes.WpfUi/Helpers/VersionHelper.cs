@@ -13,15 +13,17 @@ public static class VersionHelper
 
     public static async Task<bool> CheckForNewRelease(long? lastUpdateCheck, DateTimeOffset date)
     {
-        if (lastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
+        if (lastUpdateCheck is null || lastUpdateCheck < date.AddDays(-7).ToUnixTimeSeconds())
         {
             if (CurrentVersion < await GetLatestGitHubReleaseVersion())
+            {
                 MessageBox.Show(
                     $"A new version of Pinny Notes is available;{Environment.NewLine}https://github.com/63BeetleSmurf/PinnyNotes/releases/latest",
                     "Update available",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information
                 );
+            }
 
             return true;
         }

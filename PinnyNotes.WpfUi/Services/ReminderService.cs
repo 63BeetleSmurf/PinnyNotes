@@ -87,9 +87,14 @@ public class ReminderService
             ClearTimer();
         }
 
+        TimeSpan timerDelay = reminderTrigger - DateTime.Now;
+        if (timerDelay <= TimeSpan.Zero)
+        {
+            return;
+        }
+
         _nextReminderTrigger = reminderTrigger;
 
-        TimeSpan timerDelay = reminderTrigger - DateTime.Now;
         _timer = new()
         {
             Interval = timerDelay

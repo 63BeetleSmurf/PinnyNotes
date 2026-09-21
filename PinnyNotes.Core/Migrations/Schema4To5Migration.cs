@@ -18,7 +18,7 @@ public class Schema4To5Migration : SchemaMigration
 
         -- Update Notes
         -- -- Add ReminderTrigger
-        ALTER TABLE Settings
+        ALTER TABLE Notes
         ADD COLUMN ReminderTrigger TEXT NULL;
     ";
 }

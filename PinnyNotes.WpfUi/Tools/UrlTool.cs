@@ -32,11 +32,18 @@ public class UrlTool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        return action switch
+        try
         {
-            ToolActions.Encode => Uri.EscapeDataString(text),
-            ToolActions.Decode => Uri.UnescapeDataString(text),
-            _ => text,
-        };
+            return action switch
+            {
+                ToolActions.Encode => Uri.EscapeDataString(text),
+                ToolActions.Decode => Uri.UnescapeDataString(text),
+                _ => text,
+            };
+        }
+        catch
+        {
+            return text;
+        }
     }
 }

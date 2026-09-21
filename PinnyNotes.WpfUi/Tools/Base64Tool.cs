@@ -32,14 +32,20 @@ public class Base64Tool : BaseTool, ITool
 
     private string ModifyTextCallback(string text, Enum action)
     {
-        switch (action)
+        try
         {
-            case ToolActions.Base64Encode:
-                byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
-                return System.Convert.ToBase64String(textBytes);
-            case ToolActions.Base64Decode:
-                byte[] base64Bytes = System.Convert.FromBase64String(text);
-                return System.Text.Encoding.UTF8.GetString(base64Bytes);
+            switch (action)
+            {
+                case ToolActions.Base64Encode:
+                    byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+                    return Convert.ToBase64String(textBytes);
+                case ToolActions.Base64Decode:
+                    byte[] base64Bytes = Convert.FromBase64String(text);
+                    return System.Text.Encoding.UTF8.GetString(base64Bytes);
+            }
+        }
+        catch
+        {
         }
 
         return text;

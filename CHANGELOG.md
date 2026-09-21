@@ -20,6 +20,9 @@
 - Fuzzy menues due to DPI awarness.
 - Triple and quad clicks to highlight lines not working.
 - Unpinned notes still minimizing when "Allow notes to be minimized" is set to "No".
+- Crash when Base64 Decode used on non base64 data.
+- Crash when URL decode on text with malformed escapes.
+- Update check never triggering on fresh installs.
 - 
 
 

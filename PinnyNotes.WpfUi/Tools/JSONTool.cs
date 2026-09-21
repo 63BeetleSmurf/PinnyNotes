@@ -44,7 +44,9 @@ public class JsonTool : BaseTool, ITool
                 case ToolActions.JsonPrettify:
                     object? jsonObject = JsonSerializer.Deserialize<object>(text);
                     if (jsonObject != null)
+                    {
                         return JsonSerializer.Serialize<object>(jsonObject, _jsonSerializerOptions);
+                    }
                     break;
             }
         }

@@ -272,7 +272,7 @@ public class SettingsRepository(DatabaseConfiguration databaseConfiguration) : B
                 new("@notes_MinimizeMode", settings.MinimizeMode),
                 new("@notes_VisibilityMode", settings.VisibilityMode),
                 new("@notes_HideTitleBar", settings.HideTitleBar),
-                new("notes_TitleBarItems", JsonSerializer.Serialize(settings.TitleBarItems)),
+                new("@notes_TitleBarItems", JsonSerializer.Serialize(settings.TitleBarItems)),
                 new("@notes_CycleColours", settings.CycleColours),
                 new("@notes_ColourMode", settings.ColourMode),
                 new("@notes_TransparencyMode", settings.TransparencyMode),
